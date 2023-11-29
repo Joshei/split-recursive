@@ -1,0 +1,178 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    
+  </head>
+  
+<body>
+  <script src="cursorMovements.js"></script>
+  <script src="customBox.js"></script>
+  <script>
+    
+    const CursorMovements = new CursorMovementsClass()
+    const customBox1 = new CustomBoxClass()
+    const Insert = new RecursiveClass() 
+    
+    let nestedArray = new [
+    ["-", "A", "C","-", "-", "-","-", "-", "-", "-" ],
+    ["-", "B", "D","-", "-", "-","-", "-", "-", "-" ],
+    ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
+    ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
+    ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
+    ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
+    ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
+    ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
+    ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
+    ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
+    ];  
+    
+
+    </script>
+    <canvas
+      id="canvas_id"
+      width="220"
+      height="240"
+      style="border: 1px solid #550233"
+    > </canvas>
+    <button id="button6" onclick="TextArea.displayTextBoxCopy()">
+      Display Text
+    </button>
+
+    <div></div>
+    <div id="xAndY"></div>
+
+    
+      
+    <script>
+      
+      const WIDTH = 10
+      const HEIGHT = 10
+
+      //vertical and horizontal offset of canvas
+      const VOFFSET = 25
+      const HOFFSET = 30
+      //nestedarray holds values with an array - 35 by 35
+      var canvas = document.getElementById('canvas_id')
+      //insert is on or off
+      var insertOn = document.getElementById('insert')
+      let textBox = [[]]
+      //rows and columns of canvas
+      let rows = WIDTH
+      let cols = HEIGHT
+      //this is so that the canvas will look okay on a big display
+      let ctx = canvas.getContext('2d')
+      var size = 220
+      canvas.style.width = size + 'px'
+      canvas.style.height = size + 'px'
+      // Set actual size in memory (scaled to account for extra pixel density). // Change to 1 on retina screens to see blurry canvas.
+      var scale = window.devicePixelRatio 
+      canvas.width = size * scale
+      canvas.height = size * scale
+      // Normalize coordinate system to use css pixels.
+      ctx.scale(scale, scale)
+      ctx.fillStyle = '#ffffff'
+      ctx.fillRect(0, 0, 800, 800)
+      ctx.fillStyle = '#000000'
+      ctx.font = '10px Monospace'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      var x = size / 2
+      var y = size / 2
+
+      
+
+      function clearArray() {
+        //alert("clear");
+        ctx.clearRect(0, 0, 100, 100)
+        ctx.fillStyle = '#ffffff'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.fillStyle = '#000000'
+      }
+
+      function drawGrid() {
+        
+        //alert("dG")
+        //cols
+        clearArray()
+        ctx.fillStyle = 'black'
+        //columns
+        for (let i = 0; i < HEIGHT; i++) {
+        //rows
+        for (let j = 0; j < WIDTH; j++) {
+        //fill a square canvas with letter values
+        ctx.fillText(nestedArray[i][j], j * 5 + 25, i * 10 + 25)
+        console.log({j}, {i})
+        }
+        }
+        return 1
+      }
+
+      function drawCursor(x,y){
+        //alert("dc");
+        ctx.font = '10px Monospace'
+        
+        ctx.fillStyle = 'red'
+        ctx.fillText('_', x - 5, y)
+      }
+
+      let horizontalCursorPosition = 0
+      let verticalCursorPosition = 0
+      let gKey = ''
+      let gInsert = false
+
+
+      //InsertNewArr(nestedArray, " ", horizontalCursorPosition/5, verticalCursorPosition/10 )
+      function printCharacter() {
+
+        let rowIndex = horizontalCursorPosition/5;
+        let colIndex = verticalCursorPosition/10;
+        //insertNewArr(nestedArray, " ", rowIndex, colIndex)
+        //alert("print");
+        ctx.clearRect(0, 0, 300, 300)
+        console.log('v ', verticalCursorPosition)
+        console.log('h ', horizontalCursorPosition)
+        nestedArray[verticalCursorPosition / 10][horizontalCursorPosition/5] = gKey
+        insertNewArr(nestedArray, " ", rowIndex, colIndex)
+        drawGrid()
+        //At edge of canavs - use for edge cases, later.
+        //bookmark
+        if (horizontalCursorPosition < (WIDTH - 1) * 5) {
+          horizontalCursorPosition = horizontalCursorPosition + 5
+        }
+        drawCursor(
+          horizontalCursorPosition + HOFFSET,
+          verticalCursorPosition + VOFFSET
+        )
+
+      }
+
+      document.addEventListener('keydown', function (e) {
+        //global variable
+        gKey = e.key
+        //alert("2");
+        //printCharacter()
+        customBox1.controlInput()
+      })
+      //display helpful data
+      xAndY.innerHTML = 'X: ' + 0 + '  &nbsp&nbsp&nbsp   Y: ' + 0
+      
+
+      /*I
+      window.addEventListener('keydown', function (e) {
+        //alert("5");
+        //customBox1.controlInput()
+        if (
+          ['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(
+            e.code
+          ) > -1
+        ) {
+          e.preventDefault()
+        }
+      })
+      */
+
+      </script>
+      </body>
