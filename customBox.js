@@ -37,10 +37,13 @@ class CustomBoxClass {
       } else {
       
         //Prints a single character.  Arrow keys can move you arround.  Enter is not inserted yet.
+        //in index1.html
         printCharacter()
         //
-        
-        InsertNewArr(nestedArray, " ", horizontalCursorPosition/5, verticalCursorPosition/10 )
+        //from  recursive.js 
+        InsertNewArr(nestedArray, "Z", horizontalCursorPosition/5, verticalCursorPosition/10 )
+        //testing this area
+        alert("I am here:");
       
     }
       //displays x and y for testing

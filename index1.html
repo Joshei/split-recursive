@@ -10,13 +10,14 @@
 <body>
   <script src="cursorMovements.js"></script>
   <script src="customBox.js"></script>
+  <script src="recursive.js"></script>
   <script>
     
     const CursorMovements = new CursorMovementsClass()
     const customBox1 = new CustomBoxClass()
     const Insert = new RecursiveClass() 
     
-    let nestedArray = new [
+    let nestedArray = [
     ["-", "A", "C","-", "-", "-","-", "-", "-", "-" ],
     ["-", "B", "D","-", "-", "-","-", "-", "-", "-" ],
     ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
@@ -135,7 +136,11 @@
         console.log('v ', verticalCursorPosition)
         console.log('h ', horizontalCursorPosition)
         nestedArray[verticalCursorPosition / 10][horizontalCursorPosition/5] = gKey
-        insertNewArr(nestedArray, " ", rowIndex, colIndex)
+        
+        
+        //Insert.insertNewArr(nestedArray, 'ZZ', rowIndex, colIndex)
+        
+        
         drawGrid()
         //At edge of canavs - use for edge cases, later.
         //bookmark
@@ -149,6 +154,8 @@
 
       }
 
+      //function insertClean("aa", "aa", 0, 5){};
+  
       document.addEventListener('keydown', function (e) {
         //global variable
         gKey = e.key
