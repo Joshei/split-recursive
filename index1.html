@@ -16,7 +16,7 @@
     const CursorMovements = new CursorMovementsClass()
     const customBox1 = new CustomBoxClass()
     const Insert = new RecursiveClass() 
-    
+    alert("here");
     let nestedArray = [
     ["-", "A", "C","-", "-", "-","-", "-", "-", "-" ],
     ["-", "B", "D","-", "-", "-","-", "-", "-", "-" ],
@@ -82,8 +82,44 @@
       ctx.textBaseline = 'middle'
       var x = size / 2
       var y = size / 2
-
+      var indexOfXForLineBeforeLastRowSpace = 0
+      var lastIndexValueForInsert = -1
+      var firstLengthOfOverlap = 0
+      var sencondLengthOfOverlap = 0
       
+
+  function findBeginningX(y) {
+  //find the index value of the last value ,"-" of the string"
+  this.indexOfXForLineBeforeLastRowSpace = 0
+    for (let x = 0; x < WIDTH; x++) {
+      if (nestedArray[y][x] === "-") {
+        console.log("G:", this.indexOfXForLineBeforeLastRowSpace);
+        this.indexOfXForLineBeforeLastRowSpace = x + 1 ;  
+      }
+    }
+    return;
+  }
+
+  /*
+  function getLastIndexValueForInsert(){
+    for (let x = 0; x < WIDTH; x++) {
+      if (nestedArray[y][x] === " ") {
+        lastIndexValueForInsert = x;
+      }else{
+        break;
+      }
+    }
+  }
+
+  function firstRowLenghtOfOverflow(){
+    firstLengthOfOverlap = (WIDTH -lastIndexValueForInsert+1) 
+  }
+  
+  secondLengthOfOverlap = lastIndexValueForInsert+1
+*/
+
+  
+
 
       function clearArray() {
         //alert("clear");
@@ -135,10 +171,12 @@
         ctx.clearRect(0, 0, 300, 300)
         console.log('v ', verticalCursorPosition)
         console.log('h ', horizontalCursorPosition)
+        
+        //key pressed is stored in nestedArray
         nestedArray[verticalCursorPosition / 10][horizontalCursorPosition/5] = gKey
         
-        
-        //Insert.insertNewArr(nestedArray, 'ZZ', rowIndex, colIndex)
+        //key is inserted into nested array, rebulids form that point in time
+        Insert.insertNewArr(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         
         
         drawGrid()

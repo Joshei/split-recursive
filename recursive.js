@@ -12,8 +12,11 @@ console.log("insert [x,y]");
   class RecursiveClass{
 
   constructor(){
+
+  this.YCounterArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   
-   const maxCols = 10;
+  let spaceString = []
+   //const maxCols = 10;
    //let nestedArray1 = [
     //["a", "b", "c", "d"],
     //["e", "f", "g", "h"],
@@ -21,18 +24,42 @@ console.log("insert [x,y]");
   //];
   let newArr = [] 
 }
-  
-/*
-testArrayOperationsOnThisArray(){
-    let insertedArr1 = ["x", "y"]
-    //split the original row at that index into "front" & "back" pieces
-    const [frontPiece, backPiece] = splitAtIndex(insertedArr, 2);
-    //make a combined array with insertedarr sandwiched in there
-    const combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
-    console.log({combinedArr})
 
+  findBeginningX(y) {
+  //find the index value of the last value ,"-" of the string"
+  this.indexOfXForLineBeforeLastRowSpace = 0
+    for (let x = 0; x < WIDTH; x++) {
+      if (nestedArray[y][x] === "-") {
+        console.log("G:", this.indexOfXForLineBeforeLastRowSpace);
+        this.indexOfXForLineBeforeLastRowSpace = x + 1 ;  
+      }
+    }
+    return;
   }
-*/
+
+
+  getLastIndexValueForInsert(){
+    for (let x = 0; x < WIDTH; x++) {
+      if (nestedArray[y][x] === " ") {
+        lastIndexValueForInsert = x;
+      }else{
+        break;
+      }
+    }
+  }
+
+  buildStringForSpaces(){
+    spaceString
+  }
+
+  firstRowLenghtOfOverflow(){
+    firstLengthOfOverlap = (WIDTH -lastIndexValueForInsert+1) 
+  }
+  
+  secondLengthOfOverlap = lastIndexValueForInsert+1
+
+  
+
 
   splitAtIndex(arr, index) {
     const front = arr.slice(0, index);
@@ -44,6 +71,28 @@ testArrayOperationsOnThisArray(){
   
   //remakes all of the nestedarray, of course one needs to put copy data to this array
   insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
+    //WHEN LAST CHARACTER IS NO LONGER, "-" ON THE NEXT KEYPRESS FIND WAY TO CODE
+    if (
+      nestedArray[yValue][WIDTH - 1] === "-" 
+ 
+    ) {
+     
+      //alert("0");
+      this.YCounterArray[yValue] = 0;
+      return;
+    }
+
+    this.YCounterArray[yValue]++; 
+    //alert("1");
+    
+    if(this.YCounterArray[yValue] == 1)
+    {
+      //alert("2");
+      return
+    }
+    const maxCols = 10;
+    
+    
     //nestedArray[verticalCursorPosition / 10][horizontalCursorPosition/5] = gKey
     //alert("ina");
     let targetRow = originalArr[rowIndex];
@@ -54,14 +103,24 @@ testArrayOperationsOnThisArray(){
       //make a combined array with insertedarr sandwiched in there
       const combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
   
-      if (combinedArr.length <= this.maxCols) {
+      
+      
+      if (combinedArr.length <= maxCols) {
         //the new array fits on one line
         //overwrite insertedArr[rowIndex] with combined array
         originalArr[rowIndex] = combinedArr;
       } else {
+
+        const[front, end ] = this.splitAtIndex(combinedArr, maxCols - firstLengthOfOverlap);
+        originalArr[rowIndex] = [...front, ...spaceString];
+        originalArr[rowIndex + 1] = [...end]
+        
         //split the combinedArr to have length of maxCols
-        const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, this.maxCols);
-  
+        //javascri[t.const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, maxCols);
+        
+        
+        
+        //array = []
         //the front half of that becomes originalArray[rowIndex]
         originalArr[rowIndex] = trimmedLine;
   
@@ -72,12 +131,14 @@ testArrayOperationsOnThisArray(){
       }
       
     } else {
+
+     // alert("got here!");
       ////if we're adding onto the end of newArray, just push the inserted arr as a new row
-      if (insertedArr.length <= this.maxCols) {
+      if (insertedArr.length <= maxCols) {
         originalArr.push(insertedArr);
       } else {
         //if insertedArr is longer than max columns, we have to break it up
-        const [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols);
+        const [nextLine, remainder] = this.splitAtIndex(insertedArr, maxCols);
         originalArr.push(nextLine);
         originalArr = this.insertNewArr(originalArr, remainder, originalArr.length, 0);
       }

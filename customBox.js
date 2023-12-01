@@ -1,3 +1,9 @@
+
+
+
+
+ 
+    
 // Controls key presses.
 class CustomBoxClass {
     constructor() {
@@ -41,7 +47,7 @@ class CustomBoxClass {
         printCharacter()
         //
         //from  recursive.js 
-        InsertNewArr(nestedArray, "Z", horizontalCursorPosition/5, verticalCursorPosition/10 )
+        //Insert.InsertNewArr(nestedArray, "Z", 1, 1 )
         //testing this area
         alert("I am here:");
       
