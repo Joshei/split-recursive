@@ -112,6 +112,7 @@ console.log("insert [x,y]");
       } else {
 
         const[front, end ] = this.splitAtIndex(combinedArr, maxCols - firstLengthOfOverlap);
+        if()
         originalArr[rowIndex] = [...front, ...spaceString];
         originalArr[rowIndex + 1] = [...end]
         

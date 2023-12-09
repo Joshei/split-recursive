@@ -1,0 +1,140 @@
+
+<script>
+const maxCols = 7;
+let counter = 0;
+function splitAtIndex(arr, index) {
+  const front = arr.slice(0, index);
+  const back = arr.slice(index);
+  return [front, back];
+}
+
+let nestedArray = [
+  ["h", "e", "l", "l", "o", "-"],
+  ["w", "o", "r", "l", "d"],
+];
+console.log(nestedArray);
+
+function adjustForWordBreaks(frontPart, remainder, originalArr, rowIndex) {
+  //.at(-1) lets us access last letter in array
+  if (frontPart.at(-1) == "-" || remainder[0] == "-") {
+    //if line ends *without* breaking word
+
+    //the front half of that becomes originalArray[rowIndex]
+    originalArr[rowIndex] = frontPart;
+
+    //if there's anything left over, push it into position 0 of the next row
+    if (remainder.length > 0) {
+      //make the recursive call to add the remainder to the next line
+      originalArr = insertClean(originalArr, remainder, rowIndex + 1, 0);
+
+      return originalArr;
+    }
+  } else {
+
+
+    
+    // a word has been broken
+
+    //find last index of space in frontPart
+    let lastSpaceIndex = frontPart.lastIndexOf("-");
+
+    //split frontPart at space index
+    let [trimmedLeft, wordPart] = splitAtIndex(frontPart, lastSpaceIndex);
+
+    //replace original row with the word-excluded part of the line
+    originalArr[rowIndex] = trimmedLeft;
+
+    //take word fragment, tack it to the beginning of "remainder" array
+    let newRemainder = [...wordPart, ...remainder];
+
+    //make the recursive call to add the new remainder to the next line
+    originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, 0);
+
+    return originalArr;
+  }
+}
+
+function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
+  let targetRow = originalArr[rowIndex];
+
+  if (targetRow) {
+    //assuming there's a row here already
+
+    //split the original row at that index into "front" & "back" pieces
+    const [frontPiece, backPiece] = splitAtIndex(targetRow, colIndex);
+
+    //make a combined array with insertedarr sandwiched in there
+    const combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
+
+    if (combinedArr.length <= maxCols) {
+      //the new array fits on one line
+
+      //overwrite insertedArr[rowIndex] with combined array
+      originalArr[rowIndex] = combinedArr;
+    } else {
+      //new array too long to fit on one line
+
+      //split the combinedArr to have length of maxCols
+      const [trimmedLine, remainder] = splitAtIndex(combinedArr, maxCols);
+
+      //can't make the final recursive call until word adjustments have been made (goto line 17)
+      originalArr = adjustForWordBreaks(
+        trimmedLine,
+        remainder,
+        originalArr,
+        rowIndex
+      );
+    }
+  } else {
+    //adding a whole new row to the end of originalArr
+
+    if (insertedArr.length <= maxCols) {
+      //new row fits on one line
+
+      // push the inserted arr as a new row
+      originalArr.push(insertedArr);
+    } else {
+      //new row is too long
+
+      //split inserted line at max col width
+      const [nextLine, remainder] = splitAtIndex(insertedArr, maxCols);
+
+      //can't make the final recursive call until word adjustments have been made (goto line 17)
+      originalArr = adjustForWordBreaks(
+        nextLine,
+        remainder,
+        originalArr,
+        rowIndex
+      );
+    }
+  }
+
+  return originalArr;
+}
+
+function snapshot(original) {
+  //creates a deep copy to capture array's state at that moment
+  let newArray = original.map((oldRow) => {
+    return [...oldRow];
+  });
+  return newArray;
+}
+
+//insert into a clean duplicate bc it's nicer
+function insertClean(originalArray, insertedArray, rowIndex, colIndex) {
+  let newArray = snapshot(originalArray);
+
+  return insertNewArr(newArray, insertedArray, rowIndex, colIndex);
+}
+
+/* TEST SECTION */
+console.log("insert [x,y,z,'-',l,m,n,o,p] at [0][2]");
+const testArr = insertClean(
+  nestedArray,
+  ["x", "y", "z", "-", "l", "m", "n", "-", "p", "q"],
+  0,
+  2
+);
+console.log(testArr);
+
+</script>
