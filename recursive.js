@@ -6,10 +6,10 @@ function splitAtIndex(arr, index) {
   return [front, back];
 }
 
-let nestedArray = [
-  ["h", "e", "l", "l", "o", "-"],
-  ["w", "o", "r", "l", "d"],
-];
+//let nestedArray = [
+//  ["h", "e", "l", "l", "o", "-"],
+//  ["w", "o", "r", "l", "d"],
+//];
 console.log(nestedArray);
 
 function adjustForWordBreaks(
@@ -49,6 +49,7 @@ function adjustForWordBreaks(
       return originalArr;
     }
   } else {
+    console.log({frontPart}, {remainder});
     // a word has been broken
     console.log(consolePad, "a word was broken in the line break");
     //find last index of space in frontPart
@@ -119,6 +120,10 @@ function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
     const combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
     console.log(consolePad, "combined array:");
     console.log(consolePad, combinedArr);
+    //////////
+
+
+    //////////
 
     if (combinedArr.length <= maxCols) {
       //the new array fits on one line
