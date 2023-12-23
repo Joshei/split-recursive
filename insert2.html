@@ -8,10 +8,17 @@ function splitAtIndex(arr, index) {
   return [front, back];
 }
 
+// if space there, then word is not divided across right habd bordert
 let nestedArray = [
-  ["h", "e", "l", "l", "o", "-"],
+  ["h", "e", "l", "l", "o", " "],
   ["w", "o", "r", "l", "d"],
 ];
+
+//let nestedArray2 = [
+//  ["h", "e", "l", "l", "o", "w"],
+//  [" ", "o", "r", "l", "d"],
+//];
+
 console.log(nestedArray);
 
 function adjustForWordBreaks(frontPart, remainder, originalArr, rowIndex) {
@@ -91,7 +98,7 @@ function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
     if (insertedArr.length <= maxCols) {
       //new row fits on one line
 
-      // push the inserted arr as a new row
+      //push the inserted arr as a new row
       originalArr.push(insertedArr);
     } else {
       //new row is too long
