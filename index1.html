@@ -179,10 +179,11 @@
         console.log('h ', horizontalCursorPosition)
         
         //key pressed is stored in nestedArray
-        nestedArray[verticalCursorPosition / 10][horizontalCursorPosition/5] = gKey
+        //nestedArray[verticalCursorPosition / 10][horizontalCursorPosition/5] = gKey
         
         //key is inserted into nested array, rebulids form that point in time
-        Insert.insertNewArr(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
+        
+        nestedArray = Insert.insertClean(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         
         
         drawGrid()

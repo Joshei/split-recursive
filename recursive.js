@@ -211,7 +211,10 @@ function insertClean(originalArray, insertedArray, rowIndex, colIndex) {
   return insertNewArr(newArray, insertedArray, rowIndex, colIndex);
 }
 
+
+
 /* TEST SECTION */
+/*
 console.log("insert [x,y,z,'-',l,m,n,o,p] at [0][2]");
 const testArr = insertClean(
   nestedArray,
@@ -220,3 +223,5 @@ const testArr = insertClean(
   2
 );
 console.log(testArr);
+
+*/
