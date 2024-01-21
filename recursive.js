@@ -122,7 +122,7 @@ adjustForWordBreaks(
     console.log(consolePad, "space index", lastSpaceIndex);
 
     lastSpaceIndex = lastSpaceIndex + 1
-    if(lastSpaceIndex == -1){
+    if(lastSpaceIndex == 0){
       lastSpaceIndex = 6;
     }
 
