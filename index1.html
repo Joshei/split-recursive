@@ -8,6 +8,8 @@
   </head>
   
 <body>
+
+  
   <script src="cursorMovements.js"></script>
   <script src="customBox.js"></script>
   <script src="recursive.js"></script>
@@ -15,8 +17,9 @@
     
     const CursorMovements = new CursorMovementsClass()
     const customBox1 = new CustomBoxClass()
-    const Insert = new RecursiveClass() 
-    alert("here");
+    const Recursive = new RecursiveClass() 
+    //const Insert = new RecursiveClass() 
+    //alert("here");
     /*
     let nestedArray = [
     ["-", "A", "C","-", "-", "-","-", "-", "-", "-" ],
@@ -31,9 +34,16 @@
     ["-", "-", "-","-", "-", "-","-", "-", "-", "-" ],
     ];  
     */
-  let nestedArray = [
-  ["h", "e", "l", "l", "o", "-"],
-  ["w", "o", "r", "l", "d"],
+  
+    let nestedArray = [
+  ["h", "e", "l", "l", "-", "-", "-"],
+  ["a", "g", "-", "-", "-", "-", "-"],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  
 ];
     
 
@@ -146,18 +156,45 @@
         //rows
         for (let j = 0; j < WIDTH; j++) {
         //fill a square canvas with letter values
+        console.log("na: ", nestedArray)
+        if((nestedArray && nestedArray[i] && nestedArray[i][j])){
+          
+        
         ctx.fillText(nestedArray[i][j], j * 5 + 25, i * 10 + 25)
         console.log({j}, {i})
+        }else{
+          continue
         }
         }
-        return 1
+        
       }
+    }
 
       function drawCursor(x,y){
-        //alert("dc");
-        ctx.font = '10px Monospace'
+
+        //VOFFSET = 25
+        //HOFFSET = 30
+
+        //alert(x)
+        if(x === 65){
+
+          if(x == HOFFSET + (WIDTH * 5))
+          x = 0 + HOFFSET;
+          console.log("y1: ", y)
+          y =y + 10
+          console.log("y2: ", y)
+        }
+        //{
+        //  alert("here")
+        //  x=0
+        //  y=verticalCursorPosition/10 + 10 + VOFFSET
+        //}
+        //alert("dc: x", x);
         
+        ctx.font = '10px Monospace'
+        //y = 30
         ctx.fillStyle = 'red'
+        console.log("y: ", y)
         ctx.fillText('_', x - 5, y)
       }
 
@@ -182,8 +219,23 @@
         //nestedArray[verticalCursorPosition / 10][horizontalCursorPosition/5] = gKey
         
         //key is inserted into nested array, rebulids form that point in time
-        
-        nestedArray = Insert.insertClean(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
+       /*
+        let nestedArray = [
+  ["h", "e", "l", "l", "-"],
+  ["-", "g", "-", "-", "-", "-", "-"],
+  //["-", "-", "-", "-", "-", "-" , "-" ],
+  //["-", "-", "-", "-", "-", "-" , "-" ],
+  //["-", "-", "-", "-", "-", "-" , "-" ],
+  //["-", "-", "-", "-", "-", "-" , "-" ],
+  //["-", "-", "-", "-", "-", "-" , "-" ],
+  
+];
+*/
+
+        //gKey = "Z"
+        console.log("nested array1: ", nestedArray);
+        nestedArray = Recursive.insertClean(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
+        console.log("nested array2: ", nestedArray);
         
         
         drawGrid()
@@ -191,8 +243,16 @@
         //bookmark
         if (horizontalCursorPosition < (WIDTH - 1) * 5) {
           horizontalCursorPosition = horizontalCursorPosition + 5
+        }else{
+          horizontalCursorPosition = 0;
+          verticalCursorPosition = verticalCursorPosition + 10
+          alert("here1");
         }
+        
+        console.log("vert: ", verticalCursorPosition/10)
         drawCursor(
+
+
           horizontalCursorPosition + HOFFSET,
           verticalCursorPosition + VOFFSET
         )
@@ -227,4 +287,5 @@
       */
 
       </script>
-      </body>
+      
+    </body>

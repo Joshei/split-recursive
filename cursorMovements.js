@@ -34,6 +34,8 @@ class CursorMovementsClass {
       }
       drawGrid(100, 100)
       verticalCursorPosition = verticalCursorPosition - 10
+      
+      console.log("vert2: ", verticalCursorPosition)
       drawCursor(
         horizontalCursorPosition + HOFFSET,
         verticalCursorPosition + VOFFSET
@@ -44,9 +46,10 @@ class CursorMovementsClass {
         return -2
       }
       drawGrid(100, 100)
+      horizontalCursorPosition = 0
       verticalCursorPosition = verticalCursorPosition + 10
       drawCursor(
-        horizontalCursorPosition + HOFFSET,
+        0 + HOFFSET,
         verticalCursorPosition + VOFFSET
       )
     }

@@ -26,6 +26,8 @@ class CustomBoxClass {
       }
       return;
     }
+
+    
     if (gKey == 'Delete') {
     //  deleteIt();
     }
@@ -49,7 +51,7 @@ class CustomBoxClass {
         //from  recursive.js 
         //Insert.InsertNewArr(nestedArray, "Z", 1, 1 )
         //testing this area
-        alert("I am here:");
+        //alert("I am here:");
       
     }
       //displays x and y for testing
