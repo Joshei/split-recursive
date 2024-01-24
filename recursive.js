@@ -91,9 +91,10 @@ adjustForWordBreaks(
     let lastSpaceIndex = frontPart.lastIndexOf("-") ;
     console.log(consolePad, "space index", lastSpaceIndex);
 
+    //look at this - two of these
     lastSpaceIndex = lastSpaceIndex + 1
     if(lastSpaceIndex == 0){
-      lastSpaceIndex = 7;
+      lastSpaceIndex = 6;
     }
 
     //split frontPart at space index
@@ -200,9 +201,10 @@ adjustForWordBreaks(
     let lastSpaceIndex = frontPart.lastIndexOf("-") ;
     console.log(consolePad, "space index", lastSpaceIndex);
 
+    //look at this = teo of these
     lastSpaceIndex = lastSpaceIndex + 1
     if(lastSpaceIndex == 0){
-      lastSpaceIndex = 7;
+      lastSpaceIndex = 6;
     }
 
     //split frontPart at space index
@@ -480,7 +482,7 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
   console.log("frontpiece2: ", frontPiece2)
   console.log("backPiece2: ", backPiece2)
   
-  let combinedArr = [...frontPiece2 , ...originalArr[colIndex]];
+  //let combinedArr = [...frontPiece2 , ...originalArr[colIndex]];
   
   
   trimmedLine = frontPiece2;
