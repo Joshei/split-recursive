@@ -493,7 +493,9 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
 
 
 
-  //!!!!!!!!!!!!!!!!!!!DO THIS NEXT!!!!!!!!!! AND check index values, in this function AND return originalArr placement
+  
+  //done: AND check index values, in this function AND return originalArr placement
+  //!!!!!!!!!!!!!!!!!!!DO THIS NEXT!!!!!!!!!! 
   originalArr = this.adjustForWordBreaks(
       trimmedLine,
       remainder,
