@@ -15,12 +15,16 @@ class RecursiveClass{
 //this.testArr= []
   }
 
-
+//index at 0 : 302
 splitAtIndex(arr, index) {
+  
+  console.log("index: ", index)
+  console.log("arr: ", arr)
   const front = arr.slice(0, index);
   const back = arr.slice(index);
   return [front, back];
-}
+  }
+
 
 //let nestedArray = [
 //  ["h", "e", "l", "l", "o"],
@@ -75,7 +79,7 @@ adjustForWordBreaks(
   console.log("fp: ", frontPart.at(-1));
   console.log("rem: ", remainder[0]);
   if (frontPart.at(-1) != "-" && remainder[0] != "-") {
-    alert("here")
+   // alert("here")
     ///////
     console.log("--startsearchhere--")
     //alert("broken word2");
@@ -138,7 +142,7 @@ adjustForWordBreaks(
       "array after inserting remainder with repaired word"
     );
     console.log(consolePad, this.snapshot(originalArr));
-      return(originalArr)
+      return (originalArr)
     //////
 
   }
@@ -243,7 +247,7 @@ adjustForWordBreaks(
     console.log("oA9: ", originalArr);
     console.log("mr8: ", newRemainder)
       //alert("2");
-    originalArr = this.insertClean(originalArr, newRemainder, rowIndex + 1, 0);
+    originalArr = this.insertClean(originalArr, newRemainder, rowIndex, 0);
     
     
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
@@ -256,106 +260,7 @@ adjustForWordBreaks(
   }
 }
 
-//////////
 
-seperateOnRightBoundry(originalArr, insertedArr, rowIndex, colIndex){
-
-  console.log("ci: ", colIndex)
-console.log("1d: ", originalArr[colIndex][WIDTH-1])
-console.log("2d: ", originalArr[colIndex + 1][0])
-
-if(originalArr[colIndex][WIDTH-1] === "z"){
-  alert("z");
-}
-
-if(originalArr[colIndex + 1][0] === "z"){
-  alert("x");
-}
-
-//check for word caused by word being across boundries
-if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !== "-")){
-  
-  //does word fit on next row
-  
-  //move text to next row
-
-  //get text from last - to column 6
-
-  //let consolePad = "  ".repeat(iteration); // console padding for more legible output  
-  let targetRow = originalArr[colIndex];
-  console.log("-targetRow: ", targetRow)
-  console.log("-in here")
-  //no backpiece
-  let [frontPiece, backPiece] = this.splitAtIndex(targetRow, WIDTH);
-  console.log("frontpiece1: ", frontPiece)
-  console.log("backPiece1:", backPiece)
-  //     -1
-  //2
-  let lastSpaceIndex = frontPiece.lastIndexOf("-") ;
-
-  lastSpaceIndex =lastSpaceIndex + 1
-  if(lastSpaceIndex == 0){
-    lastSpaceIndex = 6
-  }
-  console.log("lastSpaceIndex: ", lastSpaceIndex)
-  //   backPiece2 = "aaa"  // is on first row 
-  let [frontPiece2, backPiece2] = this.splitAtIndex(frontPiece, lastSpaceIndex);
-
-  console.log("frontpiece2: ", frontPiece2)
-  console.log("backPiece2: ", backPiece2)
-  
-  let combinedArr = [...frontPiece2 , ...originalArr[colIndex+1]];
-  
-  
-  originalArr[colIndex] = frontPiece2;
-  originalArr[colIndex+1] = backPiece2
-  /*
-  let combinedArr = [...frontPiece2];
-  console.log("combinedArr: ", combinedArr)
-  
-  //console.log("combined: ", combinedArr)
-  originalArr[rowIndex] = combinedArr ;
-  console.log("originalArr: ", originalArr)
-  //whole line needs proceeding witj aaa 
-  let targetRow2 = originalArr[rowIndex+1]
-  console.log("targetRow2: ", targetRow2)
-  //with proceeding, "aaa"
-  let nextRow = [...backPiece2, ...targetRow2]
-  console.log("nextRow: ", nextRow)
-  
-  //does row still fit on next row - does?
-  if (nextRow.length <= this.maxCols) {
-    originalArr[rowIndex] = nextRow;
-    console.log("originalArr: ", originalArr[rowIndex])
-    console.log("-after row insertion:", this.snapshot(originalArr));
-    */
-  }
-  //line needs splitting
-  else{
-    /////////
-    console.log("-need to split lines");
-    //split the combinedArr to have length of maxCols
-    const [trimmedLine, remainder] = this.splitAtIndex(nextRow, this.maxCols);
-    console.log("-trimmedLine: ", trimmedLine);
-    console.log("-remainder: ", remainder);
-    /////////
-    originalArr = this.adjustForWordBreaks(
-      trimmedLine,
-      remainder,
-      originalArr,
-      rowIndex,
-      innerCounter
-    );
-    console.log("originalArr2: ", originalArr)
-    /////////
-  }
-
-  
-    return originalArr
-
-
-
-}
 
 
 
@@ -387,7 +292,7 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
   console.log(consolePad, this.snapshot(originalArr));
   console.log(consolePad, "insertedArr");
   console.log(consolePad, insertedArr);
-  console.log(consolePad, "row:", rowIndex, "col", colIndex, ")--");
+  console.log(consolePad, "row9:", rowIndex, "col", colIndex, ")--");
   let targetRow = originalArr[rowIndex];
 
   if (targetRow) {
@@ -398,7 +303,10 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
       "inserting array into an existing row of originalArr"
     );
     //split the original row at that index into "front" & "back" pieces
+    console.log("tar: ", targetRow)
+    console.log("ci9: ", colIndex);
     const [frontPiece, backPiece] = this.splitAtIndex(targetRow, colIndex);
+
     console.log(consolePad, "frontPiece", frontPiece);
     console.log(consolePad, "backpiece", backPiece);
     //make a combined array with insertedarr sandwiched in there
@@ -426,7 +334,7 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
       //new array too long to fit on one line
       console.log(consolePad, "need to split lines");
       //split the combinedArr to have length of maxCols
-      const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, this.maxCols);
+      const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, this.maxCols - 1);
       console.log(consolePad, "trimmedLine", trimmedLine);
       console.log(consolePad, "remainder", remainder);
       //if neither â€œtrimmedLine ends with spaceâ€ nor â€œremainder starts with spaceâ€
@@ -473,7 +381,7 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
       console.log(consolePad, "inserted array is too long, break into lines");
 
       //split inserted line at max col width
-      const [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols);
+      const [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols - 1);
       console.log(consolePad, "line to add immediately:");
       console.log(consolePad, nextLine);
       console.log(
@@ -500,7 +408,8 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
   console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
   console.log(consolePad, this.snapshot(originalArr));
   console.log(consolePad, "-------------");
-  seperateOnRightBoundry(originalArr, insertedArr, rowIndex, colIndex)
+  this.seperateOnRightBoundry(originalArr, insertedArr, rowIndex, colIndex);
+  
   return originalArr;
 
 
@@ -520,6 +429,84 @@ insertClean(originalArray, insertedArray, rowIndex, colIndex) {
   let newArray = this.snapshot(originalArray);
   console.log("oa2: ", originalArray)
   return this.insertNewArr(newArray, insertedArray, rowIndex, colIndex);
+}
+
+//////////
+
+seperateOnRightBoundry(originalArr, insertedArr, rowIndex, colIndex){
+ 
+
+  console.log("ci: ", colIndex)
+console.log("1d: ", originalArr[colIndex][WIDTH-1])
+console.log("2d: ", originalArr[colIndex + 1][0])
+
+if(originalArr[colIndex][WIDTH-1] === "z"){
+  alert("z");
+}
+
+if(originalArr[colIndex + 1][0] === "z"){
+  alert("x");
+}
+
+//check for word caused by word being across boundries
+if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !== "-")){
+  
+  //does word fit on next row
+  
+  //move text to next row
+
+  //get text from last - to column 6
+
+  //let consolePad = "  ".repeat(iteration); // console padding for more legible output  
+  let targetRow = originalArr[colIndex];
+  console.log("-targetRow: ", targetRow)
+  console.log("-in here")
+  //no backpiece
+  let [frontPiece, backPiece] = this.splitAtIndex(targetRow, WIDTH-1);
+  console.log("frontpiece1: ", frontPiece)
+  console.log("backPiece1:", backPiece)
+  //     -1
+  //2
+  let lastSpaceIndex = frontPiece.lastIndexOf("-") ;
+
+  lastSpaceIndex =lastSpaceIndex + 1
+  if(lastSpaceIndex == 0){
+    lastSpaceIndex = 6
+  }
+  console.log("lastSpaceIndex: ", lastSpaceIndex)
+  //   backPiece2 = "aaa"  // is on first row 
+  let [frontPiece2, backPiece2] = this.splitAtIndex(frontPiece, lastSpaceIndex);
+
+  console.log("frontpiece2: ", frontPiece2)
+  console.log("backPiece2: ", backPiece2)
+  
+  let combinedArr = [...frontPiece2 , ...originalArr[colIndex]];
+  
+  
+  trimmedLine = frontPiece2;
+  remainder = backPiece2
+
+
+
+  //!!!!!!!!!!!!!!!!!!!DO THIS NEXT!!!!!!!!!! AND check index values, in this function AND return originalArr placement
+  originalArr = this.adjustForWordBreaks(
+      trimmedLine,
+      remainder,
+      originalArr,
+      rowIndex,
+      innerCounter
+    );
+
+  
+  }
+  
+
+
+  
+    return originalArr
+
+
+
 }
 
 /* TEST SECTION */
