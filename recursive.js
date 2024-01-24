@@ -357,6 +357,8 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
         innerCounter
       );
 
+      /////
+      return originalArr
       
       console.log("1a: ", rowIndex)
       console.log("2a: " , innerCounter)
@@ -402,9 +404,10 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
         innerCounter
       );
 
-      if(originalArr == -1){
-        //return
-      }
+      /////
+      return originalArr
+
+     
     }
   }
   console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
@@ -499,20 +502,18 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
       innerCounter
     );
 
+    /////
+    return originalArr
+
   
   }
   
-
-
-  
-    return originalArr
-
+}
 
 
 }
 
 /* TEST SECTION */
-}
 //console.log({testArr});
 //testArr = this.insertClean(
 //  this.nestedArray,
@@ -521,10 +522,6 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
 //  6
 //);
 
-
-
 //console.log("insert [x,y,z,'-',l,m,n,o,p] at [0][2]");
-
-
 //console.log({testArr});
 
