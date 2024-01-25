@@ -215,14 +215,7 @@ adjustForWordBreaks(
 
     //alert("check here");
     
-    for(let i = 0; i<WIDTH ; i++){
-      console.log("tl: ", trimmedLeft[i])
-      if (trimmedLeft[i] === undefined)
-      {
-        //alert("here");
-        trimmedLeft[i] = '-'
-      }
-    }
+    
     
     originalArr[rowIndex] = trimmedLeft;
     console.log("trimmedLeft: ", trimmedLeft)
@@ -262,7 +255,18 @@ adjustForWordBreaks(
   }
 }
 
-
+fillNullWithDash(arrayToChange)
+{
+  
+for(let i = 0; i<WIDTH-1 ; i++){
+  console.log("tl: ", arrayToChange[i])
+  if (arrayToChange[i] === undefined)
+  {
+    //alert("here");
+    arrayToChange[i] = '-'
+  }
+}
+}
 
 
 
@@ -313,19 +317,37 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
     console.log(consolePad, "backpiece", backPiece);
     //make a combined array with insertedarr sandwiched in there
 ////////////////////////!!!!!!!!!!!!!!!!!
-    let combinedArr= ""
-    //if(originalArr[WIDTH-1] === '-'){
-    //  combinedArr = [...frontPiece, ...backPiece]
-    //
-    //
-    //}else{
     
-      combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
+      console.log({HEIGHT})
+
+    
+    //adjust...
+    
+
+    //if row zero has a dash at end means wont move next row
+    //copy rowx into a variable and check for row
+    //verticalCursorPositio/10 = 0
+    //horizontalCursorPosition/5 = 5
+      let combinedArr= ""
+    
+    //if (insertedArr != "-" ){
+    combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
+    //combinedArr = [...frontPiece, ...backPiece];
     //}
+    //else{
+    //  combinedArr = [...frontPiece, ...backPiece];
+
+    //}
+
+
+
+
+
+
     console.log(consolePad, "combined array:");
     console.log(consolePad, combinedArr);
 
-    if (combinedArr.length <= this.maxCols) {
+    if (combinedArr.length < this.maxCols) {
       //the new array fits on one line
 
       console.log(consolePad, "new array fits on one line");
@@ -442,7 +464,7 @@ seperateOnRightBoundry(originalArr, insertedArr, rowIndex, colIndex){
  
 
   console.log("ci: ", colIndex)
-console.log("1d: ", originalArr[colIndex][WIDTH-1])
+console.log("1d: ", originalArr[colIndex][5])
 console.log("2d: ", originalArr[colIndex + 1][0])
 
 if(originalArr[colIndex][WIDTH-1] === "z"){
@@ -456,6 +478,7 @@ if(originalArr[colIndex + 1][0] === "z"){
 //check for word caused by word being across boundries
 if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !== "-")){
   
+  alert("is here")
   //does word fit on next row
   
   //move text to next row
@@ -479,23 +502,35 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
     lastSpaceIndex = 6
   }
   console.log("lastSpaceIndex: ", lastSpaceIndex)
+  
   //   backPiece2 = "aaa"  // is on first row 
   let [frontPiece2, backPiece2] = this.splitAtIndex(frontPiece, lastSpaceIndex);
 
   console.log("frontpiece2: ", frontPiece2)
   console.log("backPiece2: ", backPiece2)
   
-  //let combinedArr = [...frontPiece2 , ...originalArr[colIndex]];
+  let combinedArr = [...frontPiece2 , ...originalArr[colIndex+1]];
+
+  let [frontPiece3, backPiece3] = this.splitAtIndex(combinedArr, lastSpaceIndex);
+
+  console.log("frontpiece3: ", frontPiece3)
+  console.log("backPiece3: ", backPiece3)
+  
+
   
   
-  trimmedLine = frontPiece2;
-  remainder = backPiece2
+  let trimmedLine = frontPiece3;
+  let remainder = backPiece3
+
+  //checks row for null and changes to dashes
+  //this.fillNullWithDash(originalArr)
 
 
-
+alert("stop")
   
   //done: AND check index values, in this function AND return originalArr placement
   //!!!!!!!!!!!!!!!!!!!DO THIS NEXT!!!!!!!!!! 
+  /*
   originalArr = this.adjustForWordBreaks(
       trimmedLine,
       remainder,
@@ -506,7 +541,7 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
 
     /////
     return originalArr
-
+*/
   
   }
   
