@@ -36,8 +36,8 @@
     */
   
     let nestedArray = [
-  ["h", "e", "l", "l", "-", "-", "-"],
-  ["a", "g", "-", "-", "-", "-", "-"],
+  ["h", "e", "-", "-", "-", "-", "X"],
+  ["a", "-", "-", "-", "-", "-", "-"],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
@@ -152,9 +152,9 @@
         clearArray()
         ctx.fillStyle = 'black'
         //columns
-        for (let i = 0; i < HEIGHT; i++) {
+        for (let i = 0; i < HEIGHT - 1; i++) {
         //rows
-        for (let j = 0; j < WIDTH; j++) {
+        for (let j = 0; j < WIDTH - 1; j++) {
         //fill a square canvas with letter values
         console.log("na: ", nestedArray)
         if((nestedArray && nestedArray[i] && nestedArray[i][j])){
@@ -234,7 +234,7 @@
 
         //gKey = "Z"
         console.log("nested array1: ", nestedArray);
-        nestedArray = Recursive.insertClean(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
+        nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         console.log("nested array2: ", nestedArray);
         
         

@@ -7,6 +7,8 @@ class RecursiveClass{
 
     this.maxCols = 7;
     this.counter = 0;
+    this.initialRow = 0;
+    this.initialColumn = 0;
 
 //this.nestedArray = [
 //  ["h", "e", "l", "", "", "", "a"],
@@ -94,7 +96,7 @@ adjustForWordBreaks(
     //look at this - two of these
     lastSpaceIndex = lastSpaceIndex + 1
     if(lastSpaceIndex == 0){
-      lastSpaceIndex = 6;
+      lastSpaceIndex = 7;
     }
 
     //split frontPart at space index
@@ -134,8 +136,14 @@ adjustForWordBreaks(
     console.log("oA9: ", originalArr);
     console.log("mr8: ", newRemainder)
       //alert("2");
-    originalArr = this.insertClean(originalArr, newRemainder, rowIndex + 1, 0);
-    
+
+
+
+     // 
+     if(this.initialRow == rowIndex){
+      
+    originalArr = this.insertClean(false, originalArr, newRemainder, rowIndex + 1, 0);
+     }
     
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
     console.log(
@@ -182,7 +190,7 @@ adjustForWordBreaks(
         
       
       //alert("yes")
-      originalArr = this.insertClean(originalArr, remainder, rowIndex + 1, 0);
+      originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
       //}
       //console.log(consolePad, "!! Return to iteration", iteration, "!!");
       //console.log(consolePad, "array after inserting remainder:");
@@ -204,7 +212,7 @@ adjustForWordBreaks(
     //look at this = teo of these
     lastSpaceIndex = lastSpaceIndex + 1
     if(lastSpaceIndex == 0){
-      lastSpaceIndex = 6;
+      lastSpaceIndex = 7;
     }
 
     //split frontPart at space index
@@ -242,7 +250,7 @@ adjustForWordBreaks(
     console.log("oA9: ", originalArr);
     console.log("mr8: ", newRemainder)
       //alert("2");
-    originalArr = this.insertClean(originalArr, newRemainder, rowIndex, 0);
+    originalArr = this.insertClean(false, originalArr, newRemainder, rowIndex, 0);
     
     
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
@@ -273,7 +281,7 @@ for(let i = 0; i<WIDTH-1 ; i++){
 /////////
 insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
   
-
+//alert("99")
 //else{
 //  console.log("in here2")
 //}
@@ -330,17 +338,28 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
     //horizontalCursorPosition/5 = 5
       let combinedArr= ""
     
+      console.log("1x:", originalArr[0][5])
+      //row has changed to next row to print there
+     // if((originalArr[0][6] === "-") && (this.initialRow === rowIndex)){
     //if (insertedArr != "-" ){
+
+    console.log("ri1: ", rowIndex)
+    console.log("ir1: ", this.initialRow)
+    if(rowIndex != this.initialRow && originalArr[0][5] == "-"){
+      //alert("yes")
+      return originalArr;
+    }
+    //moves string below too
     combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
     //combinedArr = [...frontPiece, ...backPiece];
     //}
-    //else{
-    //  combinedArr = [...frontPiece, ...backPiece];
+   // else{
+      //combinedArr = [...frontPiece, ...backPiece];
 
     //}
 
 
-
+    //alert("stop1");
 
 
 
@@ -452,7 +471,13 @@ snapshot(original) {
 }
 
 //insert into a clean duplicate bc it's nicer
-insertClean(originalArray, insertedArray, rowIndex, colIndex) {
+insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) {
+  
+  if(isFromIndex == true){
+  this.initialRow = rowIndex
+  }
+
+  this.initialColumn = colIndex
   let newArray = this.snapshot(originalArray);
   console.log("oa2: ", originalArray)
   return this.insertNewArr(newArray, insertedArray, rowIndex, colIndex);
@@ -499,7 +524,7 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
 
   lastSpaceIndex =lastSpaceIndex + 1
   if(lastSpaceIndex == 0){
-    lastSpaceIndex = 6
+    lastSpaceIndex = 7
   }
   console.log("lastSpaceIndex: ", lastSpaceIndex)
   
