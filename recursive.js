@@ -17,6 +17,27 @@ class RecursiveClass{
 //this.testArr= []
   }
 
+  ///
+
+
+  ///
+
+  snapshot(original) 
+{
+  //creates a deep copy to capture array's state at that moment
+  let newArray = original.map((oldRow) => {
+    return [...oldRow];
+  });
+  console.log("or: ",newArray)
+  return newArray;
+}
+  ///
+
+
+  
+
+  ///
+
 //index at 0 : 302
 splitAtIndex(arr, index) {
   
@@ -27,6 +48,222 @@ splitAtIndex(arr, index) {
   return [front, back];
   }
 
+  /////////
+insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
+{
+  
+//alert("99")
+//else{
+//  console.log("in here2")
+//}
+
+
+  
+ 
+  //if(originalArr[WIDTH-1] == "-"){
+  //  return originalArr
+  //}
+
+  //originalArrArr = "X" 
+  //if(verticalCursorPosition/10 === colIndex)
+  //if(originalArr[rowIndex] ===  && )
+  this.counter++; //global counter can only ever contain the largest iteration number
+  let innerCounter = this.counter; //locally declared counter is scoped to *this* iteration of the function
+  let consolePad = "  ".repeat(innerCounter);
+  console.log(consolePad, "-------------");
+  console.log(consolePad, "ITERATION ", this.insertCleancounter);
+  console.log(consolePad, "***!!!start of insertNewArr function!!!***");
+  console.log(consolePad, "--( originalArr");
+  console.log(consolePad, this.snapshot(originalArr));
+  console.log(consolePad, "insertedArr");
+  console.log(consolePad, insertedArr);
+  console.log(consolePad, "row9:", rowIndex, "col", colIndex, ")--");
+  let targetRow = originalArr[rowIndex];
+
+  if (targetRow) {
+    console.log("tr: ", targetRow)
+    //assuming there's a row here already
+    console.log(
+      consolePad,
+      "inserting array into an existing row of originalArr"
+    );
+    //split the original row at that index into "front" & "back" pieces
+    console.log("tar: ", targetRow)
+    console.log("ci9: ", colIndex);
+    
+    console.log("insertedArray: ", insertedArr);
+    const [frontPiece, backPiece] = this.splitAtIndex(targetRow, colIndex);
+    let combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
+
+    console.log(consolePad, "frontPiece", frontPiece);
+    console.log(consolePad, "backpiece", backPiece);
+    console.log("ca9: ", combinedArr);
+
+    //make a combined array with insertedarr sandwiched in there
+////////////////////////!!!!!!!!!!!!!!!!!
+    
+      console.log({HEIGHT})
+
+    
+    //adjust...
+    
+
+    //if row zero has a dash at end means wont move next row
+    //copy rowx into a variable and check for row
+    //verticalCursorPositio/10 = 0
+    //horizontalCursorPosition/5 = 5
+      //let combinedArr= ""
+    
+      console.log("1x:", originalArr[0][5])
+      //row has changed to next row to print there
+     // if((originalArr[0][6] === "-") && (this.initialRow === rowIndex)){
+    //if (insertedArr != "-" ){
+
+    console.log("ri1: ", rowIndex)
+    console.log("ir1: ", this.initialRow)
+    console.log("z: ", originalArr[colIndex][rowIndex])
+    //
+    if(  rowIndex != this.initialRow && originalArr[6][this.initialRow]){
+      //alert("yes")
+      return originalArr;
+    }
+    else{
+      //alert("no");
+      combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
+
+    }
+    //moves string below too
+    //combinedArr = [...frontPiece, insertedArr, ...backPiece];
+    //combinedArr = [...frontPiece, ...backPiece];
+    //}
+   // else{
+      //combinedArr = [...frontPiece, ...backPiece];
+
+    //}
+
+    console.log("ca: ", combinedArr)
+
+    //alert("stop1");
+
+
+
+    console.log(consolePad, "combined array:");
+    console.log(consolePad, combinedArr);
+
+    if (combinedArr.length < this.maxCols) {
+      //the new array fits on one line
+
+      console.log(consolePad, "new array fits on one line");
+      //overwrite insertedArr[rowIndex] with combined array
+      originalArr[rowIndex] = combinedArr;
+      console.log("ca2: ", combinedArr)
+      console.log(consolePad, "after row insertion:", this.snapshot(originalArr));
+    } else {
+      //new array too long to fit on one line
+      console.log(consolePad, "need to split lines");
+      //split the combinedArr to have length of maxCols
+      const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, this.maxCols);
+      console.log(consolePad, "trimmedLine", trimmedLine);
+      console.log(consolePad, "remainder", remainder);
+      //if neither â€œtrimmedLine ends with spaceâ€ nor â€œremainder starts with spaceâ€
+      //if(!(trimmedLine.at(-1) == '-' || remainder[0]=='-') ){
+
+      //can't make the final recursive call until word adjustments have been made
+      //alert("2")
+      
+      //alert("hereA");
+      
+      
+      
+      
+
+      //is here
+      originalArr = this.adjustForWordBreaks(
+        trimmedLine,
+        remainder,
+        originalArr,
+        rowIndex,
+        innerCounter
+      );
+
+      console.log("after: ", originalArr);
+      /////
+      return originalArr
+      
+      console.log("1a: ", rowIndex)
+      console.log("2a: " , innerCounter)
+      
+    }
+  } else {
+    //adding a whole new row to the end of originalArr
+    console.log(
+      consolePad,
+      "adding inserted array to end of new array by creating a new line"
+    );
+    //if we're adding onto the end of newArray, just push the inserted arr as a new row
+    if (insertedArr.length <= this.maxCols) {
+      //new row fits on one line
+
+      console.log(consolePad, "new inserted row is within width constraints");
+      // push the inserted arr as a new row
+      originalArr.push(insertedArr);
+      console.log(consolePad, "original array with new inserted line appended");
+      console.log(consolePad, this.snapshot(originalArr));
+    } else {
+      //new row is too long
+
+      console.log(consolePad, "inserted array is too long, break into lines");
+
+      //split inserted line at max col width
+      const [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols - 1);
+      console.log(consolePad, "line to add immediately:");
+      console.log(consolePad, nextLine);
+      console.log(
+        consolePad,
+        "line to process and then add to the next row after this one"
+      );
+      console.log(consolePad, remainder);
+      //can't make the final recursive call until word adjustments have been made
+      
+      alert("z");
+      originalArr = this.adjustForWordBreaks2(
+        nextLine,
+        remainder,
+        originalArr,
+        rowIndex,
+        innerCounter
+      );
+
+      /////
+      //return originalArr
+
+     
+    }
+  }
+  console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
+  console.log(consolePad, this.snapshot(originalArr));
+  console.log(consolePad, "-------------");
+  //this.seperateOnRightBoundry(originalArr, insertedArr, rowIndex, colIndex);
+  
+  return originalArr;
+
+
+}
+
+//insert into a clean duplicate bc it's nicer
+insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) 
+{
+  
+  if(isFromIndex === true){
+  this.initialRow = rowIndex
+  this.initialColumn = colIndex
+  }
+
+  //this.initialColumn = colIndex
+  let newArray = this.snapshot(originalArray);
+  console.log("oa2: ", originalArray)
+  return this.insertNewArr(newArray, insertedArray, rowIndex, colIndex);
+}
 
 //let nestedArray = [
 //  ["h", "e", "l", "l", "o"],
@@ -211,7 +448,7 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
     /////////
     return originalArr;
   }
-//}
+}
 
 
 /////////////
@@ -456,229 +693,11 @@ for(let i = 0; i<WIDTH-1 ; i++){
 
 
 
-/////////
-insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
-  
-//alert("99")
-//else{
-//  console.log("in here2")
-//}
-
-
-  
- 
-  //if(originalArr[WIDTH-1] == "-"){
-  //  return originalArr
-  //}
-
-  //originalArrArr = "X" 
-  //if(verticalCursorPosition/10 === colIndex)
-  //if(originalArr[rowIndex] ===  && )
-  this.counter++; //global counter can only ever contain the largest iteration number
-  let innerCounter = this.counter; //locally declared counter is scoped to *this* iteration of the function
-  let consolePad = "  ".repeat(innerCounter);
-  console.log(consolePad, "-------------");
-  console.log(consolePad, "ITERATION ", this.insertCleancounter);
-  console.log(consolePad, "***!!!start of insertNewArr function!!!***");
-  console.log(consolePad, "--( originalArr");
-  console.log(consolePad, this.snapshot(originalArr));
-  console.log(consolePad, "insertedArr");
-  console.log(consolePad, insertedArr);
-  console.log(consolePad, "row9:", rowIndex, "col", colIndex, ")--");
-  let targetRow = originalArr[rowIndex];
-
-  if (targetRow) {
-    console.log("tr: ", targetRow)
-    //assuming there's a row here already
-    console.log(
-      consolePad,
-      "inserting array into an existing row of originalArr"
-    );
-    //split the original row at that index into "front" & "back" pieces
-    console.log("tar: ", targetRow)
-    console.log("ci9: ", colIndex);
-    
-    console.log("insertedArray: ", insertedArr);
-    const [frontPiece, backPiece] = this.splitAtIndex(targetRow, colIndex);
-    let combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
-
-    console.log(consolePad, "frontPiece", frontPiece);
-    console.log(consolePad, "backpiece", backPiece);
-    console.log("ca9: ", combinedArr);
-
-    //make a combined array with insertedarr sandwiched in there
-////////////////////////!!!!!!!!!!!!!!!!!
-    
-      console.log({HEIGHT})
-
-    
-    //adjust...
-    
-
-    //if row zero has a dash at end means wont move next row
-    //copy rowx into a variable and check for row
-    //verticalCursorPositio/10 = 0
-    //horizontalCursorPosition/5 = 5
-      //let combinedArr= ""
-    
-      console.log("1x:", originalArr[0][5])
-      //row has changed to next row to print there
-     // if((originalArr[0][6] === "-") && (this.initialRow === rowIndex)){
-    //if (insertedArr != "-" ){
-
-    console.log("ri1: ", rowIndex)
-    console.log("ir1: ", this.initialRow)
-    console.log("z: ", originalArr[colIndex][rowIndex])
-    //
-    if(  rowIndex != this.initialRow && originalArr[6][this.initialRow]){
-      alert("yes")
-      return originalArr;
-    }
-    else{
-      alert("no");
-      combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
-
-    }
-    //moves string below too
-    //combinedArr = [...frontPiece, insertedArr, ...backPiece];
-    //combinedArr = [...frontPiece, ...backPiece];
-    //}
-   // else{
-      //combinedArr = [...frontPiece, ...backPiece];
-
-    //}
-
-    console.log("ca: ", combinedArr)
-
-    //alert("stop1");
 
 
 
-    console.log(consolePad, "combined array:");
-    console.log(consolePad, combinedArr);
-
-    if (combinedArr.length < this.maxCols) {
-      //the new array fits on one line
-
-      console.log(consolePad, "new array fits on one line");
-      //overwrite insertedArr[rowIndex] with combined array
-      originalArr[rowIndex] = combinedArr;
-      console.log("ca2: ", combinedArr)
-      console.log(consolePad, "after row insertion:", this.snapshot(originalArr));
-    } else {
-      //new array too long to fit on one line
-      console.log(consolePad, "need to split lines");
-      //split the combinedArr to have length of maxCols
-      const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, this.maxCols);
-      console.log(consolePad, "trimmedLine", trimmedLine);
-      console.log(consolePad, "remainder", remainder);
-      //if neither â€œtrimmedLine ends with spaceâ€ nor â€œremainder starts with spaceâ€
-      //if(!(trimmedLine.at(-1) == '-' || remainder[0]=='-') ){
-
-      //can't make the final recursive call until word adjustments have been made
-      //alert("2")
-      
-      //alert("hereA");
-      
-      
-      
-      
-
-      //is here
-      originalArr = this.adjustForWordBreaks(
-        trimmedLine,
-        remainder,
-        originalArr,
-        rowIndex,
-        innerCounter
-      );
-
-      console.log("after: ", originalArr);
-      /////
-      return originalArr
-      
-      console.log("1a: ", rowIndex)
-      console.log("2a: " , innerCounter)
-      
-    }
-  } else {
-    //adding a whole new row to the end of originalArr
-    console.log(
-      consolePad,
-      "adding inserted array to end of new array by creating a new line"
-    );
-    //if we're adding onto the end of newArray, just push the inserted arr as a new row
-    if (insertedArr.length <= this.maxCols) {
-      //new row fits on one line
-
-      console.log(consolePad, "new inserted row is within width constraints");
-      // push the inserted arr as a new row
-      originalArr.push(insertedArr);
-      console.log(consolePad, "original array with new inserted line appended");
-      console.log(consolePad, this.snapshot(originalArr));
-    } else {
-      //new row is too long
-
-      console.log(consolePad, "inserted array is too long, break into lines");
-
-      //split inserted line at max col width
-      const [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols - 1);
-      console.log(consolePad, "line to add immediately:");
-      console.log(consolePad, nextLine);
-      console.log(
-        consolePad,
-        "line to process and then add to the next row after this one"
-      );
-      console.log(consolePad, remainder);
-      //can't make the final recursive call until word adjustments have been made
-      
-      alert("z");
-      originalArr = this.adjustForWordBreaks2(
-        nextLine,
-        remainder,
-        originalArr,
-        rowIndex,
-        innerCounter
-      );
-
-      /////
-      return originalArr
-
-     
-    }
-  }
-  console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
-  console.log(consolePad, this.snapshot(originalArr));
-  console.log(consolePad, "-------------");
-  //this.seperateOnRightBoundry(originalArr, insertedArr, rowIndex, colIndex);
-  
-  return originalArr;
 
 
-}
-
-snapshot(original) {
-  //creates a deep copy to capture array's state at that moment
-  let newArray = original.map((oldRow) => {
-    return [...oldRow];
-  });
-  console.log("or: ",newArray)
-  return newArray;
-}
-
-//insert into a clean duplicate bc it's nicer
-insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) {
-  
-  if(isFromIndex == true){
-  this.initialRow = rowIndex
-  this.initialColumn = colIndex
-  }
-
-  //this.initialColumn = colIndex
-  let newArray = this.snapshot(originalArray);
-  console.log("oa2: ", originalArray)
-  return this.insertNewArr(newArray, insertedArray, rowIndex, colIndex);
-}
 
 //////////
 /*
@@ -772,6 +791,8 @@ alert("stop")
 
 
 }
+}
+
 
 /* TEST SECTION */
 //console.log({testArr});
