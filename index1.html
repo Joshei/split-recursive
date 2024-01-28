@@ -35,16 +35,7 @@
     ];  
     */
   
-    let nestedArray = [
-  ["h", "e", "-", "-", "-", "-", "X"],
-  ["a", "-", "-", "-", "-", "-", "-"],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  
-];
+ 
     
 
     </script>
@@ -65,6 +56,17 @@
       
     <script>
       
+      let nestedArray = [
+  ["-", "-", "-", "-", "-", "-" , "-"],
+  ["-", "-", "-", "-", "-", "-" , "-"],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  
+];
+
       const WIDTH = 7
       const HEIGHT = 7
 
@@ -152,12 +154,12 @@
         clearArray()
         ctx.fillStyle = 'black'
         //columns
-        for (let i = 0; i < HEIGHT - 1; i++) {
+        for (let i = 0; i < 7; i++) {
         //rows
-        for (let j = 0; j < WIDTH - 1; j++) {
+        for (let j = 0; j < 7 ; j++) {
         //fill a square canvas with letter values
         console.log("na: ", nestedArray)
-        if((nestedArray && nestedArray[i] && nestedArray[i][j])){
+        if(nestedArray && nestedArray[i] && nestedArray[i][j]){
           
         
         ctx.fillText(nestedArray[i][j], j * 5 + 25, i * 10 + 25)
@@ -168,6 +170,7 @@
         }
         
       }
+      
     }
 
       function drawCursor(x,y){
