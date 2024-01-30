@@ -31,6 +31,9 @@ function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
     const combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
     console.log("combined array:", combinedArr)
 
+    
+    
+    
     if (combinedArr.length <= maxCols) {
       	console.log("new array fits on one line")
       //the new array fits on one line
@@ -51,15 +54,20 @@ function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
        console.log("no word broken on trimmed line")
          //the front half of that becomes originalArray[rowIndex]
         originalArr[rowIndex] = trimmedLine;
-		console.log("replace original array row with trimmed line")
+		    console.log("replace original array row with trimmed line")
         console.log(originalArr)
         //if there's anything left over, push it into position 0 of the next row
         if (remainder.length > 0) {
           console.log("trimmed line had remainder afterwards")
           originalArr = insertNewArr(originalArr, remainder, rowIndex + 1, 0);
-          console.log("array after inserting remainder:" originalArr);
+          console.log("array after inserting remainder:", originalArr);
         }
         
+
+        
+
+
+
       } else { // a word has been broken
         console.log("a word was broken in the line break")
          //find last index of space in trimmedLine

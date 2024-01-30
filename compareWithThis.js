@@ -21,6 +21,9 @@ function adjustForWordBreaks(
   rowIndex,
   iteration
 ) {
+
+
+  //!!!!!!!!!!!!look at thid
   let consolePad = "  ".repeat(iteration); // console padding for more legible output
   //.at(-1) lets us access last letter in trimmedLine
   if (frontPart.at(-1) == "-" || remainder[0] == "-") {
@@ -51,6 +54,9 @@ function adjustForWordBreaks(
       return originalArr;
     }
   } else {
+
+
+    
     // a word has been broken
     console.log(consolePad, "a word was broken in the line break");
     //find last index of space in frontPart
@@ -81,6 +87,8 @@ function adjustForWordBreaks(
       iteration + 1,
       " !!"
     );
+
+    
     //make the recursive call to add the new remainder to the next line
     originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, 0);
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
