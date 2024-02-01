@@ -9,6 +9,7 @@ class RecursiveClass{
     this.counter = 0;
     this.initialRow = 0;
     this.initialColumn = 0;
+    this.mapCounter = 0
     //this.rowIndexChanged = false
 
 //this.nestedArray = [
@@ -25,8 +26,12 @@ class RecursiveClass{
 
 snapshot(original) 
 {
+
+  console.log("orig: 0" , original)
   //creates a deep copy to capture array's state at that moment
   let newArray = original.map((oldRow) => {
+    console.log ("map: " , this.mapCounter);
+    this.mapCounter = this.mapCounter + 1
     return [...oldRow];
   });
   console.log("or: ",newArray)
@@ -50,16 +55,99 @@ splitAtIndex(arr, index) {
   }
 
   /////////
+
+
+  
+adjustForWordBreaks(
+  frontPart,
+  remainder,
+  originalArr,
+  rowIndex,
+  iteration
+) {
+
+  
+  //return originalArr
+
+
+  //frontpart -->  a a - - - - - 
+  //remainder -->  a   -> put on next line
+
+  console.log("frontPart1: ", frontPart)
+  console.log("remainder1: ", remainder)
+  
+  //alert("1");
+  let consolePad = "  ".repeat(iteration); // console padding for more legible output
+  //.at(-1) lets us access last letter in trimmedLine
+  if (frontPart.at(-1) == "-" || remainder[0] == "-") {
+    //if line ends *without* breaking word (front ends with space, or remainder starts with one)
+    //alert("3")
+    console.log(consolePad, "no word broken on trimmed line");
+    //the front half of that becomes originalArray[rowIndex]
+    originalArr[rowIndex] = frontPart;
+    console.log("frontPart: ", frontPart)
+    console.log("remainder: ", remainder)
+    console.log(consolePad, "replace original array row with trimmed line");
+    
+    //originalArr[rowIndex] = frontPart
+    //originalArr[rowIndex+1] = remainder
+    console.log(consolePad, this.snapshot(originalArr));
+    //if there's anything left over, push it into position 0 of the next row
+    if (remainder.length > 0) {
+      console.log(consolePad, "trimmed line had remainder afterwards");
+      console.log(consolePad, remainder);
+      console.log(
+        consolePad,
+        "!! Recursive call from level ",
+        iteration,
+        " to level",
+        iteration + 1,
+        " !!"
+      );
+
+
+      //insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) 
+        
+      let trythisinsertedArray ="X"
+      console.log("1!: ", originalArr)
+      console.log("2!: ",remainder)
+      console.log("3!:", rowIndex)
+      //make the recursive call to add the remainder to the next line
+      originalArr = this.insertClean(false,originalArr, remainder, rowIndex + 1, 0);
+      console.log(consolePad, "!! Return to iteration", iteration, "!!");
+      console.log(consolePad, "array after inserting remainder:");
+      //console.log(consolePad, this.snapshot(originalArr));
+      //console.log("What about this?: ", originalArr)
+      return originalArr;
+    }
+
+  }else{
+   
+    alert("not created yet")
+    originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
+    //console.log(consolePad, "!! Return to iteration", iteration, "!!");
+    console.log(
+      consolePad,
+      "array after inserting remainder with repaired word"
+    );
+    console.log(consolePad, this.snapshot(originalArr));
+    return originalArr;
+
+  }
+
+}
+  /////////
+
 insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
 {
 console.log("this should be X: ", insertedArr)
 //if(insertedArr.indexOf("X") !== -1 )
 const val = "X"
 
-if(insertedArr.includes(val))
-{
-  console.log("IS NOW HERE...Sart looking at code now, here!")
-}
+//if(insertedArr.includes(val))
+//{
+//  console.log("IS NOW HERE...Sart looking at code now, here!")
+//}
   
  this.counter++; //global counter can only ever contain the largest iteration number
   let innerCounter = this.counter; //locally declared counter is scoped to *this* iteration of the function
@@ -92,7 +180,8 @@ if(insertedArr.includes(val))
 
 
     if(insertedArr == "-" && rowIndex != this.initialRow){
-      alert("here!!!")
+      
+      //important piece of code, here!!!!
       return originalArr
     }
     const [frontPiece, backPiece] = this.splitAtIndex(targetRow, colIndex);
@@ -155,7 +244,7 @@ if(insertedArr.includes(val))
     
     if (combinedArr.length < this.maxCols) {
       //the new array fits on one line
-      alert("huh?")
+      //alert("huh?")
       console.log(consolePad, "new array fits on one line");
       //overwrite insertedArr[rowIndex] with combined array
       originalArr[rowIndex] = combinedArr;
@@ -166,7 +255,7 @@ if(insertedArr.includes(val))
       //new array too long to fit on one line
       console.log(consolePad, "need to split lines");
       //split the combinedArr to have length of maxCols
-      const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, this.maxCols);
+      const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, this.maxCols );
       console.log(consolePad, "trimmedLine", trimmedLine);
 
 
@@ -237,7 +326,7 @@ if(insertedArr.includes(val))
       console.log(consolePad, "inserted array is too long, break into lines");
 
       //split inserted line at max col width
-      const [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols - 1);
+      const [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols );
       console.log(consolePad, "line to add immediately:");
       console.log(consolePad, nextLine);
       console.log(
@@ -246,7 +335,7 @@ if(insertedArr.includes(val))
       );
       console.log(consolePad, remainder);
       //can't make the final recursive call until word adjustments have been made
-      originalArr = adjustForWordBreaks(
+      originalArr = this.adjustForWordBreaks(
         nextLine,
         remainder,
         originalArr,
@@ -303,82 +392,11 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
 
 /////////////
 
-adjustForWordBreaks(
-  frontPart,
-  remainder,
-  originalArr,
-  rowIndex,
-  iteration
-) {
-
-  
-  //return originalArr
-
-
-  //frontpart -->  a a - - - - - 
-  //remainder -->  a   -> put on next line
-
-  
-  alert("1");
-  let consolePad = "  ".repeat(iteration); // console padding for more legible output
-  //.at(-1) lets us access last letter in trimmedLine
-  if (frontPart.at(-1) == "-" || remainder[0] == "-") {
-    //if line ends *without* breaking word (front ends with space, or remainder starts with one)
-    //alert("3")
-    console.log(consolePad, "no word broken on trimmed line");
-    //the front half of that becomes originalArray[rowIndex]
-    originalArr[rowIndex] = frontPart;
-    console.log("frontPart: ", frontPart)
-    console.log("remainder: ", remainder)
-    console.log(consolePad, "replace original array row with trimmed line");
-    
-    //originalArr[rowIndex] = frontPart
-    //originalArr[rowIndex+1] = remainder
-    console.log(consolePad, this.snapshot(originalArr));
-    //if there's anything left over, push it into position 0 of the next row
-    if (remainder.length > 0) {
-      console.log(consolePad, "trimmed line had remainder afterwards");
-      console.log(consolePad, remainder);
-      console.log(
-        consolePad,
-        "!! Recursive call from level ",
-        iteration,
-        " to level",
-        iteration + 1,
-        " !!"
-      );
-
-
-      //insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) 
-        
-      let trythisinsertedArray ="X"
-      console.log("1!: ", originalArr)
-      console.log("2!: ",remainder)
-      console.log("3!:", rowIndex)
-      //make the recursive call to add the remainder to the next line
-      originalArr = this.insertClean(false,originalArr, remainder, rowIndex + 1, 0);
-      console.log(consolePad, "!! Return to iteration", iteration, "!!");
-      console.log(consolePad, "array after inserting remainder:");
-      console.log(consolePad, this.snapshot(originalArr));
-      console.log("What about this?: ", originalArr)
-      return originalArr;
-    }
-
-
-  } else {
-
-  
-
-    //seperateOnRightBoundry(originalArr, rowIndex, colIndex)
-
-  }
-
-}
 
 
 seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 {
-  alert("got here, huh.a");
+  //alert("got here, huh.a");
   return
  
   console.log("oa4: ",originalArr)
@@ -387,7 +405,7 @@ seperateOnRightBoundry(originalArr, rowIndex, colIndex)
   //check for word caused by word being across boundries
 if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !== "-")){
   
-  alert("is here")
+  //alert("is here")
   
 
   //let consolePad = "  ".repeat(iteration); // console padding for more legible output  
