@@ -80,7 +80,7 @@ function adjustForWordBreaks(
       " !!"
     );
     //make the recursive call to add the new remainder to the next line
-    originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, 0);
+    originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, colIndex);
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
     console.log(
       consolePad,
