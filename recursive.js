@@ -134,7 +134,7 @@ adjustForWordBreaks(
     console.log(consolePad, this.snapshot(originalArr));
     
 
-    seperateOnRightBoundry(originalArr, rowIndex, colIndex)
+    originalArr = seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 
     return originalArr;
   }
@@ -356,18 +356,7 @@ const val = "X"
   return originalArr;
 }
 
-  //console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
-  //console.log(consolePad, this.snapshot(originalArr));
-  //console.log(consolePad, "-------------");
   
-  /////this.seperateOnRightBoundry(originalArr, insertedArr, rowIndex, colIndex);
-  
-  //return originalArr;
-
-
-//}
-
-
 //insert into a clean duplicate bc it's nicer
 insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) 
 {
