@@ -70,7 +70,7 @@ seperateOnRightBoundry(originalArr, rowIndex, colIndex)
   //check for word caused by word being across boundries
 if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !== "-")){
   
-  //alert("is here")
+  alert("is here - sep fucntion")
   
 
   //let consolePad = "  ".repeat(iteration); // console padding for more legible output  
@@ -129,8 +129,10 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
     console.log(consolePad, this.snapshot(originalArr));
 
     /////////
-    return originalArr;
-  }
+}
+originalArr[0][0] = "Z"
+return originalArr;
+  
 }
 
 
@@ -208,9 +210,9 @@ adjustForWordBreaks(
     console.log(this.snapshot(originalArr));
     
 
-    //originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
+    originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 
-    originalArr[0][0] = "Z"
+    
     return originalArr;
   }
 
@@ -373,8 +375,8 @@ const val = "X"
 
       //a word has been broken:
       //is here
-      /*
-      alert("adjust1")
+      
+      //alert("adjust1")
       originalArr = this.adjustForWordBreaks(
         trimmedLine,
         remainder,
@@ -383,7 +385,7 @@ const val = "X"
         colIndex,
         innerCounter
       );
-      */
+      
 
         }
       }  // ...looks likr here ends herte
@@ -423,7 +425,7 @@ const val = "X"
       console.log(consolePad, remainder);
       //can't make the final recursive call until word adjustments have been made
       
-      /*
+      
       alert("adjust2")
       originalArr = this.adjustForWordBreaks(
         nextLine,
@@ -433,7 +435,7 @@ const val = "X"
         colIndex,
         innerCounter
       );
-      */
+      
     }
   }
 
@@ -444,14 +446,14 @@ const val = "X"
   this.testcounter++
 
   
-  originalArr = this.adjustForWordBreaks(
-    nextLine,
-    remainder,
-    originalArr,
-    rowIndex,
-    colIndex,
-    //innerCounter
-  );
+ // originalArr = this.adjustForWordBreaks(
+ //   nextLine,
+ //   remainder,
+ //   originalArr,
+ //   rowIndex,
+ //   colIndex,
+ //  //innerCounter
+  //);
 
   //alert("put here");
   console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
