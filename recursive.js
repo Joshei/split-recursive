@@ -10,6 +10,7 @@ class RecursiveClass{
     this.initialRow = 0;
     this.initialColumn = 0;
     this.mapCounter = 0
+    this.testcounter = 0
     //this.rowIndexChanged = false
 
 //this.nestedArray = [
@@ -56,6 +57,82 @@ splitAtIndex(arr, index) {
 
   /////////
 
+  
+seperateOnRightBoundry(originalArr, rowIndex, colIndex)
+{
+  //alert("got here, huh.a");
+  //return
+ 
+  alert("seperate function")
+  console.log("oa4: ",originalArr)
+  console.log("ci: ", colIndex)
+
+  //check for word caused by word being across boundries
+if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !== "-")){
+  
+  //alert("is here")
+  
+
+  //let consolePad = "  ".repeat(iteration); // console padding for more legible output  
+  let targetRow = originalArr[colIndex];
+  console.log("-targetRow: ", targetRow)
+  console.log("-in here")
+  //no backpiece
+  let [frontPiece, backPiece] = this.splitAtIndex(targetRow, WIDTH-1);
+  console.log("frontpiece1: ", frontPiece)
+  console.log("backPiece1:", backPiece)
+  //     -1
+  //2
+  let lastSpaceIndex = frontPiece.lastIndexOf("-") ;
+
+  lastSpaceIndex =lastSpaceIndex + 1
+  if(lastSpaceIndex == 0){
+    lastSpaceIndex = 7
+  }
+  console.log("lastSpaceIndex: ", lastSpaceIndex)
+  
+  //   backPiece2 = "aaa"  // is on first row 
+  let [frontPiece2, backPiece2] = this.splitAtIndex(frontPiece, lastSpaceIndex);
+
+  console.log("frontpiece2: ", frontPiece2)
+  console.log("backPiece2: ", backPiece2)
+  
+  let combinedArr = [...frontPiece2 , ...originalArr[colIndex+1]];
+
+  let [frontPiece3, backPiece3] = this.splitAtIndex(combinedArr, lastSpaceIndex);
+
+  console.log("frontpiece3: ", frontPiece3)
+  console.log("backPiece3: ", backPiece3)
+  
+
+  
+  
+  let trimmedLine = frontPiece3;
+  let remainder = backPiece3
+
+  //checks row for null and changes to dashes
+  //this.fillNullWithDash(originalArr)
+
+
+    /////////
+
+
+    ////////////
+
+    //originalArr = this.insertClean(false, originalArr, newRemainder, rowIndex + 1, 0);
+    originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, colIndex);
+    console.log(consolePad, "!! Return to iteration", iteration, "!!");
+    console.log(
+      consolePad,
+      "array after inserting remainder with repaired word"
+    );
+    console.log(consolePad, this.snapshot(originalArr));
+
+    /////////
+    return originalArr;
+  }
+}
+
 
   
 adjustForWordBreaks(
@@ -67,7 +144,7 @@ adjustForWordBreaks(
   iteration
 ) {
 
-  
+  alert("adjust");
   //return originalArr
 
 
@@ -134,7 +211,7 @@ adjustForWordBreaks(
     console.log(consolePad, this.snapshot(originalArr));
     
 
-    originalArr = seperateOnRightBoundry(originalArr, rowIndex, colIndex)
+    originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 
     return originalArr;
   }
@@ -295,6 +372,7 @@ const val = "X"
 
       //a word has been broken:
       //is here
+      alert("adjust1")
       originalArr = this.adjustForWordBreaks(
         trimmedLine,
         remainder,
@@ -340,6 +418,7 @@ const val = "X"
       );
       console.log(consolePad, remainder);
       //can't make the final recursive call until word adjustments have been made
+      alert("adjust2")
       originalArr = this.adjustForWordBreaks(
         nextLine,
         remainder,
@@ -350,6 +429,13 @@ const val = "X"
       );
     }
   }
+
+
+  if(this.testcounter === 1){
+  originalArr[0][0] = "z"
+  }
+  this.testcounter++
+  //alert("put here");
   console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
   console.log(consolePad, this.snapshot(originalArr));
   console.log(consolePad, "-------------");
@@ -389,79 +475,6 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
 
 
 
-seperateOnRightBoundry(originalArr, rowIndex, colIndex)
-{
-  //alert("got here, huh.a");
-  //return
- 
-  console.log("oa4: ",originalArr)
-  console.log("ci: ", colIndex)
-
-  //check for word caused by word being across boundries
-if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !== "-")){
-  
-  //alert("is here")
-  
-
-  //let consolePad = "  ".repeat(iteration); // console padding for more legible output  
-  let targetRow = originalArr[colIndex];
-  console.log("-targetRow: ", targetRow)
-  console.log("-in here")
-  //no backpiece
-  let [frontPiece, backPiece] = this.splitAtIndex(targetRow, WIDTH-1);
-  console.log("frontpiece1: ", frontPiece)
-  console.log("backPiece1:", backPiece)
-  //     -1
-  //2
-  let lastSpaceIndex = frontPiece.lastIndexOf("-") ;
-
-  lastSpaceIndex =lastSpaceIndex + 1
-  if(lastSpaceIndex == 0){
-    lastSpaceIndex = 7
-  }
-  console.log("lastSpaceIndex: ", lastSpaceIndex)
-  
-  //   backPiece2 = "aaa"  // is on first row 
-  let [frontPiece2, backPiece2] = this.splitAtIndex(frontPiece, lastSpaceIndex);
-
-  console.log("frontpiece2: ", frontPiece2)
-  console.log("backPiece2: ", backPiece2)
-  
-  let combinedArr = [...frontPiece2 , ...originalArr[colIndex+1]];
-
-  let [frontPiece3, backPiece3] = this.splitAtIndex(combinedArr, lastSpaceIndex);
-
-  console.log("frontpiece3: ", frontPiece3)
-  console.log("backPiece3: ", backPiece3)
-  
-
-  
-  
-  let trimmedLine = frontPiece3;
-  let remainder = backPiece3
-
-  //checks row for null and changes to dashes
-  //this.fillNullWithDash(originalArr)
-
-
-    /////////
-
-
-    ////////////
-
-    //originalArr = this.insertClean(false, originalArr, newRemainder, rowIndex + 1, 0);
-    originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, colIndex);
-    console.log(consolePad, "!! Return to iteration", iteration, "!!");
-    console.log(
-      consolePad,
-      "array after inserting remainder with repaired word"
-    );
-    console.log(consolePad, this.snapshot(originalArr));
-
-    /////////
-    return originalArr;
-  }
-}
 
 
 
