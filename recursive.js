@@ -433,7 +433,7 @@ const val = "X"
         originalArr,
         rowIndex,
         colIndex,
-        //innerCounter
+        //innerCounter 
       );
       
     }
