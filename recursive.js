@@ -140,11 +140,11 @@ adjustForWordBreaks(
   remainder,
   originalArr,
   rowIndex,
-  colIndex,
-  iteration
+  colIndex
+  //iteration
 ) {
 
-  alert("adjust");
+  //alert("adjust");
   //return originalArr
 
 
@@ -155,7 +155,7 @@ adjustForWordBreaks(
   console.log("remainder1: ", remainder)
   
   //alert("1");
-  let consolePad = "  ".repeat(iteration); // console padding for more legible output
+  //let consolePad = "  ".repeat(iteration); // console padding for more legible output
   //.at(-1) lets us access last letter in trimmedLine
   if (frontPart.at(-1) == "-" || remainder[0] == "-") {
     //if line ends *without* breaking word (front ends with space, or remainder starts with one)
@@ -201,18 +201,16 @@ adjustForWordBreaks(
 
   }else{
    
-    alert("not created yet")
-    originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
+    //alert("not created yet")
+    //originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
     //console.log(consolePad, "!! Return to iteration", iteration, "!!");
-    console.log(
-      consolePad,
-      "array after inserting remainder with repaired word"
-    );
-    console.log(consolePad, this.snapshot(originalArr));
+    console.log("array after inserting remainder with repaired word");
+    console.log(this.snapshot(originalArr));
     
 
-    originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
+    //originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 
+    originalArr[0][0] = "Z"
     return originalArr;
   }
 
@@ -221,6 +219,9 @@ adjustForWordBreaks(
 
 insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
 {
+
+let nextLine = ""
+let remainder = ""
 console.log("this should be X: ", insertedArr)
 //if(insertedArr.indexOf("X") !== -1 )
 const val = "X"
@@ -372,6 +373,7 @@ const val = "X"
 
       //a word has been broken:
       //is here
+      /*
       alert("adjust1")
       originalArr = this.adjustForWordBreaks(
         trimmedLine,
@@ -381,6 +383,8 @@ const val = "X"
         colIndex,
         innerCounter
       );
+      */
+
         }
       }  // ...looks likr here ends herte
     } else{
@@ -409,7 +413,7 @@ const val = "X"
       console.log(consolePad, "inserted array is too long, break into lines");
 
       //split inserted line at max col width
-      const [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols );
+      [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols );
       console.log(consolePad, "line to add immediately:");
       console.log(consolePad, nextLine);
       console.log(
@@ -418,6 +422,8 @@ const val = "X"
       );
       console.log(consolePad, remainder);
       //can't make the final recursive call until word adjustments have been made
+      
+      /*
       alert("adjust2")
       originalArr = this.adjustForWordBreaks(
         nextLine,
@@ -427,18 +433,33 @@ const val = "X"
         colIndex,
         innerCounter
       );
+      */
     }
   }
 
 
   if(this.testcounter === 1){
-  originalArr[0][0] = "z"
+  //originalArr[0][0] = "z"
   }
   this.testcounter++
+
+  
+  originalArr = this.adjustForWordBreaks(
+    nextLine,
+    remainder,
+    originalArr,
+    rowIndex,
+    colIndex,
+    //innerCounter
+  );
+
   //alert("put here");
   console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
   console.log(consolePad, this.snapshot(originalArr));
   console.log(consolePad, "-------------");
+
+  
+
   return originalArr;
 }
 
