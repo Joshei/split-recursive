@@ -99,16 +99,14 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[colIndex + 1][0] !==
     //originalArr = this.insertClean(false, originalArr, newRemainder, rowIndex + 1, 0);
     originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, colIndex);
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
-    console.log(
-      consolePad,
-      "array after inserting remainder with repaired word"
-    );
+    console.log(consolePad,  "array after inserting remainder with repaired word");
     console.log(consolePad, this.snapshot(originalArr));
+    originalArr[0][0] = "Z"
+    return originalArr;
 
     /////////
 }
-originalArr[0][0] = "Z"
-return originalArr;
+
   
 }
 
@@ -125,17 +123,10 @@ adjustForWordBreaks(
   //iteration
 ) {
 
-  //alert("adjust");
-  //return originalArr
-
-
-  //frontpart -->  a a - - - - - 
-  //remainder -->  a   -> put on next line
-
   console.log("frontPart1: ", frontPart)
   console.log("remainder1: ", remainder)
   
-  //alert("1");
+  
   //let consolePad = "  ".repeat(iteration); // console padding for more legible output
   //.at(-1) lets us access last letter in trimmedLine
   if (frontPart.at(-1) == "-" || remainder[0] == "-") {
@@ -209,9 +200,9 @@ console.log("this should be X: ", insertedArr)
 const val = "X"
 
 
- //global counter can only ever contain the largest iteration number
+ //global counter can only ever contain the largest iteration number - take heed, this iteration isn't thorough
  //locally declared counter is scoped to *this* iteration of the function
- this.counter++;
+  this.counter++;
   let innerCounter = this.counter; 
   let consolePad = "  ".repeat(innerCounter);
   console.log(consolePad, "-------------");
@@ -231,99 +222,79 @@ const val = "X"
       consolePad,
       "inserting array into an existing row of originalArr"
     );
-    //split the original row at that index into "front" & "back" pieces
-     // a - - - - - -
+   
     console.log("tar: ", targetRow)
     console.log("ci9: ", colIndex);
     
     console.log("insertedArray: ", insertedArr);
 
-
-    if(insertedArr == "-" && rowIndex != this.initialRow){
-      
-      //important piece of code, here!!!!
-      return originalArr
-    }
-
-
+     //split the original row at that index into "front" & "back" pieces
     const [frontPiece, backPiece] = this.splitAtIndex(targetRow, colIndex);
+    
+    //combined with the inserted value which is a single valued array
     let combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
 
     // a - - - - -
     console.log(consolePad, "frontPiece", frontPiece);
     console.log(consolePad, "backpiece", backPiece);
-    
-    
-    //comnined
-    // a a - - - - - a
+   
     console.log("ca9: ", combinedArr);
-
     console.log("1x:", originalArr[0][5])
-     
-
     console.log("ri1: ", rowIndex)
     console.log("ir1: ", this.initialRow)
     console.log("z: ", originalArr[colIndex][rowIndex])
-    //
-    
-    //dont chnage second row
-    
-    //row index reset to innital row
     
     
+    //if this is not from inital key press, than check for a dash (change to nulll value ) on the value of last column 
     if(  rowIndex != this.initialRow && originalArr[6][this.initialRow] === "-"){
 
-     
-      console.log("did get here to abort")
-      console.log("ori99: ", originalArr)
+     //does not do an insert because it is on first row, therefore is just displaye one space to right
      
     }
     else
     {
-     
+      //there isn't a null character on most right position so inserts on the next line
       combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
-      console.log("ori10: ", originalArr)
+      
 
     }
     console.log("ca: ", combinedArr)
-
-   
-
     console.log("cols: ", this.maxCols)
-
     console.log(consolePad, "combined array:");
     console.log(consolePad, combinedArr);
 
-    
-    
-
-    //does combined array have less characters than this maxCols
+    //does combined array have less characters than this maxCols, //the new array fits on one line
     if (combinedArr.length < this.maxCols) {
-      //the new array fits on one line
-      //alert("huh?")
+      
       console.log(consolePad, "new array fits on one line");
       //overwrite insertedArr[rowIndex] with combined array
       originalArr[rowIndex] = combinedArr;
       console.log("ca2: ", combinedArr)
       console.log(consolePad, "after row insertion:", this.snapshot(originalArr));
     
+
+
     //does not fit in the row 
     } else {
       
       //new array too long to fit on one line
       console.log(consolePad, "need to split lines");
       //split the combinedArr to have length of maxCols
+
+
+      //THESE ARE THE VALUES, ASSUMING THESE ARE ALL INDUCED HERE, THEY WILL BE USED CORRECTLY
       const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, this.maxCols );
       console.log(consolePad, "trimmedLine", trimmedLine);
 
-
+      //Used to pass as the next first value
       console.log(consolePad, "remainder", remainder);
      
+
 
       //if line ends *without* breaking word .at -1 lets us access last letter in trimmedLine
       if(trimmedLine.at(-1) == '-' || remainder[0]=='-' ){
         console.log("no word broken on trimmed line")
-          //the front half of that becomes originalArray[rowIndex]
+          
          originalArr[rowIndex] = trimmedLine;
         console.log("replace original array row with trimmed line")
 
@@ -331,33 +302,36 @@ const val = "X"
          //if there's anything left over, push it into position 0 of the next row
          if (remainder.length > 0) {
            console.log("trimmed line had remainder afterwards")
-
            console.log("origianalArr1: ", originalArr)
-           //remainder is 'a'. so pass it in 
            console.log("remainder1: ", remainder);
-           //this.rowIndexChanged = true
+           //put on next line
            originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
            console.log("array after inserting remainder:", originalArr);
            console.log("origianalArr2: ", originalArr)
          }
 
-      ////
-
-
-
-
-        }else{     // this is where word is broken across row
+         // ASSUMPTION:  THIS FUNCTION TAKES IN THE INPUT VALUES AND ASSUMING THEY ARE CORRECT, SHOULD OUTPUT THE NEWLY INSERTED ARRAY
+         // ALSO CHECKS THAT AS ELSE SAYS, DOES NOT FIT IN THE ROW:  (does not fit in the row ) IS COMMENTED    
+         //
+         //  Inputs:
+     
+        }else{ // this is where word is broken across row
+               //  trimmedLine is the line on the left that doesn't include insert array and remainder array  
+               //  remainder - is the array after the inserted value 
+               //  originalarr - is the entire array before the insert
+               //  rowIndex - the value pertaining to the position vertical as index
+               //  colIndex - the position pertaining to the horizontal value as index
 
       
-      
-      //alert("adjust1")
-      originalArr = this.adjustForWordBreaks(
+
+        originalArr = this.adjustForWordBreaks(
+        
         trimmedLine,
         remainder,
         originalArr,
         rowIndex,
         colIndex,
-        //innerCounter
+      
       );
       
 
@@ -368,25 +342,47 @@ const val = "X"
 
 
 
+      //////////////////////////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////////////////////////
 
-    } else{  // this is the end of if target row - there was a row in originalArr
+    } else{  // this is the end of if target row - there was a row in originalArr,
+             // there was no original row at that position 
 
-    //instead, adding a whole new row to the end of originalArr
+
+
+    
+    
+      //instead, adding a whole new row to the end of originalArr
     console.log(
       consolePad,
       "adding inserted array to end of new array by creating a new line"
     );
     
-    if (insertedArr.length <= this.maxCols) {
-      //new row fits on one line
+
+
+
+
+     //if we're adding onto the end of newArray, just push the inserted arr as a new row
+     //the size of the row must not be more with inserted letter added
+     //new row fits on one line
+    
+    //is no row,so just make row equal to the added array (one character) 
+     if (insertedArr.length <= this.maxCols) {
+    //??????????????  
 
       console.log(consolePad, "new inserted row is within width constraints");
-      //if we're adding onto the end of newArray, just push the inserted arr as a new row
-      originalArr.push(insertedArr);
+     //there is no row so just push on to the end of the original array
+      originalArr.push(insertedArr);//???????????
       console.log(consolePad, "original array with new inserted line appended");
       console.log(consolePad, this.snapshot(originalArr));
     } else {//new row is too long to fit on one line
 
+
+
+      //THIS CAN'T HAPPEN WITH THIS PROGRAM BECUASE INSERTEDARR IS ALWAYS ON CHARACTER LENGT 
+      
+      /*
+      //insert array is bigger than maximum amount of columne
       console.log(consolePad, "inserted array is too long, break into lines");
 
       //split inserted line at max col width
@@ -399,21 +395,31 @@ const val = "X"
       );
       console.log(consolePad, remainder);
       //can't make the final recursive call until word adjustments have been made
+      */
+      
+      
+      
       
       
       alert("adjust2")
-      //check to see if the word was to long, if so this will handle it - takes in these values
-      originalArr = this.adjustForWordBreaks(
+      //  check to see if the word was to long, if so this will handle it - takes in these values
+      //  *nextLine - is the array before the value is inserted
+      //  *remainder - is the array after the inserted value 
+      //  *originalarr - is the entire array before the insert
+      //  -rowIndex - the value pertaining to the position vertical as index
+      //  -colIndex - the position pertaining to the horizontal value as index
+        originalArr = this.adjustForWordBreaks(
+        
         nextLine,
         remainder,
         originalArr,
         rowIndex,
         colIndex,
-        //innerCounter 
+       
       );
       
     }
-  }
+  }  // This is the end of no row 
 
 
   if(this.testcounter === 1){
@@ -421,22 +427,10 @@ const val = "X"
   }
   this.testcounter++
 
-  
- // originalArr = this.adjustForWordBreaks(
- //   nextLine,
- //   remainder,
- //   originalArr,
- //   rowIndex,
- //   colIndex,
- //  //innerCounter
-  //);
-
   //alert("put here");
   console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
   console.log(consolePad, this.snapshot(originalArr));
   console.log(consolePad, "-------------");
-
-  
 
   return originalArr;   //function ends here
 }
@@ -446,34 +440,16 @@ const val = "X"
 insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) 
 {
   
-  if(isFromIndex === true){
-  this.initialRow = rowIndex
+  //if(isFromIndex === true){
+  //this.initialRow = rowIndex
   //this.initialColumn = colIndex
-  }
+  //}
 
   
-  //this.rowIndexChanged = false
-
-  //this.initialColumn = colIndex
   let newArray = this.snapshot(originalArray);
   console.log("oa2: ", originalArray)
   return this.insertNewArr(newArray, insertedArray, rowIndex, colIndex);
 }
-
-//let nestedArray = [
-//  ["h", "e", "l", "l", "o"],
-//  ["w", "o", "r", "l", "d"],
-//];
-//console.log(nestedArray);
-
-
-//console.log({nestedArray]);
-
-
-/////////////
-
-
-
 
 
 
@@ -490,10 +466,6 @@ for(let i = 0; i<WIDTH-1 ; i++){
 }
 }
 
-
-
-
-//}
 }
 
 
