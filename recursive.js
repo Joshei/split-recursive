@@ -125,30 +125,44 @@ adjustForWordBreaks(
   //iteration
 ) {
 
-  if(remainder == "-")
+  //if(remainder == "-")
   {
     alert("got remainder to here")
-    console.log("frontPart: ", frontPart)
-    console.log("remainder: ", remainder)
-    console.log("originalArr: ", originalArr)
-    console.log("rowindex: ", rowIndex)
-    console.log("colIndex ", colIndex)
+    console.log("1frontPart: ", frontPart)
+    console.log("1remainder: ", remainder)
+    console.log("1originalArr: ", originalArr)
+    console.log("1rowindex: ", rowIndex)
+    console.log("1colIndex ", colIndex)
 
     //originalArr.push(frontPart)
 
   }
 
-  originalArr[rowIndex] = frontPart;
+  if(rowIndex > 6)
+  {
+
+    rowIndex = 6
+    //return
+  }
+
+// console.log("rowindex: ", rowIndex)
+//
+//  if(originalArr[rowIndex+1][0] === "-")
+//  {
+//    return(originalArr)
+//  }
+
+  //originalArr[rowIndex] = frontPart;
 
  // originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
   
- console.log("originalArr3: ", originalArr)
+ //console.log("originalArr3: ", originalArr)
 
- if(originalArr[0][0] === "-" && originalArr[1][6] === "-"){
+ ///if(originalArr[0][0] === "-" && originalArr[1][6] === "-"){
 
-  alert("well")
+  //alert("well")
 
- }
+ //}
 
  console.log("originalArr2: ", originalArr)
 
@@ -225,8 +239,8 @@ adjustForWordBreaks(
 insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
 {
 
-//let nextLine = ""
-//let remainder = ""
+let nextLine = ""
+let remainder = ""
 console.log("this should be X: ", insertedArr)
 //if(insertedArr.indexOf("X") !== -1 )
 const val = "X"
@@ -247,6 +261,14 @@ const val = "X"
   console.log(consolePad, "row9:", rowIndex, "col", colIndex, ")--");
   let targetRow = originalArr[rowIndex];
 
+  //ale
+  
+  
+  //alert("worked")
+  
+ 
+
+  
   if (targetRow) {
     console.log("tr: ", targetRow)
     //assuming there's a row here already
@@ -266,6 +288,8 @@ const val = "X"
     //combined with the inserted value which is a single valued array
     let combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
 
+    
+
     // a - - - - -
     console.log(consolePad, "frontPiece", frontPiece);
     console.log(consolePad, "backpiece", backPiece);
@@ -277,10 +301,17 @@ const val = "X"
     console.log("z: ", originalArr[colIndex][rowIndex])
     
     
+    
+//    if(originalArr[6][rowIndex] !== "-"){
+//
+//      alert("well2");
+//      return originalArr
+//    }
     //if this is not from inital key press, than check for a dash (change to nulll value ) on the value of last column 
     if(  rowIndex != this.initialRow && originalArr[6][this.initialRow] === "-"){
 
      //does not do an insert because it is on first row, therefore is just displaye one space to right
+     
      
     }
     else
@@ -295,6 +326,7 @@ const val = "X"
     console.log(consolePad, "combined array:");
     console.log(consolePad, combinedArr);
 
+    //alert("z")
     //does combined array have less characters than this maxCols, //the new array fits on one line
     if (combinedArr.length < this.maxCols) {
       
@@ -303,12 +335,15 @@ const val = "X"
       originalArr[rowIndex] = combinedArr;
       console.log("ca2: ", combinedArr)
       console.log(consolePad, "after row insertion:", this.snapshot(originalArr));
-    
+      alert("1");
 
 
     //does not fit in the row 
     } else {
-      
+
+
+      //alert("y")
+      //alert("here33");
       //new array too long to fit on one line
       console.log(consolePad, "need to split lines");
       //split the combinedArr to have length of maxCols
@@ -370,62 +405,78 @@ const val = "X"
          console.log(originalArr)
          //if there's anything left over, push it into position 0 of the next row
          if (remainder.length > 0) {
+          //alert("w");
            console.log("trimmed line had remainder afterwards")
            console.log("origianalArr1: ", originalArr)
            console.log("remainder1: ", remainder);
            //put on next line
-           originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+          originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+           
            console.log("array after inserting remainder:", originalArr);
            console.log("origianalArr2: ", originalArr)
          }
-
+         //alert("a")
          /////////////
-         
+         //////////////////////////////////////////////////////////////////
+         //BOTH BORDER CASES SUPPORTED (DIFFERENT ORDER), CALLS ADJUSRFORWORDBREAKS CORRECTLY
+         //NEWEST PROBLEM, WHEN THERE IS A LETTER ON ROW ZERO COLUMN 6, IT DISAPPEARS WHEN THERE IS AN INSERT LIKE ON ROW 0 COL 3
+         //THIS WAS JUST SOLVED, TRIED ONE TIME AND WORKED. THIS IS WHERE I LEFT OFF (LINE 413:  originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);)
+
+
+         //////////////////////////////////////////////////////////////////
+         if  ( originalArr[rowIndex ][6] !== "-")
+         {
+          
+          //this.insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
+          //return originalArr
+          
+          //alert("d");
+            //originalArr[rowIndex+1][0] = "Z"
+            console.log("12: " , originalArr)
+         }
+
+
          //////////
-      if(rowIndex == 0 )
+      if(rowIndex < 1 )
       {
-      //  rowIndex = rowIndex + 1
+        rowIndex = 1
         return originalArr
       }
 
-      if(rowIndex == 6)
+      if(rowIndex > 5)
       {
-        //rowIndex = rowIndex - 1
+       
+        rowIndex = 5;
         return originalArr
       }
       
 
-      //top
-      console.log("**3: ", originalArr[0][6])
+      console.log("here1: ", originalArr[rowIndex ][6])
 
-      //bottom - works
-      console.log("**4: ", originalArr[rowIndex+1][6])
+      
 
-      // bottom -> x,    top -> w
-      if(originalArr[rowIndex ][0] === "-" || originalArr[rowIndex - 1][6] === "-" ){
-      //if(originalArr[rowIndex ][6] === "-" || originalArr[rowIndex + 1][0] === "-" ){
+      
 
 
-      }
-
-         
-         
-         ////////////
+       ////////////
          
          // ASSUMPTION:  THIS FUNCTION TAKES IN THE INPUT VALUES AND ASSUMING THEY ARE CORRECT, SHOULD OUTPUT THE NEWLY INSERTED ARRAY
          // ALSO CHECKS THAT AS ELSE SAYS, DOES NOT FIT IN THE ROW:  (does not fit in the row ) IS COMMENTED    
          //
          //  Inputs:
      
-        else{ // this is where word is broken across row
-               //  trimmedLine is the line on the left that doesn't include insert array and remainder array  
-               //  remainder - is the array after the inserted value 
-               //  originalarr - is the entire array before the insert
-               //  rowIndex - the value pertaining to the position vertical as index
-               //  colIndex - the position pertaining to the horizontal value as index
+          // this is where word is broken across row
+          //  trimmedLine is the line on the left that doesn't include insert array and remainder array  
+          //  remainder - is the array after the inserted value 
+          //  originalarr - is the entire array before the insert
+          //  rowIndex - the value pertaining to the position vertical as index
+          //  colIndex - the position pertaining to the horizontal value as index
+      //alert("b")
+         if  ( ((originalArr[rowIndex ][6] !== "-" && originalArr[rowIndex - 1 ][0] !== "-" )) || ((originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-" ))){
 
-      
-          alert("+");
+
+        alert("call sep");
+
         originalArr = this.adjustForWordBreaks(
         
         trimmedLine,
@@ -435,9 +486,15 @@ const val = "X"
         colIndex,
       
       );
-      
 
-        }
+
+      }
+
+     
+
+
+      
+        return originalArr
       
       
       }  // ...did not fit in row 
@@ -451,8 +508,9 @@ const val = "X"
              // there was no original row at that position 
 
 
-    alert("wondering")
+    //alert("wondering")
     
+    //return originalArr
     
       //instead, adding a whole new row to the end of originalArr
     //console.log(
@@ -514,6 +572,8 @@ const val = "X"
       //  -rowIndex - the value pertaining to the position vertical as index
       //  -colIndex - the position pertaining to the horizontal value as index
         
+      
+
       /*
       originalArr = this.adjustForWordBreaks(
         
@@ -523,9 +583,12 @@ const val = "X"
         rowIndex,
         colIndex,
        
-      );*/
+      );
       
+    return originalArr
     }
+*/
+
     // This is the end of no row 
 
 
@@ -542,6 +605,7 @@ const val = "X"
   console.log(consolePad, "-------------");
 
   return originalArr;   //function ends here
+}
 }
 
   
@@ -575,8 +639,8 @@ for(let i = 0; i<WIDTH-1 ; i++){
 }
 }
 
-}
 
+}
 
 /* TEST SECTION */
 //console.log({testArr});
