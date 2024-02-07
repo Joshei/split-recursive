@@ -502,7 +502,7 @@ const val = "X"
 
         alert("call sep");
 
-        /*
+        
         originalArr = this.adjustForWordBreaks(
         
         trimmedLine,
@@ -512,7 +512,7 @@ const val = "X"
         colIndex,
       
       );
-*/
+
 
       }
 
