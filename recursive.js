@@ -282,6 +282,11 @@ const val = "X"
     
     console.log("insertedArray: ", insertedArr);
 
+    if(insertedArr == "-"){
+
+      return originalArr
+    }
+
      //split the original row at that index into "front" & "back" pieces
     const [frontPiece, backPiece] = this.splitAtIndex(targetRow, colIndex);
     
@@ -357,6 +362,18 @@ const val = "X"
       console.log(consolePad, "remainder4 ", remainder);
       //remainder[0] = ''
 
+      //is this: originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);  :  a over b causes b to move left once ; without:  correct
+      //without:  right and than left right disappears.  with:  works, to next line 
+      
+
+      //if(originalArr[rowIndex][6] != "-" )
+
+      if(originalArr[rowIndex][6] != "-" && remainder != "-") {
+      originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+      }
+      
+
+    
 
       if(remainder == '-')
       {
@@ -410,8 +427,15 @@ const val = "X"
            console.log("origianalArr1: ", originalArr)
            console.log("remainder1: ", remainder);
            //put on next line
-          originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+          
+          
+           if(originalArr[rowIndex][6]  != "-"){
+           originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+           }
+
            
+
+
            console.log("array after inserting remainder:", originalArr);
            console.log("origianalArr2: ", originalArr)
          }
@@ -451,7 +475,7 @@ const val = "X"
       }
       
 
-      console.log("here1: ", originalArr[rowIndex ][6])
+     
 
       
 
@@ -471,12 +495,14 @@ const val = "X"
           //  originalarr - is the entire array before the insert
           //  rowIndex - the value pertaining to the position vertical as index
           //  colIndex - the position pertaining to the horizontal value as index
-      //alert("b")
-         if  ( ((originalArr[rowIndex ][6] !== "-" && originalArr[rowIndex - 1 ][0] !== "-" )) || ((originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-" ))){
-
+      //alert("b")                                                                                          -1, is second afrgment
+         if  ((originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" )  || (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-" )){
+        
+         console.log("here1: ", originalArr[rowIndex ][6])
 
         alert("call sep");
 
+        /*
         originalArr = this.adjustForWordBreaks(
         
         trimmedLine,
@@ -486,7 +512,7 @@ const val = "X"
         colIndex,
       
       );
-
+*/
 
       }
 
