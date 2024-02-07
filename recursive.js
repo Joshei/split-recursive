@@ -49,12 +49,13 @@ seperateOnRightBoundry(originalArr, rowIndex, colIndex)
   console.log("oa4: ",originalArr)
   console.log("ci: ", colIndex)
 
-  //check for word caused by word being across boundries
-if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[6][rowIndex+1] !== "-")){
-  
-  alert("is here - sep fucntion")
-  
-}/*
+  //ALREADY CHECKED, IS HERE
+//check for word caused by word being across boundries
+//if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[6][rowIndex+1] !== "-")){
+//  
+//  alert("is here - sep fucntion")
+//  
+//}
   //let consolePad = "  ".repeat(iteration); // console padding for more legible output  
   let targetRow = originalArr[row];
   console.log("-targetRow: ", targetRow)
@@ -63,8 +64,9 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[6][rowIndex+1] !== "
   let [frontPiece, backPiece] = this.splitAtIndex(targetRow, WIDTH-1);
   console.log("frontpiece1: ", frontPiece)
   console.log("backPiece1:", backPiece)
-  //     -1
-  //2
+  
+  //    -b---AA
+  
   let lastSpaceIndex = frontPiece.lastIndexOf("-") ;
 
   lastSpaceIndex =lastSpaceIndex + 1
@@ -74,17 +76,31 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[6][rowIndex+1] !== "
   console.log("lastSpaceIndex: ", lastSpaceIndex)
   
   //   backPiece2 = "aaa"  // is on first row 
-  let [frontPiece2, backPiece2] = this.splitAtIndex(frontPiece, lastSpaceIndex);
+
+  //Get backpiece after last dash , this the backpiece, which is the word on top right edge
+  let [TopRowLeft, wordFragmentOnTopRightRow] = this.splitAtIndex(frontPiece, lastSpaceIndex);
 
   console.log("frontpiece2: ", frontPiece2)
-  console.log("backPiece2: ", backPiece2)
+  //console.log("backPiece2: ", backPiece2)
   
-  let combinedArr = [...frontPiece2 , ...originalArr[colIndex+1]];
 
-  let [frontPiece3, backPiece3] = this.splitAtIndex(combinedArr, lastSpaceIndex);
+//now get rigth most piece on row beneath that - this is row with needed peice
+targetRow = originalArr[row+1];
+firstSpaceIndex = frontPiece.indexOf("-") ;
+let [wordFragmentOnNextRowLeft, notneededWord2] = this.splitAtIndex(frontPiece, firstSpaceIndex);
 
-  console.log("frontpiece3: ", frontPiece3)
-  console.log("backPiece3: ", backPiece3)
+ let combinedArrOfWordRightAndLeft = [ ...wordFragmentOnNextRowLeft, ...wordFragmentOnTopRightRow ];
+
+////////////////////////////
+
+//delete top word:
+
+
+ //
+//  let [frontPiece3, backPiece3] = this.splitAtIndex(combinedArr, lastSpaceIndex);
+//
+//  console.log("frontpiece3: ", frontPiece3)
+//  console.log("backPiece3: ", backPiece3)
   
 
   
@@ -103,7 +119,7 @@ if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[6][rowIndex+1] !== "
     console.log(consolePad, this.snapshot(originalArr));
     originalArr[0][0] = "Z"
 
-    */
+    
     return originalArr;
 
     /////////
@@ -154,7 +170,7 @@ adjustForWordBreaks(
 
   //originalArr[rowIndex] = frontPart;
 
- // originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
+  originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
   
  //console.log("originalArr3: ", originalArr)
 
