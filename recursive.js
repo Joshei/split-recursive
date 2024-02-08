@@ -48,79 +48,62 @@ seperateOnRightBoundry(originalArr, rowIndex, colIndex)
   alert("seperate function")
   console.log("oa4: ",originalArr)
   console.log("ci: ", colIndex)
-
-  //ALREADY CHECKED, IS HERE
-//check for word caused by word being across boundries
-//if((originalArr[colIndex][WIDTH-1] !== "-") && (originalArr[6][rowIndex+1] !== "-")){
-//  
-//  alert("is here - sep fucntion")
-//  
-//}
-  //let consolePad = "  ".repeat(iteration); // console padding for more legible output  
-  let targetRow = originalArr[row];
+ 
+  let targetRow = originalArr[rowIndex-1];
   console.log("-targetRow: ", targetRow)
   console.log("-in here")
-  //no backpiece
-  let [frontPiece, backPiece] = this.splitAtIndex(targetRow, WIDTH-1);
-  console.log("frontpiece1: ", frontPiece)
-  console.log("backPiece1:", backPiece)
+  //no backpiece   a a - - - - -
+  let [notUsed, rightSide] = this.splitAtIndex(targetRow, 0);
+  //console.log("frontpiece1: ", frontPiece)
+  //console.log("backPiece1:", backPieceNotUsed)
   
   //    -b---AA
   
-  let lastSpaceIndex = frontPiece.lastIndexOf("-") ;
+  let lastSpaceIndex = rightSide.lastIndexOf("-") ;
 
   lastSpaceIndex =lastSpaceIndex + 1
-  if(lastSpaceIndex == 0){
-    lastSpaceIndex = 7
+  if(lastSpaceIndex > 6){
+  lastSpaceIndex = 6
   }
-  console.log("lastSpaceIndex: ", lastSpaceIndex)
-  
-  //   backPiece2 = "aaa"  // is on first row 
 
-  //Get backpiece after last dash , this the backpiece, which is the word on top right edge
-  let [TopRowLeft, wordFragmentOnTopRightRow] = this.splitAtIndex(frontPiece, lastSpaceIndex);
-
-  console.log("frontpiece2: ", frontPiece2)
-  //console.log("backPiece2: ", backPiece2)
-  
-
-//now get rigth most piece on row beneath that - this is row with needed peice
-targetRow = originalArr[row+1];
-firstSpaceIndex = frontPiece.indexOf("-") ;
-let [wordFragmentOnNextRowLeft, notneededWord2] = this.splitAtIndex(frontPiece, firstSpaceIndex);
-
- let combinedArrOfWordRightAndLeft = [ ...wordFragmentOnNextRowLeft, ...wordFragmentOnTopRightRow ];
-
-////////////////////////////
-
-//delete top word:
-
-
- //
-//  let [frontPiece3, backPiece3] = this.splitAtIndex(combinedArr, lastSpaceIndex);
-//
-//  console.log("frontpiece3: ", frontPiece3)
-//  console.log("backPiece3: ", backPiece3)
-  
+  let [notneededWord2, wordFragmentFromRowRight] = this.splitAtIndex(rightSide, lastSpaceIndex);
 
   
-  
-  let trimmedLine = frontPiece3;
-  let remainder = backPiece3
+  ///////////////////////////
 
+
+
+
+//now get following row with left word
+//  a a - - - - 
+targetRow = originalArr[rowIndex];
+let [leftSide, notused] = this.splitAtIndex(targetRow, 7);
+let firstSpaceIndex = leftSide.indexOf("-") ;
+let [wordFragmentFromRowLeft, wordLeftOnRow2] = this.splitAtIndex(leftSide, firstSpaceIndex);
+///////////////////////
+
+let combinedFullWord = [...wordFragmentFromRowLeft , ...wordFragmentFromRowRight, ...wordLeftOnRow2 ]
+let [trimmedLeft, remainder] =  this.splitAtIndex(combinedFullWord, WIDTH );
+
+originalArr[rowIndex] = trimmedLeft
+
+originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
+//console.log(consolePad, "!! Return to iteration", iteration, "!!");
+//console.log(consolePad,  "array after inserting remainder with repaired word");
+console.log(this.snapshot(originalArr));
+console.log("ina: ", originalArr)
+
+let whereToDrawOverWithDashes = lastSpaceIndex;
+
+console.log({whereToDrawOverWithDashes})
  
-  //this.fillNullWithDash(originalArr)
+  for(let i = whereToDrawOverWithDashes; i< WIDTH; i++ )
+  {
+   
+      originalArr[rowIndex - 1][i] = "-"
+  }
 
-
-    //originalArr = this.insertClean(false, originalArr, newRemainder, rowIndex + 1, 0);
-    originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, colIndex);
-    console.log(consolePad, "!! Return to iteration", iteration, "!!");
-    console.log(consolePad,  "array after inserting remainder with repaired word");
-    console.log(consolePad, this.snapshot(originalArr));
-    originalArr[0][0] = "Z"
-
-    
-    return originalArr;
+return originalArr;
 
     /////////
 }
@@ -170,7 +153,10 @@ adjustForWordBreaks(
 
   //originalArr[rowIndex] = frontPart;
 
+  alert("is here");
+  console.log("sorb: ", originalArr)
   originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
+  console.log("sorb: ", originalArr)
   
  //console.log("originalArr3: ", originalArr)
 
@@ -319,7 +305,7 @@ const val = "X"
     console.log("1x:", originalArr[0][5])
     console.log("ri1: ", rowIndex)
     console.log("ir1: ", this.initialRow)
-    console.log("z: ", originalArr[colIndex][rowIndex])
+    console.log("z: ", originalArr)
     
     
     
@@ -355,7 +341,7 @@ const val = "X"
       //overwrite insertedArr[rowIndex] with combined array
       originalArr[rowIndex] = combinedArr;
       console.log("ca2: ", combinedArr)
-      console.log(consolePad, "after row insertion:", this.snapshot(originalArr));
+      //console.log(consolePad, "after row insertion:", this.snapshot(originalArr));
       alert("1");
 
 
