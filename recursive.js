@@ -118,9 +118,19 @@ splitAtIndex(arr, index) {
     /////////
 }
 
+passInHere( bool, originalArr, x, y)
+{
+  
+  originalArr = Recursive.insertClean(bool, originalArr, ["x", "y", "-", "d", "z", "l", "m", "n", "-", "p", "q"], y, x )
+ 
+  return originalArr
 
+}
 seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 {
+       
+
+  return originalArr
   
   this.flag++
 
@@ -134,7 +144,6 @@ seperateOnRightBoundry(originalArr, rowIndex, colIndex)
  
   let targetRow = originalArr[rowIndex];
   console.log("-targetRow: ", targetRow)
-  console.log("-in here")
   //no backpiece   a a - - - - -
   let [notUsed, rightSide] = this.splitAtIndex(targetRow, 0);
 
@@ -334,13 +343,99 @@ for (let i = firstPosition; i < firstPosition + amtOfDashes; i ++)
 }
 
   
+///////////
 
-
-
-
-
-  
 adjustForWordBreaks(
+  frontPart,
+  remainder,
+  originalArr,
+  rowIndex,
+  colIndex
+  //iteration
+) {
+  
+  alert("adjustforwordbreak");
+  let iteration = 1
+  let consolePad = "  ".repeat(iteration); // console padding for more legible output
+  //.at(-1) lets us access last letter in trimmedLine
+  if (false){ //frontPart.at(-1) == "-" || remainder[0] == "-") {
+    //if line ends *without* breaking word (front ends with space, or remainder starts with one)
+
+    console.log("remainder3: ", remainder)
+    console.log("frontPart3: ", frontPart)
+    console.log(consolePad, "no word broken on trimmed line");
+    //the front half of that becomes originalArray[rowIndex]
+    originalArr[rowIndex] = frontPart;
+    console.log(consolePad, "replace original array row with trimmed line");
+    console.log(consolePad, this.snapshot(originalArr));
+    //if there's anything left over, push it into position 0 of the next row
+    if (remainder.length > 0) {
+      console.log(consolePad, "trimmed line had remainder afterwards");
+      console.log(consolePad, remainder);
+      console.log(
+        consolePad,
+        "!! Recursive call from level ",
+        iteration,
+        " to level",
+        iteration + 1,
+        " !!"
+      );
+      //make the recursive call to add the remainder to the next line
+      originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
+      console.log(consolePad, "!! Return to iteration", iteration, "!!");
+      console.log(consolePad, "array after inserting remainder:");
+      console.log(consolePad, this.snapshot(originalArr));
+
+      console.log("adjust1: ", originalArr)
+      return originalArr;
+    }
+  } else {
+    // a word has been broken
+    console.log(consolePad, "a word was broken in the line break");
+    //find last index of space in frontPart
+    console.log(consolePad, "line to break up:");
+    console.log(consolePad, frontPart);
+    let lastSpaceIndex = frontPart.lastIndexOf("-");
+    console.log(consolePad, "space index", lastSpaceIndex);
+    //split frontPart at space index
+    let [trimmedLeft, wordPart] = this.splitAtIndex(frontPart, lastSpaceIndex);
+    console.log(consolePad, "trimmed line split at word break:", trimmedLeft);
+    console.log(consolePad, "partial word:", wordPart);
+    //replace original row with the word-excluded part of the line
+    originalArr[rowIndex] = trimmedLeft;
+    console.log(
+      consolePad,
+      "replace original row with trimmed left part of line"
+    );
+    console.log(consolePad, this.snapshot(originalArr));
+    //take word fragment, tack it to the beginning of "remainder" array
+    let newRemainder = [...wordPart, ...remainder];
+    console.log(consolePad, "added word part to remainder");
+    console.log(consolePad, newRemainder);
+    console.log(
+      consolePad,
+      "!! Recursive call from level ",
+      iteration,
+      " to level",
+      iteration + 1,
+      " !!"
+    );
+    //make the recursive call to add the new remainder to the next line
+    originalArr = this.insertClean(false,originalArr, newRemainder, rowIndex + 1, colIndex);
+    console.log(consolePad, "!! Return to iteration", iteration, "!!");
+    console.log(
+      consolePad,
+      "array after inserting remainder with repaired word"
+    );
+    console.log(consolePad, this.snapshot(originalArr));
+    console.log("adjust2: ", originalArr)
+    return originalArr;
+  }
+}
+
+//////////
+  
+adjustForWordBreaks2(
   frontPart,
   remainder,
   originalArr,
@@ -872,9 +967,9 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
   }
 
   
-  let newArray = this.snapshot(originalArray);
+  let newArray2 = this.snapshot(originalArray);
   console.log("oa2: ", originalArray)
-  return this.insertNewArr(newArray, insertedArray, rowIndex, colIndex);
+  return this.insertNewArr(newArray2, insertedArray, rowIndex, colIndex);
 }
 
 
@@ -895,7 +990,24 @@ for(let i = 0; i<WIDTH-1 ; i++){
 
 }
 
-/* TEST SECTION */
+
+//testArray()
+//{
+//console.log({testArr});
+
+/*
+testArr = this.insertClean(
+  true,
+  this.nestedArray,
+  ["x", "y", "z", "-", "l", "m", "n", "-", "p", "q"],
+  0,
+  6
+
+
+}
+
+*/
+/* TEST SECTION
 //console.log({testArr});
 //testArr = this.insertClean(
 //  this.nestedArray,
@@ -906,4 +1018,4 @@ for(let i = 0; i<WIDTH-1 ; i++){
 
 //console.log("insert [x,y,z,'-',l,m,n,o,p] at [0][2]");
 //console.log({testArr});
-
+*/
