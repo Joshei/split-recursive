@@ -158,7 +158,7 @@ seperateOnRightBoundry(originalArr, rowIndex, colIndex)
   
 
   
-  ///////////////////////////
+  ///////////////////////////  LET'S TRY INSERTING COMBINEDARRAY  INTO INSERT FUNCTION
 
 
 
@@ -252,6 +252,9 @@ console.log("w3: ", wordLeftOnRow2)
 console.log("w4: ", combinedFullWord)
 
 
+
+////////////change this to width - 1 
+
 let [trimmedLeft, remainder] =  this.splitAtIndex(combinedFullWord, combinedFullWord.length );
 for(let i = 0; i< WIDTH ; i++){
   
@@ -261,23 +264,47 @@ for(let i = 0; i< WIDTH ; i++){
   originalArr[rowIndex-1][i] = "-"
 }
 
+console.log("trimmed: ", trimmedLeft)
 originalArr[rowIndex + 1] = trimmedLeft
+
+
+//trimmedLeft = [[  "q", "w", "+", "+", "+", "+", "+", "a"],]
+//remainder = [["1", "1","1","1","1" ],]
+//originalArr.splice(3,0, combinedFullWord)
+//console.log("splice: ", originalArr)
+
+
+
+///////////////////
+
+
+//try inserting trimmedleft
+
+
+
+///////////////////
 
 console.log("trimmed: ", trimmedLeft)
 console.log("reminader: ", remainder)
 //trimmedLeft[5] = "Z" 
 
 let lengthOfTrim = trimmedLeft.length
-
+/*
 for(let i = lengthOfTrim; i< WIDTH ; i++){
   
   //originalArr[rowIndex][i] = "Z"
-  originalArr[rowIndex+1][i] = "-"
+  originalArr[rowIndex][i] = "A"
+}
+*/
+for(let i = lengthOfTrim; i< WIDTH ; i++){
+  
+  //originalArr[rowIndex][i] = "Z"
+  originalArr[rowIndex+1][i] = "B"
 }
 
 
 
-//originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
+//originalArr = this.insertClean(false, originalArr, trimmedLeft, rowIndex + 1, 0);
 
 //console.log(consolePad, "!! Return to iteration", iteration, "!!");
 //console.log(consolePad,  "array after inserting remainder with repaired word");
