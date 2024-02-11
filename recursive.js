@@ -11,6 +11,7 @@ class RecursiveClass{
     this.initialColumn = 0;
     this.mapCounter = 0
     this.testcounter = 0
+    this.flag = 0
    
   }
 
@@ -41,19 +42,104 @@ splitAtIndex(arr, index) {
   }
 
  
+  // 0 1 2 3 4 5
+  // 1 2 3 4 5
+ 
+  insertLetterEveryRow(originalArr)
+  {
+
+
+    console.log("origArray1: ", originalArr);
+
+
+   
+
+    //originalArr.pop();
+    //function shiftRight(){
+      //originalArr.forEach(function(v){
+      //  v.pop();
+      //  v.unshift(null);
+      //}//)
+
+
+      console.log("origArray2a: ", originalArr);
+
+
+    //}
+
+    
+    let tempHolderStartsAtOne = [["A"],]
+
+    let i = 0
+    let j = 0
+
+    //i is y
+    swappedOrigArray = JSON.parse(JSON.stringify(originalArr))
+    for(let j = 0; j < 6; j++){
+ 
+      for(let i = 0 ; i < 6; i++){
+        swappedOrigArray[i][j] = "-"
+    }
+  }
+
+
+    for(let j = 0; j < 6; j++){
+ 
+  for(let i = 0 ; i < 6; i++)
+ // for(let j = 0; j < 5; j++)
+   {
+
+    
+      //tempHolderStartsAtOne[i][j] = originalArr[i+1][j]
+
+      //let value1 = originalArr[j+1][i]
+      //swappedOrigArray[j][i] = value1
+
+      let value1 = originalArr[i][j+1]
+      swappedOrigArray[i][j] = value1
+ 
+    }
+  
+    
+  
+  }
+
+  console.log("swapped: ", swappedOrigArray)
+
+  originalArr = JSON.parse(JSON.stringify(swappedOrigArray))
+  //originalArr = snappedOrigArray
+  //console.log("tempholder: ", tempHolderStartsAtOne);
+  //originalArr = tempHolder
+
+  console.log("origArray2: ", originalArr);
+
+  return originalArr;
+
+    /////////
+}
+
+
 seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 {
   
+  this.flag++
+
+  if(this.flag >= 2){
+    //return originalArr
+  }
  
   alert("seperate function")
   console.log("oa4: ",originalArr)
   console.log("ci: ", colIndex)
  
-  let targetRow = originalArr[rowIndex-1];
+  let targetRow = originalArr[rowIndex];
   console.log("-targetRow: ", targetRow)
   console.log("-in here")
   //no backpiece   a a - - - - -
   let [notUsed, rightSide] = this.splitAtIndex(targetRow, 0);
+
+  console.log("ni: ", notUsed)
+  console.log("rs: ", rightSide)
   //console.log("frontpiece1: ", frontPiece)
   //console.log("backPiece1:", backPieceNotUsed)
   
@@ -68,6 +154,9 @@ seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 
   let [notneededWord2, wordFragmentFromRowRight] = this.splitAtIndex(rightSide, lastSpaceIndex);
 
+
+  
+
   
   ///////////////////////////
 
@@ -76,36 +165,145 @@ seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 
 //now get following row with left word
 //  a a - - - - 
-targetRow = originalArr[rowIndex];
-let [leftSide, notused] = this.splitAtIndex(targetRow, 7);
+targetRow = originalArr[rowIndex+1];
+let [notused, leftSide] = this.splitAtIndex(targetRow, 0);
+
+console.log("1z: ", rowIndex)
+console.log("2z: ", colIndex)
+
+
 let firstSpaceIndex = leftSide.indexOf("-") ;
-let [wordFragmentFromRowLeft, wordLeftOnRow2] = this.splitAtIndex(leftSide, firstSpaceIndex);
+let [   wordFragmentFromRowLeft , wordLeftOnRow2] = this.splitAtIndex(leftSide, firstSpaceIndex);
 ///////////////////////
 
-let combinedFullWord = [...wordFragmentFromRowLeft , ...wordFragmentFromRowRight, ...wordLeftOnRow2 ]
-let [trimmedLeft, remainder] =  this.splitAtIndex(combinedFullWord, WIDTH );
+let forceDash = {}
+forceDash = ["Q"]
 
-originalArr[rowIndex] = trimmedLeft
+//let length = wordFragmentFromRowLeft.length +  wordFragmentFromRowRight;
 
-originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
+//if (length > WIDTH - )
+
+
+
+//if lrngth of w3 makes 3 arrays bigger than width do not include wordleftonrow2
+
+let letters = wordFragmentFromRowLeft.length + wordFragmentFromRowRight.length
+
+let leftover = wordLeftOnRow2.length
+
+let combinedFullWord = ""
+let newArray = {}
+
+/*
+console.log("letters: ", letters)
+console.log("leftover: ", leftover)
+console.log("wordleft: ", wordLeftOnRow2);
+
+
+let counterOfDashes = 0;
+
+
+console.log("counter: ", counterOfDashes)
+
+counterOfDashes = 3;//counterOfDashes;
+console.log("counterdashes: ", counterOfDashes)
+
+let newArray = {}
+for(let i = 0; i < WIDTH ; i++)
+{
+  //newArray[i] = "-"
+}
+
+// a a a
+newArray = wordFragmentFromRowLeft.slice(-3)
+console.log("na11: ", newArray[5])
+
+for(let i = 0; i < WIDTH ; i++){
+
+  console.log("newArray: ", newArray[i])
+   if (newArray[i] === undefined)
+   {
+    newArray[i] = "-"
+     }
+}
+console.log("isit: ", newArray)
+
+for(let i = 0; i < WIDTH ;i++)
+{
+originalArr[rowIndex][i] = "-"
+
+}
+alert("here again?");
+
+console.log("1q: ", rowIndex)
+console.log("2q: ", colIndex)
+
+//newArray[6] = "Z"
+*/
+
+console.log("mewarrayt: ", newArray);
+
+//combinedFullWord = [...wordFragmentFromRowRight, ...wordFragmentFromRowLeft , ...newArray]
+combinedFullWord = [...wordFragmentFromRowRight, ...wordFragmentFromRowLeft]
+
+console.log("wl: ", wordFragmentFromRowLeft)
+console.log("w2: ", wordFragmentFromRowRight)
+console.log("w3: ", wordLeftOnRow2)
+console.log("w4: ", combinedFullWord)
+
+
+let [trimmedLeft, remainder] =  this.splitAtIndex(combinedFullWord, combinedFullWord.length );
+for(let i = 0; i< WIDTH ; i++){
+  
+  originalArr[rowIndex][i] = "-"
+  
+  //temporary set for inserts over another row (At most two, obviously)
+  originalArr[rowIndex-1][i] = "-"
+}
+
+originalArr[rowIndex + 1] = trimmedLeft
+
+console.log("trimmed: ", trimmedLeft)
+console.log("reminader: ", remainder)
+//trimmedLeft[5] = "Z" 
+
+let lengthOfTrim = trimmedLeft.length
+
+for(let i = lengthOfTrim; i< WIDTH ; i++){
+  
+  //originalArr[rowIndex][i] = "Z"
+  originalArr[rowIndex+1][i] = "-"
+}
+
+
+
+//originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
+
 //console.log(consolePad, "!! Return to iteration", iteration, "!!");
 //console.log(consolePad,  "array after inserting remainder with repaired word");
+
+/*
 console.log(this.snapshot(originalArr));
 console.log("ina: ", originalArr)
+*/
 
-let whereToDrawOverWithDashes = lastSpaceIndex;
 
-console.log({whereToDrawOverWithDashes})
+/*
+let amtOfDashes = wordFragmentFromRowRight.length
+
+
+let firstPosition = (firstPosition * WIDTH  - 1) - amtOfDashes 
+
+for (let i = firstPosition; i < firstPosition + amtOfDashes; i ++)
+{
+
+}
+  //////
+*/
+  return originalArr
+  
  
-  for(let i = whereToDrawOverWithDashes; i< WIDTH; i++ )
-  {
-   
-      originalArr[rowIndex - 1][i] = "-"
-  }
 
-return originalArr;
-
-    /////////
 }
 
   
