@@ -1,3 +1,5 @@
+<script>
+
 const maxCols = 7;
 let counter = 0;
 function splitAtIndex(arr, index) {
@@ -80,7 +82,8 @@ function adjustForWordBreaks(
       " !!"
     );
     //make the recursive call to add the new remainder to the next line
-    originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, colIndex);
+    //originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, colIndex);
+    originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, 0);
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
     console.log(
       consolePad,
@@ -210,8 +213,10 @@ function insertClean(originalArray, insertedArray, rowIndex, colIndex) {
 console.log("insert [x,y,z,'-',l,m,n,o,p] at [0][2]");
 const testArr = insertClean(
   nestedArray,
-  ["x", "y", "z", "-", "l", "m", "n", "-", "p", "q"],
+  ["x", "y", "z", "a", "l", "m", "n", "g", "p", "q"],
   0,
   2
 );
-console.log(testArr);
+console.log("test: ", testArr);
+
+</script>

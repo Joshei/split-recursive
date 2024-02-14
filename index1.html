@@ -234,12 +234,15 @@
   
 ];
 */
-
+        let key = "Z"
+        
         //gKey = "Z"
         console.log("nested array1: ", nestedArray);
-        //nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
-        //nestedArray = Recursive.insertClean(true, nestedArray, ["x", "y", "z", "-", "l", "m", "n", "t", "p", "q"], verticalCursorPosition/10, horizontalCursorPosition/5 )
-        nestedArray = Recursive.passInHere(true, nestedArray, [""], verticalCursorPosition/10, horizontalCursorPosition/5 )
+        //nestedArray = Recursive.insertClean(true, nestedArray, [gKey, gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
+        nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
+        //nestedArray = Recursive.insertClean(true, nestedArray, ["1", "a","x", "a", "x", "a","x","2", "a","x","x", "a","x","x", "3","a", "x","x", "a","x","z"], verticalCursorPosition/10, horizontalCursorPosition/5 )
+        
+        //nestedArray = Recursive.passInHere(true, nestedArray,key, verticalCursorPosition/10, horizontalCursorPosition/5 )
         console.log("nested array2: ", nestedArray);
         
         

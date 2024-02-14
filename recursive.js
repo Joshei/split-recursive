@@ -1,6 +1,9 @@
 
 
 
+//after insert, check entire field for words that cross boundries, if found a crossover
+//move that text to start at that border and than goto top and do 
+
 
 class RecursiveClass{
   constructor() {
@@ -14,6 +17,37 @@ class RecursiveClass{
     this.flag = 0
    
   }
+
+  fillMovedWordWithDash(rowIndex , arrayToChange, startingIndexRow)
+{
+   
+for(let i = startingIndexRow; i< WIDTH; i++){
+  
+  if (arrayToChange[rowIndex-1 ][i] !== '-')
+  
+  {
+   
+    arrayToChange[rowIndex-1 ][i] = '-'
+  }
+}
+}
+
+
+
+fillNullWithDashOnRow(RowIndex ,arrayToChange)
+{
+  
+for(let i = 0 ; i < WIDTH ; i++){
+  console.log("tl: ", arrayToChange[i])
+  if (arrayToChange[RowIndex][i] === undefined)
+  {
+    //alert("here");
+    arrayToChange[RowIndex][i] = '-'
+  }
+}
+}
+
+
 
   
 snapshot(original) 
@@ -118,14 +152,18 @@ splitAtIndex(arr, index) {
     /////////
 }
 
-passInHere( bool, originalArr, x, y)
+passInHere( bool, originalArr, key,  x, y)
 {
   
-  originalArr = Recursive.insertClean(bool, originalArr, ["x", "y", "-", "d", "z", "l", "m", "n", "-", "p", "q"], y, x )
+  originalArr = Recursive.insertClean(bool, originalArr, "Z", y, x )
+  
  
+
+
   return originalArr
 
 }
+
 seperateOnRightBoundry(originalArr, rowIndex, colIndex)
 {
        
@@ -354,11 +392,13 @@ adjustForWordBreaks(
   //iteration
 ) {
   
+
+  //return originalArr
   alert("adjustforwordbreak");
   let iteration = 1
   let consolePad = "  ".repeat(iteration); // console padding for more legible output
   //.at(-1) lets us access last letter in trimmedLine
-  if (false){ //frontPart.at(-1) == "-" || remainder[0] == "-") {
+  if (false){//frontPart.at(-1) == "-" || remainder[0] == "-") {
     //if line ends *without* breaking word (front ends with space, or remainder starts with one)
 
     console.log("remainder3: ", remainder)
@@ -390,38 +430,88 @@ adjustForWordBreaks(
       return originalArr;
     }
   } else {
+    
+    //if (first character and last character of the row are non dash)
+    //insertarr
+
+    if(originalArr[rowIndex][0] != "-" && originalArr[rowIndex][6] != "-")
+    {
+      //this.insertNewArr(originalArr, wordPart1, rowIndex+1, 0)
+    }
+
     // a word has been broken
     console.log(consolePad, "a word was broken in the line break");
     //find last index of space in frontPart
     console.log(consolePad, "line to break up:");
     console.log(consolePad, frontPart);
-    let lastSpaceIndex = frontPart.lastIndexOf("-");
+    let lastSpaceIndex = frontPart.indexOf("-");
     console.log(consolePad, "space index", lastSpaceIndex);
     //split frontPart at space index
-    let [trimmedLeft, wordPart] = this.splitAtIndex(frontPart, lastSpaceIndex);
+    
+    
+    let [wordPart, trimmedLeft] = this.splitAtIndex(frontPart, lastSpaceIndex);
     console.log(consolePad, "trimmed line split at word break:", trimmedLeft);
     console.log(consolePad, "partial word:", wordPart);
     //replace original row with the word-excluded part of the line
-    originalArr[rowIndex] = trimmedLeft;
-    console.log(
-      consolePad,
-      "replace original row with trimmed left part of line"
-    );
-    console.log(consolePad, this.snapshot(originalArr));
-    //take word fragment, tack it to the beginning of "remainder" array
-    let newRemainder = [...wordPart, ...remainder];
-    console.log(consolePad, "added word part to remainder");
-    console.log(consolePad, newRemainder);
-    console.log(
-      consolePad,
-      "!! Recursive call from level ",
-      iteration,
-      " to level",
-      iteration + 1,
-      " !!"
-    );
+
+    
+    
+    let target = originalArr[rowIndex -1]
+    lastSpaceIndex = target.lastIndexOf("-");
+    console.log(consolePad, "space index", lastSpaceIndex);
+    //split frontPart at space index
+    let [trimmedLeft1, wordPart1] = this.splitAtIndex(target, lastSpaceIndex + 1);
+    
+
+    let value = rowIndex;
+    
+    //if(wordPart1.length == WIDTH){
+      if(originalArr[rowIndex-1][0] != "-" && originalArr[rowIndex-1][6] != "-"){
+      //if(originalArr[rowIndex][0] != "-" && originalArr[rowIndex][6] != "-")
+      this.insertNewArr(originalArr, wordPart, rowIndex+1, 0)
+      originalArr[rowIndex] = wordPart1
+      //DELETE/UNINSERT  originalArr[rowIndex - 1] = wordPart1 
+      return originalArr
+    
+    }
+
+   
+
+
+    
+    let totalWord = [...wordPart1, ...wordPart] 
+
+    
+
+    //originalArr[rowIndex] = trimmedLeft;
+
+    //if bottom and top words are over 7 move row + 1 down before moving first row
+
+    if((wordPart.length + wordPart1.length > 7))
+    {
+      alert("lower the word with last letters on next line");
+    }
+    originalArr[rowIndex] = [...totalWord]
+
+
+    
+    //let newRemainder = [...wordPart, ...remainder]; 
+    let indexToRemoveOldTextRow = WIDTH - wordPart1.length - 1
+
+    console.log({indexToRemoveOldTextRow})
+    this.fillMovedWordWithDash(rowIndex, originalArr, indexToRemoveOldTextRow )
+
+    console.log({rowIndex})
+    console.log("1s: ", originalArr)
+    this.fillNullWithDashOnRow(rowIndex, originalArr)
+    
+
+    //clean up moved word
+
+    
     //make the recursive call to add the new remainder to the next line
-    originalArr = this.insertClean(false,originalArr, newRemainder, rowIndex + 1, colIndex);
+   // originalArr = this.insertClean(false,originalArr, newRemainder, rowIndex + 1, colIndex);
+    
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
     console.log(
       consolePad,
@@ -655,7 +745,7 @@ const val = "X"
 
     //alert("z")
     //does combined array have less characters than this maxCols, //the new array fits on one line
-    if (combinedArr.length < this.maxCols) {
+    if (combinedArr.length <= this.maxCols) {
       
       console.log(consolePad, "new array fits on one line");
       //overwrite insertedArr[rowIndex] with combined array
@@ -690,50 +780,14 @@ const val = "X"
 
       //if(originalArr[rowIndex][6] != "-" )
 
-      if(originalArr[rowIndex][6] != "-" && remainder != "-") {
+      if(originalArr[rowIndex][6] != "-" && remainder[0] == "-") {
+
+        console.log("remx: ", remainder)
       originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+      //return originalArr
       }
       
 
-    
-
-      if(remainder == '-')
-      {
-        //remainder[0] = "9"
-      }
-     
-      // row    column
-      //console.log("**1: ", originalArr[0][0])
-      //console.log("**2: ",originalArr[1][6])
-      //console.log("**3: ", originalArr[rowIndex][0])
-      //console.log("**4: ", originalArr[rowIndex][6])
-
-
-
-
-      console.log("3: ", rowIndex)   // 2
-      //console.log("4: ", rowIndex+1)  //3
-      //console.log("5: ", this.initialRow)
-      //console.log("6: ", this.initialRow+1)
-      //if line ends *without* breaking word .at -1 lets us access last letter in trimmedLine
-      //if(trimmedLine.at(-1) == '-' || remainder[0]=='-' ){
-      
-      //if(this.initialRow < 4)
-      //{
-      //  this.initialRow = 4
-      //}
-      
-      
-      
-      
-      
-      
-
-
-      //if(remainder !=  "-")
-      //{
-
-        ////////
 
 
         console.log("no word broken on trimmed line")
@@ -753,6 +807,7 @@ const val = "X"
           
            if(originalArr[rowIndex][6]  != "-"){
            originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+           //return originalArr
            }
 
            
@@ -817,6 +872,10 @@ const val = "X"
           //  originalarr - is the entire array before the insert
           //  rowIndex - the value pertaining to the position vertical as index
           //  colIndex - the position pertaining to the horizontal value as index
+
+          if (rowIndex+1 == 1){
+            //rowIndex= 1
+          }
       //alert("b")                                                                                          -1, is second afrgment
          if  ((originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" )  || (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-" )){
         
@@ -974,18 +1033,6 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
 
 
 
-fillNullWithDash(arrayToChange)
-{
-  
-for(let i = 0; i<WIDTH-1 ; i++){
-  console.log("tl: ", arrayToChange[i])
-  if (arrayToChange[i] === undefined)
-  {
-    //alert("here");
-    arrayToChange[i] = '-'
-  }
-}
-}
 
 
 }
