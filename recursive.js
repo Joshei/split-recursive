@@ -15,24 +15,45 @@ class RecursiveClass{
     this.mapCounter = 0
     this.testcounter = 0
     this.flag = 0
+    this.flagToManyDashes = false
+    this.testCounter = 0;
+    
    
   }
 
-  fillMovedWordWithDash(rowIndex , arrayToChange, startingIndexRow)
+deleteRow(arr, rowIndex){
+
+  arr.splice(rowIndex, 1)
+  return arr;
+
+}
+
+fillMovedWordWithDash(rowIndex , arrayToChange, startingIndexRow)
 {
    
 for(let i = startingIndexRow; i< WIDTH; i++){
   
-  if (arrayToChange[rowIndex-1 ][i] !== '-')
+  if (arrayToChange[rowIndex ][i] !== '-')
   
   {
    
-    arrayToChange[rowIndex-1 ][i] = '-'
+    arrayToChange[rowIndex ][i] = '-'
   }
 }
 }
 
 
+
+fillRowWithDashes(rowIndex, arrayToChange){
+  
+  for(let i = 0 ; i < WIDTH ; i++){
+
+    arrayToChange[rowIndex][i] = "-"
+  }
+
+  return arrayToChange
+
+}
 
 fillNullWithDashOnRow(RowIndex ,arrayToChange)
 {
@@ -45,6 +66,7 @@ for(let i = 0 ; i < WIDTH ; i++){
     arrayToChange[RowIndex][i] = '-'
   }
 }
+return arrayToChange
 }
 
 
@@ -394,8 +416,10 @@ adjustForWordBreaks(
   
 
   //return originalArr
-  alert("adjustforwordbreak");
+  //alert("adjustforwordbreak");
+  let totalWord = ""
   let iteration = 1
+  let finalRemainder = ""
   let consolePad = "  ".repeat(iteration); // console padding for more legible output
   //.at(-1) lets us access last letter in trimmedLine
   if (false){//frontPart.at(-1) == "-" || remainder[0] == "-") {
@@ -430,7 +454,7 @@ adjustForWordBreaks(
       return originalArr;
     }
   } else {
-    
+    //let finalRemainder = remainder
     //if (first character and last character of the row are non dash)
     //insertarr
 
@@ -456,53 +480,157 @@ adjustForWordBreaks(
 
     
     
-    let target = originalArr[rowIndex -1]
+    let target = originalArr[rowIndex - 1]
     lastSpaceIndex = target.lastIndexOf("-");
     console.log(consolePad, "space index", lastSpaceIndex);
     //split frontPart at space index
     let [trimmedLeft1, wordPart1] = this.splitAtIndex(target, lastSpaceIndex + 1);
+
+   
+    
+
+    target = originalArr[rowIndex]
+    lastSpaceIndex = target.lastIndexOf("-");
+    //console.log(consolePad, "space index", lastSpaceIndex);
+    let frontPieceWord = originalArr[rowIndex] 
+    let [trimmedLeft2, frontWordPart1] = this.splitAtIndex(frontPieceWord, lastSpaceIndex);
+
+
+    totalWord = [...frontWordPart1, ...wordPart]
+    //use orignal text
+    const combinedArr = [...wordPart1, ...wordPart];
+
+    //let combinedArrWidth = {}
+     let [combinedArrWidth, finalRemainder] = this.splitAtIndex(combinedArr, this.maxCols);
+
+    //delete row with initial 
+    //this.deleteRow(originalArr, rowIndex - 1) 
+    //originalArr[rowIndex] = trimmedLeft;
+    //originalArr[rowIndex] = combinedArr;
+   
+    
+    
     
 
     let value = rowIndex;
     
-    //if(wordPart1.length == WIDTH){
-      if(originalArr[rowIndex-1][0] != "-" && originalArr[rowIndex-1][6] != "-"){
-      //if(originalArr[rowIndex][0] != "-" && originalArr[rowIndex][6] != "-")
-      this.insertNewArr(originalArr, wordPart, rowIndex+1, 0)
-      originalArr[rowIndex] = wordPart1
-      //DELETE/UNINSERT  originalArr[rowIndex - 1] = wordPart1 
-      return originalArr
+    //if bottom and top words are over 7 move row + 1 down before moving first row
+
     
+    
+    
+
+    ///////////////////////////////
+    //  INSERT TWICE THAN DELETE
+    //
+    //originalArr[rowIndex] = combinedArrWidth;
+    //originalArr = this.deleteRow(originalArr, rowIndex - 1)
+    //////////////////////////////
+
+
+    //this.counterForInsert = 1
+    
+    
+
+
+
+
+    //  
+    //  
+    //  WORKING ON THIS SECTION, HERE, HASN'T BEEN TESTED
+    //
+
+    
+
+    //covers original text
+    let coverArray = {}
+    if(wordPart.length  + wordPart1.length > 7 )
+    {
+      this.flagToManyDashes = true
+      console.log("1z: ", wordPart)
+      console.log("2z: ", wordPart1)
+      //cover wih dashes
+
+      alert("row : ", rowIndex);
+
+
+      //originalArr[rowIndex-1] = wordPart1//coverArray[0][0]
+     
+     //fill with 7 characters wordpart1
+      //originalArr[rowIndex][0] = combinedArrWidth[0];
+      //
+      //originalArr[rowIndex][1] = combinedArrWidth[1];
+
+      originalArr[rowIndex] = wordPart1//"XX-----";
+      //originalArr[rowIndex][6] = '-'
+      //originalArr[rowIndex][0] = '-'
+
+     
+      originalArr = this.fillRowWithDashes(rowIndex-1, originalArr)
+      
+      //originalArr = this.fillNullWithDashOnRow(rowIndex , originalArr)
+     
+      //originalArr[rowIndex-1] = coverArray
+      
+      //this.fillMovedWordWithDash(rowIndex , coverArray, 0)
+
+     
+      //put wordpart here, row after 7 characters
+      this.insertNewArr(originalArr, wordPart, rowIndex + 1,0)
+      
+      return originalArr
     }
 
    
-
-
-    
-    let totalWord = [...wordPart1, ...wordPart] 
+    //THIS WORKS:  DASHES WILL FILL IN NULL VALUES - CONFUSED
 
     
+  //  else {
 
-    //originalArr[rowIndex] = trimmedLeft;
+  
+  
+  
+  
+  
+  
+  
+  originalArr[rowIndex] = combinedArrWidth;
+  originalArr[rowIndex-1] = trimmedLeft1 
+  
+originalArr = this.fillNullWithDashOnRow(rowIndex - 1 , originalArr)
 
-    //if bottom and top words are over 7 move row + 1 down before moving first row
+  
+  this.insertNewArr(originalArr, finalRemainder, rowIndex + 1,0)
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  //originalArr = this.deleteRow(originalArr, rowIndex)
 
-    if((wordPart.length + wordPart1.length > 7))
-    {
-      alert("lower the word with last letters on next line");
-    }
-    originalArr[rowIndex] = [...totalWord]
+
+    //alert("insert: ", rowIndex);
+    
+
 
 
     
     //let newRemainder = [...wordPart, ...remainder]; 
-    let indexToRemoveOldTextRow = WIDTH - wordPart1.length - 1
+    //let indexToRemoveOldTextRow = WIDTH - wordPart1.length - 1
 
-    console.log({indexToRemoveOldTextRow})
-    this.fillMovedWordWithDash(rowIndex, originalArr, indexToRemoveOldTextRow )
+    //console.log({indexToRemoveOldTextRow})
+    //this.fillMovedWordWithDash(rowIndex, originalArr, indexToRemoveOldTextRow )
 
-    console.log({rowIndex})
-    console.log("1s: ", originalArr)
+    //console.log({rowIndex})
+    //console.log("1s: ", originalArr)
     this.fillNullWithDashOnRow(rowIndex, originalArr)
     
 
@@ -523,7 +651,8 @@ adjustForWordBreaks(
   }
 }
 
-//////////
+
+
   
 adjustForWordBreaks2(
   frontPart,
@@ -563,7 +692,7 @@ adjustForWordBreaks2(
 
   //originalArr[rowIndex] = frontPart;
 
-  alert("is here");
+  alert("adjust here!!!");
   console.log("sorb: ", originalArr)
   originalArr = this.seperateOnRightBoundry(originalArr, rowIndex, colIndex)
   console.log("sorb: ", originalArr)
@@ -648,8 +777,13 @@ adjustForWordBreaks2(
 
   /////////
 
+
+  // combined on next row, delete former/8
 insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
 {
+  
+
+  //alert("insert: ", rowIndex);
 
 let nextLine = ""
 let remainder = ""
@@ -719,25 +853,7 @@ const val = "X"
     
     
     
-//    if(originalArr[6][rowIndex] !== "-"){
-//
-//      alert("well2");
-//      return originalArr
-//    }
-    //if this is not from inital key press, than check for a dash (change to nulll value ) on the value of last column 
-    if(  rowIndex != this.initialRow && originalArr[6][this.initialRow] === "-"){
 
-     //does not do an insert because it is on first row, therefore is just displaye one space to right
-     
-     
-    }
-    else
-    {
-      //there isn't a null character on most right position so inserts on the next line
-      combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
-      
-
-    }
     console.log("ca: ", combinedArr)
     console.log("cols: ", this.maxCols)
     console.log(consolePad, "combined array:");
@@ -783,7 +899,7 @@ const val = "X"
       if(originalArr[rowIndex][6] != "-" && remainder[0] == "-") {
 
         console.log("remx: ", remainder)
-      originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+      //originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
       //return originalArr
       }
       
@@ -806,7 +922,7 @@ const val = "X"
           
           
            if(originalArr[rowIndex][6]  != "-"){
-           originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+           //originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
            //return originalArr
            }
 
@@ -825,7 +941,7 @@ const val = "X"
 
 
          //////////////////////////////////////////////////////////////////
-         if  ( originalArr[rowIndex ][6] !== "-")
+         //if  ( originalArr[rowIndex ][6] !== "-")
          {
           
           //this.insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
@@ -877,9 +993,9 @@ const val = "X"
             //rowIndex= 1
           }
       //alert("b")                                                                                          -1, is second afrgment
-         if  ((originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" )  || (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-" )){
+         if  ((originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" )  || (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-"  ) ){
         
-         console.log("here1: ", originalArr[rowIndex ][6])
+         console.log("here1: ", rowIndex )
 
         alert("call sep");
 
@@ -898,7 +1014,7 @@ const val = "X"
       }
 
      
-
+      
 
       
         return originalArr
