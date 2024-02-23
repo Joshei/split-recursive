@@ -503,43 +503,11 @@ adjustForWordBreaks(
     //let combinedArrWidth = {}
      let [combinedArrWidth, finalRemainder] = this.splitAtIndex(combinedArr, this.maxCols);
 
-    //delete row with initial 
-    //this.deleteRow(originalArr, rowIndex - 1) 
-    //originalArr[rowIndex] = trimmedLeft;
-    //originalArr[rowIndex] = combinedArr;
-   
-    
-    
     
 
     let value = rowIndex;
     
-    //if bottom and top words are over 7 move row + 1 down before moving first row
-
     
-    
-    
-
-    ///////////////////////////////
-    //  INSERT TWICE THAN DELETE
-    //
-    //originalArr[rowIndex] = combinedArrWidth;
-    //originalArr = this.deleteRow(originalArr, rowIndex - 1)
-    //////////////////////////////
-
-
-    //this.counterForInsert = 1
-    
-    
-
-
-
-
-    //  
-    //  
-    //  WORKING ON THIS SECTION, HERE, HASN'T BEEN TESTED
-    //
-
     
 
     //covers original text
@@ -568,13 +536,6 @@ adjustForWordBreaks(
      
       originalArr = this.fillRowWithDashes(rowIndex-1, originalArr)
       
-      //originalArr = this.fillNullWithDashOnRow(rowIndex , originalArr)
-     
-      //originalArr[rowIndex-1] = coverArray
-      
-      //this.fillMovedWordWithDash(rowIndex , coverArray, 0)
-
-     
       //put wordpart here, row after 7 characters
       this.insertNewArr(originalArr, wordPart, rowIndex + 1,0)
       
@@ -582,16 +543,7 @@ adjustForWordBreaks(
     }
 
    
-    //THIS WORKS:  DASHES WILL FILL IN NULL VALUES - CONFUSED
-
-    
-  //  else {
-
-  
-  
-  
-  
-  
+   
   
   
   originalArr[rowIndex] = combinedArrWidth;
