@@ -189,7 +189,105 @@ passInHere( bool, originalArr, key,  x, y)
 
 
 
+
+adjustForWordBreakesPullFromBottom(){
+
+  frontPart,
+  remainder,
+  originalArr,
+  rowIndex,
+  colIndex
+
+
+  if (frontPart.at(-1) == "-" && remainder[0] == "-") {
+
+    return originalArr
+
+}
+// letter on top right and lower left boundaries
+
+// get length of word on left bottom border
+
+
+//get length of word part that is on lower left boundary
+
+//index of start from top
+let firstSpaceIndexTop = frontPart[rowIndex].lastIndexOf("-")
+
+let otherFirstSpaceTop = frontPart[rowIndex].lastIndexOf(" ")
+if (firstSpaceIndex <= otherFirstSpace){
+  let wordIndexOfRightEndWord = firstSpaceIndex
+}
+else{
+  wordIndexOfRightEndWord = otherFirstSpace
+
+
+}
+
+//get index dash or space of word part that is on lower left boundary
+
+let firstSpaceIndexLeftBottom = frontPart[rowIndex+1].indexOf("-")
+let otherFirstSpaceIndexLeftBottom = frontPart[rowIndex+1].indexOf(" ")
+
+if(firstSpaceIndexLeftBottom <= otherFirstSpaceIndexLeftBottom)
+{
+  let wordIndexOfLeftEndWord  = firstSpaceIndexLeftBottom
   
+}
+else{
+  wordIndexOfLeftEndWord = otherFirstSpaceIndexLeftBottom
+}
+
+
+//cursor is in word, so check for a pull
+if(rowIndex <= wordIndexOfLeftEndWord){
+  let boolIsInBottomWord = true;
+}
+else (boolIsInBottomWord = false)
+
+/////working with top again
+let lengthOfTopSpace =  WIDTH - wordIndexOfRightEndWord - 1
+let lengthOfBottomWord = WIDTH - wordIndexOfLeftEndWord - 1 
+
+//insert word into top
+if (lengthOfTopSpace >= lengthOfBottomWord)
+{
+
+  
+  let target = originalArr[rowIndex]
+  let traget1 = originalArr[rowIndex+ 1]
+  let [trimmedLeftTopRight, wordPartTopRight] = this.splitAtIndex(target, wordIndexOfRightEndWord);
+  let[ wordPartBottomLeft, trimmedLeftBottomLeft] = this.splitAtIndex(target1, wordIndexOfLeftEndWord)
+  
+  //put word into slot above on top and right side
+  let combinedArrForTop = [...trimmedLeftTopRight, ...wordPartBottomLeft]
+
+  //remove word from bottom left row
+  let reducedArrForBottom = [...trimmedLeftBottomLeft]
+
+  
+  originalArr[rowIndex] = combinedArrForTop
+
+  originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex + 1,0)
+
+
+}
+
+}
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
 ///////////
 
 adjustForWordBreaks_doneTopToBottom(
