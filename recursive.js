@@ -192,7 +192,7 @@ passInHere( bool, originalArr, key,  x, y)
   
 ///////////
 
-adjustForWordBreaks_done(
+adjustForWordBreaks_doneTopToBottom(
   frontPart,
   remainder,
   originalArr,
@@ -206,41 +206,15 @@ adjustForWordBreaks_done(
   //alert("adjustforwordbreak");
   let totalWord = ""
   let iteration = 1
-  let finalRemainder = ""
+  //let finalRemainder = ""
   let consolePad = "  ".repeat(iteration); // console padding for more legible output
   //.at(-1) lets us access last letter in trimmedLine
-  if (false){//frontPart.at(-1) == "-" || remainder[0] == "-") {
+  //if (false){//frontPart.at(-1) == "-" || remainder[0] == "-") {
     //if line ends *without* breaking word (front ends with space, or remainder starts with one)
 
-    console.log("remainder3: ", remainder)
-    console.log("frontPart3: ", frontPart)
-    console.log(consolePad, "no word broken on trimmed line");
-    //the front half of that becomes originalArray[rowIndex]
-    originalArr[rowIndex] = frontPart;
-    console.log(consolePad, "replace original array row with trimmed line");
-    console.log(consolePad, this.snapshot(originalArr));
-    //if there's anything left over, push it into position 0 of the next row
-    if (remainder.length > 0) {
-      console.log(consolePad, "trimmed line had remainder afterwards");
-      console.log(consolePad, remainder);
-      console.log(
-        consolePad,
-        "!! Recursive call from level ",
-        iteration,
-        " to level",
-        iteration + 1,
-        " !!"
-      );
-      //make the recursive call to add the remainder to the next line
-      originalArr = this.insertClean(false, originalArr, remainder, rowIndex + 1, 0);
-      console.log(consolePad, "!! Return to iteration", iteration, "!!");
-      console.log(consolePad, "array after inserting remainder:");
-      console.log(consolePad, this.snapshot(originalArr));
-
-      console.log("adjust1: ", originalArr)
-      return originalArr;
-    }
-  } else {
+      //}
+      //else
+       
     
     // a word has been broken
     console.log(consolePad, "a word was broken in the line break");
@@ -337,13 +311,13 @@ originalArr = this.fillNullWithDashOnRow(rowIndex - 1 , originalArr)
     console.log(consolePad, this.snapshot(originalArr));
     console.log("adjust2: ", originalArr)
     return originalArr;
-  }
+  //}
 }
 
 
 
 //this is working on bottom-up
-adjustForWordBreaks(
+adjustForWordBreaksBottomToTop(
   frontPart,
   remainder,
   originalArr,
@@ -668,16 +642,38 @@ const val = "X"
             //rowIndex= 1
           }
       //alert("b")                                                                                          -1, is second afrgment
-         if  ((originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" )  || (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-"  ) ){
-        
-         console.log("here1: ", rowIndex )
+         
+      //top to bottom
+      if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
 
-        alert("call sep");
+          originalArr = this.adjustForWordBreaksTopToBottom(
+        
+            trimmedLine,
+            remainder,
+            originalArr,
+            rowIndex,
+            colIndex,
+          
+          );
+
+          return originalArr
+
+         } 
+         
+         
+         //bottom to top
+          (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-"  ) {
+        
+         
+         
+            console.log("here1: ", rowIndex )
 
         
 
         
-        originalArr = this.adjustForWordBreaks(
+
+        
+        originalArr = this.adjustForWordBreaksBottomToTop(
         
         trimmedLine,
         remainder,
