@@ -265,7 +265,7 @@ if (lengthOfTopSpace >= lengthOfBottomWord)
   //remove word from bottom left row
   let reducedArrForBottom = [...trimmedLeftBottomLeft]
 
-  
+
   originalArr[rowIndex] = combinedArrForTop
 
   originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex + 1,0)
@@ -798,107 +798,18 @@ const val = "X"
       //////////////////////////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////////////////////////
 
-    } else{  // this is the end of if target row - there was a row in originalArr,
-             // there was no original row at that position 
-
-
-    //alert("wondering")
-    
-    //return originalArr
-    
-      //instead, adding a whole new row to the end of originalArr
-    //console.log(
-    //  consolePad,
-    //  "adding inserted array to end of new array by creating a new line"
-    //);
-    
-
-
-
-
-     //if we're adding onto the end of newArray, just push the inserted arr as a new row
-     //the size of the row must not be more with inserted letter added
-     //new row fits on one line
-    
-    //is no row,so just make row equal to the added array (one character) 
-    //ALWAYS SO, insertedArr IS ALWAYS ONE CHARACTER, SO WOULD ALWAYS BE SO
-
-    /*
-     if (insertedArr.length <= this.maxCols) {
-    //??????????????  
-
-      console.log(consolePad, "new inserted row is within width constraints");
-     //there is no row so just push on to the end of the original array
-      originalArr.push(insertedArr);//???????????
-      console.log(consolePad, "original array with new inserted line appended");
-      console.log(consolePad, this.snapshot(originalArr));
-    } else {//new row is too long to fit on one line
-*/
-
-
-      //THIS CAN'T HAPPEN WITH THIS PROGRAM BECUASE INSERTEDARR IS ALWAYS ON CHARACTER LENGT 
-      
-      /*
-      //insert array is bigger than maximum amount of columne
-      console.log(consolePad, "inserted array is too long, break into lines");
-
-      //split inserted line at max col width
-      [nextLine, remainder] = this.splitAtIndex(insertedArr, this.maxCols );
-      console.log(consolePad, "line to add immediately:");
-      console.log(consolePad, nextLine);
-      console.log(
-        consolePad,
-        "line to process and then add to the next row after this one"
-      );
-      console.log(consolePad, remainder);
-      //can't make the final recursive call until word adjustments have been made
-      */
-      
-      
-      
-      
-      
-      //alert("adjust2")
-      //  check to see if the word was to long, if so this will handle it - takes in these values
-      //  *nextLine - is the array before the value is inserted
-      //  *remainder - is the array after the inserted value 
-      //  *originalarr - is the entire array before the insert
-      //  -rowIndex - the value pertaining to the position vertical as index
-      //  -colIndex - the position pertaining to the horizontal value as index
-        
-      
-
-      /*
-      originalArr = this.adjustForWordBreaks(
-        
-        nextLine,
-        remainder,
-        originalArr,
-        rowIndex,
-        colIndex,
-       
-      );
-      
-    return originalArr
-    }
-*/
-
-    // This is the end of no row 
-
-
-
-
-  //if(this.testcounter === 1){
-  //originalArr[0][0] = "z"
-  //}
-  //this.testcounter++
-
+  
   //alert("put here");
   console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
   console.log(consolePad, this.snapshot(originalArr));
   console.log(consolePad, "-------------");
 
   return originalArr;   //function ends here
+
+//no row, so create one
+}  else{
+
+
 }
 }
 
