@@ -760,7 +760,8 @@ const val = "X"
          
          
          //bottom to top
-          (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-"  ) {
+        if (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-"  )
+         {
         
          
          

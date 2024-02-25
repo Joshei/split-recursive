@@ -9,6 +9,7 @@ class CustomBoxClass {
     constructor() {
      
       //CursorMovements.drawCursor(25, 25)
+      this.heightValue = 0
       this.gInsert = false;
     }
     controlInput() {
@@ -38,7 +39,9 @@ class CustomBoxClass {
       } else if (gKey == 'ArrowUp') {
         CursorMovements.cursorUp()
       } else if (gKey == 'ArrowDown') {
-        CursorMovements.cursorDown()
+        this.heightValue = CursorMovements.cursorDown()
+        return (this.heightValue)
+        
       } else if (gKey == 'Enter') {
         //alert("1");
         //Return.Return()
@@ -47,11 +50,8 @@ class CustomBoxClass {
         //Prints a single character.  Arrow keys can move you arround.  Enter is not inserted yet.
         //in index1.html
         printCharacter()
-        //
-        //from  recursive.js 
-        //Insert.InsertNewArr(nestedArray, "Z", 1, 1 )
-        //testing this area
-        //alert("I am here:");
+       
+        
       
     }
       //displays x and y for testing

@@ -67,8 +67,8 @@
   
 ];
 
-      const WIDTH = 7
-      const HEIGHT = 7
+      let WIDTH = 7
+      let HEIGHT = 7
 
       //vertical and horizontal offset of canvas
       const VOFFSET = 25
@@ -137,6 +137,9 @@
 */
 
   
+      function enlargeTextbox(){
+
+      }
 
 
       function clearArray() {
@@ -147,16 +150,25 @@
         ctx.fillStyle = '#000000'
       }
 
-      function drawGrid() {
+      function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
         
+
+        //iValue = 9;
+        //jValue = 11
         //alert("dG")
         //cols
         clearArray()
+        //HEIGHT might have changed
+        //WIDTH = iValue
+        //HEIGHT = jValue
+
         ctx.fillStyle = 'black'
         //columns
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < iValue; i++) {
+
+         
         //rows
-        for (let j = 0; j < 7 ; j++) {
+        for (let j = 0; j < jValue ; j++) {
         //fill a square canvas with letter values
         console.log("na: ", nestedArray)
         if(nestedArray && nestedArray[i] && nestedArray[i][j]){
@@ -246,7 +258,7 @@
         console.log("nested array2: ", nestedArray);
         
         
-        drawGrid()
+        drawGrid( WIDTH, HEIGHT)
         //At edge of canavs - use for edge cases, later.
         //bookmark
         if (horizontalCursorPosition < (WIDTH - 1) * 5) {
@@ -274,7 +286,36 @@
         gKey = e.key
         //alert("2");
         //printCharacter()
-        customBox1.controlInput()
+        heightOfGrid = customBox1.controlInput()
+        
+        console.log({heightOfGrid})
+         
+        if(heightOfGrid >= 0)
+        {
+
+          alert("2")
+       
+        nestedArray.push (["-", "-", "-", "-", "-", "-" , "-" ],)
+
+        //drawGrid(WIDTH, heightOfGrid)
+        drawGrid(heightOfGrid, WIDTH)
+
+        verticalCursorPosition = verticalCursorPosition + 10
+         drawCursor(
+
+
+          horizontalCursorPosition + HOFFSET,
+          verticalCursorPosition + VOFFSET
+        )
+        
+        //printCharacter()
+        }
+
+          
+         
+       
+
+        
       })
       //display helpful data
       xAndY.innerHTML = 'X: ' + 0 + '  &nbsp&nbsp&nbsp   Y: ' + 0
