@@ -189,8 +189,8 @@ passInHere( bool, originalArr, key,  x, y)
 
 
 
-
-adjustForWordBreakesPullFromBottom(){
+adjustForWordBreaks_TopToBottom(){
+//adjustForWordBreakesPullFromBottom(){
 
   frontPart,
   remainder,
@@ -290,7 +290,7 @@ if (lengthOfTopSpace >= lengthOfBottomWord)
 
 ///////////
 
-adjustForWordBreaks_doneTopToBottom(
+adjustForWordBreaks_TopToBottom(
   frontPart,
   remainder,
   originalArr,
@@ -365,22 +365,18 @@ adjustForWordBreaks_doneTopToBottom(
     let coverArray = {}
     if(wordPart.length  + wordPart1.length > 7 )
     {
-      this.flagToManyDashes = true
-      console.log("1z: ", wordPart)
-      console.log("2z: ", wordPart1)
+      return
+      //this.flagToManyDashes = true
+      
+      
+      //console.log("1z: ", wordPart)
+      //console.log("2z: ", wordPart1)
       //cover wih dashes
-
-      alert("row : ", rowIndex);
-
-
-      originalArr[rowIndex] = wordPart1//"XX-----";
-      
-
-     
-      originalArr = this.fillRowWithDashes(rowIndex-1, originalArr)
-      
+      ///alert("row : ", rowIndex);
+      //originalArr[rowIndex] = wordPart1//"XX-----";
+      //originalArr = this.fillRowWithDashes(rowIndex-1, originalArr)
       //put wordpart here, row after 7 characters
-      this.insertNewArr(originalArr, wordPart, rowIndex + 1,0)
+      //this.insertNewArr(originalArr, wordPart, rowIndex + 1,0)
       
       return originalArr
     }
@@ -415,7 +411,7 @@ originalArr = this.fillNullWithDashOnRow(rowIndex - 1 , originalArr)
 
 
 //this is working on bottom-up
-adjustForWordBreaksBottomToTop(
+adjustForWordBreaks_BottomToTop(
   frontPart,
   remainder,
   originalArr,
@@ -475,22 +471,18 @@ adjustForWordBreaksBottomToTop(
     if(wordPart.length  + wordPart1.length > 7 )
     {
       this.flagToManyDashes = true
-      console.log("1z: ", wordPart)
-      console.log("2z: ", wordPart1)
-      //cover wih dashes
-
-      alert("row : ", rowIndex);
-
-
-      //originalArr[rowIndex + 1] = wordPart
-     
-      originalArr = this.fillRowWithDashes(rowIndex+1, originalArr)
-      
-      //put wordpart here, row after 7 characters
-      this.insertNewArr(originalArr, wordPart1, rowIndex + 2,0)
-      
       
       return originalArr
+
+      //console.log("1z: ", wordPart)
+      //console.log("2z: ", wordPart1)
+      ////cover wih dashes
+      //alert("row : ", rowIndex);
+      //originalArr[rowIndex + 1] = wordPreturnart
+      //originalArr = this.fillRowWithDashes(rowIndex+1, originalArr)
+      //put wordpart here, row after 7 characters
+      //this.insertNewArr(originalArr, wordPart1, rowIndex + 2,0)
+      //return originalArr
     }
 
   
@@ -744,7 +736,7 @@ const val = "X"
       //top to bottom
       if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
 
-          originalArr = this.adjustForWordBreaksTopToBottom(
+          originalArr = this.adjustForWordBreaks_TopToBottom(
         
             trimmedLine,
             remainder,
@@ -772,7 +764,7 @@ const val = "X"
         
 
         
-        originalArr = this.adjustForWordBreaksBottomToTop(
+        originalArr = this.adjustForWordBreaks_BottomToTop(
         
         trimmedLine,
         remainder,
