@@ -198,6 +198,7 @@ adjustForWordBreaks_TopToBottom(){
   rowIndex,
   colIndex
 
+  alert("top to bottom")
 
   if (frontPart.at(-1) == "-" && remainder[0] == "-") {
 
@@ -301,7 +302,7 @@ adjustForWordBreaks_TopToBottom(
   
 
   //return originalArr
-  //alert("adjustforwordbreak");
+  alert("adjustforwordbreak");
   let totalWord = ""
   let iteration = 1
   //let finalRemainder = ""
@@ -334,7 +335,15 @@ adjustForWordBreaks_TopToBottom(
     let target = originalArr[rowIndex - 1]
     lastSpaceIndex = target.lastIndexOf("-");
     console.log(consolePad, "space index", lastSpaceIndex);
-    //split frontPart at space index
+    
+
+    //no dashes, filled row with characters
+    if (lastSpaceIndex === -1)
+    {
+      
+      return originalArr
+    }
+
     let [trimmedLeft1, wordPart1] = this.splitAtIndex(target, lastSpaceIndex + 1);
 
    
@@ -342,6 +351,13 @@ adjustForWordBreaks_TopToBottom(
 
     target = originalArr[rowIndex]
     lastSpaceIndex = target.lastIndexOf("-");
+    //no dashes, filled row with characters
+    if (lastSpaceIndex === -1)
+    {
+      
+      return originalArr
+    }
+    
     //console.log(consolePad, "space index", lastSpaceIndex);
     let frontPieceWord = originalArr[rowIndex] 
     let [trimmedLeft2, frontWordPart1] = this.splitAtIndex(frontPieceWord, lastSpaceIndex);
@@ -365,7 +381,9 @@ adjustForWordBreaks_TopToBottom(
     let coverArray = {}
     if(wordPart.length  + wordPart1.length > 7 )
     {
-      return
+      //this.flagToManyDashes = true
+
+      return originalArr
       //this.flagToManyDashes = true
       
       
@@ -433,10 +451,15 @@ adjustForWordBreaks_BottomToTop(
     console.log(consolePad, "space index", lastSpaceIndex);
     //split frontPart at space index
     
+
+    //no dashes, filled row with characters
     if (lastSpaceIndex === -1)
     {
-      lastSpaceIndex = WIDTH
+      
+      return originalArr
     }
+
+    //this!
     let [trimmedLeft, wordPart] = this.splitAtIndex(frontPart, lastSpaceIndex + 1);
     console.log(consolePad, "trimmed line split at word break:", trimmedLeft);
     console.log(consolePad, "partial word:", wordPart);
@@ -448,7 +471,16 @@ adjustForWordBreaks_BottomToTop(
     lastSpaceIndex = target.indexOf("-");
     console.log(consolePad, "space index", lastSpaceIndex);
     //split frontPart at space index
-    let [wordPart1, trimmedLeft1] = this.splitAtIndex(target, lastSpaceIndex );
+    
+    //no dashes, filled row with characters
+    if (lastSpaceIndex === -1)
+    {
+      
+      return originalArr
+    }
+
+    //this!
+    let [wordPart1, trimmedLeft1] = this.splitAtIndex(target, lastSpaceIndex + 1);
 
     target = originalArr[rowIndex]
     lastSpaceIndex = target.lastIndexOf("-");
@@ -736,8 +768,9 @@ const val = "X"
       //top to bottom
       if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
 
-          originalArr = this.adjustForWordBreaks_TopToBottom(
+          //originalArr = this.adjustForWordBreaks_TopToBottom(
         
+            originalArr = this.adjustForWordBreaks_BottomToTop(
             trimmedLine,
             remainder,
             originalArr,
@@ -764,7 +797,8 @@ const val = "X"
         
 
         
-        originalArr = this.adjustForWordBreaks_BottomToTop(
+       // originalArr = this.adjustForWordBreaks_BottomToTop(
+        originalArr = this.adjustForWordBreaks_TopToBottom(
         
         trimmedLine,
         remainder,
