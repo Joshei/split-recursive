@@ -357,7 +357,7 @@ adjustForWordBreaks_TopToBottom(
       
       return originalArr
     }
-    
+
     //console.log(consolePad, "space index", lastSpaceIndex);
     let frontPieceWord = originalArr[rowIndex] 
     let [trimmedLeft2, frontWordPart1] = this.splitAtIndex(frontPieceWord, lastSpaceIndex);
@@ -862,6 +862,11 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
 
 }
 
+
+BottomToTopDelete()
+{
+  
+}
 
 //testArray()
 //{
