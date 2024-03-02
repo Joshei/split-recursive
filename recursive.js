@@ -250,6 +250,12 @@ if(originalArr[rowInde+2][0] != "-"  && rowIndex < HEIGHT)
 //  ELSE 
 deletecharacters2(rowIndex){
 
+
+  //for testing
+  moveAllWordsAcrossBorder(rowIndex)
+
+  return(originalArr)
+
   //move chatracters only on this  line
   if(originalArr[rowIndex][6] == "-")
   {
@@ -276,7 +282,67 @@ deletecharacters2(rowIndex){
   
 }
 
+moveAllWordsAcrossBorder(rowIndex){
 
+  //on this line there isn't an overlapping word
+  if(originalArr[rowIndex][6] == "-" || originalArr[rowIndex+1][0] == "="){
+    this.moveAllWordsAcrossBorder(rowIndex)
+  }
+  //on this row there is a cross border word
+  else{
+
+
+    ///////////////
+
+    // a word has been broken
+    console.log(consolePad, "a word was broken in the line break");
+    //find last index of space in frontPart
+    console.log(consolePad, "line to break up:");
+    console.log(consolePad, frontPart);
+    let lastSpaceIndex = frontPart.lastIndexOf("-");
+    console.log(consolePad, "space index", lastSpaceIndex);
+    //split frontPart at space index
+    let [trimmedLeft, wordPart] = splitAtIndex(frontPart, lastSpaceIndex);
+    console.log(consolePad, "trimmed line split at word break:", trimmedLeft);
+    console.log(consolePad, "partial word:", wordPart);
+    //replace original row with the word-excluded part of the line
+    originalArr[rowIndex] = trimmedLeft;
+    console.log(
+      consolePad,
+      "replace original row with trimmed left part of line"
+    );
+    console.log(consolePad, snapshot(originalArr));
+    //take word fragment, tack it to the beginning of "remainder" array
+    let newRemainder = [...wordPart, ...remainder];
+    console.log(consolePad, "added word part to remainder");
+    console.log(consolePad, newRemainder);
+    console.log(
+      consolePad,
+      "!! Recursive call from level ",
+      iteration,
+      " to level",
+      iteration + 1,
+      " !!"
+    );
+    //make the recursive call to add the new remainder to the next line
+    //originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, colIndex);
+    originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, 0);
+    console.log(consolePad, "!! Return to iteration", iteration, "!!");
+    console.log(
+      consolePad,
+      "array after inserting remainder with repaired word"
+    );
+    console.log(consolePad, snapshot(originalArr));
+    return originalArr;
+
+
+    //////////////
+
+    //will spaces hold word below
+
+  }
+
+}
 
 
 ///////////
@@ -303,6 +369,13 @@ deletecharacters2(rowIndex){
   //do i need to rename rowindex?
   adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2,colIndex){
 //adjustForWordBreakesPullFromBottom(){
+
+
+
+if (rowIndex2 >= HEIGHT)
+{
+  return originalArr
+}
 
 
 console.log("Z0: ", rowIndex2, colIndex)
@@ -398,7 +471,8 @@ if (lengthOfTopSpace >= lengthOfBottomWord)
 
 
   originalArr[rowIndex2] = combinedArrForTop
-  originalArr[rowIndex2+1] = reducedArrForBottom
+  originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex2 + 1,0)
+  //originalArr[rowIndex2+1] = reducedArrForBottom
 
 
   //AAA---
@@ -409,13 +483,9 @@ if (lengthOfTopSpace >= lengthOfBottomWord)
   //SHOULD ROWINDEX BE SAVED IN ANOTHER VALUE
   //adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,reducedArrForBottom,rowIndex+1,colIndex)
 
-  if (rowIndex2+1 === HEIGHT)
-  {
-    return originalArr
-  }
-  adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2+1,colIndex)
+  //adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2+1,colIndex)
 
-  //originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex + 1,0)
+  originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex2 + 1,0)
 
 
 }
