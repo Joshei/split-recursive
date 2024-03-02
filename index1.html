@@ -284,7 +284,15 @@
       document.addEventListener('keydown', function (e) {
         //global variable
         gKey = e.key
-        //alert("2");
+        
+        if(gKey == 'Delete')
+        {
+          
+          //Recursive.adjustForWordBreaks_TopToBottom_LeftKeyPress(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5)
+    
+          Recursive.adjustForWordBreaks_TopToBottom_LeftKeyPress(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        }
+
         //printCharacter()
         heightOfGrid = customBox1.controlInput()
         

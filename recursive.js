@@ -22,6 +22,17 @@ class RecursiveClass{
    
   }
 
+
+deleteColumnInTwoDimArray(array, col, row)
+{
+  console.log({col})
+    array[row-1].splice(col-2, 1)
+    array[row-1][6] = "-"
+
+    return(array)
+}
+
+
 deleteRow(arr, rowIndex){
 
   arr.splice(rowIndex, 1)
@@ -56,12 +67,18 @@ fillRowWithDashes(rowIndex, arrayToChange){
 
 }
 
+
+
+//isUndefined(_arr, _index1, _index2) {
+//  try { return _arr[_index1][_index2] == undefined; } catch(e) { return true; }
+//}
+
 fillNullWithDashOnRow(RowIndex ,arrayToChange)
 {
   
 for(let i = 0 ; i < WIDTH ; i++){
-  console.log("tl: ", arrayToChange[i])
-  if (arrayToChange[RowIndex][i] === undefined)
+  //console.log("tl: ", arrayToChange[i])
+  if (typeof arrayToChange[RowIndex][i] == 'undefined')
   {
     //alert("here");
     arrayToChange[RowIndex][i] = '-'
@@ -69,6 +86,8 @@ for(let i = 0 ; i < WIDTH ; i++){
 }
 return arrayToChange
 }
+
+
 
 
 
@@ -188,61 +207,164 @@ passInHere( bool, originalArr, key,  x, y)
 }
 
 
+//top to bottom
+//After words ajusted 
+deleteCharacters(originalArr,remainder,rowIndex,colIndex){
 
-adjustForWordBreaks_TopToBottom(){
+  // delete character from rowIndex if there is a character at row+ 1, [0]
+// A.)move that character up to rowindex - 1 [6]
+// move thhat lines characters to th e left
+// if there is a character at row+1 [0] goto A.)
+
+
+//DELETES ONE CHARACTER AND MOVES FROM ALL ROWS THAT HAVE A CHARACTER AT [ROWINDEX+1][0]
+//moves all characters left
+originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex+1, rowIndex+1)
+/////////////////
+
+if (originalArr[rowIndex+1][0] != "-" )
+{
+
+    //look at left lower border for amount that fits into right top space
+    // and put them there
+    //originalArr[rowIndex][6] = originalArr[rowIndex+1][0]
+    adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,remainder,rowIndex,colIndex)
+}
+
+//remove character from next start of line - moves characters left
+originalArr = this.deleteColumnInTwoDimArray(originalArr, 0, rowIndex+1)
+
+if(originalArr[rowInde+2][0] != "-"  && rowIndex < HEIGHT)
+{
+    //call function
+    this.deleteCharacters(originalArr,remainder,rowIndex,colIndex);
+}
+
+}
+
+
+///////////// SOME HOW, SET THIS TO A RANGE OF DELETES, ETC.
+
+//Recursivley, checks each line and determins if each line needs to be moved to the left once. 
+
+//  ELSE 
+deletecharacters2(rowIndex){
+
+  //move chatracters only on this  line
+  if(originalArr[rowIndex][6] == "-")
+  {
+    
+    originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex+1, rowIndex+1)
+    return originalArr
+  }
+  //move characters on next line to
+  else
+  {
+    //move rowindex+1 0 to  row index 6
+    //delete rowindex+1 0
+    if (rowIndex == HEIGHT)
+    {
+      return originalArr
+    }
+    originalArr[rowindex+1][0] = originalArr[rowIndex][6]
+    originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex+1, rowIndex+1)
+    
+    this.deletecharacters2(rowIndex+1)
+
+  }
+
+  
+}
+
+
+
+
+///////////
+
+
+//Handles a left delete on row.  There is one situation here to resolve.
+//This function checks the next row, to see if the delete will move
+//the characters up to space.  Just this one row.  
+
+//PUT FUNCTION HERE TO DO THIS
+//After characters have been removed check for final character, if is not "-"
+//than move chratcers on each succesive line
+//If character is "-" than just move chracters on that line 
+
+
+//BBBBB
+//AAA
+
+//BBBBB AAAA
+//
+  //adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,remainder = null,rowIndex,colIndex){
+
+  //what about empty rows and ??partial rows??
+  //do i need to rename rowindex?
+  adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2,colIndex){
 //adjustForWordBreakesPullFromBottom(){
 
-  frontPart,
-  remainder,
-  originalArr,
-  rowIndex,
-  colIndex
+
+console.log("Z0: ", rowIndex2, colIndex)
+ 
+alert("z")
+console.log("Z1: ", originalArr)
+
+
+//deleteCharacters(originalArr,remainder,rowIndex,colIndex)
+
+
+////////////////  PLACE THIS IN A BETTER PLACE AFTER CODE WRITTEN ABOVE
+
+////////////
+///horizontalCursorPosition = horizontalCursorPosition - 5
+///drawGrid(heightOfGrid, WIDTH)
+///drawCursor(horizontalCursorPosition + HOFFSET, verticalCursorPosition+ VOFFSET)
+console.log("Z2: ", originalArr)
+///////////
+
+  // check to see if this is a valid situation
+  // are there characters on left-bottom
+  // is the character position in this 'word'
+  // is the space on top-right enough to hold characters before cursor position
 
   alert("top to bottom")
 
-  if (frontPart.at(-1) == "-" && remainder[0] == "-") {
-
-    return originalArr
-
-}
+  
 // letter on top right and lower left boundaries
-
 // get length of word on left bottom border
-
-
 //get length of word part that is on lower left boundary
-
+let wordIndexOfRightEndWord = 0
 //index of start from top
-let firstSpaceIndexTop = frontPart[rowIndex].lastIndexOf("-")
+let firstSpaceIndexTop = originalArr[rowIndex2].lastIndexOf("-")
 
-let otherFirstSpaceTop = frontPart[rowIndex].lastIndexOf(" ")
-if (firstSpaceIndex <= otherFirstSpace){
-  let wordIndexOfRightEndWord = firstSpaceIndex
+let otherFirstSpaceTop = originalArr[rowIndex2].lastIndexOf(" ")
+if (firstSpaceIndexTop <= otherFirstSpaceTop){
+  wordIndexOfRightEndWord = firstSpaceIndexTop
 }
 else{
-  wordIndexOfRightEndWord = otherFirstSpace
-
-
+  wordIndexOfRightEndWord = otherFirstSpaceTop
 }
 
 //get index dash or space of word part that is on lower left boundary
+let wordIndexOfLeftEndWord = 0
 
-let firstSpaceIndexLeftBottom = frontPart[rowIndex+1].indexOf("-")
-let otherFirstSpaceIndexLeftBottom = frontPart[rowIndex+1].indexOf(" ")
+let firstSpaceIndexLeftBottom = originalArr[rowIndex2+1].indexOf("-")
+let otherFirstSpaceIndexLeftBottom = originalArr[rowIndex2+1].indexOf(" ")
 
 if(firstSpaceIndexLeftBottom <= otherFirstSpaceIndexLeftBottom)
 {
-  let wordIndexOfLeftEndWord  = firstSpaceIndexLeftBottom
+  wordIndexOfLeftEndWord  = firstSpaceIndexLeftBottom
   
 }
 else{
   wordIndexOfLeftEndWord = otherFirstSpaceIndexLeftBottom
 }
 
-
+let boolIsInBottomWord = true;
 //cursor is in word, so check for a pull
 if(rowIndex <= wordIndexOfLeftEndWord){
-  let boolIsInBottomWord = true;
+  boolIsInBottomWord = true;
 }
 else (boolIsInBottomWord = false)
 
@@ -254,12 +376,20 @@ let lengthOfBottomWord = WIDTH - wordIndexOfLeftEndWord - 1
 if (lengthOfTopSpace >= lengthOfBottomWord)
 {
 
+  console.log({rowIndex2})
   
-  let target = originalArr[rowIndex]
-  let traget1 = originalArr[rowIndex+ 1]
+  let target = originalArr[rowIndex2]
+  let target1 = originalArr[rowIndex2+ 1]
+  alert("slice");
+
+  console.log({target})
+  console.log({target1})
+  
   let [trimmedLeftTopRight, wordPartTopRight] = this.splitAtIndex(target, wordIndexOfRightEndWord);
   let[ wordPartBottomLeft, trimmedLeftBottomLeft] = this.splitAtIndex(target1, wordIndexOfLeftEndWord)
   
+ 
+
   //put word into slot above on top and right side
   let combinedArrForTop = [...trimmedLeftTopRight, ...wordPartBottomLeft]
 
@@ -267,16 +397,33 @@ if (lengthOfTopSpace >= lengthOfBottomWord)
   let reducedArrForBottom = [...trimmedLeftBottomLeft]
 
 
-  originalArr[rowIndex] = combinedArrForTop
+  originalArr[rowIndex2] = combinedArrForTop
+  originalArr[rowIndex2+1] = reducedArrForBottom
 
-  originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex + 1,0)
+
+  //AAA---
+  //BBB XYZ
+
+  //AAABBB
+  //XYZ---
+  //SHOULD ROWINDEX BE SAVED IN ANOTHER VALUE
+  //adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,reducedArrForBottom,rowIndex+1,colIndex)
+
+  if (rowIndex2+1 === HEIGHT)
+  {
+    return originalArr
+  }
+  adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2+1,colIndex)
+
+  //originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex + 1,0)
 
 
 }
 
+
+
+return originalArr
 }
-
-
 
   
 
@@ -671,7 +818,7 @@ const val = "X"
 
         console.log("remx: ", remainder)
       //originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
-      //return originalArr
+      return originalArr
       }
       
 
@@ -692,9 +839,11 @@ const val = "X"
            //put on next line
           
           
-           if(originalArr[rowIndex][6]  != "-"){
-           //originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
-           //return originalArr
+           if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
+
+            //alert("in here")
+           originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+           return originalArr
            }
 
            
@@ -765,7 +914,18 @@ const val = "X"
           }
       //alert("b")                                                                                          -1, is second afrgment
          
+
+      //originalArr = this.fillNullWithDashOnRow(rowIndex ,originalArr)
+      
+      //originalArr = this.fillNullWithDashOnRow(rowIndex + 1 ,originalArr)
       //top to bottom
+
+      console.log("check: ", originalArr)
+      originalArr[5][0] = "-"
+      originalArr[5][0] = "-"
+
+      //LOOK at remainder at 721 amd other function two - when commented in/out does half character situations
+      //Uncaught TypeError: Cannot read properties of undefined (reading '5')
       if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
 
           //originalArr = this.adjustForWordBreaks_TopToBottom(
@@ -860,14 +1020,25 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
 
 
 
-}
 
 
 BottomToTopDelete()
 {
+  if (frontPart.at(-1) == "-" || remainder[0] == "-") {
+  //if line ends *without* breaking word (front ends with space, or remainder starts with one)
   
+
+}else{
+
+  //let targetRow = originalArr[rowIndex];
+
+
+
+
 }
 
+}
+}
 //testArray()
 //{
 //console.log({testArr});

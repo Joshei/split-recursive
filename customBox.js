@@ -30,7 +30,7 @@ class CustomBoxClass {
 
     
     if (gKey == 'Delete') {
-    //  deleteIt();
+         //Recursive.deleteIt()
     }
       else if (gKey == 'ArrowLeft') {
         CursorMovements.cursorLeft()
@@ -39,6 +39,7 @@ class CustomBoxClass {
       } else if (gKey == 'ArrowUp') {
         CursorMovements.cursorUp()
       } else if (gKey == 'ArrowDown') {
+        //alert("arrow_down")
         this.heightValue = CursorMovements.cursorDown()
         return (this.heightValue)
         
