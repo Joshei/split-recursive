@@ -219,6 +219,43 @@
       let gInsert = false
 
 
+      let amtAdditionalRows = 0;
+
+      function createNextRow()
+      {
+      
+        Recursive.pressedFunction()
+       
+        return 
+       
+        let retValue = true
+        //if ((HEIGHT + amtAdditionalRows <= verticalCursorPosition/10+ 1) )
+        {
+        nestedArray.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+
+        HEIGHT++
+        //drawGrid(WIDTH, heightOfGrid)
+        drawGrid(HEIGHT, WIDTH)
+
+        verticalCursorPosition = verticalCursorPosition + 10
+         drawCursor(
+
+
+          horizontalCursorPosition + HOFFSET,
+          verticalCursorPosition + VOFFSET
+        )
+        
+        amtAdditionalRows = amtAdditionalRows + 1
+        //printCharacter()
+        
+          //return retValue
+        }
+        //retValue = false
+        //return retValue
+        return 1
+    
+    
+      }
       //InsertNewArr(nestedArray, " ", horizontalCursorPosition/5, verticalCursorPosition/10 )
       function printCharacter() {
 
@@ -285,6 +322,14 @@
         //global variable
         gKey = e.key
         
+
+        if(gKey == 'Enter')
+        {
+          
+          alert("caught2")
+          createNextRow()
+          
+        }
         if(gKey == 'Delete')
         {
           
@@ -298,25 +343,12 @@
         
         console.log({heightOfGrid})
          
+       
+       
         if(heightOfGrid >= 0)
         {
 
-          alert("2")
-       
-        nestedArray.push (["-", "-", "-", "-", "-", "-" , "-" ],)
-
-        //drawGrid(WIDTH, heightOfGrid)
-        drawGrid(heightOfGrid, WIDTH)
-
-        verticalCursorPosition = verticalCursorPosition + 10
-         drawCursor(
-
-
-          horizontalCursorPosition + HOFFSET,
-          verticalCursorPosition + VOFFSET
-        )
-        
-        //printCharacter()
+          createNextRow()
         }
 
           

@@ -33,6 +33,7 @@ deleteColumnInTwoDimArray(array, col, row)
 }
 
 
+
 deleteRow(arr, rowIndex){
 
   arr.splice(rowIndex, 1)
@@ -60,7 +61,7 @@ fillRowWithDashes(rowIndex, arrayToChange){
   
   for(let i = 0 ; i < WIDTH ; i++){
 
-    arrayToChange[rowIndex][i] = "-"
+    arrayToChange[rowIndex-1][i] = "-"
   }
 
   return arrayToChange
@@ -78,7 +79,7 @@ fillNullWithDashOnRow(RowIndex ,arrayToChange)
   
 for(let i = 0 ; i < WIDTH ; i++){
   //console.log("tl: ", arrayToChange[i])
-  if (typeof arrayToChange[RowIndex][i] == 'undefined')
+  //if (arrayToChange[RowIndex][i] == '')
   {
     //alert("here");
     arrayToChange[RowIndex][i] = '-'
@@ -117,91 +118,12 @@ splitAtIndex(arr, index) {
   return [front, back];
   }
 
- 
-  // 0 1 2 3 4 5
-  // 1 2 3 4 5
- 
-  insertLetterEveryRow(originalArr)
-  {
 
-
-    console.log("origArray1: ", originalArr);
-
-
-   
-
-    //originalArr.pop();
-    //function shiftRight(){
-      //originalArr.forEach(function(v){
-      //  v.pop();
-      //  v.unshift(null);
-      //}//)
-
-
-      console.log("origArray2a: ", originalArr);
-
-
-    //}
-
-    
-    let tempHolderStartsAtOne = [["A"],]
-
-    let i = 0
-    let j = 0
-
-    //i is y
-    swappedOrigArray = JSON.parse(JSON.stringify(originalArr))
-    for(let j = 0; j < 6; j++){
- 
-      for(let i = 0 ; i < 6; i++){
-        swappedOrigArray[i][j] = "-"
-    }
-  }
-
-
-    for(let j = 0; j < 6; j++){
- 
-  for(let i = 0 ; i < 6; i++)
- // for(let j = 0; j < 5; j++)
-   {
-
-    
-      //tempHolderStartsAtOne[i][j] = originalArr[i+1][j]
-
-      //let value1 = originalArr[j+1][i]
-      //swappedOrigArray[j][i] = value1
-
-      let value1 = originalArr[i][j+1]
-      swappedOrigArray[i][j] = value1
- 
-    }
-  
-    
-  
-  }
-
-  console.log("swapped: ", swappedOrigArray)
-
-  originalArr = JSON.parse(JSON.stringify(swappedOrigArray))
-  //originalArr = snappedOrigArray
-  //console.log("tempholder: ", tempHolderStartsAtOne);
-  //originalArr = tempHolder
-
-  console.log("origArray2: ", originalArr);
-
-  return originalArr;
-
-    /////////
-}
 
 passInHere( bool, originalArr, key,  x, y)
 {
   
   originalArr = Recursive.insertClean(bool, originalArr, "Z", y, x )
-  
- 
-
-
   return originalArr
 
 }
@@ -241,6 +163,7 @@ if(originalArr[rowInde+2][0] != "-"  && rowIndex < HEIGHT)
 }
 
 }
+
 
 
 ///////////// SOME HOW, SET THIS TO A RANGE OF DELETES, ETC.
@@ -436,7 +359,7 @@ else{
 
 let boolIsInBottomWord = true;
 //cursor is in word, so check for a pull
-if(rowIndex <= wordIndexOfLeftEndWord){
+if(rowIndex2 <= wordIndexOfLeftEndWord){
   boolIsInBottomWord = true;
 }
 else (boolIsInBottomWord = false)
@@ -764,7 +687,8 @@ adjustForWordBreaks_BottomToTop(
 
  
   /////////
-
+pressedFunction()
+{}
 
   // combined on next row, delete former/8
 insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
@@ -909,15 +833,6 @@ const val = "X"
            //put on next line
           
           
-           if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
-
-            //alert("in here")
-           originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
-           return originalArr
-           }
-
-           
-
 
            console.log("array after inserting remainder:", originalArr);
            console.log("origianalArr2: ", originalArr)
@@ -957,48 +872,17 @@ const val = "X"
         return originalArr
       }
       
-
-     
-
-      
-
-      
-
-
-       ////////////
-         
-         // ASSUMPTION:  THIS FUNCTION TAKES IN THE INPUT VALUES AND ASSUMING THEY ARE CORRECT, SHOULD OUTPUT THE NEWLY INSERTED ARRAY
-         // ALSO CHECKS THAT AS ELSE SAYS, DOES NOT FIT IN THE ROW:  (does not fit in the row ) IS COMMENTED    
-         //
-         //  Inputs:
-     
-          // this is where word is broken across row
-          //  trimmedLine is the line on the left that doesn't include insert array and remainder array  
-          //  remainder - is the array after the inserted value 
-          //  originalarr - is the entire array before the insert
-          //  rowIndex - the value pertaining to the position vertical as index
-          //  colIndex - the position pertaining to the horizontal value as index
-
           if (rowIndex+1 == 1){
-            //rowIndex= 1
+            
           }
-      //alert("b")                                                                                          -1, is second afrgment
-         
-
-      //originalArr = this.fillNullWithDashOnRow(rowIndex ,originalArr)
       
-      //originalArr = this.fillNullWithDashOnRow(rowIndex + 1 ,originalArr)
-      //top to bottom
-
       console.log("check: ", originalArr)
       originalArr[5][0] = "-"
       originalArr[5][0] = "-"
 
-      //LOOK at remainder at 721 amd other function two - when commented in/out does half character situations
-      //Uncaught TypeError: Cannot read properties of undefined (reading '5')
-      if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
+         if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
 
-          //originalArr = this.adjustForWordBreaks_TopToBottom(
+         
         
             originalArr = this.adjustForWordBreaks_BottomToTop(
             trimmedLine,
@@ -1064,10 +948,7 @@ const val = "X"
   return originalArr;   //function ends here
 
 //no row, so create one
-}  else{
-
-
-}
+}  
 }
 
   
