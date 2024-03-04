@@ -79,12 +79,14 @@ fillNullWithDashOnRow(RowIndex ,arrayToChange)
   
 for(let i = 0 ; i < WIDTH ; i++){
   //console.log("tl: ", arrayToChange[i])
-  //if (arrayToChange[RowIndex][i] == '')
+  if (arrayToChange[RowIndex][i] == '' ||  arrayToChange[RowIndex][i] == " "  ||  typeof arrayToChange[RowIndex][i] == 'undefined')
   {
     //alert("here");
     arrayToChange[RowIndex][i] = '-'
   }
 }
+
+drawGrid(HEIGHT, WIDTH)
 return arrayToChange
 }
 
@@ -164,7 +166,67 @@ if(originalArr[rowInde+2][0] != "-"  && rowIndex < HEIGHT)
 
 }
 
+pressedEnter(originalArr,rowIndex3,column){
 
+  if(rowIndex3 > HEIGHT-1 )
+  {
+    //HEIGHT = HEIGHT + 1
+    
+  }
+  
+  //make left and right by first dash
+  //put left side on same line
+  //put right side on next line with push
+  
+  let target = originalArr[rowIndex3] 
+  let lastSpaceIndex = target.indexOf("-");
+  let [leftWord, rightWord] = this.splitAtIndex(target, lastSpaceIndex);
+  let [leftWord1, rightWord1] = this.splitAtIndex(leftWord, column)
+
+  //leftWord = ["2","2","2","2","2","2","2" ]
+
+ 
+  originalArr[rowIndex3] = leftWord1
+  originalArr.splice(rowIndex3+1,0,rightWord1)
+
+  originalArr = this.fillNullWithDashOnRow(rowIndex3 , originalArr)
+  originalArr = this.fillNullWithDashOnRow(rowIndex3+1 , originalArr)
+  HEIGHT++
+  drawGrid(HEIGHT, WIDTH)
+
+  
+  return originalArr
+   
+/*
+  /////////////////
+  //otherwise:
+
+  let lastSpaceIndex1 = originalArr[rowIndex3].lastIndexOf("-");
+  //no dashed
+  if(lastSpaceIndex1 == -1 )
+  {
+
+  }
+
+  let frontPart = originalArr[rowIndex3]
+  let [leftPiece, rightPiece] = this.splitAtIndex(frontPart, lastSpaceIndex1);
+  rightPiece = ["1","1","1","1","1","1","1" ]
+  
+
+
+  //////////////
+
+  //if in left piece than  make this  -------
+  //
+
+
+  originalArr.splice(rowIndex3+1,0,rightPiece)
+  
+  HEIGHT++
+  drawGrid(HEIGHT, WIDTH)
+  return originalArr
+*/   
+}
 
 ///////////// SOME HOW, SET THIS TO A RANGE OF DELETES, ETC.
 
@@ -687,8 +749,7 @@ adjustForWordBreaks_BottomToTop(
 
  
   /////////
-pressedFunction()
-{}
+
 
   // combined on next row, delete former/8
 insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
@@ -832,7 +893,23 @@ const val = "X"
            console.log("remainder1: ", remainder);
            //put on next line
           
-          
+          /*
+           try{if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
+
+            //alert("in here")
+           originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+           //return originalArr
+           }
+          }  catch (e){
+            alert("caught");
+            createNextRow()
+            //this.pressedEnter(originalArr, verticalCursorPosition/10, horizontalCursorPosition/5)
+            drawGrid
+            return originalArr
+          }
+
+           */
+
 
            console.log("array after inserting remainder:", originalArr);
            console.log("origianalArr2: ", originalArr)
@@ -872,17 +949,48 @@ const val = "X"
         return originalArr
       }
       
-          if (rowIndex+1 == 1){
-            
-          }
+
+     
+
       
+
+      
+
+
+       ////////////
+         
+         // ASSUMPTION:  THIS FUNCTION TAKES IN THE INPUT VALUES AND ASSUMING THEY ARE CORRECT, SHOULD OUTPUT THE NEWLY INSERTED ARRAY
+         // ALSO CHECKS THAT AS ELSE SAYS, DOES NOT FIT IN THE ROW:  (does not fit in the row ) IS COMMENTED    
+         //
+         //  Inputs:
+     
+          // this is where word is broken across row
+          //  trimmedLine is the line on the left that doesn't include insert array and remainder array  
+          //  remainder - is the array after the inserted value 
+          //  originalarr - is the entire array before the insert
+          //  rowIndex - the value pertaining to the position vertical as index
+          //  colIndex - the position pertaining to the horizontal value as index
+
+          if (rowIndex+1 == 1){
+            //rowIndex= 1
+          }
+      //alert("b")                                                                                          -1, is second afrgment
+         
+
+      //originalArr = this.fillNullWithDashOnRow(rowIndex ,originalArr)
+      
+      //originalArr = this.fillNullWithDashOnRow(rowIndex + 1 ,originalArr)
+      //top to bottom
+
       console.log("check: ", originalArr)
       originalArr[5][0] = "-"
       originalArr[5][0] = "-"
 
-         if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
+      //LOOK at remainder at 721 amd other function two - when commented in/out does half character situations
+      //Uncaught TypeError: Cannot read properties of undefined (reading '5')
+      if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
 
-         
+          //originalArr = this.adjustForWordBreaks_TopToBottom(
         
             originalArr = this.adjustForWordBreaks_BottomToTop(
             trimmedLine,
@@ -948,7 +1056,10 @@ const val = "X"
   return originalArr;   //function ends here
 
 //no row, so create one
-}  
+}  else{
+
+
+}
 }
 
   
