@@ -26,7 +26,7 @@ deleteKeyPressed(array, col, row){
 
   //rid element
 
-  alert("here")
+  //alert("here")
   //check last index
   //if dash, just move characters in row
   //if a character:
@@ -392,7 +392,7 @@ if (rowIndex2 >= HEIGHT)
 
 console.log("Z0: ", rowIndex2, colIndex)
  
-alert("z")
+//alert("z")
 console.log("Z1: ", originalArr)
 
 
@@ -895,7 +895,9 @@ const val = "X"
       
 
       //if(originalArr[rowIndex][6] != "-" )
-
+      
+      //CONSIDER THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      /*this function is broken, one of the adjustfors... too. */
       if(originalArr[rowIndex][6] != "-" && remainder[0] == "-") {
 
         console.log("remx: ", remainder)
@@ -921,7 +923,7 @@ const val = "X"
            //put on next line
 
            //if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
-           originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+           originalArr = this.insertNewArr(originalArr, remainder,verticalCursorPosition/10+1, horizontalCursorPosition/5);
            //return originalArr
            //}
           
@@ -1107,7 +1109,7 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
   
   let newArray2 = this.snapshot(originalArray);
   console.log("oa2: ", originalArray)
-  return this.insertNewArr(newArray2, insertedArray, rowIndex, 0);
+  return this.insertNewArr(newArray2, insertedArray, rowIndex, colIndex);
 }
 
 
