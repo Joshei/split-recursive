@@ -22,6 +22,33 @@ class RecursiveClass{
    
   }
 
+deleteKeyPressed(array, col, row){
+
+  //rid element
+
+  alert("here")
+  //check last index
+  //if dash, just move characters in row
+  //if a character:
+  //move characters to left
+  //move, on next row, [0], to previous row [6]
+  //move all characters to left
+  //if dash end otherwise, continue
+  
+  //move charactes to left, by deleting element:
+  //
+
+  //remove one element at rowindex
+  const removed = array[row].splice(1, 1)
+
+  /*
+    1234567
+    abcdefg
+  */
+
+    return
+
+  }
 
 deleteColumnInTwoDimArray(array, col, row)
 {
@@ -456,7 +483,7 @@ if (lengthOfTopSpace >= lengthOfBottomWord)
 
 
   originalArr[rowIndex2] = combinedArrForTop
-  originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex2 + 1,0)
+  originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex2 + 1, 0)
   //originalArr[rowIndex2+1] = reducedArrForBottom
 
 
@@ -892,6 +919,11 @@ const val = "X"
            console.log("origianalArr1: ", originalArr)
            console.log("remainder1: ", remainder);
            //put on next line
+
+           //if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
+           originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
+           //return originalArr
+           //}
           
           /*
            try{if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
@@ -1075,7 +1107,7 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
   
   let newArray2 = this.snapshot(originalArray);
   console.log("oa2: ", originalArray)
-  return this.insertNewArr(newArray2, insertedArray, rowIndex, colIndex);
+  return this.insertNewArr(newArray2, insertedArray, rowIndex, 0);
 }
 
 

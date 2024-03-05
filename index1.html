@@ -59,7 +59,7 @@
       let nestedArray = [
   ["-", "-", "-", "-", "-", "-" , "-"],
   ["-", "-", "-", "-", "-", "-" , "A"],
-  ["B", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
@@ -284,7 +284,7 @@
 ];
 */
         let key = "Z"
-        
+       
         //gKey = "Z"
         console.log("nested array1: ", nestedArray);
         //nestedArray = Recursive.insertClean(true, nestedArray, [gKey, gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
@@ -335,7 +335,9 @@
           
           //Recursive.adjustForWordBreaks_TopToBottom_LeftKeyPress(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5)
     
-          Recursive.adjustForWordBreaks_TopToBottom_LeftKeyPress(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+          //Recursive.adjustForWordBreaks_TopToBottom_LeftKeyPress(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+          Recursive.deleteKeyPressed(nestedArray, 1, 1)
+        
         }
 
         //printCharacter()
