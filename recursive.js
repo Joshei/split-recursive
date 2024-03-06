@@ -18,7 +18,7 @@ class RecursiveClass{
     this.flag = 0
     this.flagToManyDashes = false
     this.testCounter = 0;
-    
+    this.BreakoutOfDelete = false
    
   }
 
@@ -158,6 +158,32 @@ passInHere( bool, originalArr, key,  x, y)
 }
 
 
+isDeletePossible(rowIndex, columnIndex)
+{
+  //for (i = WIDTH-1; i > 0 ; i--)
+  //{
+
+    if(columnIndex % WIDTH - 1)
+    {
+      if(originalArr[rowIndex-1][WIDTH-1] === "" || originalArr[rowIndex-1][WIDTH-1] === " "  || typeof originalArr[rowIndex-1][WIDTH-1] === "undefined"   )
+      {
+        BreakoutOfDelete = false
+        return this.BreakoutOfDelete
+      }
+
+    }
+    else if(originalArr[rowIndex][columnIndex -1] === "" || originalArr[rowIndex][columnIndex-1] === " "  || typeof originalArr[rowIndex][columnIndex-1] === "undefined"   )
+    {
+      BreakoutOfDelete = false
+      return this.BreakoutOfDelete
+    }
+   
+  //}
+
+  this.BreakoutOfDelete = true
+  return this.BreakoutOfDelete
+
+}
 //top to bottom
 //After words ajusted 
 deleteCharacters(originalArr,counter,rowIndex,colIndex){
@@ -174,6 +200,14 @@ deleteCharacters(originalArr,counter,rowIndex,colIndex){
     //  return originalArr
     //}
 
+    //Check if there are spaces/nulls left of volImdex, if not return out of here without deleting
+
+    let BreakoutFlag = this.isDeletePossible(rowIndex, colIndex)
+
+    if(BreakoutFlag == true)
+    {
+      return originalArr
+    }
    
     //deletes the character
     originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex, rowIndex )
