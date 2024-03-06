@@ -160,38 +160,62 @@ passInHere( bool, originalArr, key,  x, y)
 
 //top to bottom
 //After words ajusted 
-deleteCharacters(originalArr,remainder,rowIndex,colIndex){
+deleteCharacters(originalArr,counter,rowIndex,colIndex){
 
+  //rowIndex = rowIndex + 1
   // delete character from rowIndex if there is a character at row+ 1, [0]
 // A.)move that character up to rowindex - 1 [6]
 // move thhat lines characters to th e left
 // if there is a character at row+1 [0] goto A.)
 
 
-//DELETES ONE CHARACTER AND MOVES FROM ALL ROWS THAT HAVE A CHARACTER AT [ROWINDEX+1][0]
-//moves all characters left
-originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex+1, rowIndex+1)
-/////////////////
+    //if(rowIndex >= 7)
+    //{
+    //  return originalArr
+    //}
 
-if (originalArr[rowIndex+1][0] != "-" )
-{
+   
+    //deletes the character
+    originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex, rowIndex )
+    //colIndex = colIndex + 1
+    //rowIndex = rowIndex + 1
+    //moves first character to complete top row
+    ////originalArr[rowIndex][6] = originalArr[rowIndex+1][0]
+    //complete top row
+    let topLine = originalArr[rowIndex - 1]
+    //next row, needs to get first character 
+    let topLineNextRow = originalArr[rowIndex]
+    //let lastSpaceIndex = 1
+    
+    let lastSpaceIndex = topLine.lastIndexOf("-");
+    //this is top row, get first dcharacter
+    let [lineBesideLeftMostCharacter, firstCharacter ] = this.splitAtIndex(topLine, lastSpaceIndex);
+    
 
-    //look at left lower border for amount that fits into right top space
-    // and put them there
-    //originalArr[rowIndex][6] = originalArr[rowIndex+1][0]
-    adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,remainder,rowIndex,colIndex)
-}
+    //let value = originalArr[rowIndex+1][6]
+    //let value2 =  [ ...lineBesideLeftMostCharacter, ...value] 
+    //originalArr[rowIndex] = value2
+    
+    
+    //originalArr[rowIndex] = topLine
 
-//remove character from next start of line - moves characters left
-originalArr = this.deleteColumnInTwoDimArray(originalArr, 0, rowIndex+1)
 
-if(originalArr[rowInde+2][0] != "-"  && rowIndex < HEIGHT)
-{
-    //call function
-    this.deleteCharacters(originalArr,remainder,rowIndex,colIndex);
-}
+    
 
-}
+    let lastSpaceIndex2 = topLineNextRow.lastIndexOf("-");
+
+    //this is second row, getting changed
+    let [firstCharacterOfNextLine, lineBesideLeftMostCharacterNextRow  ] = this.splitAtIndex(topLineNextRow, 1); 
+    //makes top row 
+    let completeTopRow = [...lineBesideLeftMostCharacter, ...firstCharacterOfNextLine]
+    originalArr[rowIndex - 1] = completeTopRow
+
+    this.deleteCharacters(originalArr,counter,rowIndex+1 ,colIndex);
+    
+
+    drawGrid()
+    return originalArr
+  }
 
 pressedEnter(originalArr,rowIndex3,column){
 

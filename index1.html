@@ -57,11 +57,11 @@
     <script>
       
       let nestedArray = [
-  ["-", "-", "-", "-", "-", "-" , "-"],
+  ["-", "-", "-", "-", "-", "-" , "0"],
   ["-", "-", "-", "-", "-", "-" , "A"],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "B" ],
+  ["-", "-", "-", "-", "-", "X" , "C" ],
+  ["-", "T", "-", "-", "-", "Y" , "D" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   
@@ -336,7 +336,7 @@
           //Recursive.adjustForWordBreaks_TopToBottom_LeftKeyPress(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5)
     
           //Recursive.adjustForWordBreaks_TopToBottom_LeftKeyPress(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-          Recursive.deleteKeyPressed(nestedArray, 1, 1)
+          Recursive.deleteCharacters(nestedArray, 0,  verticalCursorPosition/10+1, horizontalCursorPosition/5)
         
         }
 
