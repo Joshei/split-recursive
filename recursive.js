@@ -160,33 +160,30 @@ passInHere( bool, originalArr, key,  x, y)
 
 isDeletePossible(rowIndex, columnIndex)
 {
-  //for (i = WIDTH-1; i > 0 ; i--)
-  //{
+  
 
-    if(columnIndex % WIDTH - 1)
-    {
-      if(originalArr[rowIndex-1][WIDTH-1] === "" || originalArr[rowIndex-1][WIDTH-1] === " "  || typeof originalArr[rowIndex-1][WIDTH-1] === "undefined"   )
-      {
-        BreakoutOfDelete = false
-        return this.BreakoutOfDelete
-      }
+  //  THIS ISNT RIGHT
+  /*
+  for (i = 0; i < WIDTH ; i++)
+  {
+  for(j = 0 ; j < HEIGHT; j++){
 
-    }
-    else if(originalArr[rowIndex][columnIndex -1] === "" || originalArr[rowIndex][columnIndex-1] === " "  || typeof originalArr[rowIndex][columnIndex-1] === "undefined"   )
-    {
+      if(originalArr[rowIndex-1][WIDTH-1] !== "" || typeof originalArr[rowIndex-1][WIDTH-1] !== "undefined"   )
       BreakoutOfDelete = false
       return this.BreakoutOfDelete
     }
-   
-  //}
 
-  this.BreakoutOfDelete = true
-  return this.BreakoutOfDelete
+  }
 
+      BreakoutOfDelete = true
+      return this.BreakoutOfDelete
+*/
 }
-//top to bottom
-//After words ajusted 
-deleteCharacters(originalArr,counter,rowIndex,colIndex){
+
+
+  
+deleteCharacters(originalArr,counter,rowIndex,colIndex)
+{
 
   //rowIndex = rowIndex + 1
   // delete character from rowIndex if there is a character at row+ 1, [0]
@@ -202,12 +199,14 @@ deleteCharacters(originalArr,counter,rowIndex,colIndex){
 
     //Check if there are spaces/nulls left of volImdex, if not return out of here without deleting
 
-    let BreakoutFlag = this.isDeletePossible(rowIndex, colIndex)
-
-    if(BreakoutFlag == true)
-    {
-      return originalArr
-    }
+    
+    //DO THIS
+    //let BreakoutFlag = this.isDeletePossible(rowIndex, colIndex)
+//
+//    if(BreakoutFlag == true)
+//    {
+//      return originalArr
+//    }
    
     //deletes the character
     originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex, rowIndex )
@@ -251,7 +250,8 @@ deleteCharacters(originalArr,counter,rowIndex,colIndex){
     return originalArr
   }
 
-pressedEnter(originalArr,rowIndex3,column){
+pressedEnter(originalArr,rowIndex3,column)
+{
 
   if(rowIndex3 > HEIGHT-1 )
   {
@@ -318,7 +318,8 @@ pressedEnter(originalArr,rowIndex3,column){
 //Recursivley, checks each line and determins if each line needs to be moved to the left once. 
 
 //  ELSE 
-deletecharacters2(rowIndex){
+deletecharacters2(rowIndex)
+{
 
 
   //for testing
@@ -352,7 +353,8 @@ deletecharacters2(rowIndex){
   
 }
 
-moveAllWordsAcrossBorder(rowIndex){
+moveAllWordsAcrossBorder(rowIndex)
+{
 
   //on this line there isn't an overlapping word
   if(originalArr[rowIndex][6] == "-" || originalArr[rowIndex+1][0] == "="){
@@ -437,7 +439,8 @@ moveAllWordsAcrossBorder(rowIndex){
 
   //what about empty rows and ??partial rows??
   //do i need to rename rowindex?
-  adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2,colIndex){
+  adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2,colIndex)
+  {
 //adjustForWordBreakesPullFromBottom(){
 
 
@@ -585,7 +588,8 @@ adjustForWordBreaks_TopToBottom(
   rowIndex,
   colIndex
   //iteration
-) {
+) 
+{
   
 
   //return originalArr
@@ -721,7 +725,8 @@ adjustForWordBreaks_BottomToTop(
   remainder,
   originalArr,
   rowIndex,
-  colIndex){
+  colIndex)
+  {
   
     let totalWord = ""
   let iteration = 1
@@ -981,7 +986,10 @@ const val = "X"
            //put on next line
 
            //if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
-           originalArr = this.insertNewArr(originalArr, remainder,verticalCursorPosition/10+1, horizontalCursorPosition/5);
+           
+           originalArr = this.insertNewArr(originalArr, remainder,rowIndex+1, 0);
+           
+           //originalArr = this.insertNewArr(originalArr, remainder,verticalCursorPosition/10+1, horizontalCursorPosition/5);
            //return originalArr
            //}
           
@@ -1037,8 +1045,8 @@ const val = "X"
       if(rowIndex > 5)
       {
        
-        rowIndex = 5;
-        return originalArr
+        //rowIndex = 5;
+        //return originalArr
       }
       
 
@@ -1075,8 +1083,8 @@ const val = "X"
       //top to bottom
 
       console.log("check: ", originalArr)
-      originalArr[5][0] = "-"
-      originalArr[5][0] = "-"
+      //originalArr[5][0] = "-"
+      //originalArr[5][0] = "-"
 
       //LOOK at remainder at 721 amd other function two - when commented in/out does half character situations
       //Uncaught TypeError: Cannot read properties of undefined (reading '5')
@@ -1084,6 +1092,8 @@ const val = "X"
 
           //originalArr = this.adjustForWordBreaks_TopToBottom(
         
+          /*
+          alert("bottom to top")
             originalArr = this.adjustForWordBreaks_BottomToTop(
             trimmedLine,
             remainder,
@@ -1093,6 +1103,7 @@ const val = "X"
           
           );
 
+          */
           return originalArr
 
          } 
@@ -1101,6 +1112,7 @@ const val = "X"
          //bottom to top
         if (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-"  )
          {
+          alert("top to bottom")
         
          
          
@@ -1112,6 +1124,7 @@ const val = "X"
 
         
        // originalArr = this.adjustForWordBreaks_BottomToTop(
+        /*
         originalArr = this.adjustForWordBreaks_TopToBottom(
         
         trimmedLine,
@@ -1122,7 +1135,7 @@ const val = "X"
       
       );
          
-
+          */
       }
 
      
@@ -1192,7 +1205,10 @@ BottomToTopDelete()
 }
 
 }
+
 }
+
+
 //testArray()
 //{
 //console.log({testArr});
@@ -1209,7 +1225,8 @@ testArr = this.insertClean(
 }
 
 */
-/* TEST SECTION
+
+// TEST SECTION
 //console.log({testArr});
 //testArr = this.insertClean(
 //  this.nestedArray,
@@ -1220,4 +1237,3 @@ testArr = this.insertClean(
 
 //console.log("insert [x,y,z,'-',l,m,n,o,p] at [0][2]");
 //console.log({testArr});
-*/
