@@ -1,5 +1,11 @@
 
 
+//3/9/24
+// fixed a insertall error that makes workings better in complex siuations
+// adjusts are commented out
+// now working on hard setting the matrix and using moveallwords..
+// recursivly.
+
 
 //after insert, check entire field for words that cross boundries, if found a crossover
 //move that text to start at that border and than goto top and do 
