@@ -576,35 +576,34 @@ let wordIndexOfRightEndWord = 0
 //index of start from top
 let firstSpaceIndexTop = originalArr[rowIndex2].lastIndexOf("-")
 
-let otherFirstSpaceTop = originalArr[rowIndex2].lastIndexOf(" ")
-if (firstSpaceIndexTop <= otherFirstSpaceTop){
-  wordIndexOfRightEndWord = firstSpaceIndexTop
-}
-else{
+//let otherFirstSpaceTop = originalArr[rowIndex2].lastIndexOf(" ")
+//if (firstSpaceIndexTop <= otherFirstSpaceTop){
+//  wordIndexOfRightEndWord = firstSpaceIndexTop
+//else{
   wordIndexOfRightEndWord = otherFirstSpaceTop
-}
+//}
 
 //get index dash or space of word part that is on lower left boundary
 let wordIndexOfLeftEndWord = 0
 
 let firstSpaceIndexLeftBottom = originalArr[rowIndex2+1].indexOf("-")
-let otherFirstSpaceIndexLeftBottom = originalArr[rowIndex2+1].indexOf(" ")
+//let otherFirstSpaceIndexLeftBottom = originalArr[rowIndex2+1].indexOf(" ")
 
-if(firstSpaceIndexLeftBottom <= otherFirstSpaceIndexLeftBottom)
-{
-  wordIndexOfLeftEndWord  = firstSpaceIndexLeftBottom
+//if(firstSpaceIndexLeftBottom <= otherFirstSpaceIndexLeftBottom)
+//{
+//  wordIndexOfLeftEndWord  = firstSpaceIndexLeftBottom
   
-}
-else{
+//}
+//else{
   wordIndexOfLeftEndWord = otherFirstSpaceIndexLeftBottom
-}
+//}
 
-let boolIsInBottomWord = true;
+////let boolIsInBottomWord = true;
 //cursor is in word, so check for a pull
-if(rowIndex2 <= wordIndexOfLeftEndWord){
-  boolIsInBottomWord = true;
-}
-else (boolIsInBottomWord = false)
+////if(rowIndex2 <= wordIndexOfLeftEndWord){
+////  boolIsInBottomWord = true;
+////}
+///else (boolIsInBottomWord = false)
 
 /////working with top again
 let lengthOfTopSpace =  WIDTH - wordIndexOfRightEndWord - 1
