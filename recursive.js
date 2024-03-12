@@ -282,6 +282,7 @@ pressedEnter(originalArr,rowIndex3,column)
 
   originalArr = this.fillNullWithDashOnRow(rowIndex3 , originalArr)
   originalArr = this.fillNullWithDashOnRow(rowIndex3+1 , originalArr)
+  //alert("@@@@")
   HEIGHT++
   drawGrid(HEIGHT, WIDTH)
 
@@ -331,6 +332,7 @@ deletecharacters2(rowIndex)
   //for testing
   moveAllWordsAcrossBorder(rowIndex)
 
+  alert("test");
   return(originalArr)
 
   //move chatracters only on this  line
@@ -359,66 +361,150 @@ deletecharacters2(rowIndex)
   
 }
 
-moveAllWordsAcrossBorder(rowIndex)
-{
+moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
 
-  //on this line there isn't an overlapping word
-  if(originalArr[rowIndex][6] == "-" || originalArr[rowIndex+1][0] == "="){
-    this.moveAllWordsAcrossBorder(rowIndex)
+
+  console.log("across: ", remainder);
+    //check for index 6 and index 0
+    //if two values add up to over 7 retunr out
+    //get first row last word on border  - A
+    //get second row  get first word on left border - B
+
+    //put A on the 2nd row
+    //put B on end of row
+    //delete first row
+    //check NEXT row with recursion
+  
+
+ 
+
+    
+  
+
+
+
+  if(originalArr[rowIndex][6] == "-" || originalArr[rowIndex+1][0] == "-"){ 
+
+    //alert("in")
+    //return originalArr
+
   }
-  //on this row there is a cross border word
+
+  //alert("move all words...")
+  
+
+
+  let targetRow1 = originalArr[rowIndex];
+  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+  if(rowIndex < HEIGHT-1){
+    originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+    //return
+  }
   else{
-
-
-    ///////////////
-
-    // a word has been broken
-    console.log(consolePad, "a word was broken in the line break");
-    //find last index of space in frontPart
-    console.log(consolePad, "line to break up:");
-    console.log(consolePad, frontPart);
-    let lastSpaceIndex = frontPart.lastIndexOf("-");
-    console.log(consolePad, "space index", lastSpaceIndex);
-    //split frontPart at space index
-    let [trimmedLeft, wordPart] = splitAtIndex(frontPart, lastSpaceIndex);
-    console.log(consolePad, "trimmed line split at word break:", trimmedLeft);
-    console.log(consolePad, "partial word:", wordPart);
-    //replace original row with the word-excluded part of the line
-    originalArr[rowIndex] = trimmedLeft;
-    console.log(
-      consolePad,
-      "replace original row with trimmed left part of line"
-    );
-    console.log(consolePad, snapshot(originalArr));
-    //take word fragment, tack it to the beginning of "remainder" array
-    let newRemainder = [...wordPart, ...remainder];
-    console.log(consolePad, "added word part to remainder");
-    console.log(consolePad, newRemainder);
-    console.log(
-      consolePad,
-      "!! Recursive call from level ",
-      iteration,
-      " to level",
-      iteration + 1,
-      " !!"
-    );
-    //make the recursive call to add the new remainder to the next line
-    //originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, colIndex);
-    originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, 0);
-    console.log(consolePad, "!! Return to iteration", iteration, "!!");
-    console.log(
-      consolePad,
-      "array after inserting remainder with repaired word"
-    );
-    console.log(consolePad, snapshot(originalArr));
-    return originalArr;
-
-
-    //////////////
-
-    //will spaces hold word below
-
+    return
   }
+  if (rowIndex > HEIGHT-2){
+    //return
+  }
+  let targetRow2 = originalArr[rowIndex+1];
+
+
+  // find first values
+  let lastSpaceIndex = targetRow1.lastIndexOf("-");
+  const [trim1, lastPiece] = this.splitAtIndex(targetRow1, lastSpaceIndex + 1);
+  
+  // find 2nd values
+  let firstSpaceIndex = targetRow2.indexOf("-");
+  const [frontPiece, trim2] = this.splitAtIndex(targetRow2, firstSpaceIndex);
+
+  if((frontPiece.length + lastPiece.length) > 7 )
+  {
+    this.moveAllWordsAcrossBorder(originalArr,[], rowIndex+2,colIndex)
+    //originalArr = this.deleteRow(originalArr, rowIndex+1)
+    //alert("over 7")
+    return originalArr
+  }
+  //last peice on row 1, forsy peice on row 2
+  // 01
+  const combined = [...lastPiece, ...frontPiece, ...trim2]
+
+  //leftover line that was previous
+  const [word1, remainder1] = this.splitAtIndex(combined, 7);
+  remainder  =  [...remainder, ...remainder1]
+
+  originalArr[rowIndex] = trim1 
+  originalArr[rowIndex+1] = word1
+  this.fillNullWithDashOnRow(rowIndex+1 ,originalArr)
+  this.fillNullWithDashOnRow(rowIndex ,originalArr)
+
+ 
+  
+  
+  
+  
+  
+  //originalArr = this.deleteRow(originalArr, rowIndex)
+  if(rowIndex >= 3)
+  {
+    //return originalArr
+  }
+  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+  //this.pressedEnter(originalArr,HEIGHT-1,colIndex)
+  //originalArr = this.fillNullWithDashOnRow(1 , originalArr)
+  
+  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+  drawGrid(HEIGHT, WIDTH)
+  //alert("words...");
+  //second row holds combined
+  //originalArr = this.deleteRow(originalArr, rowIndex)
+  //last parameter?
+  //this.moveAllWordsAcrossBorder(originalArr, remainder, rowIndex + 1, 0)
+  //this.insertNewArr(originalArr,remainder,rowIndex+1,0)
+  //originalArr = this.deleteRow(originalArr, rowIndex)
+
+ 
+  this.moveAllWordsAcrossBorder(originalArr,[], rowIndex+1,colIndex)
+  
+ 
+  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+
+  let DeleteFlag = true
+  let i = 0
+  for(let j = 0; j< rowIndex; j++)
+  {
+
+    DeleteFlag = true
+  
+  for(i = 0; i < WIDTH - 1 ; i++)
+  {
+    if (originalArr[j][i] != "-")
+    {
+        DeleteFlag = false;
+        break
+    }
+  }
+
+  if(DeleteFlag == true)
+  {
+    originalArr = this.deleteRow(originalArr, j)
+    //DeleteFlag = false
+   
+  }
+}
+  //originalArr = this.deleteRow(originalArr, rowIndex)
+  
+  //originalArr.push (["B", "-", "-", "-", "-", "-" , "-" ],)
+  drawGrid(HEIGHT, WIDTH) 
+  //originalArr = this.fillNullWithDashOnRow(1 , originalArr)
+  
+  //createNextRow()
+  
+
+  
+  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+  return (originalArr)
+
+ 
 
 }
 
@@ -902,11 +988,12 @@ const val = "X"
       return originalArr
     }
 
+    let lastSpaceIndex = targetRow.lastIndexOf("-");
      //split the original row at that index into "front" & "back" pieces
-    const [frontPiece, backPiece] = this.splitAtIndex(targetRow, colIndex);
+    const [frontPiece, backPiece] = this.splitAtIndex(targetRow, (colIndex));
     
     //combined with the inserted value which is a single valued array
-    let combinedArr = [...frontPiece, ...insertedArr, ...backPiece];
+    let combinedArr = [...frontPiece,  ...insertedArr, ...backPiece, ];
 
     
 
@@ -967,6 +1054,8 @@ const val = "X"
       
       //CONSIDER THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       /*this function is broken, one of the adjustfors... too. */
+      
+      
       if(originalArr[rowIndex][6] != "-" && remainder[0] == "-") {
 
         console.log("remx: ", remainder)
@@ -993,9 +1082,15 @@ const val = "X"
 
            //if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
            
-           originalArr = this.insertNewArr(originalArr, remainder,rowIndex+1, 0);
+           //originalArr = this.insertNewArr(originalArr, remainder,rowIndex+1, 0);
            
-           //originalArr = this.insertNewArr(originalArr, remainder,verticalCursorPosition/10+1, horizontalCursorPosition/5);
+
+          //let lengthofWord = 
+           originalArr = this.insertNewArr(originalArr, remainder,verticalCursorPosition/10+1, colIndex);
+           console.log("vert: ", verticalCursorPosition/10+1)
+           console.log("vert2: ", rowIndex+1)
+           //this.insertClean(false, originalArr, insertedArr, rowIndex+1, colIndex) 
+           
            //return originalArr
            //}
           
@@ -1094,7 +1189,11 @@ const val = "X"
 
       //LOOK at remainder at 721 amd other function two - when commented in/out does half character situations
       //Uncaught TypeError: Cannot read properties of undefined (reading '5')
-      if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
+      
+      
+      
+      if(0){
+      //if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
 
           //originalArr = this.adjustForWordBreaks_TopToBottom(
         
@@ -1116,7 +1215,7 @@ const val = "X"
          
          
          //bottom to top
-        if (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-"  )
+        if(0)// (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-"  )
          {
           alert("top to bottom")
         
@@ -1144,6 +1243,8 @@ const val = "X"
           */
       }
 
+
+      
      
       
 
@@ -1169,8 +1270,10 @@ const val = "X"
 //no row, so create one
 }  else{
 
-
+alert("i");
 }
+
+return originalArr
 }
 
   

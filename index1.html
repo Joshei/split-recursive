@@ -57,11 +57,11 @@
     <script>
       
       let nestedArray = [
-  ["-", "-", "-", "-", "-", "-" , "0"],
-  ["-", "-", "-", "-", "-", "-" , "A"],
-  ["-", "-", "-", "-", "-", "-" , "B" ],
-  ["-", "-", "-", "-", "-", "X" , "C" ],
-  ["-", "T", "-", "-", "-", "Y" , "D" ],
+  ["-", "-", "-", "q", "a", "-" , "1"],
+  ["2", "-", "-", "-", "a", "-" , "-"],
+  ["-", "-", "-", "z", "-", "-" , "3" ],
+  ["4", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   
@@ -226,8 +226,10 @@
       
         Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
        
+      
         return 
-       
+      
+        alert("?!?!") 
         let retValue = true
         //if ((HEIGHT + amtAdditionalRows <= verticalCursorPosition/10+ 1) )
         {
@@ -335,10 +337,12 @@
           
           //Recursive.adjustForWordBreaks_TopToBottom_LeftKeyPress(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5)
     
-             //Recursive.deleteCharacters(nestedArray, 0,  verticalCursorPosition/10+1, horizontalCursorPosition/5)
+             //THIS IS IT :  Recursive.deleteCharacters(nestedArray, 0,  verticalCursorPosition/10+1, horizontalCursorPosition/5)
         
-             Recursive.moveAllWordsAcrossBoder(horizontalCursorPosition/5)
-        }
+             console.log("nested array3: ", nestedArray);
+             nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
+             console.log("nested array4: ", nestedArray);
+            }
 
         //printCharacter()
         heightOfGrid = customBox1.controlInput()
