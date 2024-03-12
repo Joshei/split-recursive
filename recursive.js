@@ -56,6 +56,15 @@ deleteKeyPressed(array, col, row){
 
   }
 
+  deleteColumnInTwoDimArrayDontMakeDash(array, col, row)
+{
+  console.log({col})
+    array[row-1].splice(col-2, 1)
+    
+
+    return(array)
+}
+
 deleteColumnInTwoDimArray(array, col, row)
 {
   console.log({col})
@@ -532,19 +541,27 @@ let wordIndexOfRightEndWord = 0
 
 let firstSpaceIndexTop = originalArr[rowIndex2].lastIndexOf("-")
 
-  wordIndexOfRightEndWord = otherFirstSpaceTop
+  wordIndexOfRightEndWord = firstSpaceIndexTop
 
 let wordIndexOfLeftEndWord = 0
 
 let firstSpaceIndexLeftBottom = originalArr[rowIndex2+1].indexOf("-")
 
-  wordIndexOfLeftEndWord = otherFirstSpaceIndexLeftBottom
+  wordIndexOfLeftEndWord = firstSpaceIndexLeftBottom
 
-let lengthOfTopSpace =  WIDTH - wordIndexOfRightEndWord - 1
+let lengthOfTopSpace =  wordIndexOfRightEndWord 
 let lengthOfBottomWord = WIDTH - wordIndexOfLeftEndWord - 1 
 
+let fits = true
+for(let i = WIDTH - lengthOfBottomWord; i < WIDTH -1 ; i++)
+{
+    if((originalArr[rowIndex2][i] != "") && (originalArr[rowIndex2][i] != "-" ) && (originalArr[rowIndex2][i] != " " ))
+    {
+        fits = false
+    }
+}
 
-if (lengthOfTopSpace >= lengthOfBottomWord)
+if (fits == true)
 {
 
   console.log({rowIndex2})
@@ -556,20 +573,26 @@ if (lengthOfTopSpace >= lengthOfBottomWord)
   console.log({target})
   console.log({target1})
   
-  let [trimmedLeftTopRight, wordPartTopRight] = this.splitAtIndex(target, wordIndexOfRightEndWord);
-  let[ wordPartBottomLeft, trimmedLeftBottomLeft] = this.splitAtIndex(target1, wordIndexOfLeftEndWord)
+  let [trimmedLeftTopRight, wordPartTopRight] = this.splitAtIndex(target, wordIndexOfRightEndWord + 1);
+  let[ wordPartBottomLeft, trimmedLeftBottomLeft] = this.splitAtIndex(target1, wordIndexOfLeftEndWord  )
   
+
+  let[ Left, trim2] = this.splitAtIndex(trimmedLeftTopRight,  2  )
+  
+
   let combinedArrForTop = [...trimmedLeftTopRight, ...wordPartBottomLeft]
+
+  
+  let[ left, trim] = this.splitAtIndex(combinedArrForTop, lengthOfBottomWord)
+  
 
   let reducedArrForBottom = [...trimmedLeftBottomLeft]
 
-
-  originalArr[rowIndex2] = combinedArrForTop
-  originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex2 + 1, 0)
-  
-  originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex2 + 1,0)
+  originalArr[rowIndex2] = trim
 
 
+  recursionFunction(left, rowIndex2, originalArr)
+ 
 }
 
 
@@ -577,7 +600,26 @@ if (lengthOfTopSpace >= lengthOfBottomWord)
 return originalArr
 }
 
-  
+//shifts all rows left less than length of the bottom left word 
+recursionFunction(remainder, rowIndex2, originalArr){
+
+  if (rowIndex2 == HEIGHT-1)
+  {
+    return(originalArr)
+  }
+  let nextLineOfBottomLine = originalArr[rowIndex2+1]
+
+  let combined = [...nextLineOfBottomLine, ...remainder]
+
+  let[ left, trim] = this.splitAtIndex(combined, WIDTH - 1)
+
+  originalArr[rowIndex2 + 1] = trim
+
+  recursionFunction(left, rowIndex2 + 1, originalArr)
+
+
+
+}  
 
 
 
