@@ -509,32 +509,9 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
 }
 
 
-///////////
 
-
-//Handles a left delete on row.  There is one situation here to resolve.
-//This function checks the next row, to see if the delete will move
-//the characters up to space.  Just this one row.  
-
-//PUT FUNCTION HERE TO DO THIS
-//After characters have been removed check for final character, if is not "-"
-//than move chratcers on each succesive line
-//If character is "-" than just move chracters on that line 
-
-
-//BBBBB
-//AAA
-
-//BBBBB AAAA
-//
-  //adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,remainder = null,rowIndex,colIndex){
-
-  //what about empty rows and ??partial rows??
-  //do i need to rename rowindex?
   adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2,colIndex)
   {
-//adjustForWordBreakesPullFromBottom(){
-
 
 
 if (rowIndex2 >= HEIGHT)
@@ -545,71 +522,28 @@ if (rowIndex2 >= HEIGHT)
 
 console.log("Z0: ", rowIndex2, colIndex)
  
-//alert("z")
+
 console.log("Z1: ", originalArr)
 
 
-//deleteCharacters(originalArr,remainder,rowIndex,colIndex)
-
-
-////////////////  PLACE THIS IN A BETTER PLACE AFTER CODE WRITTEN ABOVE
-
-////////////
-///horizontalCursorPosition = horizontalCursorPosition - 5
-///drawGrid(heightOfGrid, WIDTH)
-///drawCursor(horizontalCursorPosition + HOFFSET, verticalCursorPosition+ VOFFSET)
-console.log("Z2: ", originalArr)
-///////////
-
-  // check to see if this is a valid situation
-  // are there characters on left-bottom
-  // is the character position in this 'word'
-  // is the space on top-right enough to hold characters before cursor position
-
   alert("top to bottom")
 
-  
-// letter on top right and lower left boundaries
-// get length of word on left bottom border
-//get length of word part that is on lower left boundary
 let wordIndexOfRightEndWord = 0
-//index of start from top
+
 let firstSpaceIndexTop = originalArr[rowIndex2].lastIndexOf("-")
 
-//let otherFirstSpaceTop = originalArr[rowIndex2].lastIndexOf(" ")
-//if (firstSpaceIndexTop <= otherFirstSpaceTop){
-//  wordIndexOfRightEndWord = firstSpaceIndexTop
-//else{
   wordIndexOfRightEndWord = otherFirstSpaceTop
-//}
 
-//get index dash or space of word part that is on lower left boundary
 let wordIndexOfLeftEndWord = 0
 
 let firstSpaceIndexLeftBottom = originalArr[rowIndex2+1].indexOf("-")
-//let otherFirstSpaceIndexLeftBottom = originalArr[rowIndex2+1].indexOf(" ")
 
-//if(firstSpaceIndexLeftBottom <= otherFirstSpaceIndexLeftBottom)
-//{
-//  wordIndexOfLeftEndWord  = firstSpaceIndexLeftBottom
-  
-//}
-//else{
   wordIndexOfLeftEndWord = otherFirstSpaceIndexLeftBottom
-//}
 
-////let boolIsInBottomWord = true;
-//cursor is in word, so check for a pull
-////if(rowIndex2 <= wordIndexOfLeftEndWord){
-////  boolIsInBottomWord = true;
-////}
-///else (boolIsInBottomWord = false)
-
-/////working with top again
 let lengthOfTopSpace =  WIDTH - wordIndexOfRightEndWord - 1
 let lengthOfBottomWord = WIDTH - wordIndexOfLeftEndWord - 1 
 
-//insert word into top
+
 if (lengthOfTopSpace >= lengthOfBottomWord)
 {
 
@@ -625,30 +559,14 @@ if (lengthOfTopSpace >= lengthOfBottomWord)
   let [trimmedLeftTopRight, wordPartTopRight] = this.splitAtIndex(target, wordIndexOfRightEndWord);
   let[ wordPartBottomLeft, trimmedLeftBottomLeft] = this.splitAtIndex(target1, wordIndexOfLeftEndWord)
   
- 
-
-  //put word into slot above on top and right side
   let combinedArrForTop = [...trimmedLeftTopRight, ...wordPartBottomLeft]
 
-  //remove word from bottom left row
   let reducedArrForBottom = [...trimmedLeftBottomLeft]
 
 
   originalArr[rowIndex2] = combinedArrForTop
   originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex2 + 1, 0)
-  //originalArr[rowIndex2+1] = reducedArrForBottom
-
-
-  //AAA---
-  //BBB XYZ
-
-  //AAABBB
-  //XYZ---
-  //SHOULD ROWINDEX BE SAVED IN ANOTHER VALUE
-  //adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,reducedArrForBottom,rowIndex+1,colIndex)
-
-  //adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2+1,colIndex)
-
+  
   originalArr = this.insertNewArr(originalArr, reducedArrForBottom, rowIndex2 + 1,0)
 
 
