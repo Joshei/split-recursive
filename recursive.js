@@ -519,8 +519,9 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
 
 
 
-  adjustForWordBreaks_TopToBottom_LeftKeyPress( originalArr,rowIndex2,colIndex)
-  {
+//3/13/24 :  Looks pretty good.
+BringLeftTextUpIntoSpaceOnRight( originalArr,rowIndex2,colIndex)
+{
 
 
 if (rowIndex2 >= HEIGHT)
