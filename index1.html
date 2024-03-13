@@ -59,9 +59,9 @@
       let nestedArray = [
   ["-", "-", "-", "-", "-", "-" , "-"],
   ["-", "-", "-", "-", "-", "-" , "-"],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["1", "2", "3", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "A", "-", "-" , "-" ],
+  ["1", "2", "3", "-", "Z", "-" , "-" ],
+  ["-", "-", "-", "-", "Y", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   
@@ -337,7 +337,8 @@
           
           //Recursive.adjustForWordBreaks_TopToBottom_LeftKeyPress(nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5)
     
-             //THIS IS IT :  Recursive.deleteCharacters(nestedArray, 0,  verticalCursorPosition/10+1, horizontalCursorPosition/5)
+             //THIS IS IT :  
+             //Recursive.deleteCharacters(nestedArray, 0,  verticalCursorPosition/10+1, horizontalCursorPosition/5)
         
              console.log("nested array3: ", nestedArray);
              //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)

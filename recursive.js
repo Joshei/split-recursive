@@ -574,24 +574,36 @@ if (fits == true)
   console.log({target1})
   
   let [trimmedLeftTopRight, wordPartTopRight] = this.splitAtIndex(target, wordIndexOfRightEndWord + 1);
+  
+  
+  
   let[ wordPartBottomLeft, trimmedLeftBottomLeft] = this.splitAtIndex(target1, wordIndexOfLeftEndWord  )
+  let [leftToAddTo, trim3] = this.splitAtIndex(trimmedLeftTopRight, WIDTH - wordPartBottomLeft.length );
+  
+  let endTopWord = [...leftToAddTo,  ...wordPartBottomLeft ]
+
+  // ----a--
+//  let[ Left, trim2] = this.splitAtIndex(trimmedLeftTopRight,  2  )
+
+
+  
   
 
-  let[ Left, trim2] = this.splitAtIndex(trimmedLeftTopRight,  2  )
-  
-
-  let combinedArrForTop = [...trimmedLeftTopRight, ...wordPartBottomLeft]
+  //a in proper place
+//  let combinedArrForTop = [...trimmedLeftTopRight, ...wordPartBottomLeft]
 
   
-  let[ left, trim] = this.splitAtIndex(combinedArrForTop, lengthOfBottomWord)
+//  let[ left, trim] = this.splitAtIndex(combinedArrForTop, lengthOfBottomWord)
   
 
-  let reducedArrForBottom = [...trimmedLeftBottomLeft]
+//  let reducedArrForBottom = [...trimmedLeftBottomLeft]
 
-  originalArr[rowIndex2] = trim
+  originalArr[rowIndex2] = endTopWord
+
+  drawGrid(WIDTH,HEIGHT)
 
 
-  recursionFunction(left, rowIndex2, originalArr)
+  this.recursionFunction([], rowIndex2, originalArr)
  
 }
 
@@ -603,19 +615,44 @@ return originalArr
 //shifts all rows left less than length of the bottom left word 
 recursionFunction(remainder, rowIndex2, originalArr){
 
-  if (rowIndex2 == HEIGHT-1)
+  if (rowIndex2 == HEIGHT-2)
   {
+    alert("in")
     return(originalArr)
+    
   }
-  let nextLineOfBottomLine = originalArr[rowIndex2+1]
+  
+  //remove word on bottom row and shift all chafracters left that amount of lenght
 
-  let combined = [...nextLineOfBottomLine, ...remainder]
+  // row is second row that needs to be moved three left
+  let lineToShift = originalArr[rowIndex2 + 1]
 
-  let[ left, trim] = this.splitAtIndex(combined, WIDTH - 1)
+  //remove left characters that were moved
+  //get the lline after this one 
+  //combine the two
+  //split at width
+  //call function
+  let[ left1, trim1] = this.splitAtIndex(lineToShift, 3 )
+  let target = originalArr[rowIndex2+2]
 
-  originalArr[rowIndex2 + 1] = trim
+  
 
-  recursionFunction(left, rowIndex2 + 1, originalArr)
+  let combined = [...remainder, ...trim1, ...target]
+
+
+  let[ left2, trim] = this.splitAtIndex(combined, WIDTH )
+
+  originalArr[rowIndex2 + 1] = left2
+
+  //+2
+  this.deleteRow(originalArr, rowIndex2+2)
+
+  originalArr.push(["-", "-" , "-", "-" ,"-", "-" ,"-", ]);
+
+
+  this.recursionFunction(trim, rowIndex2 + 1, originalArr)
+
+  drawGrid(WIDTH, HEIGHT)
 
 
 
