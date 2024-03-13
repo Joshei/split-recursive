@@ -212,49 +212,24 @@ deleteCharacters(originalArr,counter,rowIndex,colIndex)
     //  return originalArr
     //}
 
-    //Check if there are spaces/nulls left of volImdex, if not return out of here without deleting
-
     
-    //DO THIS
-    //let BreakoutFlag = this.isDeletePossible(rowIndex, colIndex)
-//
-//    if(BreakoutFlag == true)
-//    {
-//      return originalArr
-//    }
    
-    //deletes the character
+   
     originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex, rowIndex )
-    //colIndex = colIndex + 1
-    //rowIndex = rowIndex + 1
-    //moves first character to complete top row
-    ////originalArr[rowIndex][6] = originalArr[rowIndex+1][0]
-    //complete top row
-    let topLine = originalArr[rowIndex - 1]
-    //next row, needs to get first character 
-    let topLineNextRow = originalArr[rowIndex]
-    //let lastSpaceIndex = 1
     
+    let topLine = originalArr[rowIndex - 1]
+    
+    let topLineNextRow = originalArr[rowIndex]
+   
     let lastSpaceIndex = topLine.lastIndexOf("-");
-    //this is top row, get first dcharacter
+    
     let [lineBesideLeftMostCharacter, firstCharacter ] = this.splitAtIndex(topLine, lastSpaceIndex);
     
-
-    //let value = originalArr[rowIndex+1][6]
-    //let value2 =  [ ...lineBesideLeftMostCharacter, ...value] 
-    //originalArr[rowIndex] = value2
-    
-    
-    //originalArr[rowIndex] = topLine
-
-
-    
-
     let lastSpaceIndex2 = topLineNextRow.lastIndexOf("-");
 
-    //this is second row, getting changed
+   
     let [firstCharacterOfNextLine, lineBesideLeftMostCharacterNextRow  ] = this.splitAtIndex(topLineNextRow, 1); 
-    //makes top row 
+    
     let completeTopRow = [...lineBesideLeftMostCharacter, ...firstCharacterOfNextLine]
     originalArr[rowIndex - 1] = completeTopRow
 
@@ -273,60 +248,26 @@ pressedEnter(originalArr,rowIndex3,column)
     //HEIGHT = HEIGHT + 1
     
   }
-  
-  //make left and right by first dash
-  //put left side on same line
-  //put right side on next line with push
+ 
   
   let target = originalArr[rowIndex3] 
   let lastSpaceIndex = target.indexOf("-");
   let [leftWord, rightWord] = this.splitAtIndex(target, lastSpaceIndex);
   let [leftWord1, rightWord1] = this.splitAtIndex(leftWord, column)
 
-  //leftWord = ["2","2","2","2","2","2","2" ]
-
- 
   originalArr[rowIndex3] = leftWord1
   originalArr.splice(rowIndex3+1,0,rightWord1)
 
   originalArr = this.fillNullWithDashOnRow(rowIndex3 , originalArr)
   originalArr = this.fillNullWithDashOnRow(rowIndex3+1 , originalArr)
-  //alert("@@@@")
+  
   HEIGHT++
   drawGrid(HEIGHT, WIDTH)
 
   
   return originalArr
    
-/*
-  /////////////////
-  //otherwise:
 
-  let lastSpaceIndex1 = originalArr[rowIndex3].lastIndexOf("-");
-  //no dashed
-  if(lastSpaceIndex1 == -1 )
-  {
-
-  }
-
-  let frontPart = originalArr[rowIndex3]
-  let [leftPiece, rightPiece] = this.splitAtIndex(frontPart, lastSpaceIndex1);
-  rightPiece = ["1","1","1","1","1","1","1" ]
-  
-
-
-  //////////////
-
-  //if in left piece than  make this  -------
-  //
-
-
-  originalArr.splice(rowIndex3+1,0,rightPiece)
-  
-  HEIGHT++
-  drawGrid(HEIGHT, WIDTH)
-  return originalArr
-*/   
 }
 
 ///////////// SOME HOW, SET THIS TO A RANGE OF DELETES, ETC.
@@ -370,6 +311,7 @@ deletecharacters2(rowIndex)
   
 }
 
+//3/13/24 looked pretty good
 moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
 
 
@@ -452,30 +394,11 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
   
   
   
-  //originalArr = this.deleteRow(originalArr, rowIndex)
-  if(rowIndex >= 3)
-  {
-    //return originalArr
-  }
-  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
-  //this.pressedEnter(originalArr,HEIGHT-1,colIndex)
-  //originalArr = this.fillNullWithDashOnRow(1 , originalArr)
   
-  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
   drawGrid(HEIGHT, WIDTH)
-  //alert("words...");
-  //second row holds combined
-  //originalArr = this.deleteRow(originalArr, rowIndex)
-  //last parameter?
-  //this.moveAllWordsAcrossBorder(originalArr, remainder, rowIndex + 1, 0)
-  //this.insertNewArr(originalArr,remainder,rowIndex+1,0)
-  //originalArr = this.deleteRow(originalArr, rowIndex)
-
- 
+  
   this.moveAllWordsAcrossBorder(originalArr,[], rowIndex+1,colIndex)
   
- 
-  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
 
   let DeleteFlag = true
   let i = 0
@@ -496,21 +419,15 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
   if(DeleteFlag == true)
   {
     originalArr = this.deleteRow(originalArr, j)
-    //DeleteFlag = false
+    
    
   }
 }
-  //originalArr = this.deleteRow(originalArr, rowIndex)
   
-  //originalArr.push (["B", "-", "-", "-", "-", "-" , "-" ],)
+  
+  
   drawGrid(HEIGHT, WIDTH) 
-  //originalArr = this.fillNullWithDashOnRow(1 , originalArr)
-  
-  //createNextRow()
-  
-
-  
-  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+ 
   return (originalArr)
 
  
