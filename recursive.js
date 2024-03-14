@@ -112,10 +112,6 @@ fillRowWithDashes(rowIndex, arrayToChange){
 
 
 
-//isUndefined(_arr, _index1, _index2) {
-//  try { return _arr[_index1][_index2] == undefined; } catch(e) { return true; }
-//}
-
 fillNullWithDashOnRow(RowIndex ,arrayToChange)
 {
   
@@ -164,66 +160,17 @@ splitAtIndex(arr, index) {
 
 
 
-passInHere( bool, originalArr, key,  x, y)
-{
-  
-  originalArr = Recursive.insertClean(bool, originalArr, "Z", y, x )
-  return originalArr
-
-}
 
 
-isDeletePossible(rowIndex, columnIndex)
-{
-  
 
-  //  THIS ISNT RIGHT
-  /*
-  for (i = 0; i < WIDTH ; i++)
-  {
-  for(j = 0 ; j < HEIGHT; j++){
 
-      if(originalArr[rowIndex-1][WIDTH-1] !== "" || typeof originalArr[rowIndex-1][WIDTH-1] !== "undefined"   )
-      BreakoutOfDelete = false
-      return this.BreakoutOfDelete
-    }
-
-  }
-
-      BreakoutOfDelete = true
-      return this.BreakoutOfDelete
-*/
-}
 
 
   
-deleteCharacters(originalArr,counter,rowIndex,colIndex)
-{
-
-  //rowIndex = rowIndex + 1
-  // delete character from rowIndex if there is a character at row+ 1, [0]
-// A.)move that character up to rowindex - 1 [6]
-// move thhat lines characters to th e left
-// if there is a character at row+1 [0] goto A.)
 
 
-    alert(colIndex)
-   
-    
-    //alert("made it here")
-    
-   
-   
-    
-    
-    
-    this.recursiveDelete(originalArr, rowIndex, colIndex)
-    
-    //drawGrid()
-    //return originalArr
-  }
 
-
+//looks good -  3/14/24   
 recursiveDelete(originalArr, rowIndex, colIndex)
 {
 
@@ -260,7 +207,7 @@ recursiveDelete(originalArr, rowIndex, colIndex)
 
     let [left, trim ] = this.splitAtIndex(topLineNextRow, 1);
     originalArr[rowIndex] = trim
-    originalArr[rowIndex][WIDTH-1] = "X"
+    originalArr[rowIndex][WIDTH-1] = "-"
     originalArr[rowIndex-1][WIDTH-1] = left[0]
    
     drawGrid(WIDTH, HEIGHT)
@@ -320,46 +267,6 @@ pressedEnter(originalArr,rowIndex3,column)
 
 }
 
-///////////// SOME HOW, SET THIS TO A RANGE OF DELETES, ETC.
-
-//Recursivley, checks each line and determins if each line needs to be moved to the left once. 
-
-//  ELSE 
-deletecharacters2(rowIndex)
-{
-
-
-  //for testing
-  moveAllWordsAcrossBorder(rowIndex)
-
-  alert("test");
-  return(originalArr)
-
-  //move chatracters only on this  line
-  if(originalArr[rowIndex][6] == "-")
-  {
-    
-    originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex+1, rowIndex+1)
-    return originalArr
-  }
-  //move characters on next line to
-  else
-  {
-    //move rowindex+1 0 to  row index 6
-    //delete rowindex+1 0
-    if (rowIndex == HEIGHT)
-    {
-      return originalArr
-    }
-    originalArr[rowindex+1][0] = originalArr[rowIndex][6]
-    originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex+1, rowIndex+1)
-    
-    this.deletecharacters2(rowIndex+1)
-
-  }
-
-  
-}
 
 //3/13/24 looked pretty good
 moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
@@ -376,18 +283,9 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
     //delete first row
     //check NEXT row with recursion
   
-
- 
+    if(originalArr[rowIndex][6] == "-" || originalArr[rowIndex+1][0] == "-"){ 
 
     
-  
-
-
-
-  if(originalArr[rowIndex][6] == "-" || originalArr[rowIndex+1][0] == "-"){ 
-
-    //alert("in")
-    //return originalArr
 
   }
 

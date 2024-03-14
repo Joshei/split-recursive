@@ -38,7 +38,7 @@
     <script>
       
       let nestedArray = [
-  ["-", "-", "-", "-", "-", "-" , "-"],
+  ["1", "2", "3", "4", "5", "6" , "7" ],
   ["-", "-", "-", "-", "-", "-" , "-"],
   ["1", "2", "3", "4", "5", "6" , "7" ],
   ["A", "-", "-", "-", "-", "-" , "-" ],
@@ -250,22 +250,7 @@
         console.log('v ', verticalCursorPosition)
         console.log('h ', horizontalCursorPosition)
         
-        //key pressed is stored in nestedArray
-        //nestedArray[verticalCursorPosition / 10][horizontalCursorPosition/5] = gKey
         
-        //key is inserted into nested array, rebulids form that point in time
-       /*
-        let nestedArray = [
-  ["h", "e", "l", "l", "-"],
-  ["-", "g", "-", "-", "-", "-", "-"],
-  //["-", "-", "-", "-", "-", "-" , "-" ],
-  //["-", "-", "-", "-", "-", "-" , "-" ],
-  //["-", "-", "-", "-", "-", "-" , "-" ],
-  //["-", "-", "-", "-", "-", "-" , "-" ],
-  //["-", "-", "-", "-", "-", "-" , "-" ],
-  
-];
-*/
         let key = "Z"
        
         //gKey = "Z"
@@ -274,13 +259,11 @@
         nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         //nestedArray = Recursive.insertClean(true, nestedArray, ["1", "a","x", "a", "x", "a","x","2", "a","x","x", "a","x","x", "3","a", "x","x", "a","x","z"], verticalCursorPosition/10, horizontalCursorPosition/5 )
         
-        //nestedArray = Recursive.passInHere(true, nestedArray,key, verticalCursorPosition/10, horizontalCursorPosition/5 )
-        console.log("nested array2: ", nestedArray);
+       console.log("nested array2: ", nestedArray);
         
         
         drawGrid( WIDTH, HEIGHT)
-        //At edge of canavs - use for edge cases, later.
-        //bookmark
+        
         if (horizontalCursorPosition < (WIDTH - 1) * 5) {
           horizontalCursorPosition = horizontalCursorPosition + 5
         }else{
@@ -320,7 +303,7 @@
             
             console.log("nested array3: ", nestedArray);
             //THIS IS IT :  
-            Recursive.deleteCharacters(nestedArray, 0,  verticalCursorPosition/10+1, horizontalCursorPosition/5)
+            Recursive.recursiveDelete(nestedArray, 0,  verticalCursorPosition/10+1, horizontalCursorPosition/5)
             //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray = Recursive. BringLeftTextUpIntoSpaceOnRight( nestedArray,verticalCursorPosition/10, horizontalCursorPosition/5)
              console.log("nested array4: ", nestedArray);
