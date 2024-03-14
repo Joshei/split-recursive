@@ -56,19 +56,19 @@ deleteKeyPressed(array, col, row){
 
   }
 
-  deleteColumnInTwoDimArrayDontMakeDash(array, col, row)
+  deleteColumnInTwoDimArrayDontMakeDash(array, row, col)
 {
   console.log({col})
-    array[row-1].splice(col-2, 1)
+    array[row-1].splice(col, 1)
     
 
     return(array)
 }
 
-deleteColumnInTwoDimArray(array, col, row)
+deleteColumnInTwoDimArray(array, row, col)
 {
   console.log({col})
-    array[row-1].splice(col-2, 1)
+    array[row-1].splice(col, 1)
     array[row-1][6] = "-"
 
     return(array)
@@ -207,19 +207,39 @@ deleteCharacters(originalArr,counter,rowIndex,colIndex)
 // if there is a character at row+1 [0] goto A.)
 
 
-    //if(rowIndex >= 7)
-    //{
-    //  return originalArr
-    //}
+    alert(colIndex)
+   
+    
+    //alert("made it here")
+    
+   
+   
+    
+    
+    
+    this.recursiveDelete(originalArr, rowIndex, colIndex)
+    
+    //drawGrid()
+    //return originalArr
+  }
 
-    
-   
-   
-    originalArr = this.deleteColumnInTwoDimArray(originalArr, colIndex, rowIndex )
-    
+
+recursiveDelete(originalArr, rowIndex, colIndex)
+{
+
+
+  
+
+  originalArr = this.deleteColumnInTwoDimArrayDontMakeDash(originalArr, rowIndex, colIndex )
+
+     console.log({rowIndex})
+
+
+    let topLineNextRow = []
+
     let topLine = originalArr[rowIndex - 1]
-    
-    let topLineNextRow = originalArr[rowIndex]
+      
+    topLineNextRow = originalArr[rowIndex]
    
     let lastSpaceIndex = topLine.lastIndexOf("-");
     
@@ -230,15 +250,55 @@ deleteCharacters(originalArr,counter,rowIndex,colIndex)
    
     let [firstCharacterOfNextLine, lineBesideLeftMostCharacterNextRow  ] = this.splitAtIndex(topLineNextRow, 1); 
     
-    let completeTopRow = [...lineBesideLeftMostCharacter, ...firstCharacterOfNextLine]
-    originalArr[rowIndex - 1] = completeTopRow
 
-    this.deleteCharacters(originalArr,counter,rowIndex+1 ,colIndex);
+    let completeTopRow = []
+
+  if(rowIndex >= 6)
+  {
+    let key = 'Z'
+    completeTopRow = [...topLine, [key] ]
+
+
+    //originalArr[rowIndex ] = completeTopRow
+
+
+
+
+    /////////
     
 
-    drawGrid()
+    let [left, trim ] = this.splitAtIndex(topLineNextRow, 1);
+    originalArr[rowIndex] = trim
+    //originalArr[rowIndex] = left
+    //originalArr[WIDTH-1][HEIGHT-1] = "P"
+
+    /////////
+    drawGrid(WIDTH, HEIGHT)
+
     return originalArr
+
+
   }
+  else
+  {
+    completeTopRow = [...topLine, ...firstCharacterOfNextLine]
+  }
+
+
+
+    originalArr[rowIndex - 1] = completeTopRow
+
+    drawGrid(WIDTH, HEIGHT)
+
+
+
+    this.recursiveDelete(originalArr, rowIndex+1, 0)
+
+   
+    return originalArr
+}
+
+
 
 pressedEnter(originalArr,rowIndex3,column)
 {
