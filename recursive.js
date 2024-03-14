@@ -255,24 +255,14 @@ recursiveDelete(originalArr, rowIndex, colIndex)
 
   if(rowIndex >= 6)
   {
-    let key = 'Z'
-    completeTopRow = [...topLine, [key] ]
-
-
-    //originalArr[rowIndex ] = completeTopRow
-
-
-
-
-    /////////
-    
+   
+    completeTopRow = [...topLine, ...firstCharacterOfNextLine ]
 
     let [left, trim ] = this.splitAtIndex(topLineNextRow, 1);
     originalArr[rowIndex] = trim
-    //originalArr[rowIndex] = left
-    //originalArr[WIDTH-1][HEIGHT-1] = "P"
-
-    /////////
+    originalArr[rowIndex][WIDTH-1] = "X"
+    originalArr[rowIndex-1][WIDTH-1] = left[0]
+   
     drawGrid(WIDTH, HEIGHT)
 
     return originalArr
