@@ -2,6 +2,7 @@
 
 
 
+
  
     
 // Controls key presses.
@@ -30,7 +31,7 @@ class CustomBoxClass {
 
     
     if (gKey == 'Delete') {
-         //Recursive.deleteIt()
+        
     }
       else if (gKey == 'ArrowLeft') {
         CursorMovements.cursorLeft()
@@ -39,17 +40,17 @@ class CustomBoxClass {
       } else if (gKey == 'ArrowUp') {
         CursorMovements.cursorUp()
       } else if (gKey == 'ArrowDown') {
-        //alert("arrow_down")
-        this.heightValue = CursorMovements.cursorDown()
-        return (this.heightValue)
+        
+        //alert("AD")
+        CursorMovements.cursorDown()
         
       } else if (gKey == 'Enter') {
-        //alert("1");
-        //Return.Return()
+        
       } else {
       
         //Prints a single character.  Arrow keys can move you arround.  Enter is not inserted yet.
         //in index1.html
+        //alert("pc")
         printCharacter()
        
         

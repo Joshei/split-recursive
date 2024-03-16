@@ -43,11 +43,11 @@ class CursorMovementsClass {
     }
     cursorDown() {
       if (verticalCursorPosition/10  > 5) {
-        HEIGHT = HEIGHT + 1
-        return HEIGHT
+      verticalCursorPosition = 5
+        return -4
       }
       drawGrid()
-      horizontalCursorPosition = 0
+      //horizontalCursorPosition = 0
       verticalCursorPosition = verticalCursorPosition + 10
       drawCursor(
         0 + HOFFSET,

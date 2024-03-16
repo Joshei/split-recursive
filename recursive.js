@@ -236,38 +236,119 @@ recursiveDelete(originalArr, rowIndex, colIndex)
 }
 
 
-
-pressedEnter(originalArr,rowIndex3,column)
+//starts with null with first call
+pressedEnter(originalArr,rowIndex3,colIndex, remainder)
 {
 
-  if(rowIndex3 > HEIGHT-1 )
+  console.log("imp", typeof remainder)
+  if (Object.keys(remainder).length === 0)
   {
-    //HEIGHT = HEIGHT + 1
     
+      remainder = ""
   }
+
  
-  
-  let target = originalArr[rowIndex3] 
-  let lastSpaceIndex = target.indexOf("-");
-  let [leftWord, rightWord] = this.splitAtIndex(target, lastSpaceIndex);
-  let [leftWord1, rightWord1] = this.splitAtIndex(leftWord, column)
+  if(rowIndex3 >= 6)
+  {
+    
+    return originalArr
+  }
 
-  originalArr[rowIndex3] = leftWord1
-  originalArr.splice(rowIndex3+1,0,rightWord1)
+  //get first row
+  //get second row, set as target
+  //have row and column
+  //split at cursor - this is leftWord and rightWord
+  //get second row
 
-  originalArr = this.fillNullWithDashOnRow(rowIndex3 , originalArr)
-  originalArr = this.fillNullWithDashOnRow(rowIndex3+1 , originalArr)
   
-  HEIGHT++
+  //combine remainder + rightword + target
+  
+  
+  // split WIDTH - get another remiander and wordB
+  // originalArr[rowIndex] =  wordB;
+  //
+  //
+  //make dashes length of rightword
+  // remadeLine = left word + dashes
+  // originalArr[rowIndex] =
+
+
+  let target1 = originalArr[rowIndex3]
+  let target2 = originalArr[rowIndex3+1]
+
+  //current row  
+  let [backPieceTop, pieceToMove] = this.splitAtIndex(target1, colIndex);
+  //current row + 1
+  let [backPieceTop2, pieceToMOve2] = this.splitAtIndex(target2, colIndex);
+
+  
+  let combine = [...pieceToMove, ...backPieceTop2]
+  const [left, remainder1] = this.splitAtIndex(combine, WIDTH );
+  originalArr[rowIndex3+1] = combine
+
+
+
+  //originalArr.splice(rowIndex3+1,0, left)
+  //create dashes for replacing returned text
+
+  let spaceForDashes = WIDTH - colIndex
+  for(let i = spaceForDashes; i< WIDTH ; i++)
+  {
+    originalArr[rowIndex3][i] = "-"
+  }
   drawGrid(HEIGHT, WIDTH)
+  //this.deleteRow(originalArr, rowIndex3+ 2)
 
+
+  //HEIGHT++
   
+  
+
+  this.pressedEnter2(originalArr,rowIndex3+2,colIndex, remainder1)
+ 
+  drawGrid(HEIGHT, WIDTH)
   return originalArr
    
 
 }
 
+// working on remainder (2)
+pressedEnter2(originalArr,rowIndex3,colIndex, remainder2)
+{
 
+  alert("z")
+  if(rowIndex3 >= 6)
+  {
+    alert("A")
+    return originalArr
+  }
+
+  //remainder1.length is amount to advance each row
+  let target1 = originalArr[rowIndex3]
+  let target2 = originalArr[rowIndex3+1]
+
+  //current row  
+  let [backPieceTop, pieceToMove] = this.splitAtIndex(target1, colIndex);
+  //current row + 1
+  let [backPieceTop2, pieceToMove2] = this.splitAtIndex(target2, colIndex);
+
+  
+  let combine = [...pieceToMove, ...backPieceTop2, ...remainder2]
+  const [left, remainder3] = this.splitAtIndex(combine, WIDTH );
+  originalArr[rowIndex3+1] = combine
+
+
+  let combine2 = [...pieceToMove2, ...backPieceTop]
+  originalArr[rowIndex3] = combine2
+
+  this.pressedEnter2(originalArr,rowIndex3+2,colIndex, remainder3)
+ 
+  originalArr.push (["B", "-", "-", "-", "-", "-" , "-" ],)
+  HEIGHT++
+  drawGrid(HEIGHT, WIDTH)
+  return originalArr
+
+}
 //3/13/24 looked pretty good
 moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
 
