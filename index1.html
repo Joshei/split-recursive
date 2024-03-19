@@ -38,11 +38,11 @@
     <script>
       
       let nestedArray = [
-  ["-", "-", "1", "-", "-", "a" , "-" ],
+  ["-", "-", "x", "-", "-", "1" , "-" ],
   ["-", "b", "-", "-", "-", "-" , "-"],
-  ["-", "c", "-", "-", "-", "-" , "-" ],
-  ["-", "d", "-", "-", "-", "-" , "-" ],
-  ["-", "e", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   
@@ -238,7 +238,7 @@
         if(gKey == 'Enter')
         {
           
-          nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [])
+          nestedArray = Recursive.pressedEnter3(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [])
        
           
         }

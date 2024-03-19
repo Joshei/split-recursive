@@ -237,7 +237,7 @@ recursiveDelete(originalArr, rowIndex, colIndex)
 
 
 //starts with null with first call
-pressedEnter(originalArr,rowIndex3,colIndex, remainder)
+pressedEnter3(originalArr,rowIndex3,colIndex, remainder, wordToPass)
 {
 
   console.log("imp", typeof remainder)
@@ -253,6 +253,162 @@ pressedEnter(originalArr,rowIndex3,colIndex, remainder)
     
     return originalArr
   }
+
+
+  
+  
+
+  let target1 = originalArr[rowIndex3]
+ 
+  let target2 = originalArr[rowIndex3+1]
+
+
+  let copyTarget1 = [...target1]
+  let copyTarget2 = [...target2]
+ 
+
+  let amtCharactersToPass = WIDTH - colIndex +1
+  
+  let target3 = originalArr[rowIndex3+2]
+
+  let holderForArray = []
+  
+
+  let indexOfWordToPass = colIndex + 1
+
+
+  let thisIsFullPhrase = [...wordToPass, ...target1]
+
+  let [topRightWord, row1LastCharacters ] = this.splitAtIndex(thisIsFullPhrase, colIndex)
+
+  ///////
+
+  let holderForArray1 = []
+  for(let i = amtCharactersToPass; i < WIDTH ; i++)
+  {
+    
+    //originalArr[rowIndex3][i] = "-"
+   
+    
+  }
+
+
+
+  ///////
+  
+
+  let combine = [  ...remainder, ...target2]
+  
+  let secondRowNearlyDone = [...row1LastCharacters, ...combine] 
+  let [secondRowDone, remainder1] = this.splitAtIndex(secondRowNearlyDone, WIDTH )
+  let [trim5, lastChars2ndRow] =   this.splitAtIndex(secondRowDone, amtCharactersToPass)
+
+  
+//trim1 is the right side of B :  ---
+  let [RighMostWord2ndRow, trim1] = this.splitAtIndex(secondRowDone, indexOfWordToPass);
+
+  // trim1 = ---   (row 2 right word to pass down)
+
+  //let combine1 = [...trim1, ...secondRowComplete]
+  originalArr[rowIndex3] = secondRowDone
+  
+//let [left, trim3] = this.splitAtIndex(originalWordToReplace, indexOfWordToPass-1);
+let combined = [...lastChars2ndRow, ...target3]
+let [left1, trim2] = this.splitAtIndex(combined, WIDTH );
+
+
+//originalArr[rowIndex3+2] = copyTarget2
+
+///////////
+
+
+// let leftWordAgainstBorder 
+  drawGrid(HEIGHT, WIDTH)
+
+
+  passedToThisRecursiveFunction(originalArr,rowIndex3+1 ,colIndex, remainder1, trim1)
+  //this.pressedEnter3(originalArr,rowIndex3+1,colIndex, remainder1, trim1)
+
+  return originalArr
+  
+
+}
+
+/////////
+passedToThisRecursiveFunction(originalArr,rowIndex3 ,colIndex, remainder1, trim1)
+{
+  let target1 = originalArr[rowIndex3]
+ 
+  let target2 = originalArr[rowIndex3+1]
+
+
+  let copyTarget1 = [...target1]
+  let copyTarget2 = [...target2]
+ 
+
+  let amtCharactersToPass = WIDTH - colIndex +1
+  
+  let target3 = originalArr[rowIndex3+2]
+
+  let holderForArray = []
+  
+
+  let indexOfWordToPass = colIndex + 1
+
+
+  let thisIsFullPhrase = [...wordToPass, ...target1]
+
+  let [topRightWord, row1LastCharacters ] = this.splitAtIndex(thisIsFullPhrase, colIndex)
+
+  ///////
+
+  let holderForArray1 = []
+  for(let i = amtCharactersToPass; i < WIDTH ; i++)
+  {
+    
+    //originalArr[rowIndex3][i] = "-"
+   
+    
+  }
+
+//////////////////////////////////////////////////////
+
+  let combine = [  ...remainder1, ...target2]
+  
+
+  ///////////
+  let secondRowNearlyDone = [...combine] 
+  
+  ////////////
+  
+  let [secondRowDone, remainder1] = this.splitAtIndex(secondRowNearlyDone, WIDTH )
+
+
+
+  let [trim5, lastChars2ndRow] =   this.splitAtIndex(secondRowDone, amtCharactersToPass)
+
+  
+//trim1 is the right side of B :  ---
+  let [RighMostWord2ndRow, trim1] = this.splitAtIndex(secondRowDone, indexOfWordToPass);
+
+  // trim1 = ---   (row 2 right word to pass down)
+
+  //let combine1 = [...trim1, ...secondRowComplete]
+  originalArr[rowIndex3] = secondRowDone
+  
+//let [left, trim3] = this.splitAtIndex(originalWordToReplace, indexOfWordToPass-1);
+let combined = [...lastChars2ndRow, ...target3]
+let [left1, trim2] = this.splitAtIndex(combined, WIDTH );
+
+passedToThisRecursiveFunction(originalArr,rowIndex3+1 ,colIndex, remainder1, trim1)
+
+return originalArr
+
+}
+/////////
+
+  pressedEnter(originalArr,rowIndex3,colIndex, remainder1)
+  {
 
   //get first row
   //get second row, set as target
@@ -279,22 +435,48 @@ pressedEnter(originalArr,rowIndex3,colIndex, remainder)
   //current row  
   let [backPieceTop, pieceToMove] = this.splitAtIndex(target1, colIndex);
   //current row + 1
-  let [backPieceTop2, pieceToMOve2] = this.splitAtIndex(target2, colIndex);
+  let [backPieceTop2, pieceToMove2] = this.splitAtIndex(target2, colIndex);
 
   
   let combine = [...pieceToMove, ...backPieceTop2]
-  const [left, remainder1] = this.splitAtIndex(combine, WIDTH );
+
+  //check if combined words are so big as to just advance all the lines
+  
+  
+  /*
+  if (combine > 7 )
+  {
+    //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+
+    alert("splice")
+    originalArr.splice(rowIndex3+1,0, combine)
+    return originalArr
+  }
+  */
+  const [left, remainder2] = this.splitAtIndex(combine, WIDTH );
+
+
+
+
+  //START LOOK HERE!!!!!
+
+/////////////////////////////////////////////
+
   originalArr[rowIndex3+1] = combine
 
+  //originalArr[rowIndex3+2] = pieceToMove2
 
+
+
+  drawGrid(HEIGHT, WIDTH)
 
   //originalArr.splice(rowIndex3+1,0, left)
   //create dashes for replacing returned text
 
-  let spaceForDashes = WIDTH - colIndex
-  for(let i = spaceForDashes; i< WIDTH ; i++)
+  let spaceForDashes = WIDTH - colIndex 
+  for(let i = colIndex; i< WIDTH+1 ; i++)
   {
-    originalArr[rowIndex3][i] = "-"
+   // originalArr[rowIndex3][i] = "V"
   }
   drawGrid(HEIGHT, WIDTH)
   //this.deleteRow(originalArr, rowIndex3+ 2)
@@ -304,7 +486,7 @@ pressedEnter(originalArr,rowIndex3,colIndex, remainder)
   
   
 
-  this.pressedEnter2(originalArr,rowIndex3+2,colIndex, remainder1)
+  this.pressedEnter2(originalArr,rowIndex3+3,colIndex, remainder1)
  
   drawGrid(HEIGHT, WIDTH)
   return originalArr
@@ -316,6 +498,7 @@ pressedEnter(originalArr,rowIndex3,colIndex, remainder)
 pressedEnter2(originalArr,rowIndex3,colIndex, remainder2)
 {
 
+ rowIndex3 = rowIndex3 - 1
   alert("z")
   if(rowIndex3 >= 6)
   {
@@ -328,9 +511,9 @@ pressedEnter2(originalArr,rowIndex3,colIndex, remainder2)
   let target2 = originalArr[rowIndex3+1]
 
   //current row  
-  let [backPieceTop, pieceToMove] = this.splitAtIndex(target1, colIndex);
+  let [backPieceTop, pieceToMove] = this.splitAtIndex(target1, 0);
   //current row + 1
-  let [backPieceTop2, pieceToMove2] = this.splitAtIndex(target2, colIndex);
+  let [backPieceTop2, pieceToMove2] = this.splitAtIndex(target2, colIndex+1);
 
   
   let combine = [...pieceToMove, ...backPieceTop2, ...remainder2]
@@ -409,7 +592,9 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
   const combined = [...lastPiece, ...frontPiece, ...trim2]
 
   //leftover line that was previous
-  const [word1, remainder1] = this.splitAtIndex(combined, 7);
+
+  ///   -1  ?????
+  const [word1, remainder1] = this.splitAtIndex(combined, WIDTH-1);
   remainder  =  [...remainder, ...remainder1]
 
   originalArr[rowIndex] = trim1 
