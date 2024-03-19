@@ -255,9 +255,6 @@ pressedEnter3(originalArr,rowIndex3,colIndex, remainder, wordToPass)
   }
 
 
-  
-  
-
   let target1 = originalArr[rowIndex3]
  
   let target2 = originalArr[rowIndex3+1]
@@ -286,125 +283,45 @@ pressedEnter3(originalArr,rowIndex3,colIndex, remainder, wordToPass)
   let holderForArray1 = []
   for(let i = amtCharactersToPass; i < WIDTH ; i++)
   {
-    
-    //originalArr[rowIndex3][i] = "-"
-   
-    
   }
 
-
-
-  ///////
-  
 
   let combine = [  ...remainder, ...target2]
   
   let secondRowNearlyDone = [...row1LastCharacters, ...combine] 
   let [secondRowDone, remainder1] = this.splitAtIndex(secondRowNearlyDone, WIDTH )
-  let [trim5, lastChars2ndRow] =   this.splitAtIndex(secondRowDone, amtCharactersToPass)
+  
+  
+  originalArr[rowIndex3+1] = secondRowDone
+
+
+  //let [trim5, lastChars2ndRow] =   this.splitAtIndex(secondRowDone, amtCharactersToPass)
 
   
 //trim1 is the right side of B :  ---
-  let [RighMostWord2ndRow, trim1] = this.splitAtIndex(secondRowDone, indexOfWordToPass);
+  //let [RighMostWord2ndRow, trim1] = this.splitAtIndex(secondRowDone, indexOfWordToPass);
 
-  // trim1 = ---   (row 2 right word to pass down)
-
-  //let combine1 = [...trim1, ...secondRowComplete]
-  originalArr[rowIndex3] = secondRowDone
+  //originalArr[rowIndex3] = secondRowDone
   
 //let [left, trim3] = this.splitAtIndex(originalWordToReplace, indexOfWordToPass-1);
-let combined = [...lastChars2ndRow, ...target3]
-let [left1, trim2] = this.splitAtIndex(combined, WIDTH );
+//let combined = [...lastChars2ndRow, ...target3]
+//let [left1, trim2] = this.splitAtIndex(combined, WIDTH );
 
-
-//originalArr[rowIndex3+2] = copyTarget2
-
-///////////
-
-
-// let leftWordAgainstBorder 
   drawGrid(HEIGHT, WIDTH)
 
 
-  passedToThisRecursiveFunction(originalArr,rowIndex3+1 ,colIndex, remainder1, trim1)
-  //this.pressedEnter3(originalArr,rowIndex3+1,colIndex, remainder1, trim1)
-
+  //passedToThisRecursiveFunction(originalArr,rowIndex3+1 ,colIndex, remainder1, trim1)
+  this.pressedEnter3(originalArr,rowIndex3+1,colIndex, remainder, wordToPass)
+{
+ 
   return originalArr
   
 
 }
 
-/////////
-passedToThisRecursiveFunction(originalArr,rowIndex3 ,colIndex, remainder1, trim1)
-{
-  let target1 = originalArr[rowIndex3]
- 
-  let target2 = originalArr[rowIndex3+1]
-
-
-  let copyTarget1 = [...target1]
-  let copyTarget2 = [...target2]
- 
-
-  let amtCharactersToPass = WIDTH - colIndex +1
-  
-  let target3 = originalArr[rowIndex3+2]
-
-  let holderForArray = []
-  
-
-  let indexOfWordToPass = colIndex + 1
-
-
-  let thisIsFullPhrase = [...wordToPass, ...target1]
-
-  let [topRightWord, row1LastCharacters ] = this.splitAtIndex(thisIsFullPhrase, colIndex)
-
-  ///////
-
-  let holderForArray1 = []
-  for(let i = amtCharactersToPass; i < WIDTH ; i++)
-  {
-    
-    //originalArr[rowIndex3][i] = "-"
-   
-    
-  }
-
-//////////////////////////////////////////////////////
-
-  let combine = [  ...remainder1, ...target2]
-  
-
-  ///////////
-  let secondRowNearlyDone = [...combine] 
-  
-  ////////////
-  
-  let [secondRowDone, remainder1] = this.splitAtIndex(secondRowNearlyDone, WIDTH )
-
-
-
-  let [trim5, lastChars2ndRow] =   this.splitAtIndex(secondRowDone, amtCharactersToPass)
-
-  
-//trim1 is the right side of B :  ---
-  let [RighMostWord2ndRow, trim1] = this.splitAtIndex(secondRowDone, indexOfWordToPass);
-
-  // trim1 = ---   (row 2 right word to pass down)
-
-  //let combine1 = [...trim1, ...secondRowComplete]
-  originalArr[rowIndex3] = secondRowDone
-  
-//let [left, trim3] = this.splitAtIndex(originalWordToReplace, indexOfWordToPass-1);
-let combined = [...lastChars2ndRow, ...target3]
-let [left1, trim2] = this.splitAtIndex(combined, WIDTH );
-
-passedToThisRecursiveFunction(originalArr,rowIndex3+1 ,colIndex, remainder1, trim1)
-
-return originalArr
-
 }
+
+
 /////////
 
   pressedEnter(originalArr,rowIndex3,colIndex, remainder1)
