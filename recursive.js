@@ -25,7 +25,7 @@ class RecursiveClass{
     this.flagToManyDashes = false
     this.testCounter = 0;
     this.BreakoutOfDelete = false
-   
+    
   }
 
 deleteKeyPressed(array, col, row){
@@ -237,7 +237,9 @@ recursiveDelete(originalArr, rowIndex, colIndex)
 
 
 //starts with null with first call
-pressedEnter3(originalArr,rowIndex3,colIndex, remainder, wordToPass)
+
+//3/21/24 - done, not thoroughly tested
+pressedEnter3(originalArr,rowIndex3,colIndex, remainder, wordToPass, IsFirstTime)
 {
 
   console.log("imp", typeof remainder)
@@ -248,7 +250,7 @@ pressedEnter3(originalArr,rowIndex3,colIndex, remainder, wordToPass)
   }
 
  
-  if(rowIndex3 >= 6)
+  if(rowIndex3 > HEIGHT-2)
   {
     
     return originalArr
@@ -264,7 +266,7 @@ pressedEnter3(originalArr,rowIndex3,colIndex, remainder, wordToPass)
   let copyTarget2 = [...target2]
  
 
-  let amtCharactersToPass = WIDTH - colIndex +1
+  let amtCharactersToPass = WIDTH - colIndex 
   
   let target3 = originalArr[rowIndex3+2]
 
@@ -288,36 +290,57 @@ pressedEnter3(originalArr,rowIndex3,colIndex, remainder, wordToPass)
 
   let combine = [  ...remainder, ...target2]
   
+  //get 4 characters for moving to next row
+  let [a, lastCharacters] = this.splitAtIndex(combine, indexOfWordToPass - 1 )
+
+
+
+if(IsFirstTime === true)
+{
   let secondRowNearlyDone = [...row1LastCharacters, ...combine] 
   let [secondRowDone, remainder1] = this.splitAtIndex(secondRowNearlyDone, WIDTH )
+  originalArr[rowIndex3+1] = secondRowDone
   
-  
+ }
+else
+{
+  let secondRowNearlyDone = [...wordToPass, ...combine] 
+  let [secondRowDone, remainder1] = this.splitAtIndex(secondRowNearlyDone, WIDTH )
   originalArr[rowIndex3+1] = secondRowDone
 
+}
 
-  //let [trim5, lastChars2ndRow] =   this.splitAtIndex(secondRowDone, amtCharactersToPass)
 
-  
-//trim1 is the right side of B :  ---
-  //let [RighMostWord2ndRow, trim1] = this.splitAtIndex(secondRowDone, indexOfWordToPass);
-
-  //originalArr[rowIndex3] = secondRowDone
-  
-//let [left, trim3] = this.splitAtIndex(originalWordToReplace, indexOfWordToPass-1);
-//let combined = [...lastChars2ndRow, ...target3]
-//let [left1, trim2] = this.splitAtIndex(combined, WIDTH );
 
   drawGrid(HEIGHT, WIDTH)
 
 
-  //passedToThisRecursiveFunction(originalArr,rowIndex3+1 ,colIndex, remainder1, trim1)
-  this.pressedEnter3(originalArr,rowIndex3+1,colIndex, remainder, wordToPass)
-{
+ 
+  if(IsFirstTime)
+  {
+   
+  //cover the first word to pass with dashes
+  for(let i = WIDTH - amtCharactersToPass; i < WIDTH ; i++)
+  {
+    originalArr[rowIndex3][i] = "-"
+    
+  }
+
+  drawGrid(HEIGHT, WIDTH)
+
+}
+
+  this.pressedEnter3(originalArr,rowIndex3+1,colIndex, remainder, lastCharacters, false)
+
+  
+
+  drawGrid(HEIGHT, WIDTH)
+
  
   return originalArr
   
 
-}
+
 
 }
 

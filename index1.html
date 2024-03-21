@@ -40,8 +40,8 @@
       let nestedArray = [
   ["-", "-", "x", "-", "-", "1" , "-" ],
   ["-", "b", "-", "-", "-", "-" , "-"],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "c", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "d", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
@@ -238,7 +238,9 @@
         if(gKey == 'Enter')
         {
           
-          nestedArray = Recursive.pressedEnter3(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [])
+          nestedArray.push (["-", "-", "-", "-", "-", "-" , "-" ],)
+          HEIGHT++
+          nestedArray = Recursive.pressedEnter3(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
        
           
         }

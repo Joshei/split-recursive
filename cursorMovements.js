@@ -28,6 +28,7 @@ class CursorMovementsClass {
       )
     }
     cursorUp() {
+     
       if (verticalCursorPosition <= 0) {
         verticalCursorPosition = 0
         return -3
@@ -35,22 +36,22 @@ class CursorMovementsClass {
       drawGrid()
       verticalCursorPosition = verticalCursorPosition - 10
       
-      console.log("vert2: ", verticalCursorPosition)
+     
       drawCursor(
         horizontalCursorPosition + HOFFSET,
         verticalCursorPosition + VOFFSET
       )
     }
     cursorDown() {
-      if (verticalCursorPosition/10  > 5) {
-      verticalCursorPosition = 5
+      if (verticalCursorPosition/10  >= HEIGHT - 1) {
+      verticalCursorPosition = 60
         return -4
       }
       drawGrid()
       //horizontalCursorPosition = 0
       verticalCursorPosition = verticalCursorPosition + 10
       drawCursor(
-        0 + HOFFSET,
+        horizontalCursorPosition + HOFFSET,
         verticalCursorPosition + VOFFSET
       )
     }
