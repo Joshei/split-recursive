@@ -83,6 +83,15 @@ deleteRow(arr, rowIndex){
 
 }
 
+fillRightWithDashesIndex(amtSpacesToDelete, rowIndex, array)
+{
+
+  for(let i = 0 ; i < amtSpacesToDelete ; i++ )
+  {
+      array[rowIndex][i] = "Z"
+  }
+}
+
 fillMovedWordWithDash(rowIndex , arrayToChange, startingIndexRow)
 {
    
@@ -170,14 +179,47 @@ splitAtIndex(arr, index) {
 
 
 
-//looks good -  3/14/24   
+//looks good -  3/14/24   : worked with single variables
+//look condition
+//now workd with mjultiple characters : 3/22/24
 recursiveDelete(originalArr, rowIndex, colIndex)
 {
 
-
+  if (rowIndex == HEIGHT-2)
+  {
+    alert("in")
+    return(originalArr)
+    
+  }
   
 
-  originalArr = this.deleteColumnInTwoDimArrayDontMakeDash(originalArr, rowIndex, colIndex )
+
+  let rowOne = originalArr[rowIndex]
+  let rowTwo = originalArr[rowIndex+1]
+
+  let amtSpace2ndRow = rowTwo.indexOf("-");
+  
+  let amtSpaces1stRow = WIDTH - rowOne.lastIndexOf("-");
+  
+  if (amtSpace2ndRow > amtSpaces1stRow)
+  {
+      return originalArr
+  }
+//check next row for left word
+//check top row for more or equal spaces to put word in
+//if so, run function
+
+
+
+  //alert("recursive delete");
+
+  //originalArr = this.deleteColumnInTwoDimArrayDontMakeDash(originalArr, rowIndex, colIndex )
+
+
+  //3/22/24:  check for recursive delete need, (needs to pull left characters up a row to the right side
+  //and (at least for now) put spaces where word was)
+
+
 
      console.log({rowIndex})
 
@@ -192,10 +234,10 @@ recursiveDelete(originalArr, rowIndex, colIndex)
     
     let [lineBesideLeftMostCharacter, firstCharacter ] = this.splitAtIndex(topLine, lastSpaceIndex);
     
-    let lastSpaceIndex2 = topLineNextRow.lastIndexOf("-");
+    let lastSpaceIndex2 = topLineNextRow.indexOf("-");
 
    
-    let [firstCharacterOfNextLine, lineBesideLeftMostCharacterNextRow  ] = this.splitAtIndex(topLineNextRow, 1); 
+    let [CharactersOfNextLine, lineBesideLeftMostCharacterNextRow  ] = this.splitAtIndex(topLineNextRow, lastSpaceIndex2); 
     
 
     let completeTopRow = []
@@ -203,7 +245,7 @@ recursiveDelete(originalArr, rowIndex, colIndex)
   if(rowIndex >= 6)
   {
    
-    completeTopRow = [...topLine, ...firstCharacterOfNextLine ]
+    completeTopRow = [...topLine, ...CharactersOfNextLine ]
 
     let [left, trim ] = this.splitAtIndex(topLineNextRow, 1);
     originalArr[rowIndex] = trim
@@ -218,12 +260,18 @@ recursiveDelete(originalArr, rowIndex, colIndex)
   }
   else
   {
-    completeTopRow = [...topLine, ...firstCharacterOfNextLine]
+    let lengthOfSpaceForWord = CharactersOfNextLine.length
+    let [left, trim ] = this.splitAtIndex(topLine, lengthOfSpaceForWord);
+    //let combine = [left]
+    completeTopRow = [...trim, ...CharactersOfNextLine]
+    
+    originalArr[rowIndex - 1] = completeTopRow
+    this.fillRightWithDashesIndex(lengthOfSpaceForWord, rowIndex , originalArr)
+    drawGrid(WIDTH, HEIGHT)
   }
 
 
 
-    originalArr[rowIndex - 1] = completeTopRow
 
     drawGrid(WIDTH, HEIGHT)
 
@@ -684,11 +732,13 @@ if (fits == true)
 return originalArr
 }
 
-//shifts all rows left less than length of the bottom left word 
-recursionFunction(remainder, rowIndex2, originalArr){
+//3/22/24: looks good, hasnt been thoroughly tested
+deleteACharacter(remainder, rowIndex2, originalArr, IsFirstRun){
 
-  if (rowIndex2 == HEIGHT-2)
+  if (rowIndex2 >= 5)
   {
+    const removed = originalArr[rowIndex2+1].splice(1, 1)
+    originalArr[HEIGHT-1][WIDTH-1] = "-"
     alert("in")
     return(originalArr)
     
@@ -698,31 +748,36 @@ recursionFunction(remainder, rowIndex2, originalArr){
 
   // row is second row that needs to be moved three left
   let lineToShift = originalArr[rowIndex2 + 1]
-
+  let secondLine = originalArr[rowIndex2 + 2]
   //remove left characters that were moved
   //get the lline after this one 
   //combine the two
   //split at width
   //call function
-  let[ left1, trim1] = this.splitAtIndex(lineToShift, 3 )
-  let target = originalArr[rowIndex2+2]
+  let[ left1, trim1] = this.splitAtIndex(lineToShift, 1 )
+  //let[ left3, trim3] = this.splitAtIndex(secondLine, 1 )
+  let target = originalArr[rowIndex2+1]
 
-  
-
-  let combined = [...remainder, ...trim1, ...target]
-
+  let combined = []
+if(IsFirstRun)
+{
+  combined = [...remainder, ...trim1, ...secondLine]
+}
+else{
+  combined = [...remainder, ...secondLine]
+}
 
   let[ left2, trim] = this.splitAtIndex(combined, WIDTH )
 
   originalArr[rowIndex2 + 1] = left2
 
   //+2
-  this.deleteRow(originalArr, rowIndex2+2)
+  //this.deleteRow(originalArr, rowIndex2+2)
 
-  originalArr.push(["-", "-" , "-", "-" ,"-", "-" ,"-", ]);
+  //originalArr.push(["-", "-" , "-", "-" ,"-", "-" ,"-", ]);
 
 
-  this.recursionFunction(trim, rowIndex2 + 1, originalArr)
+  this.deleteACharacter(trim, rowIndex2 + 1, originalArr, false)
 
   drawGrid(WIDTH, HEIGHT)
 
@@ -1030,13 +1085,7 @@ const val = "X"
   console.log(consolePad, "row9:", rowIndex, "col", colIndex, ")--");
   let targetRow = originalArr[rowIndex];
 
-  //ale
   
-  
-  //alert("worked")
-  
- 
-
   
   if (targetRow) {
     console.log("tr: ", targetRow)
@@ -1383,7 +1432,7 @@ BottomToTopDelete()
 
 }
 
-}
+
 
 
 //testArray()
@@ -1414,3 +1463,10 @@ testArr = this.insertClean(
 
 //console.log("insert [x,y,z,'-',l,m,n,o,p] at [0][2]");
 //console.log({testArr});
+
+
+regularDelete()
+{
+
+}
+}
