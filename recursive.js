@@ -30,49 +30,12 @@ class RecursiveClass{
 
 deleteKeyPressed(array, col, row){
 
-  //rid element
-
-  //alert("here")
-  //check last index
-  //if dash, just move characters in row
-  //if a character:
-  //move characters to left
-  //move, on next row, [0], to previous row [6]
-  //move all characters to left
-  //if dash end otherwise, continue
-  
-  //move charactes to left, by deleting element:
-  //
-
   //remove one element at rowindex
   const removed = array[row].splice(1, 1)
-
-  /*
-    1234567
-    abcdefg
-  */
 
     return
 
   }
-
-  deleteColumnInTwoDimArrayDontMakeDash(array, row, col)
-{
-  console.log({col})
-    array[row-1].splice(col, 1)
-    
-
-    return(array)
-}
-
-deleteColumnInTwoDimArray(array, row, col)
-{
-  console.log({col})
-    array[row-1].splice(col, 1)
-    array[row-1][6] = "-"
-
-    return(array)
-}
 
 
 
@@ -83,41 +46,6 @@ deleteRow(arr, rowIndex){
 
 }
 
-fillRightWithDashesIndex(amtSpacesToDelete, rowIndex, array)
-{
-
-  for(let i = 0 ; i < amtSpacesToDelete ; i++ )
-  {
-      array[rowIndex][i] = "Z"
-  }
-}
-
-fillMovedWordWithDash(rowIndex , arrayToChange, startingIndexRow)
-{
-   
-for(let i = startingIndexRow; i< WIDTH; i++){
-  
-  if (arrayToChange[rowIndex ][i] !== '-')
-  
-  {
-   
-    arrayToChange[rowIndex ][i] = '-'
-  }
-}
-}
-
-
-
-fillRowWithDashes(rowIndex, arrayToChange){
-  
-  for(let i = 0 ; i < WIDTH ; i++){
-
-    arrayToChange[rowIndex-1][i] = "-"
-  }
-
-  return arrayToChange
-
-}
 
 
 
@@ -168,43 +96,65 @@ splitAtIndex(arr, index) {
   }
 
 
-
-
-
-
-
-
-
-  
-
-
-
-//looks good -  3/14/24   : worked with single variables
-//look condition
-//now workd with mjultiple characters : 3/22/24
+//ROWINDEX IS THE ONE ROW ABOVE TEXT TO MOVE UP
+//REWORKED - 3/23/24
+//Deletes word from bottom left to top right
 recursiveDelete(originalArr, rowIndex, colIndex)
 {
 
-  if (rowIndex == HEIGHT-2)
+  if (rowIndex >= 6)
   {
-    alert("in")
+    
     return(originalArr)
     
   }
   
 
 
+  alert(rowIndex)
   let rowOne = originalArr[rowIndex]
   let rowTwo = originalArr[rowIndex+1]
 
-  let amtSpace2ndRow = rowTwo.indexOf("-");
+  let index1stRow = rowOne.lastIndexOf("-");
   
-  let amtSpaces1stRow = WIDTH - rowOne.lastIndexOf("-");
+  let index2ndRow = rowTwo.indexOf("-");
+
+
+
+  //check last three positions for dashes or spaces
+  let amountOfRightSpacesRow1 = WIDTH - index1stRow  + 1
   
-  if (amtSpace2ndRow > amtSpaces1stRow)
+  
+  
+  
+  let amountOfLeftSpacesRow2 = index2ndRow   
+  
+  
+  if (   amountOfLeftSpacesRow2 >  amountOfRightSpacesRow1 )
   {
-      return originalArr
+    alert("doesn't fit:  row index", rowIndex)
+      return originalArr5053
   }
+
+  let amountOfTopSpaces = 0
+  //check right spaces for space from below (the characters)
+  for(let i = WIDTH - amountOfLeftSpacesRow2; i < WIDTH ; i++)
+  {
+    if(originalArr[rowIndex][i] == "" || originalArr[rowIndex][i] ==  " " || originalArr[rowIndex][i] ==  "-" )
+    {
+      amountOfTopSpaces++
+    }
+
+  }
+  
+  //in here means doesnt fit
+  if(amountOfLeftSpacesRow2 > amountOfTopSpaces)
+  {
+    alert("here!!!")
+    return
+  }
+
+
 //check next row for left word
 //check top row for more or equal spaces to put word in
 //if so, run function
@@ -234,6 +184,10 @@ recursiveDelete(originalArr, rowIndex, colIndex)
     
     let [lineBesideLeftMostCharacter, firstCharacter ] = this.splitAtIndex(topLine, lastSpaceIndex);
     
+    
+    
+    
+    
     let lastSpaceIndex2 = topLineNextRow.indexOf("-");
 
    
@@ -242,38 +196,53 @@ recursiveDelete(originalArr, rowIndex, colIndex)
 
     let completeTopRow = []
 
-  if(rowIndex >= 6)
-  {
+  
+  
+    //looks fine
+   // if(1)
+  //{
    
-    completeTopRow = [...topLine, ...CharactersOfNextLine ]
+    
+    
+    alert("1!")
 
-    let [left, trim ] = this.splitAtIndex(topLineNextRow, 1);
-    originalArr[rowIndex] = trim
-    originalArr[rowIndex][WIDTH-1] = "-"
-    originalArr[rowIndex-1][WIDTH-1] = left[0]
-   
-    drawGrid(WIDTH, HEIGHT)
+    let lengthOfSpaceForWord = CharactersOfNextLine.length
+    let index = WIDTH - lengthOfSpaceForWord 
+    let [left,b] = this.splitAtIndex(topLine, index);
+
+    let combine = [...left, ...CharactersOfNextLine]  
+    originalArr[rowIndex-1] = combine 
+
+
+    for(let i = 0 ; i < lengthOfSpaceForWord;i++)
+    {
+      originalArr[rowIndex][i] = "-"
+    }
+
+    
+    drawGrid(HEIGHT, WIDTH)
 
     return originalArr
 
 
-  }
-  else
-  {
-    let lengthOfSpaceForWord = CharactersOfNextLine.length
-    let [left, trim ] = this.splitAtIndex(topLine, lengthOfSpaceForWord);
-    //let combine = [left]
-    completeTopRow = [...trim, ...CharactersOfNextLine]
-    
-    originalArr[rowIndex - 1] = completeTopRow
-    this.fillRightWithDashesIndex(lengthOfSpaceForWord, rowIndex , originalArr)
-    drawGrid(WIDTH, HEIGHT)
-  }
+  //}
+  //else
+  //{ //looks okay
+  //  let lengthOfSpaceForWord = CharactersOfNextLine.length
+  //  
+  //  let [left, trim ] = this.splitAtIndex(topLineNextRow, lengthOfSpaceForWord);
+  //  //let combine = [left]
+  //  completeTopRow = [...trim, ...CharactersOfNextLine]
+  //  
+  //  originalArr[rowIndex - 1] = completeTopRow
+  //  this.fillRightWithDashesIndex(lengthOfSpaceForWord, rowIndex , originalArr)
+  //  drawGrid(HEIGHT, WIDTH)
+  //}
 
 
 
 
-    drawGrid(WIDTH, HEIGHT)
+    drawGrid(HEIGHT, WIDTH)
 
 
 
@@ -637,7 +606,7 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
 }
 
 
-
+/*
 //3/13/24 :  Looks pretty good.
 BringLeftTextUpIntoSpaceOnRight( originalArr,rowIndex2,colIndex)
 {
@@ -731,8 +700,9 @@ if (fits == true)
 
 return originalArr
 }
+*/
 
-//3/22/24: looks good, hasnt been thoroughly tested
+//3/22/24: looks good, hasnt been thoroughly tested - left shifts everything
 deleteACharacter(remainder, rowIndex2, originalArr, IsFirstRun){
 
   if (rowIndex2 >= 5)
@@ -1415,58 +1385,7 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
 
 
 
-BottomToTopDelete()
-{
-  if (frontPart.at(-1) == "-" || remainder[0] == "-") {
-  //if line ends *without* breaking word (front ends with space, or remainder starts with one)
-  
-
-}else{
-
-  //let targetRow = originalArr[rowIndex];
 
 
 
-
-}
-
-}
-
-
-
-
-//testArray()
-//{
-//console.log({testArr});
-
-/*
-testArr = this.insertClean(
-  true,
-  this.nestedArray,
-  ["x", "y", "z", "-", "l", "m", "n", "-", "p", "q"],
-  0,
-  6
-
-
-}
-
-*/
-
-// TEST SECTION
-//console.log({testArr});
-//testArr = this.insertClean(
-//  this.nestedArray,
-//  ["x" ],
-//  0,
-//  6
-//);
-
-//console.log("insert [x,y,z,'-',l,m,n,o,p] at [0][2]");
-//console.log({testArr});
-
-
-regularDelete()
-{
-
-}
 }
