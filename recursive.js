@@ -25,6 +25,7 @@ class RecursiveClass{
     this.flagToManyDashes = false
     this.testCounter = 0;
     this.BreakoutOfDelete = false
+    this.RanBefore = false
     
   }
 
@@ -103,6 +104,22 @@ splitAtIndex(arr, index) {
 recursiveDelete(originalArr, rowIndex, colIndex)
 {
 
+  // check if cursor is on a left bordered word
+  // if not return
+
+  alert("!!!!")
+  
+  for(let i = colIndex ; i >= 0 ; i-- )
+  {
+    //not on a left bordered word
+    if (originalArr[rowIndex][i] == "" || originalArr[rowIndex][i] == "-" )
+    {
+      alert("in if");
+      return originalArr
+    }
+
+  }
+
   if (rowIndex >= 6)
   {
     
@@ -112,7 +129,7 @@ recursiveDelete(originalArr, rowIndex, colIndex)
   
 
 
-  alert(rowIndex)
+  //alert(rowIndex)
   let rowOne = originalArr[rowIndex]
   let rowTwo = originalArr[rowIndex+1]
 
@@ -134,7 +151,7 @@ recursiveDelete(originalArr, rowIndex, colIndex)
   if (   amountOfLeftSpacesRow2 >  amountOfRightSpacesRow1 )
   {
     alert("doesn't fit:  row index", rowIndex)
-      return originalArr5053
+      return originalArr
   }
 
   let amountOfTopSpaces = 0
@@ -152,8 +169,11 @@ recursiveDelete(originalArr, rowIndex, colIndex)
   if(amountOfLeftSpacesRow2 > amountOfTopSpaces)
   {
     alert("here!!!")
-    return
+    return originalArr
   }
+
+
+  alert("here!!!&&&")
 
 
 //check next row for left word
@@ -205,7 +225,7 @@ recursiveDelete(originalArr, rowIndex, colIndex)
    
     
     
-    alert("1!")
+    //alert("1!")
 
     let lengthOfSpaceForWord = CharactersOfNextLine.length
     let index = WIDTH - lengthOfSpaceForWord 
@@ -220,9 +240,29 @@ recursiveDelete(originalArr, rowIndex, colIndex)
       originalArr[rowIndex][i] = "-"
     }
 
-    
+
+    /////////
+
+       
+          horizontalCursorPosition =  5*(6)
+          verticalCursorPosition = verticalCursorPosition - 10
+        
+
+
+    /////////
+
+    //verticalCursorPosition = verticalCursorPosition - 10 
+    //horizontalCursorPosition = horizontalCursorPosition + 5*(WIDTH-1)
+    //horizontalCursorPosition = (WIDTH - 1) * 5
+
     drawGrid(HEIGHT, WIDTH)
 
+    drawCursor(
+      horizontalCursorPosition + HOFFSET,
+      verticalCursorPosition + VOFFSET
+    )
+
+    //alert("does it get here");
     return originalArr
 
 
@@ -247,7 +287,7 @@ recursiveDelete(originalArr, rowIndex, colIndex)
 
 
 
-    this.recursiveDelete(originalArr, rowIndex+1, 0)
+    //this.recursiveDelete(originalArr, rowIndex+1, 0)
 
    
     return originalArr
@@ -782,25 +822,20 @@ adjustForWordBreaks_BottomToTop(
   }
 
  
-  /////////
-
+  
 
   // combined on next row, delete former/8
 insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
 {
-  
 
-  //alert("insert: ", rowIndex);
-
-let nextLine = ""
-let remainder = ""
-console.log("this should be X: ", insertedArr)
-//if(insertedArr.indexOf("X") !== -1 )
-const val = "X"
-
+//let nextLine = ""
+//let remainder = ""
 
  //global counter can only ever contain the largest iteration number - take heed, this iteration isn't thorough
  //locally declared counter is scoped to *this* iteration of the function
+  
+ 
+/* 
   this.counter++;
   let innerCounter = this.counter; 
   let consolePad = "  ".repeat(innerCounter);
@@ -812,10 +847,35 @@ const val = "X"
   console.log(consolePad, "insertedArr");
   console.log(consolePad, insertedArr);
   console.log(consolePad, "row9:", rowIndex, "col", colIndex, ")--");
-  let targetRow = originalArr[rowIndex];
+ */
 
+  ////////////////////
+  //get target 1
+  //check for character at position 0,6
+  //
+  //  
+  //  is chacacter - so move all elements from cursor index to next row
+  //  combine 
+  // 
   
+  // target = row
+
+  //split row at index of cursor to front and back
+  //combine front, insert(remainder), back
+  //row = string and split at WIDTH and remainder
+  //pass remainder
+
+  //is not character (only change element on this row with a shift onr to right
+  //target row
+  //combine 
   
+  ////split row at index of cursor to front and back
+  //split row at index of cursor to front and back
+  //combine front, insert(remainder), back
+  //split combine at width 
+  /////////////////////
+
+
   if (targetRow) {
     console.log("tr: ", targetRow)
     //assuming there's a row here already
@@ -823,312 +883,58 @@ const val = "X"
       consolePad,
       "inserting array into an existing row of originalArr"
     );
-   
-    console.log("tar: ", targetRow)
-    console.log("ci9: ", colIndex);
-    
-    console.log("insertedArray: ", insertedArr);
 
-    if(insertedArr == "-"){
+  let targetRow = originalArr[rowIndex];
+  let [front, back] = splitAtIndex(targetRow, colIndex);
+  let combine = [...front, ...insertedArr , ...back, ]
+  let [row2, remainder1] = splitAtIndex(combine, WIDTH-1);
+  insertedArr[rowIndex] = row2
 
-      return originalArr
-    }
+  //isn't recursive
+  if (targetRow[rowIndex][WIDTH-1] == "-" || targetRow[rowIndex][WIDTH-1] == "")
+  {
+    return originalArr
+  }
+  //is recursice
+  else
+  {
+    insertNewArr(originalArr, remainder1, rowIndex, colIndex)
+    return originalArr
+  }
 
-    let lastSpaceIndex = targetRow.lastIndexOf("-");
-     //split the original row at that index into "front" & "back" pieces
-    const [frontPiece, backPiece] = this.splitAtIndex(targetRow, (colIndex));
-    
-    //combined with the inserted value which is a single valued array
-    let combinedArr = [...frontPiece,  ...insertedArr, ...backPiece, ];
+  }else{
+    createRow(originalArr, insertedArr, rowIndex, colIndex)
+  }
 
-    
-
-    // a - - - - -
-    console.log(consolePad, "frontPiece", frontPiece);
-    console.log(consolePad, "backpiece", backPiece);
-   
-    console.log("ca9: ", combinedArr);
-    console.log("1x:", originalArr[0][5])
-    console.log("ri1: ", rowIndex)
-    console.log("ir1: ", this.initialRow)
-    console.log("z: ", originalArr)
-    
-    
-    
-
-    console.log("ca: ", combinedArr)
-    console.log("cols: ", this.maxCols)
-    console.log(consolePad, "combined array:");
-    console.log(consolePad, combinedArr);
-
-    //alert("z")
-    //does combined array have less characters than this maxCols, //the new array fits on one line
-    if (combinedArr.length <= this.maxCols) {
-      
-      console.log(consolePad, "new array fits on one line");
-      //overwrite insertedArr[rowIndex] with combined array
-      originalArr[rowIndex] = combinedArr;
-      console.log("ca2: ", combinedArr)
-      //console.log(consolePad, "after row insertion:", this.snapshot(originalArr));
-      alert("1");
-
-
-    //does not fit in the row 
-    } else {
-
-
-      //alert("y")
-      //alert("here33");
-      //new array too long to fit on one line
-      console.log(consolePad, "need to split lines");
-      //split the combinedArr to have length of maxCols
-
-
-      //THESE ARE THE VALUES, ASSUMING THESE ARE ALL INDUCED HERE, THEY WILL BE USED CORRECTLY
-      const [trimmedLine, remainder] = this.splitAtIndex(combinedArr, this.maxCols );
-      console.log(consolePad, "trimmedLine4 ", trimmedLine);
-
-      //Used to pass as the next first value
-      console.log(consolePad, "remainder4 ", remainder);
-      //remainder[0] = ''
-
-      //is this: originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);  :  a over b causes b to move left once ; without:  correct
-      //without:  right and than left right disappears.  with:  works, to next line 
-      
-
-      //if(originalArr[rowIndex][6] != "-" )
-      
-      //CONSIDER THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      /*this function is broken, one of the adjustfors... too. */
-      
-      
-      if(originalArr[rowIndex][6] != "-" && remainder[0] == "-") {
-
-        console.log("remx: ", remainder)
-      //originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
-      return originalArr
-      }
-      
-
-
-
-        console.log("no word broken on trimmed line")
-          
-         originalArr[rowIndex] = trimmedLine;
-        console.log("replace original array row with trimmed line")
-
-         console.log(originalArr)
-         //if there's anything left over, push it into position 0 of the next row
-         if (remainder.length > 0) {
-          //alert("w");
-           console.log("trimmed line had remainder afterwards")
-           console.log("origianalArr1: ", originalArr)
-           console.log("remainder1: ", remainder);
-           //put on next line
-
-           //if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
-           
-           //originalArr = this.insertNewArr(originalArr, remainder,rowIndex+1, 0);
-           
-
-          //let lengthofWord = 
-           originalArr = this.insertNewArr(originalArr, remainder,verticalCursorPosition/10+1, colIndex);
-           console.log("vert: ", verticalCursorPosition/10+1)
-           console.log("vert2: ", rowIndex+1)
-           //this.insertClean(false, originalArr, insertedArr, rowIndex+1, colIndex) 
-           
-           //return originalArr
-           //}
-          
-          /*
-           try{if(originalArr[rowIndex][6]  === "-" && originalArr[rowIndex+1][0] === '-'){
-
-            //alert("in here")
-           originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);
-           //return originalArr
-           }
-          }  catch (e){
-            alert("caught");
-            createNextRow()
-            //this.pressedEnter(originalArr, verticalCursorPosition/10, horizontalCursorPosition/5)
-            drawGrid
-            return originalArr
-          }
-
-           */
-
-
-           console.log("array after inserting remainder:", originalArr);
-           console.log("origianalArr2: ", originalArr)
-         }
-         //alert("a")
-         /////////////
-         //////////////////////////////////////////////////////////////////
-         //BOTH BORDER CASES SUPPORTED (DIFFERENT ORDER), CALLS ADJUSRFORWORDBREAKS CORRECTLY
-         //NEWEST PROBLEM, WHEN THERE IS A LETTER ON ROW ZERO COLUMN 6, IT DISAPPEARS WHEN THERE IS AN INSERT LIKE ON ROW 0 COL 3
-         //THIS WAS JUST SOLVED, TRIED ONE TIME AND WORKED. THIS IS WHERE I LEFT OFF (LINE 413:  originalArr = this.insertNewArr(originalArr, remainder, rowIndex + 1, 0);)
-
-
-         //////////////////////////////////////////////////////////////////
-         //if  ( originalArr[rowIndex ][6] !== "-")
-         {
-          
-          //this.insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
-          //return originalArr
-          
-          //alert("d");
-            //originalArr[rowIndex+1][0] = "Z"
-            console.log("12: " , originalArr)
-         }
-
-
-         //////////
-      if(rowIndex < 1 )
-      {
-        rowIndex = 1
-        return originalArr
-      }
-
-      if(rowIndex > 5)
-      {
-       
-        //rowIndex = 5;
-        //return originalArr
-      }
-      
-
-     
-
-      
-
-      
-
-
-       ////////////
-         
-         // ASSUMPTION:  THIS FUNCTION TAKES IN THE INPUT VALUES AND ASSUMING THEY ARE CORRECT, SHOULD OUTPUT THE NEWLY INSERTED ARRAY
-         // ALSO CHECKS THAT AS ELSE SAYS, DOES NOT FIT IN THE ROW:  (does not fit in the row ) IS COMMENTED    
-         //
-         //  Inputs:
-     
-          // this is where word is broken across row
-          //  trimmedLine is the line on the left that doesn't include insert array and remainder array  
-          //  remainder - is the array after the inserted value 
-          //  originalarr - is the entire array before the insert
-          //  rowIndex - the value pertaining to the position vertical as index
-          //  colIndex - the position pertaining to the horizontal value as index
-
-          if (rowIndex+1 == 1){
-            //rowIndex= 1
-          }
-      //alert("b")                                                                                          -1, is second afrgment
-         
-
-      //originalArr = this.fillNullWithDashOnRow(rowIndex ,originalArr)
-      
-      //originalArr = this.fillNullWithDashOnRow(rowIndex + 1 ,originalArr)
-      //top to bottom
-
-      console.log("check: ", originalArr)
-      //originalArr[5][0] = "-"
-      //originalArr[5][0] = "-"
-
-      //LOOK at remainder at 721 amd other function two - when commented in/out does half character situations
-      //Uncaught TypeError: Cannot read properties of undefined (reading '5')
-      
-      
-      
-      if(0){
-      //if  (originalArr[rowIndex][6] !== "-" && originalArr[rowIndex +1 ][0] !== "-" ){
-
-          //originalArr = this.adjustForWordBreaks_TopToBottom(
-        
-          /*
-          alert("bottom to top")
-            originalArr = this.adjustForWordBreaks_BottomToTop(
-            trimmedLine,
-            remainder,
-            originalArr,
-            rowIndex,
-            colIndex,
-          
-          );
-
-          */
-          return originalArr
-
-         } 
-         
-         
-         //bottom to top
-        if(0)// (originalArr[rowIndex ][0] !== "-" && originalArr[rowIndex - 1 ][6] !== "-"  )
-         {
-          alert("top to bottom")
-        
-         
-         
-            console.log("here1: ", rowIndex )
-
-        
-
-        
-
-        
-       // originalArr = this.adjustForWordBreaks_BottomToTop(
-        /*
-        originalArr = this.adjustForWordBreaks_TopToBottom(
-        
-        trimmedLine,
-        remainder,
-        originalArr,
-        rowIndex,
-        colIndex,
-      
-      );
-         
-          */
-      }
-
-
-      
-     
-      
-
-      
-        return originalArr
-      
-      
-      }  // ...did not fit in row 
-
-
-
-      //////////////////////////////////////////////////////////////////////////////////////////////
-      //////////////////////////////////////////////////////////////////////////////////////////////
-
-  
-  //alert("put here");
-  console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
-  console.log(consolePad, this.snapshot(originalArr));
-  console.log(consolePad, "-------------");
-
-  return originalArr;   //function ends here
-
-//no row, so create one
-}  else{
-
-alert("i");
 }
-
-return originalArr
-}
-
   
+createRow(originalArr, insertedArr, rowIndex, colIndex)
+{
+  if(insertedArr.length <= WIDTH)
+  { 
+    //insertedArr is less than col max than push array onto originalArr
+    originalArr.push(insertedArr);
+  }
+  else{
+  //insertedArr is more than WIDTH
+  //split row into front and remainder with WIDTH
+  //push front onto originalArr
+  //call createRow(remainder)
+  let [front, remainder] = splitAtIndex(insertedArr, WIDTH);
+  originalArr.push(front)
+  insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
+  return originalArr
+  }
+}
+    
+
 //insert into a clean duplicate bc it's nicer
 insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) 
 {
   
   if(isFromIndex === true){
   this.initialRow = rowIndex
+  this.RanBefore = false
   //this.initialColumn = colIndex
   }
 

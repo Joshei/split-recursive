@@ -41,11 +41,11 @@
   //[" ", " ", " ", " ", " ", " " , " " ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-"],
-  ["-", "2", "-", "-", "-", "-" , "-" ],
-  ["a", "b", "c", "d", "e", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["3", "-", "-", "1", "1", "2" , "2" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["a", "b", "-", "-", "-" , "-", "-" ],
+  ["-", "-", "-", "-", "-" , "-", "-" ],
   [" ", " ", " ", " ", " ", " " , " " ],
   
 ];
@@ -180,13 +180,12 @@
       let gInsert = false
       
       
-      
-      //nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [])
-       
-      //InsertNewArr(nestedArray, " ", horizontalCursorPosition/5, verticalCursorPosition/10 )
+      //is not called for cursor movement, enter, delete
+      //shift, control, tab, escape, backspace
+      //Basiclly, an alph-numeric character causes this to happen
       function printCharacter() {
 
-        alert("print")
+        //alert("print")
         let rowIndex = horizontalCursorPosition/5;
         let colIndex = verticalCursorPosition/10;
         //insertNewArr(nestedArray, " ", rowIndex, colIndex)
@@ -198,7 +197,7 @@
         
         let key = "Z"
        
-        //gKey = "Z"
+        //gKey = "P"
         console.log("nested array1: ", nestedArray);
         //nestedArray = Recursive.insertClean(true, nestedArray, [gKey, gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
@@ -209,21 +208,28 @@
         
         drawGrid( WIDTH, HEIGHT)
         
-        if (horizontalCursorPosition < (WIDTH - 1) * 5) {
-          horizontalCursorPosition = horizontalCursorPosition + 5
-        }else{
-          horizontalCursorPosition = 0;
-          verticalCursorPosition = verticalCursorPosition + 10
-          //alert("here1");
-        }
+     //   if (horizontalCursorPosition < (WIDTH )) {
+     //     horizontalCursorPosition = horizontalCursorPosition + 5
+     //   }else{
+     //     horizontalCursorPosition = 0;
+     //     verticalCursorPosition = verticalCursorPosition + 10
+     //     //alert("here1");
+     //   }
         
-        console.log("vert: ", verticalCursorPosition/10)
+     //   console.log("vert: ", verticalCursorPosition/10)
         drawCursor(
 
 
-          horizontalCursorPosition + HOFFSET,
+          horizontalCursorPosition + HOFFSET ,
           verticalCursorPosition + VOFFSET
         )
+
+
+        //this function checks for condition with each keypress,
+        //the rowindex should be the top of the two rows
+        //if there is no character here to move, than it just returns here
+        alert("1")
+        nestedArray = Recursive.recursiveDelete(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
 
       }
 
@@ -253,7 +259,7 @@
             
             console.log("nested array3: ", nestedArray);
             //THIS IS IT :  
-            Recursive.recursiveDelete(nestedArray,verticalCursorPosition/10+1, horizontalCursorPosition/5)
+            //Recursive.recursiveDelete(nestedArray,verticalCursorPosition/10+1, horizontalCursorPosition/5)
             //Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, nestedArray, true)
             //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray = Recursive. BringLeftTextUpIntoSpaceOnRight( nestedArray,verticalCursorPosition/10, horizontalCursorPosition/5)
