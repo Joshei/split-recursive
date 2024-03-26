@@ -40,13 +40,13 @@
       let nestedArray = [
   //[" ", " ", " ", " ", " ", " " , " " ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-"],
+  ["-", "-", "-", "A", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["3", "-", "-", "1", "1", "2" , "2" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-" , "-", "-" ],
-  [" ", " ", " ", " ", " ", " " , " " ],
+  [" ", " ", " ", " ", " ", " " , "-" ],
   
 ];
 
@@ -61,7 +61,7 @@
       //insert is on or off
       var insertOn = document.getElementById('insert')
       let textBox = [[]]
-      //rows and columns of canvas
+      //rows and columns of canvasp
       let rows = WIDTH
       let cols = HEIGHT
       //this is so that the canvas will look okay on a big display
@@ -218,8 +218,6 @@
         
      //   console.log("vert: ", verticalCursorPosition/10)
         drawCursor(
-
-
           horizontalCursorPosition + HOFFSET ,
           verticalCursorPosition + VOFFSET
         )
@@ -228,8 +226,8 @@
         //this function checks for condition with each keypress,
         //the rowindex should be the top of the two rows
         //if there is no character here to move, than it just returns here
-        alert("1")
-        nestedArray = Recursive.recursiveDelete(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        //alert("1")
+        //nestedArray = Recursive.recursiveDelete(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
 
       }
 

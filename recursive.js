@@ -107,7 +107,7 @@ recursiveDelete(originalArr, rowIndex, colIndex)
   // check if cursor is on a left bordered word
   // if not return
 
-  alert("!!!!")
+  //alert("!!!!")
   
   for(let i = colIndex ; i >= 0 ; i-- )
   {
@@ -875,36 +875,92 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
   //split combine at width 
   /////////////////////
 
+  if (rowIndex >= 6)
+  {
+    
+    return(originalArr)
+    
+  }
+
+  let targetRow = originalArr[rowIndex]
 
   if (targetRow) {
     console.log("tr: ", targetRow)
     //assuming there's a row here already
     console.log(
-      consolePad,
+      //consolePad,
       "inserting array into an existing row of originalArr"
     );
 
-  let targetRow = originalArr[rowIndex];
-  let [front, back] = splitAtIndex(targetRow, colIndex);
-  let combine = [...front, ...insertedArr , ...back, ]
-  let [row2, remainder1] = splitAtIndex(combine, WIDTH-1);
-  insertedArr[rowIndex] = row2
+  //let targetRow = originalArr[rowIndex];
+  let [front, back] = this.splitAtIndex(targetRow, colIndex);
+  let combine = [...insertedArr ,...front , ...back, ]
+  let [row2, remainder1] = this.splitAtIndex(combine, WIDTH);
+  originalArr[rowIndex] = row2
 
-  //isn't recursive
-  if (targetRow[rowIndex][WIDTH-1] == "-" || targetRow[rowIndex][WIDTH-1] == "")
+
+
+
+
+
+
+
+
+  //LOOK AT THESE FIVE SECTIONS, WAS VERY TIRED
+
+  //isn't recursive - there is no character on right border, so height doesnt change?
+  if (targetRow[rowIndex][WIDTH-1] == "-" || targetRow[rowIndex][WIDTH] == "")
   {
+    //alert("1")
+    //HEIGHT++
+    horizontalCursorPosition = horizontalCursorPosition + 5
+    drawGrid(HEIGHT, WIDTH)
+    drawCursor(
+      horizontalCursorPosition + HOFFSET ,
+      verticalCursorPosition + VOFFSET
+    )
+
     return originalArr
   }
-  //is recursice
+  //is recursive, so increase HEIGHT++?
+  //If so, dont change height?
   else
   {
-    insertNewArr(originalArr, remainder1, rowIndex, colIndex)
+    //so, changes both of these
+    this.setXandYPositions()
+    this.insertNewArr(originalArr, remainder1, rowIndex + 1, colIndex)
+    drawCursor(
+      horizontalCursorPosition + HOFFSET ,
+      verticalCursorPosition + VOFFSET
+    )
+
+    drawGrid(HEIGHT, WIDTH)
     return originalArr
   }
 
-  }else{
-    createRow(originalArr, insertedArr, rowIndex, colIndex)
+  }else{ //drawcursor here?
+    
+    this.createRow(originalArr, insertedArr, rowIndex, colIndex)
+    //write drawcursor code here
+    HEIGHT++
+    drawGrid(HEIGHT, WIDTH)
+
+    return originalArr
   }
+
+}
+
+//Both positions will change.
+setXandYPositions()
+{
+  if (horizontalCursorPosition < (WIDTH )) {
+    horizontalCursorPosition = horizontalCursorPosition + 5
+  }else{
+    horizontalCursorPosition = 0;
+    verticalCursorPosition = verticalCursorPosition + 10
+    //alert("here1");
+  }
+  
 
 }
   
@@ -913,6 +969,7 @@ createRow(originalArr, insertedArr, rowIndex, colIndex)
   if(insertedArr.length <= WIDTH)
   { 
     //insertedArr is less than col max than push array onto originalArr
+    HEIGHT++
     originalArr.push(insertedArr);
   }
   else{
@@ -920,9 +977,10 @@ createRow(originalArr, insertedArr, rowIndex, colIndex)
   //split row into front and remainder with WIDTH
   //push front onto originalArr
   //call createRow(remainder)
-  let [front, remainder] = splitAtIndex(insertedArr, WIDTH);
+  let [front, remainder] = this.splitAtIndex(insertedArr, WIDTH);
   originalArr.push(front)
-  insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
+  HEIGHT++
+  this.insertNewArr(originalArr, insertedArr, rowIndex+1, colIndex)
   return originalArr
   }
 }
