@@ -28,6 +28,129 @@ class RecursiveClass{
     this.RanBefore = false
     
   }
+/////////////
+
+
+//3/13/24 looked pretty good
+moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
+
+
+  console.log("across: ", remainder);
+    //check for index 6 and index 0
+    //if two values add up to over 7 retunr out
+    //get first row last word on border  - A
+    //get second row  get first word on left border - B
+
+    //put A on the 2nd row
+    //put B on end of row
+    //delete first row
+    //check NEXT row with recursion
+  
+    if(originalArr[rowIndex][6] == "-" || originalArr[rowIndex+1][0] == "-"){ 
+
+    
+
+  }
+
+  //alert("move all words...")
+  
+
+
+  let targetRow1 = originalArr[rowIndex];
+  //originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+  if(rowIndex < HEIGHT-1){
+    originalArr.push (["A", "-", "-", "-", "-", "-" , "-" ],)
+    //return
+  }
+  else{
+    return
+  }
+  if (rowIndex > HEIGHT-2){
+    //return
+  }
+  let targetRow2 = originalArr[rowIndex+1];
+
+
+  // find first values
+  let lastSpaceIndex = targetRow1.lastIndexOf("-");
+  const [trim1, lastPiece] = this.splitAtIndex(targetRow1, lastSpaceIndex + 1);
+  
+  // find 2nd values
+  let firstSpaceIndex = targetRow2.indexOf("-");
+  const [frontPiece, trim2] = this.splitAtIndex(targetRow2, firstSpaceIndex);
+
+  if((frontPiece.length + lastPiece.length) > 7 )
+  {
+    this.moveAllWordsAcrossBorder(originalArr,[], rowIndex+2,colIndex)
+    //originalArr = this.deleteRow(originalArr, rowIndex+1)
+    //alert("over 7")
+    return originalArr
+  }
+  //last peice on row 1, forsy peice on row 2
+  // 01
+  const combined = [...lastPiece, ...frontPiece, ...trim2]
+
+  //leftover line that was previous
+
+  ///   -1  ?????
+  const [word1, remainder1] = this.splitAtIndex(combined, WIDTH-1);
+  remainder  =  [...remainder, ...remainder1]
+
+  originalArr[rowIndex] = trim1 
+  originalArr[rowIndex+1] = word1
+  this.fillNullWithDashOnRow(rowIndex+1 ,originalArr)
+  this.fillNullWithDashOnRow(rowIndex ,originalArr)
+
+ 
+  
+  
+  
+  
+  
+  
+  drawGrid(HEIGHT, WIDTH)
+  
+  this.moveAllWordsAcrossBorder(originalArr,[], rowIndex+1,colIndex)
+  
+
+  let DeleteFlag = true
+  let i = 0
+  for(let j = 0; j< rowIndex; j++)
+  {
+
+    DeleteFlag = true
+  
+  for(i = 0; i < WIDTH - 1 ; i++)
+  {
+    if (originalArr[j][i] != "-")
+    {
+        DeleteFlag = false;
+        break
+    }
+  }
+
+  if(DeleteFlag == true)
+  {
+    originalArr = this.deleteRow(originalArr, j)
+    
+   
+  }
+}
+  
+  
+  
+  drawGrid(HEIGHT, WIDTH) 
+ 
+  return (originalArr)
+
+ 
+
+}
+
+
+
+//////////////
+
 
 deleteKeyPressed(array, col, row){
 
