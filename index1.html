@@ -40,13 +40,13 @@
       let nestedArray = [
   //[" ", " ", " ", " ", " ", " " , " " ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "A", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "a" ],
+  ["b", "1", "2", "3", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "1" ],
+  ["2", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-" , "-", "-" ],
-  [" ", " ", " ", " ", " ", " " , "-" ],
+  [" ", " ", " ", " ", " ", " " , " " ],
   
 ];
 
@@ -253,13 +253,14 @@
         else if(gKey == 'Delete')
         {
           
+          let key = ""
           
             
             console.log("nested array3: ", nestedArray);
             //THIS IS IT :  
             //Recursive.recursiveDelete(nestedArray,verticalCursorPosition/10+1, horizontalCursorPosition/5)
             //Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, nestedArray, true)
-            //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
+            nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray = Recursive. BringLeftTextUpIntoSpaceOnRight( nestedArray,verticalCursorPosition/10, horizontalCursorPosition/5)
              console.log("nested array4: ", nestedArray);
         }
