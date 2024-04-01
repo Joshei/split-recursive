@@ -955,7 +955,7 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
   //split combine at width 
   /////////////////////
 
- 
+ /*
   let copy = originalArr[rowIndex][colIndex]
   let WouldBeAFullRow = true 
   originalArr[rowIndex][colIndex] = "Z"
@@ -978,7 +978,7 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
     }
 
     drawGrid(HEIGHT,WIDTH)
-  
+  */
 
   if (rowIndex >= 6)
   {
@@ -997,30 +997,18 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
       "inserting array into an existing row of originalArr"
     );
 
-  //let targetRow = originalArr[rowIndex];
-
-  //let lastSpaceIndex = targetRow.lastIndexOf("-");
-
+ 
   let [front, back] = this.splitAtIndex(targetRow, colIndex);
   let combine = [ ...front , ...insertedArr , ...back, ]
   let [row2, remainder1] = this.splitAtIndex(combine, WIDTH);
   originalArr[rowIndex] = row2
 
 
-
-
-
-
-
-
-
-  //LOOK AT THESE FIVE SECTIONS, WAS VERY TIRED
-
-  //isn't recursive - there is no character on right border, so height doesnt change?
+  //isn't recursive - there is no character on right border, so just move characters in this row
+  //remainder set to null
   if ((originalArr[rowIndex][WIDTH-1] == "-" || originalArr[rowIndex][WIDTH- 1] == ""))
   {
-    //alert("1")
-    //HEIGHT++
+    
     horizontalCursorPosition = horizontalCursorPosition + 5
     drawGrid(HEIGHT, WIDTH)
     drawCursor(
@@ -1028,44 +1016,31 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
       verticalCursorPosition + VOFFSET
     )
 
-
-    ////////////////////////
+      remainder1 = []
     
+    return originalArr
+  }
+  
+
+  //character in sixth position of row, so each row updated, if that 6th column continues to be had
+  else
+  {
+   
+
     let length = remainder1.length
     if (length > 0)
     {
 
       let target = originalArr[rowIndex+1] 
       
-      //let rem = [ ...target, ...remainder1]
+      
       let [display, b] = this.splitAtIndex(remainder1, WIDTH);
       originalArr[rowIndex+1] = display
 
     this.fillNullWithDashOnRow(rowIndex+1 ,originalArr)  
       
-      drawGrid(HEIGHT,WIDTH)
-
-      ///???????????????????????????
-      //this.insertNewArr(originalArr, b, rowIndex + 2, 0)
-
-      return originalArr
-    }
-
-    ////////////////////////  insertnewarr call  under this ?? 
-
-
-    return originalArr
-  }
-  
-
-  //character in sixth position of row
-  else
-  {
-   
-    
+      
     this.setXandYPositions()
-    this.insertNewArr(originalArr, remainder1, rowIndex + 1, 0)
-    
     
     drawCursor(
       horizontalCursorPosition + HOFFSET ,
@@ -1073,15 +1048,28 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
     )
 
     drawGrid(HEIGHT, WIDTH)
+
+    this.insertNewArr(originalArr, b, rowIndex + 2, 0)
+
     return originalArr
+  
+    }
+  
   }
 
-  }else{ //drawcursor here?
+
+  }else{ //no row,  so create one
     
     this.createRow(originalArr, insertedArr, rowIndex, colIndex)
-    //write drawcursor code here
+   
     HEIGHT++
     drawGrid(HEIGHT, WIDTH)
+
+    //this is not correct, yet
+    drawCursor(
+      horizontalCursorPosition + HOFFSET ,
+      verticalCursorPosition + VOFFSET
+    )
 
     return originalArr
   }
@@ -1144,14 +1132,6 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
   console.log("oa2: ", originalArray)
   return this.insertNewArr(newArray2, insertedArray, rowIndex, colIndex);
 }
-
-
-
-
-
-
-
-
 
 
 }
