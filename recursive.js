@@ -763,8 +763,8 @@ adjustForWordBreaks_TopToBottom(
   
 originalArr = this.fillNullWithDashOnRow(rowIndex - 1 , originalArr)
 
-  
-  this.insertNewArr(originalArr, finalRemainder, rowIndex + 1,0)
+  //check this false!!!
+  this.insertNewArr(false, originalArr, finalRemainder, rowIndex + 1,0)
    
   
     this.fillNullWithDashOnRow(rowIndex, originalArr)
@@ -880,7 +880,8 @@ adjustForWordBreaks_BottomToTop(
 
 
    //originalArr = this.fillRowWithDashes(rowIndex, originalArr)
-  this.insertNewArr(originalArr, wordPart, rowIndex+1,0)
+   //check this false!!!
+  this.insertNewArr(false, originalArr, wordPart, rowIndex+1,0)
   originalArr = this.fillNullWithDashOnRow(rowIndex , originalArr)
  
 
@@ -905,7 +906,7 @@ adjustForWordBreaks_BottomToTop(
   
 
   // combined on next row, delete former/8
-insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
+insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex)
 {
 
 //let nextLine = ""
@@ -1049,7 +1050,7 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
 
     drawGrid(HEIGHT, WIDTH)
 
-    this.insertNewArr(originalArr, b, rowIndex + 2, 0)
+    this.insertNewArr(false,originalArr, b, rowIndex + 2, 0)
 
     return originalArr
   
@@ -1111,7 +1112,8 @@ createRow(originalArr, insertedArr, rowIndex, colIndex)
   let [front, remainder] = this.splitAtIndex(insertedArr, WIDTH);
   originalArr.push(front)
   HEIGHT++
-  this.insertNewArr(originalArr, insertedArr, rowIndex+1, colIndex)
+  //CHECK THIS, false!!!!
+  this.insertNewArr(false, originalArr, insertedArr, rowIndex+1, colIndex)
   return originalArr
   }
 }
@@ -1130,7 +1132,7 @@ insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex)
   
   let newArray2 = this.snapshot(originalArray);
   console.log("oa2: ", originalArray)
-  return this.insertNewArr(newArray2, insertedArray, rowIndex, colIndex);
+  return this.insertNewArr(isFromIndex, newArray2, insertedArray, rowIndex, colIndex);
 }
 
 
