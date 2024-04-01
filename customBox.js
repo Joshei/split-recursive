@@ -13,6 +13,8 @@ class CustomBoxClass {
       this.heightValue = 0
       this.gInsert = false;
     }
+
+    
     controlInput() {
     //alert("3");
     console.log("gkey2",gKey);
@@ -51,7 +53,27 @@ class CustomBoxClass {
         //Prints a single character.  Arrow keys can move you arround.  Enter is not inserted yet.
         //in index1.html
         //alert("pc")
-        printCharacter()
+
+      //
+
+      {
+      
+        printCharacter() 
+
+        if (horizontalCursorPosition/5 < (WIDTH - 1 )) {
+         // horizontalCursorPosition = horizontalCursorPosition + 5
+        }else{
+          
+          //horizontalCursorPosition = 0;
+          //verticalCursorPosition = verticalCursorPosition + 10
+          //alert("here1");
+        }
+        
+  
+      }
+
+      //
+       
        
         
       
@@ -65,4 +87,6 @@ class CustomBoxClass {
 
       return
     }
+
+    
 }

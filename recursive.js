@@ -26,12 +26,13 @@ class RecursiveClass{
     this.testCounter = 0;
     this.BreakoutOfDelete = false
     this.RanBefore = false
+    this.rem = []
     
   }
 /////////////
 
 
-//3/28/24 Better than before
+//3/29/24 - looks okay 
 moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
 
 
@@ -48,13 +49,45 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
   // if(originalArr[rowIndex][6] == "-" || originalArr[rowIndex+1][0] == "-"){
   //
   let target1 = originalArr[rowIndex];
+  let target2 = originalArr[rowIndex+1]
+
+  //let lastSpaceIndex2 = target2.indexOf("-");
+  //word against left edge to be inserted later in row/rows
+  //const [save2ndRowWord, trim1] = this.splitAtIndex(target2, lastSpaceIndex2 + 1);
+  //let lengthOfDashesToApply = topWord.length
+
+
+
+
   let lastSpaceIndex1 = target1.lastIndexOf("-");
-  const [addit, trim] = splitAtIndex(target1, lastSpaceIndex1);
-  let combine = [...addit, ...remainder]
-  [row, remainder2] = splitAtIndex(combine, WIDTH-1);
-  originalArr[rowIndex] = row 
-  this.moveAllWordsAcrossBorder(originalArr,remainder2, rowIndex,colIndex)
+  const [trim, topWord] = this.splitAtIndex(target1, lastSpaceIndex1 + 1);
+  //let lengthOfDashesToApply = topWord.length
+
+  let combine = [...topWord, ...remainder,  ...target2]
+  const [row, remainder2] = this.splitAtIndex(combine, WIDTH);
+  //const combine2 = [...row]
+  originalArr[rowIndex+1] = row 
   drawGrid(HEIGHT, WIDTH)
+  
+  // replace topword with dashes, top word can be multpile characters 
+  let topWordLen = topWord.length
+  let indextoStartDisplayDashes = WIDTH - topWordLen
+  for(let i = indextoStartDisplayDashes ; i <= WIDTH - 1 ; i++ )
+  {
+    originalArr[rowIndex][i] = "-"
+  }
+  drawGrid(HEIGHT, WIDTH)
+  
+  
+  //this.deleteKeyPressed(originalArr, colIndex, rowIndex)
+  
+  
+  //this.insertCharacterToArray(originalArr, colIndex, rowIndex, "-")
+
+  this.moveAllWordsAcrossBorder(originalArr,remainder2, rowIndex+ 1,colIndex)
+
+
+  
   //this.fillNullWithDashOnRow(rowIndex+1 ,originalArr)
   //this.fillNullWithDashOnRow(rowIndex ,originalArr)
   return (originalArr)
@@ -63,17 +96,28 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
 
 
 //////////////
+insertCharacterToArray(array, col, row, character)
+{
+  array[row].splice(col,0, "W")
+  
+  
+}
 
-
+//col is the column, to add too
 deleteKeyPressed(array, col, row){
 
   //remove one element at rowindex
-  const removed = array[row].splice(1, 1)
+  const removed = array[row].splice(col, 1)
 
     return
 
   }
 
+putElementIn2DimArray(arr, row, column)
+{
+  arr.splice(1, 0, "W")
+
+}
 
 
 deleteRow(arr, rowIndex){
@@ -911,6 +955,31 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
   //split combine at width 
   /////////////////////
 
+ 
+  let copy = originalArr[rowIndex][colIndex]
+  let WouldBeAFullRow = true 
+  originalArr[rowIndex][colIndex] = "Z"
+  //check for a full line with this eleemnt added
+  for (let i = 0; i < WIDTH ; i++)
+    {
+        if (originalArr[rowIndex][i] === "-")
+        {
+          originalArr[rowIndex][colIndex] = copy
+          WouldBeAFullRow = false
+          break
+        } 
+    }
+
+    if(WouldBeAFullRow == true)
+    {
+     
+      originalArr[rowIndex][colIndex] = copy
+      return originalArr
+    }
+
+    drawGrid(HEIGHT,WIDTH)
+  
+
   if (rowIndex >= 6)
   {
     
@@ -929,8 +998,11 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
     );
 
   //let targetRow = originalArr[rowIndex];
+
+  //let lastSpaceIndex = targetRow.lastIndexOf("-");
+
   let [front, back] = this.splitAtIndex(targetRow, colIndex);
-  let combine = [...insertedArr ,...front , ...back, ]
+  let combine = [ ...front , ...insertedArr , ...back, ]
   let [row2, remainder1] = this.splitAtIndex(combine, WIDTH);
   originalArr[rowIndex] = row2
 
@@ -945,7 +1017,7 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
   //LOOK AT THESE FIVE SECTIONS, WAS VERY TIRED
 
   //isn't recursive - there is no character on right border, so height doesnt change?
-  if (targetRow[rowIndex][WIDTH-1] == "-" || targetRow[rowIndex][WIDTH] == "")
+  if ((originalArr[rowIndex][WIDTH-1] == "-" || originalArr[rowIndex][WIDTH- 1] == ""))
   {
     //alert("1")
     //HEIGHT++
@@ -956,15 +1028,45 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
       verticalCursorPosition + VOFFSET
     )
 
+
+    ////////////////////////
+    
+    let length = remainder1.length
+    if (length > 0)
+    {
+
+      let target = originalArr[rowIndex+1] 
+      
+      //let rem = [ ...target, ...remainder1]
+      let [display, b] = this.splitAtIndex(remainder1, WIDTH);
+      originalArr[rowIndex+1] = display
+
+    this.fillNullWithDashOnRow(rowIndex+1 ,originalArr)  
+      
+      drawGrid(HEIGHT,WIDTH)
+
+      ///???????????????????????????
+      //this.insertNewArr(originalArr, b, rowIndex + 2, 0)
+
+      return originalArr
+    }
+
+    ////////////////////////  insertnewarr call  under this ?? 
+
+
     return originalArr
   }
-  //is recursive, so increase HEIGHT++?
-  //If so, dont change height?
+  
+
+  //character in sixth position of row
   else
   {
-    //so, changes both of these
+   
+    
     this.setXandYPositions()
-    this.insertNewArr(originalArr, remainder1, rowIndex + 1, colIndex)
+    this.insertNewArr(originalArr, remainder1, rowIndex + 1, 0)
+    
+    
     drawCursor(
       horizontalCursorPosition + HOFFSET ,
       verticalCursorPosition + VOFFSET
@@ -986,19 +1088,24 @@ insertNewArr(originalArr, insertedArr, rowIndex, colIndex)
 
 }
 
+
 //Both positions will change.
 setXandYPositions()
 {
-  if (horizontalCursorPosition < (WIDTH )) {
+  
+  
+  if (horizontalCursorPosition/5 < (WIDTH - 1 )) {
     horizontalCursorPosition = horizontalCursorPosition + 5
   }else{
-    horizontalCursorPosition = 0;
+    
+    horizontalCursorPosition = -5
     verticalCursorPosition = verticalCursorPosition + 10
     //alert("here1");
   }
   
 
 }
+
   
 createRow(originalArr, insertedArr, rowIndex, colIndex)
 {
