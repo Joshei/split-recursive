@@ -40,24 +40,9 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
     return originalArr
   }
 
-  // if there is a word on right side and there is a word below on second row than
-  // the top row is pushed to second line
-
-  //----1234
-  //
-
-  // if(originalArr[rowIndex][6] == "-" || originalArr[rowIndex+1][0] == "-"){
-  //
+ 
   let target1 = originalArr[rowIndex];
   let target2 = originalArr[rowIndex+1]
-
-  //let lastSpaceIndex2 = target2.indexOf("-");
-  //word against left edge to be inserted later in row/rows
-  //const [save2ndRowWord, trim1] = this.splitAtIndex(target2, lastSpaceIndex2 + 1);
-  //let lengthOfDashesToApply = topWord.length
-
-
-
 
   let lastSpaceIndex1 = target1.lastIndexOf("-");
   const [trim, topWord] = this.splitAtIndex(target1, lastSpaceIndex1 + 1);
@@ -78,18 +63,9 @@ moveAllWordsAcrossBorder(originalArr,remainder, rowIndex,colIndex){
   }
   drawGrid(HEIGHT, WIDTH)
   
-  
-  //this.deleteKeyPressed(originalArr, colIndex, rowIndex)
-  
-  
-  //this.insertCharacterToArray(originalArr, colIndex, rowIndex, "-")
 
   this.moveAllWordsAcrossBorder(originalArr,remainder2, rowIndex+ 1,colIndex)
 
-
-  
-  //this.fillNullWithDashOnRow(rowIndex+1 ,originalArr)
-  //this.fillNullWithDashOnRow(rowIndex ,originalArr)
   return (originalArr)
 }
 
@@ -905,81 +881,11 @@ adjustForWordBreaks_BottomToTop(
  
   
 
-  // combined on next row, delete former/8
+ 
 insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex)
 {
 
-//let nextLine = ""
-//let remainder = ""
 
- //global counter can only ever contain the largest iteration number - take heed, this iteration isn't thorough
- //locally declared counter is scoped to *this* iteration of the function
-  
- 
-/* 
-  this.counter++;
-  let innerCounter = this.counter; 
-  let consolePad = "  ".repeat(innerCounter);
-  console.log(consolePad, "-------------");
-  console.log(consolePad, "ITERATION ", this.insertCleancounter);
-  console.log(consolePad, "***!!!start of insertNewArr function!!!***");
-  console.log(consolePad, "--( originalArr");
-  console.log(consolePad, this.snapshot(originalArr));
-  console.log(consolePad, "insertedArr");
-  console.log(consolePad, insertedArr);
-  console.log(consolePad, "row9:", rowIndex, "col", colIndex, ")--");
- */
-
-  ////////////////////
-  //get target 1
-  //check for character at position 0,6
-  //
-  //  
-  //  is chacacter - so move all elements from cursor index to next row
-  //  combine 
-  // 
-  
-  // target = row
-
-  //split row at index of cursor to front and back
-  //combine front, insert(remainder), back
-  //row = string and split at WIDTH and remainder
-  //pass remainder
-
-  //is not character (only change element on this row with a shift onr to right
-  //target row
-  //combine 
-  
-  ////split row at index of cursor to front and back
-  //split row at index of cursor to front and back
-  //combine front, insert(remainder), back
-  //split combine at width 
-  /////////////////////
-
- /*
-  let copy = originalArr[rowIndex][colIndex]
-  let WouldBeAFullRow = true 
-  originalArr[rowIndex][colIndex] = "Z"
-  //check for a full line with this eleemnt added
-  for (let i = 0; i < WIDTH ; i++)
-    {
-        if (originalArr[rowIndex][i] === "-")
-        {
-          originalArr[rowIndex][colIndex] = copy
-          WouldBeAFullRow = false
-          break
-        } 
-    }
-
-    if(WouldBeAFullRow == true)
-    {
-     
-      originalArr[rowIndex][colIndex] = copy
-      return originalArr
-    }
-
-    drawGrid(HEIGHT,WIDTH)
-  */
 
   if (rowIndex >= 6)
   {
@@ -1000,17 +906,35 @@ insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex)
 
  
   let [front, back] = this.splitAtIndex(targetRow, colIndex);
-  let combine = [ ...front , ...insertedArr , ...back, ]
+
+  let combine = []
+
+  //initial call puts insert within row, second call puts leftover remainder at front of row
+  if (IsFromIndex)
+  {
+    combine = [ ...front , ...insertedArr , ...back, ]
+  }
+  else
+  {
+    combine = [ ...insertedArr ,...front,  ...back, ]
+  }
+  
   let [row2, remainder1] = this.splitAtIndex(combine, WIDTH);
-  originalArr[rowIndex] = row2
+  
 
 
   //isn't recursive - there is no character on right border, so just move characters in this row
   //remainder set to null
   if ((originalArr[rowIndex][WIDTH-1] == "-" || originalArr[rowIndex][WIDTH- 1] == ""))
   {
+    alert("horiz change");
+    originalArr[rowIndex] = row2
     
-    horizontalCursorPosition = horizontalCursorPosition + 5
+    //horizontalCursorPosition = horizontalCursorPosition + 5
+    if (IsFromIndex)
+    {
+      this.setXandYPositions()
+    }
     drawGrid(HEIGHT, WIDTH)
     drawCursor(
       horizontalCursorPosition + HOFFSET ,
@@ -1026,6 +950,10 @@ insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex)
   //character in sixth position of row, so each row updated, if that 6th column continues to be had
   else
   {
+
+    
+    alert("section 2")
+    originalArr[rowIndex] = row2
    
 
     let length = remainder1.length
@@ -1034,8 +962,9 @@ insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex)
 
       let target = originalArr[rowIndex+1] 
       
+      let combine = [...remainder1, ...target]
       
-      let [display, b] = this.splitAtIndex(remainder1, WIDTH);
+      let [display, b] = this.splitAtIndex(combine, WIDTH);
       originalArr[rowIndex+1] = display
 
     this.fillNullWithDashOnRow(rowIndex+1 ,originalArr)  
@@ -1050,6 +979,8 @@ insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex)
 
     drawGrid(HEIGHT, WIDTH)
 
+    //this call should not effect hor and vert
+
     this.insertNewArr(false,originalArr, b, rowIndex + 2, 0)
 
     return originalArr
@@ -1060,7 +991,7 @@ insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex)
 
 
   }else{ //no row,  so create one
-    
+    alert("create row")
     this.createRow(originalArr, insertedArr, rowIndex, colIndex)
    
     HEIGHT++
@@ -1087,10 +1018,16 @@ setXandYPositions()
     horizontalCursorPosition = horizontalCursorPosition + 5
   }else{
     
-    horizontalCursorPosition = -5
+    horizontalCursorPosition = 0
     verticalCursorPosition = verticalCursorPosition + 10
     //alert("here1");
+
   }
+
+  drawCursor(
+    horizontalCursorPosition + HOFFSET ,
+    verticalCursorPosition + VOFFSET
+  )
   
 
 }
