@@ -2,7 +2,6 @@ class RecursiveClass {
   constructor() {
     this.maxCols = 7;
     this.counter = 0;
-    this.initialRow = 0;
     this.initialColumn = 0;
     this.mapCounter = 0;
     this.testcounter = 0;
@@ -10,9 +9,8 @@ class RecursiveClass {
     this.flagToManyDashes = false;
     this.testCounter = 0;
     this.BreakoutOfDelete = false;
-    this.RanBefore = false;
     this.rem = [];
-    this.IsJustFromRecursive = false
+    //this.IsJustFromRecursive = false
     this.calledOneTimeAlready = false
   }
 
@@ -398,7 +396,7 @@ class RecursiveClass {
 
 
   //let lastSpaceIndex = frontPart.lastIndexOf("-");
-  
+  //Worked on, 4/3/24
   insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex) {
     if (rowIndex >= 6) {
       return originalArr;
@@ -426,13 +424,10 @@ class RecursiveClass {
         originalArr[rowIndex][WIDTH - 1] == "-" ||
         originalArr[rowIndex][WIDTH - 1] == ""
       ) {
-        //alert("in Aa")
-        if(this.IsJustFromRecursive)
-        {
-          alert("in A")
-          return originalArr
-        }
-        //alert("horiz change");
+        //if(this.IsJustFromRecursive)
+        //{
+        //  alert("in A")
+        //}
         originalArr[rowIndex] = row2;
         if (IsFromIndex ) {
           this.setXandYPositions();
@@ -447,9 +442,7 @@ class RecursiveClass {
       }
       
       else {
-        //PROBLEM : CALLS THIS TWICE!!!+
-
-        this.IsJustFromRecursive = true
+        //this.IsJustFromRecursive = true
         //called second and more times 
         if (this.calledOneTimeAlready === false)
         {
@@ -528,11 +521,9 @@ class RecursiveClass {
   
   
   insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) {
-    if (isFromIndex === true) {
-      this.initialRow = rowIndex;
-      this.RanBefore = false;
-      this.IsJustFromRecursive = false
-    }
+    //if (isFromIndex === true) {
+      //this.IsJustFromRecursive = false
+    //}
     let newArray2 = this.snapshot(originalArray);
     console.log("oa2: ", originalArray);
     return this.insertNewArr(
