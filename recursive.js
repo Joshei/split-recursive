@@ -12,6 +12,8 @@ class RecursiveClass {
     this.BreakoutOfDelete = false;
     this.RanBefore = false;
     this.rem = [];
+    this.IsJustFromRecursive = false
+    this.calledOneTimeAlready = false
   }
 
 
@@ -405,7 +407,14 @@ class RecursiveClass {
     if (targetRow) {
       console.log("tr: ", targetRow);
       console.log("inserting array into an existing row of originalArr");
-      let [front, back] = this.splitAtIndex(targetRow, colIndex);
+      let front = []
+      let back = []
+      if (IsFromIndex) {
+      [front, back] = this.splitAtIndex(targetRow, colIndex);
+      }
+      else{
+      [front, back] = this.splitAtIndex(targetRow, 0);
+      }
       let combine = [];
       if (IsFromIndex) {
         combine = [...front, ...insertedArr, ...back];
@@ -413,15 +422,19 @@ class RecursiveClass {
         combine = [ ...front, ...insertedArr, ...back];
       }
       let [row2, remainder1] = this.splitAtIndex(combine, WIDTH);
-      
-      
       if (
         originalArr[rowIndex][WIDTH - 1] == "-" ||
         originalArr[rowIndex][WIDTH - 1] == ""
       ) {
+        //alert("in Aa")
+        if(this.IsJustFromRecursive)
+        {
+          alert("in A")
+          return originalArr
+        }
         //alert("horiz change");
         originalArr[rowIndex] = row2;
-        if (IsFromIndex) {
+        if (IsFromIndex ) {
           this.setXandYPositions();
         }
         drawGrid(HEIGHT, WIDTH);
@@ -434,6 +447,16 @@ class RecursiveClass {
       }
       
       else {
+        //PROBLEM : CALLS THIS TWICE!!!+
+
+        this.IsJustFromRecursive = true
+        //called second and more times 
+        if (this.calledOneTimeAlready === false)
+        {
+          this.setXandYPositions(); 
+          //return originalArr
+        }
+        this.calledOneTimeAlready = true
         alert("section 2");
         originalArr[rowIndex] = row2;
         let length = remainder1.length;
@@ -445,7 +468,7 @@ class RecursiveClass {
           let [display, b] = this.splitAtIndex(combine, WIDTH);
           originalArr[rowIndex + 1] = display;
           this.fillNullWithDashOnRow(rowIndex + 1, originalArr);
-          this.setXandYPositions();
+          //this.setXandYPositions();
           drawCursor(
             horizontalCursorPosition + HOFFSET,
             verticalCursorPosition + VOFFSET
@@ -470,6 +493,7 @@ class RecursiveClass {
   
   
   setXandYPositions() {
+    //alert("in b")
     if (horizontalCursorPosition / 5 < WIDTH - 1) {
       horizontalCursorPosition = horizontalCursorPosition + 5;
     } else {
@@ -507,6 +531,7 @@ class RecursiveClass {
     if (isFromIndex === true) {
       this.initialRow = rowIndex;
       this.RanBefore = false;
+      this.IsJustFromRecursive = false
     }
     let newArray2 = this.snapshot(originalArray);
     console.log("oa2: ", originalArray);
