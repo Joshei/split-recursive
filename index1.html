@@ -244,9 +244,11 @@
         if(gKey == 'Enter')
         {
           
+          Recursive.deleteRow(nestedArray, HEIGHT - 1)
           nestedArray.push (["-", "-", "-", "-", "-", "-" , "-" ],)
+          nestedArray.push (["", "", "", "", "", "" , "" ],)
           HEIGHT++
-          nestedArray = Recursive.pressedEnter3(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
+          nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
        
           
         }

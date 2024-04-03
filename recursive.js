@@ -168,7 +168,7 @@ class RecursiveClass {
   }
   
   
-  pressedEnter3(
+  pressedEnter(
     originalArr,
     rowIndex3,
     colIndex,
@@ -185,18 +185,14 @@ class RecursiveClass {
     }
     let target1 = originalArr[rowIndex3];
     let target2 = originalArr[rowIndex3 + 1];
-    let copyTarget1 = [...target1];
-    let copyTarget2 = [...target2];
     let amtCharactersToPass = WIDTH - colIndex;
     let target3 = originalArr[rowIndex3 + 2];
-    let holderForArray = [];
     let indexOfWordToPass = colIndex + 1;
     let thisIsFullPhrase = [...wordToPass, ...target1];
     let [topRightWord, row1LastCharacters] = this.splitAtIndex(
       thisIsFullPhrase,
       colIndex
     );
-    let holderForArray1 = [];
     for (let i = amtCharactersToPass; i < WIDTH; i++) {}
     let combine = [...remainder, ...target2];
     let [a, lastCharacters] = this.splitAtIndex(combine, indexOfWordToPass - 1);
@@ -222,7 +218,7 @@ class RecursiveClass {
       }
       drawGrid(HEIGHT, WIDTH);
     }
-    this.pressedEnter3(
+    this.pressedEnter(
       originalArr,
       rowIndex3 + 1,
       colIndex,
@@ -503,11 +499,19 @@ class RecursiveClass {
   createRow(originalArr, insertedArr, rowIndex, colIndex) {
     if (insertedArr.length <= WIDTH) {
       HEIGHT++;
+      //delete final row (padding for iterated inserted array, elsewhere.)
+      deleteRow(originalArr, rowIndex) 
       originalArr.push(insertedArr);
+      //push for new final row again (padding for recursive calls, elsewhere)
+      originalArr.push(["", "", "", "", "", "" , "" ],)
+    //inserted array is greater than one row  
     } else {
       let [front, remainder] = this.splitAtIndex(insertedArr, WIDTH);
+      //delete final row (padding for iterated inserted array, elsewhere.)
+      deleteRow(originalArr, rowIndex) 
       originalArr.push(front);
-      HEIGHT++;
+      //push for new final row again (padding for recursive calls, elsewhere)
+      originalArr.push(["", "", "", "", "", "" , "" ],)
       this.insertNewArr(
         false,
         originalArr,
@@ -515,8 +519,9 @@ class RecursiveClass {
         rowIndex + 1,
         colIndex
       );
-      return originalArr;
+      return originalArr
     }
+    return originalArr
   }
   
   
