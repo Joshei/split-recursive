@@ -12,6 +12,7 @@ class RecursiveClass {
     this.rem = [];
     //this.IsJustFromRecursive = false
     this.calledOneTimeAlready = false
+    this.CounterForHeight = 0
   }
 
 
@@ -57,8 +58,9 @@ class RecursiveClass {
   putElementIn2DimArray(arr, row, column) {
     arr.splice(1, 0, "W");
   }
-  deleteRow(arr, rowIndex) {
-    arr.splice(rowIndex, 1);
+
+  deleteRow(arr, rowNumber) {
+    arr.splice(rowNumber, 1);
     return arr;
   }
   
@@ -176,12 +178,21 @@ class RecursiveClass {
     wordToPass,
     IsFirstTime
   ) {
+    
+    if (IsFirstTime) {
+    this.deleteRow(originalArr, (HEIGHT))
+    originalArr.push (["-", "-", "-", "-", "-", "-" , "-" ],)
+    originalArr.push (["", "", "", "", "", "" , "" ],)
+    HEIGHT++
+      alert("was here?!?!")
+    }
+    if(rowIndex3 == 5)
+    {
+      return originalArr
+    }
     console.log("imp", typeof remainder);
     if (Object.keys(remainder).length === 0) {
       remainder = "";
-    }
-    if (rowIndex3 > HEIGHT - 2) {
-      return originalArr;
     }
     let target1 = originalArr[rowIndex3];
     let target2 = originalArr[rowIndex3 + 1];
@@ -211,13 +222,26 @@ class RecursiveClass {
       );
       originalArr[rowIndex3 + 1] = secondRowDone;
     }
-    drawGrid(HEIGHT, WIDTH);
+    //drawGrid(HEIGHT, WIDTH);
     if (IsFirstTime) {
       for (let i = WIDTH - amtCharactersToPass; i < WIDTH; i++) {
-        originalArr[rowIndex3][i] = "-";
+        //originalArr[rowIndex3][i] = "X";
       }
-      drawGrid(HEIGHT, WIDTH);
+      //drawGrid(HEIGHT, WIDTH);
     }
+    if(IsFirstTime)
+    {
+      drawGrid(HEIGHT, WIDTH);
+
+      
+      verticalCursorPosition =  (verticalCursorPosition + 10)
+      horizontalCursorPosition = 0
+      drawCursor(
+        horizontalCursorPosition + HOFFSET,
+        verticalCursorPosition + VOFFSET
+      );
+    } 
+    IsFirstTime = false
     this.pressedEnter(
       originalArr,
       rowIndex3 + 1,
@@ -226,7 +250,8 @@ class RecursiveClass {
       lastCharacters,
       false
     );
-    drawGrid(HEIGHT, WIDTH);
+    
+      //return originalArr;
     return originalArr;
   }
   
@@ -394,6 +419,7 @@ class RecursiveClass {
   //let lastSpaceIndex = frontPart.lastIndexOf("-");
   //Worked on, 4/3/24
   insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex) {
+    
     if (rowIndex >= 6) {
       return originalArr;
     }

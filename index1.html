@@ -40,10 +40,10 @@
       let nestedArray = [
   //[" ", " ", " ", " ", " ", " " , " " ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["a", "-", "-", "-", "-", "-" , "b" ],
-  ["-", "-", "-", "-", "-", "-" , "1" ],
-  ["-", "-", "-", "-", "-", "-" , "2" ],
-  ["-", "-", "-", "-", "-", "-" , "3" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "X", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-" , "-", "-" ],
   [" ", " ", " ", " ", " ", " " , " " ],
@@ -244,10 +244,10 @@
         if(gKey == 'Enter')
         {
           
-          Recursive.deleteRow(nestedArray, HEIGHT - 1)
-          nestedArray.push (["-", "-", "-", "-", "-", "-" , "-" ],)
-          nestedArray.push (["", "", "", "", "", "" , "" ],)
-          HEIGHT++
+          //Recursive.deleteRow(nestedArray, HEIGHT)
+          //nestedArray.push (["-", "-", "-", "-", "-", "-" , "-" ],)
+          //nestedArray.push (["", "", "", "", "", "" , "" ],)
+          //HEIGHT++
           nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
        
           
