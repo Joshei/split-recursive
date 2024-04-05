@@ -420,7 +420,7 @@ class RecursiveClass {
   //Worked on, 4/3/24
   insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex) {
     
-    if (rowIndex >= 6) {
+    if (rowIndex >= 7) {
       return originalArr;
     }
     let targetRow = originalArr[rowIndex];
@@ -460,11 +460,22 @@ class RecursiveClass {
           verticalCursorPosition + VOFFSET
         );
         remainder1 = [];
+        //is on last row
+        if(rowIndex === HEIGHT-1)
+        {
+          horizontalCursorPosition = (HEIGHT-1)* 5
+          verticalCursorPosition= verticalCursorPosition - 10
+          drawCursor(
+            horizontalCursorPosition + HOFFSET,
+            verticalCursorPosition + VOFFSET
+          );
+          
+        }
         return originalArr;
       }
       
       else {
-        //this.IsJustFromRecursive = true
+        //calls recursibly, affects all rows
         //called second and more times 
         if (this.calledOneTimeAlready === false)
         {
@@ -484,12 +495,17 @@ class RecursiveClass {
           originalArr[rowIndex + 1] = display;
           this.fillNullWithDashOnRow(rowIndex + 1, originalArr);
           //this.setXandYPositions();
+          drawGrid(HEIGHT, WIDTH);
           drawCursor(
             horizontalCursorPosition + HOFFSET,
             verticalCursorPosition + VOFFSET
           );
-          drawGrid(HEIGHT, WIDTH);
-          this.insertNewArr(false, originalArr, b, rowIndex + 2, colIndex);
+          //not on last row
+          if(rowIndex !== HEIGHT-1)
+          {
+            this.insertNewArr(false, originalArr, b, rowIndex + 2, colIndex);
+          }
+          
           return originalArr;
         }
       }
