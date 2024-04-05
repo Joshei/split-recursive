@@ -223,11 +223,12 @@ class RecursiveClass {
       originalArr[rowIndex3 + 1] = secondRowDone;
     }
     //drawGrid(HEIGHT, WIDTH);
+    
     if (IsFirstTime) {
       for (let i = WIDTH - amtCharactersToPass; i < WIDTH; i++) {
-        //originalArr[rowIndex3][i] = "X";
+        originalArr[rowIndex3][i] = "X";
       }
-      //drawGrid(HEIGHT, WIDTH);
+      drawGrid(HEIGHT, WIDTH);
     }
     if(IsFirstTime)
     {
