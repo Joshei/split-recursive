@@ -13,9 +13,11 @@ class RecursiveClass {
     //this.IsJustFromRecursive = false
     this.calledOneTimeAlready = false
     this.CounterForHeight = 0
+    this.HasBeenToRecursiveFunction = false
   }
 
 
+  //Before 4/5/24
   moveAllWordsAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
     if (rowIndex >= 5) {
       return originalArr;
@@ -335,7 +337,8 @@ class RecursiveClass {
     originalArr[rowIndex] = combinedArrWidth;
     originalArr[rowIndex - 1] = trimmedLeft1;
     originalArr = this.fillNullWithDashOnRow(rowIndex - 1, originalArr);
-    this.insertNewArr(false, originalArr, finalRemainder, rowIndex + 1, 0);
+    //LOOK AT THIS WHEN APPROPRIATE
+    this.insertNewArr(false, false, originalArr, finalRemainder, rowIndex + 1, 0);
     this.fillNullWithDashOnRow(rowIndex, originalArr);
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
     console.log(
@@ -402,7 +405,8 @@ class RecursiveClass {
       return originalArr;
     }
     originalArr[rowIndex] = trimmedLeft2;
-    this.insertNewArr(false, originalArr, wordPart, rowIndex + 1, 0);
+    //LOOK AT THIS WHEN APPROPRIATE
+    this.insertNewArr(false, false, originalArr, wordPart, rowIndex + 1, 0);
     originalArr = this.fillNullWithDashOnRow(rowIndex, originalArr);
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
     console.log(
@@ -413,14 +417,12 @@ class RecursiveClass {
     console.log("adjust2: ", originalArr);
     return originalArr;
   }
-  
-
-
-
-  //let lastSpaceIndex = frontPart.lastIndexOf("-");
-  //Worked on, 4/3/24
-  insertNewArr(IsFromIndex, originalArr, insertedArr, rowIndex, colIndex) {
-    
+  //Worked on, 4/5/24
+  insertNewArr(HasBeenToRecursive, IsFromIndex, originalArr, insertedArr, rowIndex, colIndex) {
+    if(HasBeenToRecursive)
+    {
+      return originalArr
+    }
     if (rowIndex >= 7) {
       return originalArr;
     }
@@ -447,10 +449,6 @@ class RecursiveClass {
         originalArr[rowIndex][WIDTH - 1] == "-" ||
         originalArr[rowIndex][WIDTH - 1] == ""
       ) {
-        //if(this.IsJustFromRecursive)
-        //{
-        //  alert("in A")
-        //}
         originalArr[rowIndex] = row2;
         if (IsFromIndex ) {
           this.setXandYPositions();
@@ -504,7 +502,7 @@ class RecursiveClass {
           //not on last row
           if(rowIndex !== HEIGHT-1)
           {
-            this.insertNewArr(false, originalArr, b, rowIndex + 2, colIndex);
+            this.insertNewArr(true, false, originalArr, b, rowIndex + 2, colIndex);
           }
           
           return originalArr;
@@ -557,6 +555,8 @@ class RecursiveClass {
       originalArr.push(["", "", "", "", "", "" , "" ],)
       this.insertNewArr(
         false,
+        //LOOK AT THIS WHEN APPROPRIATE
+        false,
         originalArr,
         insertedArr,
         rowIndex + 1,
@@ -575,6 +575,7 @@ class RecursiveClass {
     let newArray2 = this.snapshot(originalArray);
     console.log("oa2: ", originalArray);
     return this.insertNewArr(
+      false,
       isFromIndex,
       newArray2,
       insertedArray,
