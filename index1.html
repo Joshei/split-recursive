@@ -41,9 +41,9 @@
   //[" ", " ", " ", " ", " ", " " , " " ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["X", "-", "-", "-", "-", "-" , "X" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "X", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
   ["-", "-", "-", "-", "-" , "-", "-" ],
   [" ", " ", " ", " ", " ", " " , " " ],
@@ -259,11 +259,11 @@
           
             
             console.log("nested array3: ", nestedArray);
-            //THIS IS IT :  
+            //3 testable functions  
             //Recursive.recursiveDelete(nestedArray,verticalCursorPosition/10+1, horizontalCursorPosition/5)
-            //Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, nestedArray, true)
-            nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
-            //nestedArray = Recursive. BringLeftTextUpIntoSpaceOnRight( nestedArray,verticalCursorPosition/10, horizontalCursorPosition/5)
+            Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, horizontalCursorPosition/5,  nestedArray, true)
+            //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
+            
              console.log("nested array4: ", nestedArray);
         }
         

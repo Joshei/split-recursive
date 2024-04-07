@@ -259,27 +259,46 @@ class RecursiveClass {
   }
   
 
-  deleteACharacter(remainder, rowIndex2, originalArr, IsFirstRun) {
-    if (rowIndex2 >= 5) {
-      const removed = originalArr[rowIndex2 + 1].splice(1, 1);
-      originalArr[HEIGHT - 1][WIDTH - 1] = "-";
-      alert("in");
-      return originalArr;
-    }
-    let lineToShift = originalArr[rowIndex2 + 1];
-    let secondLine = originalArr[rowIndex2 + 2];
-    let [left1, trim1] = this.splitAtIndex(lineToShift, 1);
-    let target = originalArr[rowIndex2 + 1];
-    let combined = [];
-    if (IsFirstRun) {
-      combined = [...remainder, ...trim1, ...secondLine];
-    } else {
-      combined = [...remainder, ...secondLine];
-    }
-    let [left2, trim] = this.splitAtIndex(combined, WIDTH);
-    originalArr[rowIndex2 + 1] = left2;
-    this.deleteACharacter(trim, rowIndex2 + 1, originalArr, false);
-    drawGrid(WIDTH, HEIGHT);
+  deleteACharacter(remainder, rowIndex, columnIndex,  originalArr, IsFirstRun) {
+   
+   
+   
+   
+   //get cursor x position
+   //get left and to right of x position
+   //left is keep these characters
+   //middle is to delete
+   //combine   ...left, ...right
+   //get first character next line and append to line above
+
+
+   //okay, current line needs to have leftmost character removed
+   //letter taken from next line first position goes to end of previous line
+   
+   
+
+   let line1 = originalArr[rowIndex+1];
+   let line2 = originalArr[rowIndex+2]
+
+  if(IsFirstRun)
+  {
+
+   let cursorPosition = columnIndex
+   let [left, right] = this.splitAtIndex(line1, cursorPosition+1) ;
+   
+   let len = left.length
+   
+   let [leftPhrase, characterAtIndex] = this.splitAtIndex(left, 4) ;
+   let sixDigitLine = [...leftPhrase, ...right] 
+
+   let [CharacterOnNextLine, rest] = this.splitAtIndex(line2, 1)
+   let combine2 = [  ...sixDigitLine, ...CharacterOnNextLine ]
+   originalArr[rowIndex] = combine2
+
+    return originalArr
+  }else{
+
+    
   }
   
   
