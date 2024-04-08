@@ -34,7 +34,7 @@ class RecursiveClass {
     let indextoStartDisplayDashes = WIDTH - topWordLen;
     for (let i = indextoStartDisplayDashes; i <= WIDTH - 1; i++) {
       originalArr[rowIndex][i] = "-";
-    }
+
     drawGrid(HEIGHT, WIDTH);
     this.moveAllWordsAcrossBorder(
       originalArr,
