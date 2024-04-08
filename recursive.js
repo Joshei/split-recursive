@@ -265,7 +265,7 @@ class RecursiveClass {
    
   if(rowIndex >= HEIGHT - 1)
   {
-    originalArr[6][6] = "-"
+    originalArr[HEIGHT-1][WIDTH-1] = "-"
     drawGrid(HEIGHT, WIDTH)
     horizontalCursorPosition = horizontalCursorPosition - 5
     if(horizontalCursorPosition < 0)
