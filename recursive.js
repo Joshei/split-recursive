@@ -19,16 +19,20 @@ class RecursiveClass {
 
   //Before 4/5/24
   moveAllWordsAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
-    if (rowIndex >= 5) {
+    if (rowIndex >= 6) {
       return originalArr;
     }
     let target1 = originalArr[rowIndex];
     let target2 = originalArr[rowIndex + 1];
     let lastSpaceIndex1 = target1.lastIndexOf("-");
     const [trim, topWord] = this.splitAtIndex(target1, lastSpaceIndex1 + 1);
-    let combine = [...topWord, ...remainder, ...target2];
+    let combine = [...topWord, ...target2];
     const [row, remainder2] = this.splitAtIndex(combine, WIDTH);
     originalArr[rowIndex + 1] = row;
+    let row2 = [...remainder, ...trim]
+    originalArr[rowIndex] = row2;
+
+
     drawGrid(HEIGHT, WIDTH);
     let topWordLen = topWord.length;
     let indextoStartDisplayDashes = WIDTH - topWordLen;
@@ -39,7 +43,7 @@ class RecursiveClass {
     this.moveAllWordsAcrossBorder(
       originalArr,
       remainder2,
-      rowIndex + 1,
+      rowIndex + 2,
       colIndex
     );
     return originalArr;
@@ -269,6 +273,8 @@ class RecursiveClass {
     this.deleteACharacter( [], rowIndex+2, 0,  originalArr, false) 
   }  
 }
+
+
   adjustForWordBreaks_TopToBottom(
     frontPart,
     remainder,

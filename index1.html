@@ -39,13 +39,14 @@
       
       let nestedArray = [
   //[" ", " ", " ", " ", " ", " " , " " ],
+ 
   ["-", "-", "-", "-", "-", "-" , "-" ],
+  ["-", "-", "-", "-", "-", "-" , "A" ],
+  ["B", "-", "-", "A", "-", "-" , "T" ],
+  ["D", "-", "-", "B", "-", "-" , "X" ],
+  ["Y", "-", "-", "C", "-", "-" , "1" ],
+  ["2", "-", "-", "-", "-" , "-", "-" ],
   ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "A", "-", "-" , "A" ],
-  ["-", "-", "-", "B", "-", "-" , "B" ],
-  ["-", "-", "-", "C", "-", "-" , "C" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-" , "-", "-" ],
   [" ", " ", " ", " ", " ", " " , " " ],
   
 ];
@@ -259,9 +260,9 @@
           
             
             console.log("nested array3: ", nestedArray);
-            //3 testable functions  
+            //2 testable functions  
             //Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, horizontalCursorPosition/5,  nestedArray, true)
-            //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
+            nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             
              console.log("nested array4: ", nestedArray);
         }
