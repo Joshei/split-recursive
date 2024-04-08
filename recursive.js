@@ -44,24 +44,30 @@ class RecursiveClass {
     );
     return originalArr;
   }
+}
   
   
-  insertCharacterToArray(array, col, row, character) {
+  insertCharacterToArray(array, col, row, character) 
+  {
     array[row].splice(col, 0, "W");
   }
   
   
-  deleteKeyPressed(array, col, row) {
+  deleteKeyPressed(array, col, row)
+  {
+
     const removed = array[row].splice(col, 1);
     return;
   }
   
   
-  putElementIn2DimArray(arr, row, column) {
+  putElementIn2DimArray(arr, row, column) 
+  {
     arr.splice(1, 0, "W");
   }
 
-  deleteRow(arr, rowNumber) {
+  deleteRow(arr, rowNumber) 
+  {
     arr.splice(rowNumber, 1);
     return arr;
   }
@@ -101,76 +107,6 @@ class RecursiveClass {
     const back = arr.slice(index);
     return [front, back];
   }
-  
-  
-  recursiveDelete(originalArr, rowIndex, colIndex) {
-    for (let i = colIndex; i >= 0; i--) {
-      if (originalArr[rowIndex][i] == "" || originalArr[rowIndex][i] == "-") {
-        alert("in if");
-        return originalArr;
-      }
-    }
-    if (rowIndex >= 5) {
-      return originalArr;
-    }
-    let rowOne = originalArr[rowIndex];
-    let rowTwo = originalArr[rowIndex + 1];
-    let index1stRow = rowOne.lastIndexOf("-");
-    let index2ndRow = rowTwo.indexOf("-");
-    let amountOfRightSpacesRow1 = WIDTH - index1stRow + 1;
-    let amountOfLeftSpacesRow2 = index2ndRow;
-    if (amountOfLeftSpacesRow2 > amountOfRightSpacesRow1) {
-      alert("doesn't fit:  row index", rowIndex);
-      return originalArr;
-    }
-    let amountOfTopSpaces = 0;
-    for (let i = WIDTH - amountOfLeftSpacesRow2; i < WIDTH; i++) {
-      if (
-        originalArr[rowIndex][i] == "" ||
-        originalArr[rowIndex][i] == " " ||
-        originalArr[rowIndex][i] == "-"
-      ) {
-        amountOfTopSpaces++;
-      }
-    }
-    if (amountOfLeftSpacesRow2 > amountOfTopSpaces) {
-      alert("here!!!");
-      return originalArr;
-    }
-    alert("here!!!&&&");
-    console.log({ rowIndex });
-    let topLineNextRow = [];
-    let topLine = originalArr[rowIndex - 1];
-    topLineNextRow = originalArr[rowIndex];
-    let lastSpaceIndex = topLine.lastIndexOf("-");
-    let [lineBesideLeftMostCharacter, firstCharacter] = this.splitAtIndex(
-      topLine,
-      lastSpaceIndex
-    );
-    let lastSpaceIndex2 = topLineNextRow.indexOf("-");
-    let [CharactersOfNextLine, lineBesideLeftMostCharacterNextRow] =
-      this.splitAtIndex(topLineNextRow, lastSpaceIndex2);
-    let completeTopRow = [];
-    let lengthOfSpaceForWord = CharactersOfNextLine.length;
-    let index = WIDTH - lengthOfSpaceForWord;
-    let [left, b] = this.splitAtIndex(topLine, index);
-    let combine = [...left, ...CharactersOfNextLine];
-    originalArr[rowIndex - 1] = combine;
-    for (let i = 0; i < lengthOfSpaceForWord; i++) {
-      originalArr[rowIndex][i] = "-";
-    }
-    horizontalCursorPosition = 5 * 6;
-    verticalCursorPosition = verticalCursorPosition - 10;
-    drawGrid(HEIGHT, WIDTH);
-    drawCursor(
-      horizontalCursorPosition + HOFFSET,
-      verticalCursorPosition + VOFFSET
-    );
-    return originalArr;
-    drawGrid(HEIGHT, WIDTH);
-    return originalArr;
-  }
-  
   
   pressedEnter(
     originalArr,
