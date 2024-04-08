@@ -110,7 +110,7 @@ class RecursiveClass {
         return originalArr;
       }
     }
-    if (rowIndex >= 6) {
+    if (rowIndex >= 5) {
       return originalArr;
     }
     let rowOne = originalArr[rowIndex];
@@ -259,11 +259,25 @@ class RecursiveClass {
   }
   
 
+  //  4/7/24:  This is looking very good, reworked!
   deleteACharacter(remainder, rowIndex, columnIndex,  originalArr, IsFirstRun) {
    
    
-   
-   
+  if(rowIndex >= HEIGHT - 1)
+  {
+    originalArr[6][6] = "-"
+    drawGrid(HEIGHT, WIDTH)
+    horizontalCursorPosition = horizontalCursorPosition - 5
+    if(horizontalCursorPosition < 0)
+    {
+      horizontalCursorPosition = horizontalCursorPosition + 5
+    }
+    drawCursor(
+    horizontalCursorPosition + HOFFSET,
+    verticalCursorPosition + VOFFSET
+    )
+    return originalArr
+  }
    //get cursor x position
    //get left and to right of x position
    //left is keep these characters
@@ -271,37 +285,54 @@ class RecursiveClass {
    //combine   ...left, ...right
    //get first character next line and append to line above
 
-
+   //remove last cgaracter
    //okay, current line needs to have leftmost character removed
    //letter taken from next line first position goes to end of previous line
-   
-   
-
+   if(IsFirstRun)
+   {
    let line1 = originalArr[rowIndex+1];
    let line2 = originalArr[rowIndex+2]
-
-  if(IsFirstRun)
-  {
-
    let cursorPosition = columnIndex
    let [left, right] = this.splitAtIndex(line1, cursorPosition+1) ;
-   
    let len = left.length
-   
-   let [leftPhrase, characterAtIndex] = this.splitAtIndex(left, 4) ;
+   let [leftPhrase, characterAtIndex] = this.splitAtIndex(left, len-1) ;
    let sixDigitLine = [...leftPhrase, ...right] 
-
    let [CharacterOnNextLine, rest] = this.splitAtIndex(line2, 1)
    let combine2 = [  ...sixDigitLine, ...CharacterOnNextLine ]
-   originalArr[rowIndex] = combine2
-
-    return originalArr
+   originalArr[rowIndex+1] = combine2
+   drawGrid(HEIGHT, WIDTH)
+   
+   this.deleteACharacter( [], rowIndex+1, 0,  originalArr, false)
+   return originalArr
   }else{
-
-    
-  }
-  
-  
+    let line1 = originalArr[rowIndex+1];
+    let line2 = originalArr[rowIndex+2]
+    //left most character of second line - put at end of line 1
+    let [lineTwosLeftmostCharacterForLineOne, LineTwosWordWithoutFirstLetter] = this.splitAtIndex(line2, 1) ;
+    //remove letter from start of first line
+    let [lineOneFirstCharacterForLineTwo, lineOneWithoutFirstLetter] = this.splitAtIndex(line1, 1) ;
+    //add second lines left most character to line ones most right position
+    let completeLineOne = [ ...lineOneWithoutFirstLetter, ...lineTwosLeftmostCharacterForLineOne]
+    let letter = ""
+    //row index is 4 or less, otherwise calls first condition
+    //in condition element is a maximum of 7
+    //there is one more, before increasing height, and that is when the afore-mentioned
+    //section is called and a dash is put in that last position because it is the last
+    //before padding
+    if (rowIndex <= 4)
+    {
+      letter = originalArr[rowIndex+3][0]
+      console.log("row: ", rowIndex)
+      console.log("letter: ", letter)
+    }
+    //let completeLineTwo = [ ...lineOneFirstCharacterForLineTwo,...LineTwosWordWithoutFirstLetter]
+    let completeLineTwo = [...LineTwosWordWithoutFirstLetter, letter ]
+    originalArr[rowIndex+1] = completeLineOne
+    originalArr[rowIndex+2] = completeLineTwo
+    drawGrid(HEIGHT, WIDTH)
+    this.deleteACharacter( [], rowIndex+2, 0,  originalArr, false) 
+  }  
+}
   adjustForWordBreaks_TopToBottom(
     frontPart,
     remainder,
