@@ -1,22 +1,9 @@
-
-
-
-
-
- 
-    
-// Controls key presses.
 class CustomBoxClass {
     constructor() {
-     
-      //CursorMovements.drawCursor(25, 25)
       this.heightValue = 0
       this.gInsert = false;
     }
-
-    
     controlInput() {
-    //alert("3");
     console.log("gkey2",gKey);
     if (gKey == 'Shift' || gKey == 'Control' || gKey == 'Tab' || gKey == 'Escape' || gKey == 'Backspace'){
       return;
@@ -30,10 +17,7 @@ class CustomBoxClass {
       }
       return;
     }
-
-    
     if (gKey == 'Delete') {
-        
     }
       else if (gKey == 'ArrowLeft') {
         CursorMovements.cursorLeft()
@@ -42,51 +26,21 @@ class CustomBoxClass {
       } else if (gKey == 'ArrowUp') {
         CursorMovements.cursorUp()
       } else if (gKey == 'ArrowDown') {
-        
-        //alert("AD")
         CursorMovements.cursorDown()
-        
       } else if (gKey == 'Enter') {
-        
       } else {
-      
-        //Prints a single character.  Arrow keys can move you arround.  Enter is not inserted yet.
-        //in index1.html
-        //alert("pc")
-
-      //
-
       {
-      
         printCharacter() 
-
         if (horizontalCursorPosition/5 < (WIDTH - 1 )) {
-         // horizontalCursorPosition = horizontalCursorPosition + 5
         }else{
-          
-          //horizontalCursorPosition = 0;
-          //verticalCursorPosition = verticalCursorPosition + 10
-          //alert("here1");
         }
-        
-  
       }
-
-      //
-       
-       
-        
-      
     }
-      //displays x and y for testing
       xAndY.innerHTML =
         'X: ' +
         (horizontalCursorPosition/5) +
         '  &nbsp&nbsp&nbsp   Y: ' +
       (verticalCursorPosition/10 )
-
       return
     }
-
-    
 }
