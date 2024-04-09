@@ -4,21 +4,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    
   </head>
-  
 <body>
-
-  
   <script src="cursorMovements.js"></script>
   <script src="customBox.js"></script>
   <script src="recursive.js"></script>
   <script>
-    
     const CursorMovements = new CursorMovementsClass()
     const customBox1 = new CustomBoxClass()
     const Recursive = new RecursiveClass() 
-    
     </script>
     <canvas
       id="canvas_id"
@@ -29,52 +23,37 @@
     <button id="button6" onclick="TextArea.displayTextBoxCopy()">
       Display Text
     </button>
-
     <div></div>
     <div id="xAndY"></div>
-
-    
-      
     <script>
-      
-      let nestedArray = [
-  //[" ", " ", " ", " ", " ", " " , " " ],
- 
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["A", "B", "C", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  ["-", "-", "-", "-", "-" , "-", "-" ],
-  ["-", "-", "-", "-", "-", "-" , "-" ],
-  [" ", " ", " ", " ", " ", " " , " " ],
-  
-];
 
+
+    let nestedArray = [
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["A", "B", "C", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-" , "-", "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    [" ", " ", " ", " ", " ", " " , " " ],
+  ];
       let WIDTH = 7
       let HEIGHT = 7
-
-      //vertical and horizontal offset of canvas
       const VOFFSET = 25
       const HOFFSET = 30
-      //nestedarray holds values with an array - 35 by 35
       var canvas = document.getElementById('canvas_id')
-      //insert is on or off
       var insertOn = document.getElementById('insert')
       let textBox = [[]]
-      //rows and columns of canvasp
       let rows = WIDTH
       let cols = HEIGHT
-      //this is so that the canvas will look okay on a big display
       let ctx = canvas.getContext('2d')
       var size = 220
       canvas.style.width = size + 'px'
       canvas.style.height = size + 'px'
-      // Set actual size in memory (scaled to account for extra pixel density). // Change to 1 on retina screens to see blurry canvas.
       var scale = window.devicePixelRatio 
       canvas.width = size * scale
       canvas.height = size * scale
-      // Normalize coordinate system to use css pixels.
       ctx.scale(scale, scale)
       ctx.fillStyle = '#ffffff'
       ctx.fillRect(0, 0, 800, 800)
@@ -88,11 +67,9 @@
       var lastIndexValueForInsert = -1
       var firstLengthOfOverlap = 0
       var sencondLengthOfOverlap = 0
-      
-
-  function findBeginningX(y) {
-  //find the index value of the last value ,"-" of the string"
-  this.indexOfXForLineBeforeLastRowSpace = 0
+  
+    function findBeginningX(y) {
+    this.indexOfXForLineBeforeLastRowSpace = 0
     for (let x = 0; x < WIDTH; x++) {
       if (nestedArray[y][x] === "-") {
         console.log("G:", this.indexOfXForLineBeforeLastRowSpace);
@@ -100,202 +77,106 @@
       }
     }
     return;
-  }
-
- 
-  
-      function enlargeTextbox(){
-
-      }
-
-
-      function clearArray() {
-        //alert("clear");
+    }
+      
+      
+    function clearArray() {
         ctx.clearRect(0, 0, 100, 100)
         ctx.fillStyle = '#ffffff'
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         ctx.fillStyle = '#000000'
       }
 
+
       function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
-        
-
-        
         clearArray()
-        
-
         ctx.fillStyle = 'black'
-        //columns
         for (let i = 0; i < iValue; i++) {
-
-         
-        //rows
         for (let j = 0; j < jValue ; j++) {
-        //fill a square canvas with letter values
         console.log("na: ", nestedArray)
         if(nestedArray && nestedArray[i] && nestedArray[i][j]){
-          
-        
         ctx.fillText(nestedArray[i][j], j * 5 + 25, i * 10 + 25)
         console.log({j}, {i})
         }else{
           continue
         }
         }
-        
       }
-      
     }
-
-      function drawCursor(x,y){
-
-        //VOFFSET = 25
-        //HOFFSET = 30
-
-        //alert(x)
+    
+    
+    function drawCursor(x,y){
         if(x === 65){
-
           if(x == HOFFSET + (WIDTH * 5))
           x = 0 + HOFFSET;
           console.log("y1: ", y)
           y =y + 10
           console.log("y2: ", y)
         }
-        //{
-        //  alert("here")
-        //  x=0
-        //  y=verticalCursorPosition/10 + 10 + VOFFSET
-        //}
-        //alert("dc: x", x);
-        
         ctx.font = '10px Monospace'
-        //y = 30
         ctx.fillStyle = 'red'
         console.log("y: ", y)
         ctx.fillText('_', x - 5, y)
       }
-
       let horizontalCursorPosition = 0
       let verticalCursorPosition = 0
       let gKey = ''
       let gInsert = false
-      
-      
-      /*is not called for cursor movement, enter, delete
+      //is not called for cursor movement, enter, delete
       //shift, control, tab, escape, backspace
       //Basiclly, an alph-numeric character causes this to happen
-      */
+    
+      
       function printCharacter() {
-
-        //alert("print")
         let rowIndex = horizontalCursorPosition/5;
         let colIndex = verticalCursorPosition/10;
-        //insertNewArr(nestedArray, " ", rowIndex, colIndex)
-        //alert("print");
         ctx.clearRect(0, 0, 300, 300)
         console.log('v ', verticalCursorPosition)
         console.log('h ', horizontalCursorPosition)
-        
-        
         let key = "Z"
-       
-        //gKey = "P"
         console.log("nested array1: ", nestedArray);
         nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         nestedArray =  Recursive.pullTextBackToTop(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-            
        console.log("nested array2: ", nestedArray);
-        
-        
         drawGrid( WIDTH, HEIGHT)
-        
-     //   if (horizontalCursorPosition < (WIDTH )) {
-     //     horizontalCursorPosition = horizontalCursorPosition + 5
-     //   }else{
-     //     horizontalCursorPosition = 0;
-     //     verticalCursorPosition = verticalCursorPosition + 10
-     //     //alert("here1");
-     //   }
-        
-     //   console.log("vert: ", verticalCursorPosition/10)
         drawCursor(
           horizontalCursorPosition + HOFFSET ,
           verticalCursorPosition + VOFFSET
         )
-
-
-        //this function checks for condition with each keypress,
-        //the rowindex should be the top of the two rows
-        //if there is no character here to move, than it just returns here
-        //alert("1")
-        //nestedArray = Recursive.recursiveDelete(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-
       }
-
-      //function insertClean("aa", "aa", 0, 5){};
-  
-      document.addEventListener('keydown', function (e) {
       
-        
-        //alert("event")
-        //global variable
+      
+      document.addEventListener('keydown', function (e) {
         gKey = e.key
-        
-
         if(gKey == 'Enter')
         {
-          
-          //Recursive.deleteRow(nestedArray, HEIGHT)
-          //nestedArray.push (["-", "-", "-", "-", "-", "-" , "-" ],)
-          //nestedArray.push (["", "", "", "", "", "" , "" ],)
-          //HEIGHT++
           nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
-       
-          
         }
         else if(gKey == 'Delete')
         {
-          
           let key = ""
-          
-            
             console.log("nested array3: ", nestedArray);
-            //4 testable functions  
-            /*
-            Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, horizontalCursorPosition/5,  nestedArray, true)
-            nestedArray = Recursive.moveWordAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
-            nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
-            nestedArray =  Recursive.pullAndPushTextBackAndForth(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-            */
+            //4 functions:
+            //Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, horizontalCursorPosition/5,  nestedArray, true)
+            //nestedArray = Recursive.moveWordAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
+            //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
+            //nestedArray =  Recursive.pullAndPushTextBackAndForth(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+            
         }
-        
-
         customBox1.controlInput()
-
       })
-
-
-      /*
-      window.addEventListener('keydown', function (e) {
-        //alert("5");
-        //customBox1.controlInput()
-        if (
-          ['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(
-            e.code
-          ) > -1
-        ) {
-          e.preventDefault()
-        }
-      })
-      */
-
-        
-
-        
-        
-      //display helpful data
+      
+      
+      //window.addEventListener('keydown', function (e) {
+      //  if (
+      //    ['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(
+      //      e.code
+      //    ) > -1
+      //  ) {
+      //    e.preventDefault()
+      //  }
+      //})
+      //
       xAndY.innerHTML = 'X: ' + 0 + '  &nbsp&nbsp&nbsp   Y: ' + 0
-      
       </script>
-      
     </body>
