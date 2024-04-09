@@ -16,12 +16,9 @@ class RecursiveClass {
     this.HasBeenToRecursiveFunction = false
   }
 
-
-  //Before 4/5/24
-  moveAllWordsAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
-    if (rowIndex >= 6) {
-      return originalArr;
-    }
+  moveWords(originalArr, remainder, rowIndex, colIndex)
+  {
+    alert("2")
     let target1 = originalArr[rowIndex];
     let target2 = originalArr[rowIndex + 1];
     let lastSpaceIndex1 = target1.lastIndexOf("-");
@@ -31,15 +28,32 @@ class RecursiveClass {
     originalArr[rowIndex + 1] = row;
     let row2 = [...remainder, ...trim]
     originalArr[rowIndex] = row2;
-
-
     drawGrid(HEIGHT, WIDTH);
     let topWordLen = topWord.length;
     let indextoStartDisplayDashes = WIDTH - topWordLen;
     for (let i = indextoStartDisplayDashes; i <= WIDTH - 1; i++) {
       originalArr[rowIndex][i] = "-";
+      drawGrid(HEIGHT, WIDTH);
+      
+      //return originalArr;
+      return remainder2;
 
-    drawGrid(HEIGHT, WIDTH);
+    }
+  }
+
+
+
+  //CHECK ALL THIS, ESPECIALLY ONE PAIR FUNCTION, ALSO, CHECK LAST ROW
+
+  //4/8/24
+  //all word pairs
+  moveAllWordsAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
+    if (rowIndex >= HEIGHT-1) {
+      return originalArr;
+    }
+    
+    let remainder2 = moveWords(originalArr, remainder, rowIndex, colIndex)
+
     this.moveAllWordsAcrossBorder(
       originalArr,
       remainder2,
@@ -48,9 +62,25 @@ class RecursiveClass {
     );
     return originalArr;
   }
-}
-  
-  
+
+  //4/8/24 - rowIndex is top row that moves down and to the left
+  //checks for one pair, there
+  moveWordAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
+    if (rowIndex >= HEIGHT-1) {
+      return originalArr;
+    }
+    alert("1")
+    // variable is a dud, no useage
+    let dud = this.moveWords(originalArr, remainder, rowIndex, colIndex)
+    drawGrid(HEIGHT, WIDTH)
+    drawCursor(
+      horizontalCursorPosition + HOFFSET,
+      verticalCursorPosition + VOFFSET)
+      return originalArr;
+
+  }
+
+
   insertCharacterToArray(array, col, row, character) 
   {
     array[row].splice(col, 0, "W");
@@ -575,4 +605,77 @@ class RecursiveClass {
       colIndex
     );
   }
+
+  pullTextBackToTop(originalArr, rowIndex, colIndex) {
+    //?
+    for (let i = colIndex; i >= 0; i--) {
+      if (originalArr[rowIndex][i] == "" || originalArr[rowIndex][i] == "-") {
+      /* alert("in if");
+       return originalArr;
+      }*/
+    }
+    if (rowIndex >= 6) {
+      return originalArr;
+    }
+    let rowOne = originalArr[rowIndex];
+    let rowTwo = originalArr[rowIndex + 1];
+    //final dash character
+    let index1stRow = rowOne.lastIndexOf("-");
+    //first dash character
+    let index2ndRow = rowTwo.indexOf("-");
+    let amountOfRightSpacesRow1 = WIDTH - index1stRow + 1;
+    let amountOfLeftSpacesRow2 = index2ndRow;
+    //word doesn't fit in above space
+    if (amountOfLeftSpacesRow2 > amountOfRightSpacesRow1) {
+      return originalArr;
+    }
+    let amountOfTopSpaces = 0;
+    for (let i = WIDTH - amountOfLeftSpacesRow2; i < WIDTH; i++) {
+      if (
+        originalArr[rowIndex][i] == "" ||
+        originalArr[rowIndex][i] == " " ||
+        originalArr[rowIndex][i] == "-"
+      ) {
+        amountOfTopSpaces++;
+      }
+    }
+    if (amountOfLeftSpacesRow2 > amountOfTopSpaces) {
+      alert("here!!!");
+      return originalArr;
+    }
+    alert("here!!!&&&");
+    console.log({ rowIndex });
+    let topLineNextRow = [];
+    let topLine = originalArr[rowIndex - 1];
+    topLineNextRow = originalArr[rowIndex];
+    let lastSpaceIndex = topLine.lastIndexOf("-");
+    let [lineBesideLeftMostCharacter, firstCharacter] = this.splitAtIndex(
+      topLine,
+      lastSpaceIndex
+    );
+    let lastSpaceIndex2 = topLineNextRow.indexOf("-");
+    let [CharactersOfNextLine, lineBesideLeftMostCharacterNextRow] =
+      this.splitAtIndex(topLineNextRow, lastSpaceIndex2);
+    let completeTopRow = [];
+    let lengthOfSpaceForWord = CharactersOfNextLine.length;
+    let index = WIDTH - lengthOfSpaceForWord;
+    let [left, b] = this.splitAtIndex(topLine, index);
+    let combine = [...left, ...CharactersOfNextLine];
+    originalArr[rowIndex - 1] = combine;
+    for (let i = 0; i < lengthOfSpaceForWord; i++) {
+      originalArr[rowIndex][i] = "-";
+    }
+    horizontalCursorPosition = 5 * 6;
+    verticalCursorPosition = verticalCursorPosition - 10;
+    drawGrid(HEIGHT, WIDTH);
+    drawCursor(
+      horizontalCursorPosition + HOFFSET,
+      verticalCursorPosition + VOFFSET
+    );
+    return originalArr;
+    drawGrid(HEIGHT, WIDTH);
+    return originalArr;
+  }
+  
+
 }
