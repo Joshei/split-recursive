@@ -31,10 +31,10 @@
     let nestedArray = [
     ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["1", "2", "-", "-", "-", "-" , "-" ],
+    ["A", "B", "C", "-", "-", "-" , "p" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["A", "B", "C", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-" , "-", "-" ],
+    ["-", "-", "-", "-", "-" , "-", "r" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
     [" ", " ", " ", " ", " ", " " , " " ],
   ];
@@ -88,7 +88,8 @@
       }
 
 
-      function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
+    //function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
+    function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
         clearArray()
         ctx.fillStyle = 'black'
         for (let i = 0; i < iValue; i++) {
@@ -122,11 +123,11 @@
       let verticalCursorPosition = 0
       let gKey = ''
       let gInsert = false
+      
+      
       //is not called for cursor movement, enter, delete
       //shift, control, tab, escape, backspace
       //Basiclly, an alph-numeric character causes this to happen
-    
-      
       function printCharacter() {
         let rowIndex = horizontalCursorPosition/5;
         let colIndex = verticalCursorPosition/10;
@@ -136,7 +137,7 @@
         let key = "Z"
         console.log("nested array1: ", nestedArray);
         nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
-        nestedArray =  Recursive.pullTextBackToTop(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        //nestedArray =  Recursive.pullTextBackToTop(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
        console.log("nested array2: ", nestedArray);
         drawGrid( WIDTH, HEIGHT)
         drawCursor(
@@ -157,10 +158,10 @@
           let key = ""
             console.log("nested array3: ", nestedArray);
             //4 functions:
-            Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, horizontalCursorPosition/5,  nestedArray, true)
+            //Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, horizontalCursorPosition/5,  nestedArray, true)
             //nestedArray = Recursive.moveWordAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
-            //nestedArray =  Recursive.pullAndPushTextBackAndForth(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+            nestedArray =  Recursive.pullTextBackToTop(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
             
         }
         customBox1.controlInput()
@@ -177,6 +178,6 @@
       //  }
       //})
       //
-      xAndY.innerHTML = 'X: ' + 0 + '  &nbsp&nbsp&nbsp   Y: ' + 0
+      //xAndY.innerHTML = 'X: ' + 0 + '  &nbsp&nbsp&nbsp   Y: ' + 0
       </script>
     </body>

@@ -441,38 +441,48 @@ class RecursiveClass {
   }
   //Worked on, 4/5/24
   insertNewArr(HasBeenToRecursive, IsFromIndex, originalArr, insertedArr, rowIndex, colIndex) {
-    if(HasBeenToRecursive)
-    {
-      return originalArr
-    }
-    if (rowIndex >= 7) {
+    //there has been a recursive call, so we don't want to call this, it is only called the original first time.
+    //@if(HasBeenToRecursive)
+    //@{
+    //@  //return originalArr
+    //@}
+    //made it to bottom of array, so bail out
+    if (rowIndex >= HEIGHT) {
       return originalArr;
     }
     let targetRow = originalArr[rowIndex];
-    if (targetRow) {
-      console.log("tr: ", targetRow);
-      console.log("inserting array into an existing row of originalArr");
+    //@if (targetRow) {
+    //@  console.log("tr: ", targetRow);
+    //@  console.log("inserting array into an existing row of originalArr");
       let front = []
       let back = []
       if (IsFromIndex) {
+      //split phrase it cursor position, first time
       [front, back] = this.splitAtIndex(targetRow, colIndex);
       }
+      //
       else{
       [front, back] = this.splitAtIndex(targetRow, 0);
       }
       let combine = [];
+      //comes from index.html, initial call
       if (IsFromIndex) {
         combine = [...front, ...insertedArr, ...back];
       } else {
+        //!!!this looks unneeded
         combine = [ ...front, ...insertedArr, ...back];
       }
+      //splits string at the width, so will fit on one row, and rest is set to remainder.
       let [row2, remainder1] = this.splitAtIndex(combine, WIDTH);
+      
+      //if either, than only insert on one line, not recursive
       if (
         originalArr[rowIndex][WIDTH - 1] == "-" ||
         originalArr[rowIndex][WIDTH - 1] == ""
       ) {
         originalArr[rowIndex] = row2;
         if (IsFromIndex ) {
+          //sets the cursor position
           this.setXandYPositions();
         }
         drawGrid(HEIGHT, WIDTH);
@@ -481,7 +491,7 @@ class RecursiveClass {
           verticalCursorPosition + VOFFSET
         );
         remainder1 = [];
-        //is on last row
+        //is on last row, so negate the former cursor positions for cursor
         if(rowIndex === HEIGHT-1)
         {
           horizontalCursorPosition = (HEIGHT-1)* 5
@@ -497,23 +507,27 @@ class RecursiveClass {
       
       else {
         //calls recursibly, affects all rows
-        //called second and more times 
+        //called first time, only.  As array is recursed only set positions once
         if (this.calledOneTimeAlready === false)
         {
+          //calls function to get cursor positions
           this.setXandYPositions(); 
           //return originalArr
         }
         this.calledOneTimeAlready = true
-        alert("section 2");
+        //@alert("section 2");
         originalArr[rowIndex] = row2;
         let length = remainder1.length;
+        //if there is a remiander, which is extra when split to be one width for the row
         if (length > 0) {
           let target = originalArr[rowIndex + 1];
 
-          
+          //remainder comes first, it is passed from last recursive call
           let combine = [...remainder1, ...target];
+          //one rows worth
           let [display, b] = this.splitAtIndex(combine, WIDTH);
           originalArr[rowIndex + 1] = display;
+          //cover up null character
           this.fillNullWithDashOnRow(rowIndex + 1, originalArr);
           //this.setXandYPositions();
           drawGrid(HEIGHT, WIDTH);
@@ -521,7 +535,8 @@ class RecursiveClass {
             horizontalCursorPosition + HOFFSET,
             verticalCursorPosition + VOFFSET
           );
-          //not on last row
+          //not on last row, checks for HEIGHT or more, at beginning of function, to bail out
+          //unsure of workings if either odd number of rows or even number of rows
           if(rowIndex !== HEIGHT-1)
           {
             this.insertNewArr(true, false, originalArr, b, rowIndex + 2, colIndex);
@@ -530,17 +545,19 @@ class RecursiveClass {
           return originalArr;
         }
       }
-    } else {
-      alert("create row");
-      this.createRow(originalArr, insertedArr, rowIndex, colIndex);
-      HEIGHT++;
-      drawGrid(HEIGHT, WIDTH);
-      drawCursor(
-        horizontalCursorPosition + HOFFSET,
-        verticalCursorPosition + VOFFSET
-      );
-      return originalArr;
-    }
+    //@} 
+    //@else {
+    //@  //there was
+    //@  alert("create row");
+    //@  this.createRow(originalArr, insertedArr, rowIndex, colIndex);
+    //@  HEIGHT++;
+    //@  drawGrid(HEIGHT, WIDTH);
+    //@  drawCursor(
+    //@    horizontalCursorPosition + HOFFSET,
+    //@    verticalCursorPosition + VOFFSET
+    //@  );
+    //@  return originalArr;
+    //@}
   }
   
   
@@ -608,6 +625,7 @@ class RecursiveClass {
 
   pullTextBackToTop(originalArr, rowIndex, colIndex) {
     //?
+   
     for (let i = colIndex; i >= 0; i--) {
       if (originalArr[rowIndex][i] == "" || originalArr[rowIndex][i] == "-") {
       /* alert("in if");
@@ -629,43 +647,49 @@ class RecursiveClass {
     if (amountOfLeftSpacesRow2 > amountOfRightSpacesRow1) {
       return originalArr;
     }
-    let amountOfTopSpaces = 0;
-    for (let i = WIDTH - amountOfLeftSpacesRow2; i < WIDTH; i++) {
-      if (
-        originalArr[rowIndex][i] == "" ||
-        originalArr[rowIndex][i] == " " ||
-        originalArr[rowIndex][i] == "-"
-      ) {
-        amountOfTopSpaces++;
-      }
-    }
-    if (amountOfLeftSpacesRow2 > amountOfTopSpaces) {
+    //@let amountOfTopSpaces = 0;
+    //@for (let i = WIDTH - amountOfLeftSpacesRow2; i < WIDTH; i++) {
+    //@  if (
+    //@    originalArr[rowIndex][i] == "" ||
+    //@    originalArr[rowIndex][i] == " " ||
+    //@    originalArr[rowIndex][i] == "-"
+    //@  ) {
+    //@    amountOfTopSpaces++;
+    //@  }
+    //@}
+    if (amountOfLeftSpacesRow2 > amountOfRightSpacesRow1) {
       alert("here!!!");
       return originalArr;
     }
-    alert("here!!!&&&");
-    console.log({ rowIndex });
+    //@alert("here!!!&&&");
+    //@console.log({ rowIndex });
     let topLineNextRow = [];
     let topLine = originalArr[rowIndex - 1];
     topLineNextRow = originalArr[rowIndex];
-    let lastSpaceIndex = topLine.lastIndexOf("-");
-    let [lineBesideLeftMostCharacter, firstCharacter] = this.splitAtIndex(
-      topLine,
-      lastSpaceIndex
-    );
+    //@let lastSpaceIndex = topLine.lastIndexOf("-");
+    //@let [lineBesideLeftMostCharacter, firstCharacter] = this.splitAtIndex(
+    //@  topLine,
+    //@  lastSpaceIndex
+    //@);
+    //index is right after left most word
     let lastSpaceIndex2 = topLineNextRow.indexOf("-");
-    let [CharactersOfNextLine, lineBesideLeftMostCharacterNextRow] =
+    let [CharactersOfNextLine, unusedTrim] =
       this.splitAtIndex(topLineNextRow, lastSpaceIndex2);
     let completeTopRow = [];
     let lengthOfSpaceForWord = CharactersOfNextLine.length;
+    //find index for insertion of charatersOfNextLine into topline
     let index = WIDTH - lengthOfSpaceForWord;
-    let [left, b] = this.splitAtIndex(topLine, index);
+    //phrase on left before insert position
+    let [left, unused] = this.splitAtIndex(topLine, index);
+    //put characters on next line left border on top line right of left
     let combine = [...left, ...CharactersOfNextLine];
     originalArr[rowIndex - 1] = combine;
+    //cover left side word with dashes
     for (let i = 0; i < lengthOfSpaceForWord; i++) {
       originalArr[rowIndex][i] = "-";
     }
-    horizontalCursorPosition = 5 * 6;
+    //put cursor on last character on left hand side of top row
+    horizontalCursorPosition = 5 * WIDTH-1;
     verticalCursorPosition = verticalCursorPosition - 10;
     drawGrid(HEIGHT, WIDTH);
     drawCursor(
@@ -673,8 +697,8 @@ class RecursiveClass {
       verticalCursorPosition + VOFFSET
     );
     return originalArr;
-    drawGrid(HEIGHT, WIDTH);
-    return originalArr;
+    //@drawGrid(HEIGHT, WIDTH);
+    //@return originalArr;
   }
   
 
