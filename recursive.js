@@ -16,30 +16,39 @@ class RecursiveClass {
     this.HasBeenToRecursiveFunction = false
   }
 
+  //debugged : 4/11/24
   moveWords(originalArr, remainder, rowIndex, colIndex)
   {
-    alert("2")
+    //%alert("2")
     let target1 = originalArr[rowIndex];
     let target2 = originalArr[rowIndex + 1];
+    //get left phrase before last dash
     let lastSpaceIndex1 = target1.lastIndexOf("-");
-    const [trim, topWord] = this.splitAtIndex(target1, lastSpaceIndex1 + 1);
-    let combine = [...topWord, ...target2];
+    //phrase, right of last dash
+    const [trim, rightWord] = this.splitAtIndex(target1, lastSpaceIndex1 + 1);
+    //put full row after target1s right word
+    let combine = [...rightWord, ...target2];
+    //one widths worth
     const [row, remainder2] = this.splitAtIndex(combine, WIDTH);
     originalArr[rowIndex + 1] = row;
+    //remainder passed in last iteration through, with left side of target1 
+    //!!!!
     let row2 = [...remainder, ...trim]
     originalArr[rowIndex] = row2;
-    drawGrid(HEIGHT, WIDTH);
-    let topWordLen = topWord.length;
+    //@drawGrid(HEIGHT, WIDTH);
+    //covers nulls with dashes 
+    let topWordLen = rightWord.length;
     let indextoStartDisplayDashes = WIDTH - topWordLen;
     for (let i = indextoStartDisplayDashes; i <= WIDTH - 1; i++) {
       originalArr[rowIndex][i] = "-";
-      drawGrid(HEIGHT, WIDTH);
+    }
+      //@drawGrid(HEIGHT, WIDTH);
       
       //return originalArr;
       return remainder2;
 
     }
-  }
+  
 
 
 
@@ -47,11 +56,12 @@ class RecursiveClass {
 
   //4/8/24
   //all word pairs
+  ////debugged : 4/11/24
   moveAllWordsAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
     if (rowIndex >= HEIGHT-1) {
       return originalArr;
     }
-    
+    //gets the remainder for recursive calls
     let remainder2 = moveWords(originalArr, remainder, rowIndex, colIndex)
 
     this.moveAllWordsAcrossBorder(
@@ -60,16 +70,21 @@ class RecursiveClass {
       rowIndex + 2,
       colIndex
     );
-    return originalArr;
+    drawGrid(HEIGHT, WIDTH)
+    drawCursor(
+      horizontalCursorPosition + HOFFSET,
+      verticalCursorPosition + VOFFSET)
+      return originalArr;
   }
 
   //4/8/24 - rowIndex is top row that moves down and to the left
   //checks for one pair, there
+  //debugged : 4/11/24
   moveWordAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
     if (rowIndex >= HEIGHT-1) {
       return originalArr;
     }
-    alert("1")
+    //@alert("1")
     // variable is a dud, no useage
     let dud = this.moveWords(originalArr, remainder, rowIndex, colIndex)
     drawGrid(HEIGHT, WIDTH)
@@ -121,7 +136,7 @@ class RecursiveClass {
     return arrayToChange;
   }
   
-  
+  //!!!!
   snapshot(original) {
     console.log("orig: 0", original);
     let newArray = original.map((oldRow) => {
@@ -142,6 +157,7 @@ class RecursiveClass {
     return [front, back];
   }
   
+  //debugged : 4/11/24
   pressedEnter(
     originalArr,
     rowIndex3,
@@ -151,42 +167,53 @@ class RecursiveClass {
     IsFirstTime
   ) {
     
+    //only on intial call, not when being recursive.
     if (IsFirstTime) {
+    //delete row of nulls to put back on last row below
     this.deleteRow(originalArr, (HEIGHT))
     originalArr.push (["-", "-", "-", "-", "-", "-" , "-" ],)
     originalArr.push (["", "", "", "", "", "" , "" ],)
     HEIGHT++
-      alert("was here?!?!")
+      //@alert("was here?!?!")
     }
-    if(rowIndex3 == 5)
+    if(rowIndex3 == HEIGHT - 2)
     {
       return originalArr
     }
-    console.log("imp", typeof remainder);
+    //@console.log("imp", typeof remainder);
+    //check if remainder has a value
     if (Object.keys(remainder).length === 0) {
       remainder = "";
     }
     let target1 = originalArr[rowIndex3];
     let target2 = originalArr[rowIndex3 + 1];
+    //these characters are pushed to next row because of enter press
     let amtCharactersToPass = WIDTH - colIndex;
     let target3 = originalArr[rowIndex3 + 2];
-    let indexOfWordToPass = colIndex + 1;
+    //@let indexOfWordToPass = colIndex + 1;
     let thisIsFullPhrase = [...wordToPass, ...target1];
-    let [topRightWord, row1LastCharacters] = this.splitAtIndex(
+    //get left side to cursor
+    let [isntUsed, row1LastCharacters] = this.splitAtIndex(
       thisIsFullPhrase,
       colIndex
     );
-    for (let i = amtCharactersToPass; i < WIDTH; i++) {}
+    //@for (let i = amtCharactersToPass; i < WIDTH; i++) {}
+    //remainder is leftover from string when a widths worth of data is gottem
     let combine = [...remainder, ...target2];
-    let [a, lastCharacters] = this.splitAtIndex(combine, indexOfWordToPass - 1);
+    //split at cursor
+    let [notUsed, lastCharacters] = this.splitAtIndex(combine, colIndex);
+    //on initial call 
     if (IsFirstTime === true) {
+      //characters from the phrase brroken at cursor above
       let secondRowNearlyDone = [...row1LastCharacters, ...combine];
+      //one rows worth
       let [secondRowDone, remainder1] = this.splitAtIndex(
         secondRowNearlyDone,
         WIDTH
       );
       originalArr[rowIndex3 + 1] = secondRowDone;
     } else {
+      //build second row
       let secondRowNearlyDone = [...wordToPass, ...combine];
       let [secondRowDone, remainder1] = this.splitAtIndex(
         secondRowNearlyDone,
@@ -194,27 +221,28 @@ class RecursiveClass {
       );
       originalArr[rowIndex3 + 1] = secondRowDone;
     }
-    //drawGrid(HEIGHT, WIDTH);
-    
+    //@drawGrid(HEIGHT, WIDTH);
+    //again, on initial call, cover null with dash
     if (IsFirstTime) {
       for (let i = WIDTH - amtCharactersToPass; i < WIDTH; i++) {
         originalArr[rowIndex3][i] = "X";
       }
-      drawGrid(HEIGHT, WIDTH);
-    }
-    if(IsFirstTime)
-    {
-      drawGrid(HEIGHT, WIDTH);
-
+     //* drawGrid(HEIGHT, WIDTH);
+    //*}
+    //*if(IsFirstTime)
+    //*{
       
-      verticalCursorPosition =  (verticalCursorPosition + 10)
-      horizontalCursorPosition = 0
-      drawCursor(
-        horizontalCursorPosition + HOFFSET,
-        verticalCursorPosition + VOFFSET
-      );
     } 
+
     IsFirstTime = false
+    drawGrid(HEIGHT, WIDTH);
+    verticalCursorPosition =  (verticalCursorPosition + 10)
+    horizontalCursorPosition = 0
+    drawCursor(
+      horizontalCursorPosition + HOFFSET,
+      verticalCursorPosition + VOFFSET
+    );
+    //enter effects next row here
     this.pressedEnter(
       originalArr,
       rowIndex3 + 1,
@@ -230,18 +258,21 @@ class RecursiveClass {
   
 
   //  4/7/24:  This is looking very good, reworked!
+  //debugged : 4/11/24
   deleteACharacter(remainder, rowIndex, columnIndex,  originalArr, IsFirstRun) {
    
-   
+  //on last row
   if(rowIndex >= HEIGHT - 1)
   {
+    //put a dash on last row, last column
     originalArr[HEIGHT-1][WIDTH-1] = "-"
-    drawGrid(HEIGHT, WIDTH)
+    //set cursor one position to left
     horizontalCursorPosition = horizontalCursorPosition - 5
-    if(horizontalCursorPosition < 0)
-    {
-      horizontalCursorPosition = horizontalCursorPosition + 5
-    }
+    //@if(horizontalCursorPosition < 0)
+    //@{
+    //@  horizontalCursorPosition = horizontalCursorPosition + 5
+    //@}
+    drawGrid(HEIGHT, WIDTH)
     drawCursor(
     horizontalCursorPosition + HOFFSET,
     verticalCursorPosition + VOFFSET
@@ -258,20 +289,29 @@ class RecursiveClass {
    //remove last cgaracter
    //okay, current line needs to have leftmost character removed
    //letter taken from next line first position goes to end of previous line
+   
+   //this is intial call form index.html
    if(IsFirstRun)
    {
    let line1 = originalArr[rowIndex+1];
    let line2 = originalArr[rowIndex+2]
    let cursorPosition = columnIndex
+   //break up line1 at the cursor position into to parts, divided by one space beyond cursor
    let [left, right] = this.splitAtIndex(line1, cursorPosition+1) ;
+   //get length of character
    let len = left.length
-   let [leftPhrase, characterAtIndex] = this.splitAtIndex(left, len-1) ;
+   //get phrase one less than cursor
+   let [leftPhrase, notUsed] = this.splitAtIndex(left, len-1) ;
+   //get lien without thew last character
    let sixDigitLine = [...leftPhrase, ...right] 
-   let [CharacterOnNextLine, rest] = this.splitAtIndex(line2, 1)
+   //get next lines first character 
+   let [CharacterOnNextLine, notUsed2] = this.splitAtIndex(line2, 1)
+   //makes a line of code that is exactly one width
    let combine2 = [  ...sixDigitLine, ...CharacterOnNextLine ]
    originalArr[rowIndex+1] = combine2
    drawGrid(HEIGHT, WIDTH)
-   
+   //recursive call, will call the next section, this is only run on initial call
+   //from index.html
    this.deleteACharacter( [], rowIndex+1, 0,  originalArr, false)
    return originalArr
   }else{
@@ -296,10 +336,12 @@ class RecursiveClass {
       console.log("letter: ", letter)
     }
     //let completeLineTwo = [ ...lineOneFirstCharacterForLineTwo,...LineTwosWordWithoutFirstLetter]
+    //one line
     let completeLineTwo = [...LineTwosWordWithoutFirstLetter, letter ]
     originalArr[rowIndex+1] = completeLineOne
     originalArr[rowIndex+2] = completeLineTwo
     drawGrid(HEIGHT, WIDTH)
+    //recursive call
     this.deleteACharacter( [], rowIndex+2, 0,  originalArr, false) 
   }  
 }
@@ -440,6 +482,7 @@ class RecursiveClass {
     return originalArr;
   }
   //Worked on, 4/5/24
+  //debugged : 4/11/24
   insertNewArr(HasBeenToRecursive, IsFromIndex, originalArr, insertedArr, rowIndex, colIndex) {
     //there has been a recursive call, so we don't want to call this, it is only called the original first time.
     //@if(HasBeenToRecursive)
@@ -562,7 +605,7 @@ class RecursiveClass {
   
   
   setXandYPositions() {
-    //alert("in b")
+    //If on left edge andvances to next row, column zero
     if (horizontalCursorPosition / 5 < WIDTH - 1) {
       horizontalCursorPosition = horizontalCursorPosition + 5;
     } else {
@@ -576,41 +619,42 @@ class RecursiveClass {
   }
   
   
-  createRow(originalArr, insertedArr, rowIndex, colIndex) {
-    if (insertedArr.length <= WIDTH) {
-      HEIGHT++;
-      //delete final row (padding for iterated inserted array, elsewhere.)
-      deleteRow(originalArr, rowIndex) 
-      originalArr.push(insertedArr);
-      //push for new final row again (padding for recursive calls, elsewhere)
-      originalArr.push(["", "", "", "", "", "" , "" ],)
-    //inserted array is greater than one row  
-    } else {
-      let [front, remainder] = this.splitAtIndex(insertedArr, WIDTH);
-      //delete final row (padding for iterated inserted array, elsewhere.)
-      deleteRow(originalArr, rowIndex) 
-      originalArr.push(front);
-      //push for new final row again (padding for recursive calls, elsewhere)
-      originalArr.push(["", "", "", "", "", "" , "" ],)
-      this.insertNewArr(
-        false,
-        //LOOK AT THIS WHEN APPROPRIATE
-        false,
-        originalArr,
-        insertedArr,
-        rowIndex + 1,
-        colIndex
-      );
-      return originalArr
-    }
-    return originalArr
-  }
+  //@createRow(originalArr, insertedArr, rowIndex, colIndex) {
+  //@  if (insertedArr.length <= WIDTH) {
+  //@    HEIGHT++;
+  //@      //delete final row (padding for iterated inserted array, elsewhere.)
+  //@    //delete final row (padding for iterated inserted array, elsewhere.)
+  //@    deleteRow(originalArr, rowIndex) 
+  //@    originalArr.push(insertedArr);
+  //@    //push for new final row again (padding for recursive calls, elsewhere)
+  //@    originalArr.push(["", "", "", "", "", "" , "" ],)
+  //@  //inserted array is greater than one row  
+  //@  } else {
+  //@    let [front, remainder] = this.splitAtIndex(insertedArr, WIDTH);
+  //@    //delete final row (padding for iterated inserted array, elsewhere.)
+  //@    deleteRow(originalArr, rowIndex) 
+  //@    originalArr.push(front);
+  //@    //push for new final row again (padding for recursive calls, elsewhere)
+  //@    originalArr.push(["", "", "", "", "", "" , "" ],)
+  //@    this.insertNewArr(
+  //@      false,
+  //@      //LOOK AT THIS WHEN APPROPRIATE
+  //@      false,
+  //@      originalArr,
+  //@      insertedArr,
+  //@      rowIndex + 1,
+  //@      colIndex
+  //@    );
+  //@    return originalArr
+  //@  }
+  //@  return originalArr
+  //@}
   
   
   insertClean(isFromIndex, originalArray, insertedArray, rowIndex, colIndex) {
-    //if (isFromIndex === true) {
-      //this.IsJustFromRecursive = false
-    //}
+    //@if (isFromIndex === true) {
+    //@this.IsJustFromRecursive = false
+    //@}
     let newArray2 = this.snapshot(originalArray);
     console.log("oa2: ", originalArray);
     return this.insertNewArr(
@@ -623,6 +667,7 @@ class RecursiveClass {
     );
   }
 
+  //debugged : 4/11/24
   pullTextBackToTop(originalArr, rowIndex, colIndex) {
     //?
    
