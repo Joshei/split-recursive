@@ -1,7 +1,7 @@
 class CursorMovementsClass {
     cursorRight() {
       if (horizontalCursorPosition >= 170) {
-        alert("here")
+        //@alert("here")
         horizontalCursorPosition = 170
         return -1
       }
