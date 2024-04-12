@@ -28,6 +28,7 @@
     <script>
 
 
+    // The grid, last row is a padding for recursion. 
     let nestedArray = [
     ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
@@ -68,17 +69,7 @@
       var firstLengthOfOverlap = 0
       var sencondLengthOfOverlap = 0
   
-    function findBeginningX(y) {
-    this.indexOfXForLineBeforeLastRowSpace = 0
-    for (let x = 0; x < WIDTH; x++) {
-      if (nestedArray[y][x] === "-") {
-        console.log("G:", this.indexOfXForLineBeforeLastRowSpace);
-        this.indexOfXForLineBeforeLastRowSpace = x + 1 ;  
-      }
-    }
-    return;
-    }
-      
+    
       
     function clearArray() {
         ctx.clearRect(0, 0, 100, 100)
@@ -96,6 +87,7 @@
         for (let j = 0; j < jValue ; j++) {
         console.log("na: ", nestedArray)
         if(nestedArray && nestedArray[i] && nestedArray[i][j]){
+        //fill text with offsets
         ctx.fillText(nestedArray[i][j], j * 5 + 25, i * 10 + 25)
         console.log({j}, {i})
         }else{
@@ -155,7 +147,7 @@
         }
         else if(gKey == 'Delete')
         {
-          let key = ""
+          //@let key = ""
             console.log("nested array3: ", nestedArray);
             //4 functions:
             //Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, horizontalCursorPosition/5,  nestedArray, true)
