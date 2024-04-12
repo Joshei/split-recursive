@@ -16,9 +16,52 @@ class RecursiveClass {
     this.HasBeenToRecursiveFunction = false
   }
 
+  
+ createRow(originalArr, insertedArr, rowIndex, colIndex) {
+  if (insertedArr.length <= WIDTH) {
+      //HEIGHT++;
+        //delete final row (padding for iterated inserted array, elsewhere.)
+      //delete final row (padding for iterated inserted array, elsewhere.)
+      this.deleteRow(originalArr, rowIndex+1) 
+      originalArr.push(insertedArr);
+      //push for new final row again (padding for recursive calls, elsewhere)
+      originalArr.push(["", "", "", "", "", "" , "" ],)
+      this.fillNullWithDashOnRow(rowIndex+1, originalArr)
+      HEIGHT++ 
+    }
+    drawGrid(HEIGHT, WIDTH)
+      horizontalCursorPosition = 0;
+      verticalCursorPosition = verticalCursorPosition + 10;
+    drawCursor(
+      horizontalCursorPosition + HOFFSET,
+      verticalCursorPosition + VOFFSET
+    );
+    
+    //inserted array is greater than one row  
+    }
+//@     else {
+//@      let [front, remainder] = this.splitAtIndex(insertedArr, WIDTH);
+//@      //delete final row (padding for iterated inserted array, elsewhere.)
+//@      this.deleteRow(originalArr, rowIndex) 
+//@      originalArr.push(front);
+//@      //push for new final row again (padding for recursive calls, elsewhere)
+//@      originalArr.push(["", "", "", "", "", "" , "" ],)
+
+      
+//@      return originalArr
+//@    }
+//@    return originalArr
+//@  }
+
   //debugged : 4/11/24
   moveWords(originalArr, remainder, rowIndex, colIndex)
   {
+    if(rowIndex > HEIGHT ){
+      alert("Height")
+      this.createRow(originalArr, remainder, rowIndex)
+      //HEIGHT++;
+      return originalArr
+    }
     //%alert("2")
     let target1 = originalArr[rowIndex];
     let target2 = originalArr[rowIndex + 1];
@@ -33,8 +76,11 @@ class RecursiveClass {
     originalArr[rowIndex + 1] = row;
     //remainder passed in last iteration through, with left side of target1 
     //!!!!
-    let row2 = [...remainder, ...trim]
+    let row2 = [...trim, ...remainder]
+    //const [row3, remainder3] = this.splitAtIndex(row2, WIDTH);
+    let row3 = [...remainder, ...row];
     originalArr[rowIndex] = row2;
+    originalArr[rowIndex+1] = row3;
     //@drawGrid(HEIGHT, WIDTH);
     //covers nulls with dashes 
     let topWordLen = rightWord.length;
@@ -48,26 +94,24 @@ class RecursiveClass {
       return remainder2;
 
     }
-  
-
-
-
   //CHECK ALL THIS, ESPECIALLY ONE PAIR FUNCTION, ALSO, CHECK LAST ROW
 
   //4/8/24
   //all word pairs
   ////debugged : 4/11/24
   moveAllWordsAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
-    if (rowIndex >= HEIGHT-1) {
+    if (rowIndex > HEIGHT-2) {
+      //alert("height")
+      this.createRow(originalArr, remainder, rowIndex)
       return originalArr;
     }
     //gets the remainder for recursive calls
-    let remainder2 = moveWords(originalArr, remainder, rowIndex, colIndex)
+    let remainder2 = this.moveWords(originalArr, remainder, rowIndex, colIndex)
 
     this.moveAllWordsAcrossBorder(
       originalArr,
       remainder2,
-      rowIndex + 2,
+      rowIndex + 1,
       colIndex
     );
     drawGrid(HEIGHT, WIDTH)
@@ -81,7 +125,8 @@ class RecursiveClass {
   //checks for one pair, there
   //debugged : 4/11/24
   moveWordAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
-    if (rowIndex >= HEIGHT-1) {
+    if (rowIndex > HEIGHT-2) {
+      this.createRow(originalArr, remainder, rowIndex)
       return originalArr;
     }
     //@alert("1")
