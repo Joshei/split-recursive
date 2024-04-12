@@ -140,8 +140,10 @@ class RecursiveClass {
   snapshot(original) {
     console.log("orig: 0", original);
     let newArray = original.map((oldRow) => {
+      console.log({oldRow})
       console.log("map: ", this.mapCounter);
       this.mapCounter = this.mapCounter + 1;
+      console.log("oldRow2", ...oldRow)
       return [...oldRow];
     });
     console.log("or: ", newArray);
