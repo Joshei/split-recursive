@@ -37,7 +37,7 @@
     ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-" , "-", "k" ],
     ["j", "-", "-", "5", "-", "-" , "-" ],
-    [" ", " ", " ", " ", " ", " " , "-" ],
+    [" ", " ", " ", " ", " ", " " , " " ],
   ];
       //canvas
       let WIDTH = 7
@@ -144,6 +144,7 @@
         gKey = e.key
         if(gKey == 'Enter')
         {
+          HEIGHT++
           nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
         }
         else if(gKey == 'Delete')
