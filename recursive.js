@@ -356,7 +356,7 @@ class RecursiveClass {
   deleteACharacter(remainder, rowIndex, columnIndex,  originalArr, IsFirstRun) {
    
   //on last row
-  if(rowIndex > 4)
+  if(rowIndex > 5)
   {
     //put a dash on last row, last column
     originalArr[HEIGHT-1][WIDTH-1] = "A"
@@ -423,13 +423,12 @@ class RecursiveClass {
     //there is one more, before increasing height, and that is when the afore-mentioned
     //section is called and a dash is put in that last position because it is the last
     //before padding
-
-    //@if (rowIndex < 4)
-    //@{
-    //@  letter = originalArr[rowIndex+3][0]
-    //@  console.log("row: ", rowIndex)
-    //@  console.log("letter: ", letter)
-    //@}
+    if (rowIndex < 4)
+    {
+      letter = originalArr[rowIndex+3][0]
+      console.log("row: ", rowIndex)
+      console.log("letter: ", letter)
+    }
     //let completeLineTwo = [ ...lineOneFirstCharacterForLineTwo,...LineTwosWordWithoutFirstLetter]
     //one line
     //let completeLineTwo = [...LineTwosWordWithoutFirstLetter, letter ]
