@@ -356,10 +356,10 @@ class RecursiveClass {
   deleteACharacter(remainder, rowIndex, columnIndex,  originalArr, IsFirstRun) {
    
   //on last row
-  if(rowIndex >= HEIGHT - 1)
+  if(rowIndex > 4)
   {
     //put a dash on last row, last column
-    originalArr[HEIGHT-1][WIDTH-1] = "-"
+    originalArr[HEIGHT-1][WIDTH-1] = "A"
     //set cursor one position to left
     horizontalCursorPosition = horizontalCursorPosition - 5
     //@if(horizontalCursorPosition < 0)
@@ -423,20 +423,22 @@ class RecursiveClass {
     //there is one more, before increasing height, and that is when the afore-mentioned
     //section is called and a dash is put in that last position because it is the last
     //before padding
-    if (rowIndex <= 4)
-    {
-      letter = originalArr[rowIndex+3][0]
-      console.log("row: ", rowIndex)
-      console.log("letter: ", letter)
-    }
+
+    //@if (rowIndex < 4)
+    //@{
+    //@  letter = originalArr[rowIndex+3][0]
+    //@  console.log("row: ", rowIndex)
+    //@  console.log("letter: ", letter)
+    //@}
     //let completeLineTwo = [ ...lineOneFirstCharacterForLineTwo,...LineTwosWordWithoutFirstLetter]
     //one line
-    let completeLineTwo = [...LineTwosWordWithoutFirstLetter, letter ]
+    //let completeLineTwo = [...LineTwosWordWithoutFirstLetter, letter ]
     originalArr[rowIndex+1] = completeLineOne
-    originalArr[rowIndex+2] = completeLineTwo
+    //originalArr[rowIndex+2] = completeLineTwo
     drawGrid(HEIGHT, WIDTH)
     //recursive call
-    this.deleteACharacter( [], rowIndex+2, 0,  originalArr, false) 
+    this.deleteACharacter( [], rowIndex+1, 0,  originalArr, false)
+    return originalArr 
   }  
 }
 
@@ -628,17 +630,27 @@ class RecursiveClass {
     );
   }
 
-  //debugged : 4/11/24
+  //tested : 4/13/24
   pullTextBackToTop(originalArr, rowIndex, colIndex) {
     //?
    
-    for (let i = colIndex; i >= 0; i--) {
-      if (originalArr[rowIndex][i] == "" || originalArr[rowIndex][i] == "-") {
-      /* alert("in if");
-       return originalArr;
-      }*/
+    if(rowIndex === 0)
+    {
+      return originalArr;
     }
-    if (rowIndex >= 6) {
+    if(colIndex === 0)
+    {
+      return originalArr;
+    }
+    //if there is not complete characters from cursor to left border, than exit
+    for (let i = colIndex - 1; i >= 0; i--) {
+      if (originalArr[rowIndex][i] == "" || originalArr[rowIndex][i] == "-") {
+      //alert("in if");
+      return originalArr;
+      }
+    }
+    if (rowIndex > 6) {
+      alert("left")
       return originalArr;
     }
     let rowOne = originalArr[rowIndex];
@@ -650,9 +662,9 @@ class RecursiveClass {
     let amountOfRightSpacesRow1 = WIDTH - index1stRow + 1;
     let amountOfLeftSpacesRow2 = index2ndRow;
     //word doesn't fit in above space
-    if (amountOfLeftSpacesRow2 > amountOfRightSpacesRow1) {
-      return originalArr;
-    }
+    //@if (amountOfLeftSpacesRow2 > amountOfRightSpacesRow1) {
+    //@  return originalArr;
+    //@}
     //@let amountOfTopSpaces = 0;
     //@for (let i = WIDTH - amountOfLeftSpacesRow2; i < WIDTH; i++) {
     //@  if (
@@ -665,6 +677,7 @@ class RecursiveClass {
     //@}
     if (amountOfLeftSpacesRow2 > amountOfRightSpacesRow1) {
       alert("here!!!");
+      drawGrid(HEIGHT, WIDTH)
       return originalArr;
     }
     //@alert("here!!!&&&");
@@ -695,7 +708,7 @@ class RecursiveClass {
       originalArr[rowIndex][i] = "-";
     }
     //put cursor on last character on left hand side of top row
-    horizontalCursorPosition = 5 * WIDTH-1;
+    horizontalCursorPosition = (5 * WIDTH-1)-5;
     verticalCursorPosition = verticalCursorPosition - 10;
     drawGrid(HEIGHT, WIDTH);
     drawCursor(
@@ -708,5 +721,4 @@ class RecursiveClass {
   }
   
 
-}
 }

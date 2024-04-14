@@ -30,13 +30,12 @@
 
     // The grid, last row is a padding for recursion. 
     let nestedArray = [
-    ["-", "-", "-", "-", "-", "-" , "1" ],
+    ["1", "-", "-", "-", "-", "-" , "-" ],
     ["2", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-" , "-", "k" ],
-    ["j", "-", "-", "5", "-", "-" , "-" ],
+    ["3", "-", "-", "5", "-", "-" , "-" ],
+    ["4", "-", "-", "4", "-", "-" , "-" ],
+    ["5", "-", "-", "-", "-" , "-", "-" ],
+    ["6", "-", "-", "-", "-", "-" , "-" ],
     [" ", " ", " ", " ", " ", " " , " " ],
   ];
       //canvas
@@ -152,8 +151,8 @@
           //@let key = ""
             console.log("nested array3: ", nestedArray);
             //4 functions:
-            //Recursive.deleteACharacter([], verticalCursorPosition/10 - 1, horizontalCursorPosition/5,  nestedArray, true)
-            nestedArray = Recursive.moveWordAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
+           nestedArray = Recursive.deleteACharacter([], verticalCursorPosition/10-1, horizontalCursorPosition/5,  nestedArray, true)
+            //nestedArray = Recursive.moveWordAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.pullTextBackToTop(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
             

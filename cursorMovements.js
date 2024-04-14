@@ -1,6 +1,6 @@
 class CursorMovementsClass {
     cursorRight() {
-      if (horizontalCursorPosition > (WIDTH -2 )*5) {
+      if (horizontalCursorPosition >= (WIDTH -1 )*5) {
         //*alert("here")
         horizontalCursorPosition = (WIDTH -1 )*5
         return -1
@@ -37,8 +37,8 @@ class CursorMovementsClass {
       )
     }
     cursorDown() {
-      if (verticalCursorPosition  > (HEIGHT-2)*10) {
-      verticalCursorPosition = (HEIGHT-1)*10
+      if (verticalCursorPosition  >= (HEIGHT-2)*10) {
+      verticalCursorPosition = (HEIGHT-2)*10
         return -4
       }
       drawGrid()
