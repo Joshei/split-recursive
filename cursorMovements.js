@@ -37,8 +37,8 @@ class CursorMovementsClass {
       )
     }
     cursorDown() {
-      if (verticalCursorPosition  >= (HEIGHT-2)*10) {
-      verticalCursorPosition = (HEIGHT-2)*10
+      if (verticalCursorPosition  >= (HEIGHT-1)*10) {
+      verticalCursorPosition = (HEIGHT-1)*10
         return -4
       }
       drawGrid()

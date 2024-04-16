@@ -30,13 +30,14 @@
 
     // The grid, last row is a padding for recursion. 
     let nestedArray = [
-    ["1", "-", "-", "-", "-", "-" , "1" ],
-    ["2", "-", "-", "-", "-", "-" , "2" ],
-    ["3", "-", "-", "5", "-", "-" , "3" ],
-    ["4", "-", "-", "4", "-", "-" , "4" ],
-    ["5", "-", "-", "-", "-" , "-", "5" ],
-    ["6", "-", "-", "-", "-", "-" , "6" ],
-    [" ", " ", " ", " ", " ", " " , " " ],
+    ["1", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "1", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-" , "-", "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["1", "2", "3", "4", "5", "6" , "7" ],
+    ["!", "!", "!", "1", "!", "!" , "!" ],
   ];
       //canvas
       let WIDTH = 7
@@ -131,7 +132,7 @@
         nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         //nestedArray =  Recursive.pullTextBackToTop(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
        console.log("nested array2: ", nestedArray);
-        drawGrid( WIDTH, HEIGHT)
+        drawGrid( HEIGHT, WIDTH)
         drawCursor(
           horizontalCursorPosition + HOFFSET ,
           verticalCursorPosition + VOFFSET
@@ -143,7 +144,7 @@
         gKey = e.key
         if(gKey == 'Enter')
         {
-          HEIGHT++
+          //HEIGHT++
           nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
         }
         else if(gKey == 'Delete')
@@ -151,7 +152,7 @@
           //@let key = ""
             console.log("nested array3: ", nestedArray);
             //4 functions:
-           nestedArray = Recursive.deleteACharacter([], verticalCursorPosition/10-1, horizontalCursorPosition/5,  nestedArray, true)
+           nestedArray = Recursive.deleteACharacter([], verticalCursorPosition/10, horizontalCursorPosition/5,  nestedArray, true)
             //nestedArray = Recursive.moveWordAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.pullTextBackToTop(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
