@@ -511,10 +511,13 @@ class RecursiveClass {
 
     
     //alert("insert")
-    if (rowIndex > HEIGHT) {
+    if (rowIndex > HEIGHT-2) {
       alert("!")
+      this.createRow2(originalArr, insertedArr, rowIndex, colIndex) 
       return originalArr;
     }
+    
+    
     let targetRow = originalArr[rowIndex];
     //@if (targetRow) {
     //@  console.log("tr: ", targetRow);
@@ -539,6 +542,8 @@ class RecursiveClass {
       }
       //splits string at the width, so will fit on one row, and rest is set to remainder.
       let [row2, remainder1] = this.splitAtIndex(combine, WIDTH);
+      
+      
       
       //if either, than only insert on one line, not recursive
       if (
@@ -570,6 +575,9 @@ class RecursiveClass {
        
         return originalArr;
       }
+
+
+      
       
       else {
         //calls recursibly, affects all rows
@@ -594,7 +602,7 @@ class RecursiveClass {
           let [display, b] = this.splitAtIndex(combine, WIDTH);
           originalArr[rowIndex + 1] = display;
           //cover up null character
-          this.fillNullWithDashOnRow(rowIndex + 1, originalArr);
+          //this.fillNullWithDashOnRow(rowIndex + 1, originalArr);
           //this.setXandYPositions();
           drawGrid(HEIGHT, WIDTH);
           drawCursor(
@@ -603,10 +611,10 @@ class RecursiveClass {
           );
           //not on last row, checks for HEIGHT or more, at beginning of function, to bail out
           //unsure of workings if either odd number of rows or even number of rows
-          if(rowIndex !== HEIGHT-1)
-          {
-            this.insertNewArr(true, false, originalArr, b, rowIndex + 1, colIndex);
-          }
+          //@if(rowIndex !== HEIGHT-1)
+          //@{
+            this.insertNewArr(true, false, originalArr, b, rowIndex + 2, colIndex);
+          //@}
           
           return originalArr;
         }
