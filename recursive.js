@@ -691,7 +691,7 @@ class RecursiveClass {
   }
 
   //tested : 4/13/24
-  //checked: 4/17/24
+  //checked: 4/17/24 - bottom half not looked at.
   pullTextBackToTop(originalArr, rowIndex, colIndex) {
     //?
    
