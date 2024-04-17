@@ -17,6 +17,18 @@ class RecursiveClass {
   }
 
   
+  copyArray(sourceArray, destArray, commonLength){
+
+    for(let i = 0; i < commonLength; i++)
+    {
+      let tempValue = sourceArray[i]
+      destArray[i] = tempValue
+    }
+
+    return destArray
+    
+  }
+  
  createRow(originalArr, insertedArr, rowIndex, colIndex) {
   alert("create row")
   if (insertedArr.length <= WIDTH) {
@@ -323,7 +335,7 @@ class RecursiveClass {
     //again, on initial call, cover null with dash
     if (IsFirstTime) {
       for (let i = WIDTH - amtCharactersToPass; i < WIDTH; i++) {
-        originalArr[rowIndex3][i] = "z";
+        originalArr[rowIndex3][i] = "-";
       }
      //* drawGrid(HEIGHT, WIDTH);
     //*}
@@ -339,11 +351,16 @@ class RecursiveClass {
       let amountOfNulls = colIndex
       for(let i = WIDTH-amountOfNulls; i < WIDTH ; i++ )
       {
-        originalArr[rowIndex3+1][i] = "X"
+        originalArr[rowIndex3+1][i] = "-"
       }
       drawGrid(HEIGHT,WIDTH)
+      drawCursor(
+        horizontalCursorPosition + HOFFSET,
+        verticalCursorPosition + VOFFSET
+      );
       return originalArr;
     }
+
     drawGrid(HEIGHT, WIDTH);
     //alert("here")
     //@verticalCursorPosition =  (verticalCursorPosition + 10)
@@ -369,29 +386,30 @@ class RecursiveClass {
 
   //  4/7/24:  This is looking very good, reworked!
   //debugged : 4/11/24
+  //checked:  4/16/24
   deleteACharacter(remainder, rowIndex, columnIndex,  originalArr, IsFirstRun) {
   //on last row
-  if(rowIndex > HEIGHT - 2)
-  {
+  //@if(rowIndex > HEIGHT - 1)
+  //@{
     //put a dash on last row, last column
-    originalArr[HEIGHT-2][WIDTH-1] = "A"
-    if(horizontalCursorPosition === 0) 
-    {
-    }else{
+  //@  originalArr[HEIGHT-1][WIDTH-1] = "A"
+  //@  if(horizontalCursorPosition === 0) 
+  //@  {
+  //@  }else{
     //set cursor one position to left
     //@horizontalCursorPosition = horizontalCursorPosition - 5
-    }
+  //@  }
     //@if(horizontalCursorPosition < 0)
     //@{
     //@  horizontalCursorPosition = horizontalCursorPosition + 5
     //@}
-    drawGrid(HEIGHT, WIDTH)
-    drawCursor(
-    horizontalCursorPosition + HOFFSET,
-    verticalCursorPosition + VOFFSET
-    )
-    return originalArr
-  }
+  //@  drawGrid(HEIGHT, WIDTH)
+  //@  drawCursor(
+  //@  horizontalCursorPosition + HOFFSET,
+  //@  verticalCursorPosition + VOFFSET
+  //@  )
+  //@  return originalArr
+  //@}
    //get cursor x position
    //get left and to right of x position
    //left is keep these characters
@@ -425,8 +443,16 @@ class RecursiveClass {
    let [CharacterOnNextLine, notUsed2] = this.splitAtIndex(line2, 1)
    //makes a line of code that is exactly one width
    let combine2 = [  ...sixDigitLine, ...CharacterOnNextLine ]
+   if(rowIndex === HEIGHT-1)
+   {
+     combine2 = [  ...sixDigitLine, ["O"] ]
+   }
    originalArr[rowIndex] = combine2
    drawGrid(HEIGHT, WIDTH)
+   drawCursor(
+    horizontalCursorPosition + HOFFSET,
+    verticalCursorPosition + VOFFSET
+   )
    //recursive call, will call the next section, this is only run on initial call
    //from index.html
    this.deleteACharacter( [], rowIndex+1, 0,  originalArr, false)
@@ -440,24 +466,33 @@ class RecursiveClass {
     let [lineOneFirstCharacterForLineTwo, lineOneWithoutFirstLetter] = this.splitAtIndex(line1, 1) ;
     //add second lines left most character to line ones most right position
     let completeLineOne = [ ...lineOneWithoutFirstLetter, ...lineTwosLeftmostCharacterForLineOne]
-    let letter = ""
+    if(rowIndex === HEIGHT-1)
+    {
+      completeLineOne = [ ...lineOneWithoutFirstLetter, ["O"]] 
+    }
+    
+    //@let letter = ""
     //row index is 4 or less, otherwise calls first condition
     //in condition element is a maximum of 7
     //there is one more, before increasing height, and that is when the afore-mentioned
     //section is called and a dash is put in that last position because it is the last
     //before padding
-    if (rowIndex < 4)
-    {
-      letter = originalArr[rowIndex+2][0]
-      console.log("row: ", rowIndex)
-      console.log("letter: ", letter)
-    }
+    //@if (rowIndex < 4)
+    //@{
+    //@  letter = originalArr[rowIndex+2][0]
+    //@  console.log("row: ", rowIndex)
+    //@  console.log("letter: ", letter)
+    //@}
     //let completeLineTwo = [ ...lineOneFirstCharacterForLineTwo,...LineTwosWordWithoutFirstLetter]
     //one line
     //let completeLineTwo = [...LineTwosWordWithoutFirstLetter, letter ]
     originalArr[rowIndex] = completeLineOne
     //originalArr[rowIndex+2] = completeLineTwo
     drawGrid(HEIGHT, WIDTH)
+    drawCursor(
+        horizontalCursorPosition + HOFFSET,
+        verticalCursorPosition + VOFFSET
+    )
     //recursive call
     this.deleteACharacter( [], rowIndex+1, 0,  originalArr, false)
     return originalArr 
@@ -656,6 +691,7 @@ class RecursiveClass {
   }
 
   //tested : 4/13/24
+  //checked: 4/17/24
   pullTextBackToTop(originalArr, rowIndex, colIndex) {
     //?
    
@@ -665,7 +701,7 @@ class RecursiveClass {
     }
     if(colIndex === 0)
     {
-      return originalArr;
+      //return originalArr;
     }
     //if there is not complete characters from cursor to left border, than exit
     for (let i = colIndex - 1; i >= 0; i--) {
@@ -674,33 +710,47 @@ class RecursiveClass {
       return originalArr;
       }
     }
+    //Check that this 
+    if(originalArr[rowIndex][0] === "-")
+    {
+      return originalArr
+    }
     if (rowIndex > 6) {
-      alert("left")
+      //alert("left")
       return originalArr;
     }
-    let rowOne = originalArr[rowIndex];
-    let rowTwo = originalArr[rowIndex + 1];
+    let rowOne = originalArr[rowIndex - 1];
+    let rowTwo = originalArr[rowIndex];
     //final dash character
     let index1stRow = rowOne.lastIndexOf("-");
     //first dash character
     let index2ndRow = rowTwo.indexOf("-");
-    let amountOfRightSpacesRow1 = WIDTH - index1stRow + 1;
-    let amountOfLeftSpacesRow2 = index2ndRow;
+    let amountOfRightSpacesRow1 = index1stRow - 1 ;
+    let amountOfLeftCharactersRow2  = index2ndRow ;
+    if(amountOfLeftCharactersRow2 === -1)
+    {
+      amountOfLeftCharactersRow2 = 7
+    }
     //word doesn't fit in above space
     //@if (amountOfLeftSpacesRow2 > amountOfRightSpacesRow1) {
-    //@  return originalArr;
+    //@  return originalArr; 
     //@}
-    //@let amountOfTopSpaces = 0;
-    //@for (let i = WIDTH - amountOfLeftSpacesRow2; i < WIDTH; i++) {
-    //@  if (
-    //@    originalArr[rowIndex][i] == "" ||
-    //@    originalArr[rowIndex][i] == " " ||
-    //@    originalArr[rowIndex][i] == "-"
-    //@  ) {
-    //@    amountOfTopSpaces++;
-    //@  }
-    //@}
-    if (amountOfLeftSpacesRow2 > amountOfRightSpacesRow1) {
+    //the amount of top spaces starts at last dash and iterates backwards to find out how many characters there can be (top spaces)
+    let amountOfTopSpaces = 0;
+    for (let i = (WIDTH - 1); i >= 0; i--) {
+      if (
+        originalArr[rowIndex-1][i] == "" ||
+        originalArr[rowIndex-1][i] == " " ||
+        originalArr[rowIndex-1][i] == "-"
+      ) {
+        amountOfTopSpaces++;
+      }
+      else{
+
+        break;
+      }
+    }
+    if (amountOfLeftCharactersRow2 > amountOfTopSpaces) {
       alert("here!!!");
       drawGrid(HEIGHT, WIDTH)
       return originalArr;
@@ -716,9 +766,16 @@ class RecursiveClass {
     //@  lastSpaceIndex
     //@);
     //index is right after left most word
+    let CharactersOfNextLine = []
+    let unusedTrim = []
     let lastSpaceIndex2 = topLineNextRow.indexOf("-");
-    let [CharactersOfNextLine, unusedTrim] =
+    if(lastSpaceIndex2 === -1){
+      this.copyArray(topLineNextRow,CharactersOfNextLine, topLineNextRow.length)
+    }
+    else{
+      [CharactersOfNextLine, unusedTrim] =
       this.splitAtIndex(topLineNextRow, lastSpaceIndex2);
+    }
     let completeTopRow = [];
     let lengthOfSpaceForWord = CharactersOfNextLine.length;
     //find index for insertion of charatersOfNextLine into topline
