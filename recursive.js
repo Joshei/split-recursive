@@ -509,15 +509,17 @@ class RecursiveClass {
     //@}
     //made it to bottom of array, so bail out
 
+    if(!HasBeenToRecursive){
     
     //alert("insert")
-    if (rowIndex > HEIGHT-2) {
+    if (rowIndex > 5) {
       alert("!")
-      this.createRow2(originalArr, insertedArr, rowIndex, colIndex) 
+      //this.createRow2(originalArr, insertedArr, rowIndex, colIndex) 
       return originalArr;
     }
     
-    
+    let row2 = []
+    let remainder1 = []
     let targetRow = originalArr[rowIndex];
     //@if (targetRow) {
     //@  console.log("tr: ", targetRow);
@@ -541,7 +543,7 @@ class RecursiveClass {
         combine = [ ...front, ...insertedArr, ...back];
       }
       //splits string at the width, so will fit on one row, and rest is set to remainder.
-      let [row2, remainder1] = this.splitAtIndex(combine, WIDTH);
+      [row2, remainder1] = this.splitAtIndex(combine, WIDTH);
       
       
       
@@ -562,7 +564,7 @@ class RecursiveClass {
         );
         remainder1 = [];
         //is on last row, so negate the former cursor positions for cursor
-        if(rowIndex === HEIGHT-1)
+        //@if(rowIndex === HEIGHT-1)
         {
           horizontalCursorPosition = (HEIGHT-1)* 5
           verticalCursorPosition= verticalCursorPosition - 10
@@ -576,8 +578,9 @@ class RecursiveClass {
         return originalArr;
       }
 
+    }//hasbeentorecursive
 
-      
+
       
       else {
         //calls recursibly, affects all rows
@@ -623,14 +626,14 @@ class RecursiveClass {
     //@else {
     //@  //there was
     //@  alert("create row");
-    //@  this.createRow(originalArr, insertedArr, rowIndex, colIndex);
+      //this.createRow2(originalArr, insertedArr, rowIndex, colIndex);
     //@  HEIGHT++;
-    //@  drawGrid(HEIGHT, WIDTH);
-    //@  drawCursor(
-    //@    horizontalCursorPosition + HOFFSET,
-    //@    verticalCursorPosition + VOFFSET
-    //@  );
-    //@  return originalArr;
+      drawGrid(HEIGHT, WIDTH);
+      drawCursor(
+        horizontalCursorPosition + HOFFSET,
+        verticalCursorPosition + VOFFSET
+      );
+      return originalArr;
     //@}
   }
   
