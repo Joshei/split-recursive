@@ -30,8 +30,8 @@
 
     // The grid, last row is a padding for recursion. 
     let nestedArray = [
-    ["-", "-", "-", "-", "-", "-" , "1" ],
-    ["-", "-", "-", "-", "-", "-" , "2" ],
+    ["a", "b", "c", "d", "e", "-" , "-" ],
+    ["-", "-", "-", "-", "1", "1" , "2" ],
     ["-", "-", "-", "-", "-", "-" , "3" ],
     ["-", "-", "-", "-", "-", "-" , "4" ],
     ["-", "-", "-", "-", "-" , "-", "5" ],
@@ -129,7 +129,8 @@
         console.log('h ', horizontalCursorPosition)
         let key = "Z"
         console.log("nested array1: ", nestedArray);
-        nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
+        //nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
+        nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, key)
         //nestedArray =  Recursive.pullTextBackToTop(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
        console.log("nested array2: ", nestedArray);
         drawGrid( HEIGHT, WIDTH)
