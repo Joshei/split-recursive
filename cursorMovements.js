@@ -1,8 +1,8 @@
 class CursorMovementsClass {
     cursorRight() {
-      if (horizontalCursorPosition >= (WIDTH -1 )*5) {
+      if (horizontalCursorPosition >= (WIDTH-1)*5){// (WIDTH -1 )*5) {
         //*alert("here")
-        horizontalCursorPosition = (WIDTH -1 )*5
+        horizontalCursorPosition = (WIDTH-1)*5
         return -1
       }
       horizontalCursorPosition = horizontalCursorPosition + 5
