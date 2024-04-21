@@ -29,16 +29,16 @@ class RecursiveClass {
     
   }
   
- /**createRow(originalArr, insertedArr, rowIndex, colIndex) {
+ createRow(originalArr, insertedArr, rowIndex, colIndex) {
   alert("create row")
   if (insertedArr.length <= WIDTH) {
       //HEIGHT++;
         //delete final row (padding for iterated inserted array, elsewhere.)
       //delete final row (padding for iterated inserted array, elsewhere.)
-      this.deleteRow(originalArr, rowIndex+1) 
-      originalArr.push(insertedArr);
+      this.deleteRow(originalArr, rowIndex) 
+      originalArr.push(["-", "-", "-", "-", "-", "-" , "-" ],)
       //push for new final row again (padding for recursive calls, elsewhere)
-      originalArr.push(["", "", "", "", "", "" , "" ],)
+      originalArr.push(["1", "1", "1", "1", "1", "1" , "1" ],)
       this.fillNullWithDashOnRow(rowIndex+1, originalArr)
       HEIGHT++ 
     }
@@ -52,7 +52,7 @@ class RecursiveClass {
     
     //inserted array is greater than one row  
     }
-**/
+
 
     createRow2(originalArr, insertedArr, rowIndex, colIndex) {
       drawGrid(HEIGHT, WIDTH)
@@ -643,6 +643,12 @@ class RecursiveClass {
     //@return originalArr;
   }
   
+
+  //////////////////////////
+
+  //PUT A BOOLEAN FLAG HERE TO SET CREATEROW ONLY ON INITIAL CALLS OF THE CHILD FUNCTIONS
+
+  /////////////////////////
   //insert that checks for dashes, if are, than is recursive, otherwise
   //isn'r and will have a string less than width
   initialInsert(rowIndex, colIndex, originalArr, leftOverChars)
@@ -674,10 +680,15 @@ class RecursiveClass {
   //delete row one's first character, and use next lines first character to put at row ones end
   recursiveFunctionInsert(rowIndex, colIndex, originalArr, leftOverChars)
   {
-    if (rowIndex == HEIGHT - 1 && (originalArr[rowIndex][WIDTH-1] !== "-") )
+    if (rowIndex === HEIGHT  && (originalArr[rowIndex][WIDTH-1] !== "-") )
     {
       this.makeExtraRowForInsert(rowIndex, colIndex, originalArr,  leftOverChars)
     }
+
+    //if (rowIndex === HEIGHT && (originalArr[rowIndex][WIDTH-1] !== "-"))
+    //{
+
+    //}
     //alert("here")
     if(rowIndex > HEIGHT - 1)
     {
@@ -700,9 +711,9 @@ class RecursiveClass {
   makeExtraRowForInsert(rowIndex, colIndex, originalArr, leftOverChars){
     if(rowIndex > HEIGHT - 1)
     {
-      return
+      //return
     }
-  this.createRow2(originalArr, [], rowIndex, colIndex) 
+  this.createRow(originalArr, [], rowIndex, colIndex) 
   //negate creatrow2 call
   verticalCursorPosition = verticalCursorPosition - 10
   drawGrid(HEIGHT, WIDTH)
