@@ -532,11 +532,20 @@ class RecursiveClass {
       //alert("left")
       return originalArr;
     }
-    let rowOne = 0
-    let rowTwo = 0
+    let rowOne = []
+    let rowTwo = []
     //originalArr[rowIndex] = character
     let amt = HEIGHT - rowIndex
     //last text = 1
+
+
+    let variable = ((HEIGHT - ORIGINALHEIGHT) + (1)) * (-1)
+
+    //let rowOne = originalArr[rowIndex+variable];
+    //let rowTwo = originalArr[rowIndex+variable+1];
+    
+    //THIS IS ORIGINAL CODE:
+    
     if (HEIGHT > 7){
        rowOne = originalArr[rowIndex-2];
        rowTwo = originalArr[rowIndex-1];
@@ -544,6 +553,14 @@ class RecursiveClass {
        rowOne = originalArr[rowIndex-1];
         rowTwo = originalArr[rowIndex];
     }
+    
+
+
+
+
+
+
+    
     //let rowOne = originalArr[rowIndex-2];
     //let rowTwo = originalArr[rowIndex-1];
     //final dash character
@@ -575,6 +592,28 @@ class RecursiveClass {
     console.log({secondVar})
 
 
+     // 8 - 7 +1 * -1   =  -2
+
+
+     //7 - 7 + 1 * -1  =  -1
+    
+
+    for (let i = (WIDTH - 1); i >= 0; i--) {
+      if (
+        originalArr[rowIndex+variable][i] == "" ||
+        originalArr[rowIndex+variable][i] == " " ||
+        originalArr[rowIndex+variable][i] == "-"
+      ) {
+        amountOfTopSpaces++;
+      }
+      else{
+        break;
+      }
+    }
+    /*
+
+    if(HEIGHT == 8)
+    {
     
     for (let i = (WIDTH - 1); i >= 0; i--) {
       if (
@@ -588,7 +627,24 @@ class RecursiveClass {
         break;
       }
     }
+  }
+  else if (HEIGHT == 7){
 
+    for (let i = (WIDTH - 1); i >= 0; i--) {
+      if (
+        originalArr[rowIndex-1][i] == "" ||
+        originalArr[rowIndex-1][i] == " " ||
+        originalArr[rowIndex-1][i] == "-"
+      ) {
+        amountOfTopSpaces++;
+      }
+      else{
+        break;
+      }
+    }
+
+  }
+*/
 
 
     if (amountOfLeftCharactersRow2 > amountOfTopSpaces) {
@@ -602,13 +658,25 @@ class RecursiveClass {
     let topLineNextRow = [];
     //top
     
-    
-    
-    
-    let topLine = originalArr[rowIndex-2];
+    let topLine = []
+   
+
+
+    topLine = originalArr[rowIndex+variable];
+    topLineNextRow = originalArr[rowIndex+variable+1];
+/*
+    if(HEIGHT == 8){
+    topLine = originalArr[rowIndex-2];
     topLineNextRow = originalArr[rowIndex-1];
+    }
+    else if(HEIGHT == 7)
+    {
+    topLine = originalArr[rowIndex-1];
+    topLineNextRow = originalArr[rowIndex];
+
+    }
     
-    
+  */  
     
     
     //@let lastSpaceIndex = topLine.lastIndexOf("-");
