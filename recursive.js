@@ -30,6 +30,7 @@ class RecursiveClass {
   }
   
  createRow(originalArr, insertedArr, rowIndex, colIndex) {
+  //return originalArr
   //alert("create row")
   if (insertedArr.length <= WIDTH) {
       //HEIGHT++;
@@ -197,7 +198,7 @@ class RecursiveClass {
         arrayToChange[RowIndex][i] == " " ||
         typeof arrayToChange[RowIndex][i] == "undefined"
       ) {
-        arrayToChange[RowIndex][i] = "-";
+        arrayToChange[RowIndex][i] = "X";
       }
     }
     drawGrid(HEIGHT, WIDTH);
@@ -504,14 +505,14 @@ class RecursiveClass {
 
   //tested : 4/13/24
   //checked: 4/17/24 - bottom half not looked at.
-  pullTextBackToTop(originalArr, rowIndex, colIndex) {
+  pullTextBackToTop(character, originalArr, rowIndex, colIndex) {
     //?
    
     if(rowIndex === 0)
     {
       return originalArr;
     }
-    if(colIndex === 0)
+    if(rowIndex > HEIGHT - 1)
     {
       //return originalArr;
     }
@@ -525,19 +526,31 @@ class RecursiveClass {
     //Check that this 
     if(originalArr[rowIndex][0] === "-")
     {
-      return originalArr
+      //return originalArr
     }
-    if (rowIndex > 6) {
+    if (rowIndex > HEIGHT - 1) {
       //alert("left")
       return originalArr;
     }
-    let rowOne = originalArr[rowIndex - 1];
-    let rowTwo = originalArr[rowIndex];
+    let rowOne = 0
+    let rowTwo = 0
+    //originalArr[rowIndex] = character
+    let amt = HEIGHT - rowIndex
+    //last text = 1
+    if (HEIGHT > 7){
+       rowOne = originalArr[rowIndex-2];
+       rowTwo = originalArr[rowIndex-1];
+    }else{
+       rowOne = originalArr[rowIndex-1];
+        rowTwo = originalArr[rowIndex];
+    }
+    //let rowOne = originalArr[rowIndex-2];
+    //let rowTwo = originalArr[rowIndex-1];
     //final dash character
     let index1stRow = rowOne.lastIndexOf("-");
     //first dash character
     let index2ndRow = rowTwo.indexOf("-");
-    let amountOfRightSpacesRow1 = index1stRow - 1 ;
+    let amountOfRightSpacesRow1 = index1stRow+1  ;
     let amountOfLeftCharactersRow2  = index2ndRow ;
     if(amountOfLeftCharactersRow2 === -1)
     {
@@ -545,11 +558,29 @@ class RecursiveClass {
     }
     //the amount of top spaces starts at last dash and iterates backwards to find out how many characters there can be (top spaces)
     let amountOfTopSpaces = 0;
+   
+    console.log({HEIGHT});
+    // 7
+    // - 1
+    // normal
+    //top
+
+    // 8
+    //-2
+    //-1
+
+    let firstVar = HEIGHT - rowIndex//           1
+    let secondVar = HEIGHT - rowIndex + 1//      2
+    console.log({firstVar})
+    console.log({secondVar})
+
+
+    
     for (let i = (WIDTH - 1); i >= 0; i--) {
       if (
-        originalArr[rowIndex-1][i] == "" ||
-        originalArr[rowIndex-1][i] == " " ||
-        originalArr[rowIndex-1][i] == "-"
+        originalArr[rowIndex-2][i] == "" ||
+        originalArr[rowIndex-2][i] == " " ||
+        originalArr[rowIndex-2][i] == "-"
       ) {
         amountOfTopSpaces++;
       }
@@ -557,16 +588,29 @@ class RecursiveClass {
         break;
       }
     }
+
+
+
     if (amountOfLeftCharactersRow2 > amountOfTopSpaces) {
       alert("here!!!");
       drawGrid(HEIGHT, WIDTH)
+      //let combine = [...rowTwo, ...character]
       return originalArr;
     }
     //@alert("here!!!&&&");
     //@console.log({ rowIndex });
     let topLineNextRow = [];
-    let topLine = originalArr[rowIndex - 1];
-    topLineNextRow = originalArr[rowIndex];
+    //top
+    
+    
+    
+    
+    let topLine = originalArr[rowIndex-2];
+    topLineNextRow = originalArr[rowIndex-1];
+    
+    
+    
+    
     //@let lastSpaceIndex = topLine.lastIndexOf("-");
     //@let [lineBesideLeftMostCharacter, firstCharacter] = this.splitAtIndex(
     //@  topLine,
@@ -581,7 +625,7 @@ class RecursiveClass {
     }
     else{
       [CharactersOfNextLine, unusedTrim] =
-      this.splitAtIndex(topLineNextRow, lastSpaceIndex2);
+      this.splitAtIndex(topLineNextRow, lastSpaceIndex2); 
     }
     let completeTopRow = [];
     let lengthOfSpaceForWord = CharactersOfNextLine.length;
@@ -594,10 +638,10 @@ class RecursiveClass {
     originalArr[rowIndex - 1] = combine;
     //cover left side word with dashes
     for (let i = 0; i < lengthOfSpaceForWord; i++) {
-      originalArr[rowIndex][i] = "-";
+      originalArr[rowIndex][i] = "T";
     }
     //put cursor on last character on left hand side of top row
-    horizontalCursorPosition = (5 * WIDTH-1)-5;
+    horizontalCursorPosition = (5 * WIDTH) -5;
     verticalCursorPosition = verticalCursorPosition - 10;
     drawGrid(HEIGHT, WIDTH);
     drawCursor(
@@ -611,7 +655,8 @@ class RecursiveClass {
  
   /////////////////////////
   //insert that checks for dashes, if are, than is recursive, otherwise
-  //isn'r and will have a string less than width
+  //isn't and will have a string less than width
+  //debugged : 4/22/24
   initialInsert(IsFromIndex, rowIndex, colIndex, originalArr, leftOverChars)
   {
   if(rowIndex > HEIGHT - 1)
@@ -624,10 +669,12 @@ class RecursiveClass {
   //splits string at the width, so will fit on one row, and rest is set to remainder.
   let [thisIsOneRowOrLess, leftOverRemainder] = this.splitAtIndex(combinedStringWithRemainder, WIDTH);
   originalArr[rowIndex] = thisIsOneRowOrLess; 
+  //checks for a single character that is left over from total string
   if(leftOverRemainder.length && HEIGHT == verticalCursorPosition/10+1 && horizontalCursorPosition/5 != WIDTH-1)
    {
     this.createRow(originalArr, leftOverRemainder, rowIndex, colIndex)
    }
+   //checks for an intial call from index
    if(IsFromIndex === true)
   {
   this.recursiveFunctionInsert(true, rowIndex+1 , colIndex, originalArr, leftOverRemainder)
@@ -644,9 +691,11 @@ class RecursiveClass {
   recursiveFunctionInsert(ISOnFIrstCall, rowIndex, colIndex, originalArr, leftOverChars)
   {
     if ((rowIndex === HEIGHT-1)  && (originalArr[rowIndex][WIDTH-1] !== "-") )
+    //if there is a character in last position and a key press in the row, than create another row
     {
       this.makeExtraRowForInsert(ISOnFIrstCall, rowIndex, colIndex, originalArr,  leftOverChars)
     }
+    //bails out of recursion
     if(rowIndex > HEIGHT - 1)
     {
       return originalArr
@@ -656,7 +705,6 @@ class RecursiveClass {
     //splits string at the width, so will fit on one row, and rest is set to remainder.
     let [thisIsOneRowOrLess, leftOverRemainderChar] = this.splitAtIndex(rowWithAdditionalCharacter, WIDTH);
     originalArr[rowIndex] = thisIsOneRowOrLess; 
-    //if(originalArr[rowIndex][6] != "-" && originalArr[rowIndex][6] != "")
     {
       this.recursiveFunctionInsert(ISOnFIrstCall, rowIndex+1 , colIndex, originalArr, leftOverRemainderChar)
       drawGrid(HEIGHT, WIDTH)
@@ -664,11 +712,13 @@ class RecursiveClass {
     }
  }
 
+    //called from recursion, makes a new row 
     makeExtraRowForInsert(IsFirstCallFromIndex, rowIndex, colIndex, originalArr, leftOverChars){
     if(rowIndex > HEIGHT - 1)
     {
       //return
     }
+    //only creates row, on initial insert, not those recursive calls
     if(IsFirstCallFromIndex){
     this.createRow(originalArr, [], rowIndex, colIndex) 
     }
@@ -679,7 +729,8 @@ class RecursiveClass {
       horizontalCursorPosition + HOFFSET,
       verticalCursorPosition + VOFFSET
     );
-    //alert("suprise")
+    
+    //check for insert on the new row
     this.recursiveFunctionInsert(false, rowIndex+1,colIndex, originalArr, [])
     return originalArr
     }
