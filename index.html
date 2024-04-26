@@ -30,19 +30,24 @@
 
     // The grid, last row is a padding for recursion. 
     let nestedArray = [
-    ["a", "b", "c", "d", "e", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["1", "2", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-" , "-", "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["a", "b", "-", "d", "-", "-" , "-" ],
+    ["1", "-", "-", "-", "-", "-" , "-" ],
+    ["8", "-", "1", "-", "1", "-" , "5" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["b", "-", "-", "-", "-", "-" , "c" ],
     ["!", "!", "!", "-", "!", "!" , "!" ],
   ];
       //canvas
       let WIDTH = 7
-      let HEIGHT = 7
-      let ORIGINALHEIGHT = 7
+      let HEIGHT = 12
+      let ORIGINALHEIGHT = 10
       const VOFFSET = 25
       const HOFFSET = 30
       var canvas = document.getElementById('canvas_id')
@@ -131,8 +136,8 @@
         let key = "Z"
         console.log("nested array1: ", nestedArray);
         //nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
-        nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, key)
-        nestedArray =  Recursive.pullTextBackToTop(gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
+        nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
         let checkThis = horizontalCursorPosition/5
         console.log("nested array2: ", nestedArray);
         drawGrid( HEIGHT, WIDTH)
