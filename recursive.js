@@ -30,6 +30,43 @@ class RecursiveClass {
     return destArray
     
   }
+
+   //looks good - 4/26/24
+  createRowForPushWords(originalArr, insertedArr, rowIndex, colIndex)
+  {
+    alert("push")
+
+    let target = originalArr[rowIndex]
+    let lastSpaceIndex = target.indexOf("!");
+    for (let i = lastSpaceIndex ; i < WIDTH; i++){
+      originalArr[rowIndex][i] = "-"
+    }
+
+
+    //delete final row (padding for iterated inserted array, elsewhere.)
+    this.deleteRow(originalArr, rowIndex+1) 
+    //originalArr[rowIndex][0] = "A"
+    //originalArr.push(['-','-','-','-','-','-','-' ], )
+    //originalArr[rowIndex+1][0] = "B"
+    //drawGrid(HEIGHT, WIDTH)
+    //push for new final row again (padding for recursive calls, elsewhere)
+    originalArr.push(['!','!','!','!','!','!','!' ], )
+
+    
+    //this.fillNullWithDashOnRow(rowIndex+1, originalArr)
+    HEIGHT++ 
+  
+  drawGrid(HEIGHT, WIDTH)
+    horizontalCursorPosition = 0;
+    verticalCursorPosition = verticalCursorPosition + 10;
+  drawCursor(
+    horizontalCursorPosition + HOFFSET,
+    verticalCursorPosition + VOFFSET
+  );
+  
+  return originalArr
+
+  }
   
  
  createRow(originalArr, insertedArr, rowIndex, colIndex) {
@@ -37,6 +74,8 @@ class RecursiveClass {
   //alert("create row")
   //if (insertedArr.length <= WIDTH) 
   {
+
+    alert("craete row called");
     
       //HEIGHT++;
         //delete final row (padding for iterated inserted array, elsewhere.)
@@ -47,7 +86,7 @@ class RecursiveClass {
       //originalArr[rowIndex+1][0] = "B"
       drawGrid(HEIGHT, WIDTH)
       //push for new final row again (padding for recursive calls, elsewhere)
-      originalArr.push(['1','1','1','1','1','1','1' ], )
+      originalArr.push(['!','!','!','!','!','!','!' ], )
 
       
       //this.fillNullWithDashOnRow(rowIndex+1, originalArr)
@@ -81,15 +120,17 @@ class RecursiveClass {
 //@  }
 
   //debugged : 4/11/24
+  //testing - works with delete pressed on same line as top row
+  //looks good - 4/26/24
   moveWords(originalArr, remainder, rowIndex, colIndex)
   {
     alert("Height")
-    if(rowIndex > HEIGHT ){
+    //if(rowIndex > HEIGHT ){
      
-      this.createRow(originalArr, remainder, rowIndex)
-      HEIGHT++;
-      return originalArr
-    }
+      //this.createRowForPush(originalArr, remainder, rowIndex)
+      //HEIGHT++;
+    //  return originalArr
+    //}
     //%alert("2")
     let target1 = originalArr[rowIndex];
     let target2 = originalArr[rowIndex + 1];
@@ -130,10 +171,11 @@ class RecursiveClass {
   //4/8/24
   //all word pairs
   ////debugged : 4/11/24
+   //looks good - 4/26/24
   moveAllWordsAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
-    if (rowIndex > HEIGHT-2) {
-      //alert("height")
-      this.createRow(originalArr, remainder, rowIndex)
+    if (rowIndex > HEIGHT-1) {
+      alert("height")
+      this.createRowForPushWords(originalArr, remainder, rowIndex)
       return originalArr;
     }
     //gets the remainder for recursive calls
@@ -152,29 +194,7 @@ class RecursiveClass {
       return originalArr;
   }
 
-  //4/8/24 - rowIndex is top row that moves down and to the left
-  //checks for one pair, there
-  //debugged : 4/11/24
-  moveWordAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
-    if (rowIndex >= HEIGHT-1) {
-      alert("4")
-      this.createRow(originalArr, remainder, rowIndex)
-      return originalArr;
-    }
-    alert("A")
-    // variable is a dud, no useage
-    let dud = this.moveWords(originalArr, remainder, rowIndex, colIndex)
-    //this.createRow(originalArr, remainder, rowIndex)
-    drawGrid(HEIGHT, WIDTH)
-    //*horizontalCursorPosition = 10;
-    //*verticalCursorPosition = 30;
-    drawCursor(
-      horizontalCursorPosition + HOFFSET,
-      verticalCursorPosition + VOFFSET)
-      return originalArr;
-
-  }
-
+ 
 
   insertCharacterToArray(array, col, row, character) 
   {
