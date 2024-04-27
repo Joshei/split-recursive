@@ -124,48 +124,66 @@ class RecursiveClass {
   //looks good - 4/26/24
   moveWords(originalArr, remainder, rowIndex, colIndex)
   {
-    alert("Height")
-    //if(rowIndex > HEIGHT ){
-     
-      //this.createRowForPush(originalArr, remainder, rowIndex)
-      //HEIGHT++;
-    //  return originalArr
-    //}
-    //%alert("2")
+    
+    
     let target1 = originalArr[rowIndex];
     let target2 = originalArr[rowIndex + 1];
     //get left phrase before last dash
-    let lastSpaceIndex1 = target1.lastIndexOf("-");
+    let lastSpaceIndexRow1 = target1.lastIndexOf("-");
+    let lastSpaceIndexRow2 = target2.lastIndexOf("-")
     //phrase, right of last dash
-    const [trim, rightWord] = this.splitAtIndex(target1, lastSpaceIndex1 + 1);
-    //put full row after target1s right word
-    let combine = [...rightWord, ...target2];
-    //one widths worth
-    const [row, remainder2] = this.splitAtIndex(combine, WIDTH);
-    originalArr[rowIndex + 1] = row;
-    //remainder passed in last iteration through, with left side of target1 
-    //!!!!
-    let row2 = [...trim, ...remainder]
-    //const [row3, remainder3] = this.splitAtIndex(row2, WIDTH);
-    let row3 = [...remainder, ...row];
-    originalArr[rowIndex] = row2;
-    originalArr[rowIndex+1] = row3;
-    //@drawGrid(HEIGHT, WIDTH);
-    //covers nulls with dashes 
-    let topWordLen = rightWord.length;
-    let indextoStartDisplayDashes = WIDTH - topWordLen;
-    for (let i = indextoStartDisplayDashes; i <= WIDTH - 1; i++) {
-      originalArr[rowIndex][i] = "-";
-    }
-      //@drawGrid(HEIGHT, WIDTH);
-      
-      //return originalArr;
-      
-      //@verticalCursorPosition = 50;
-      return remainder2;
+    const [left, rightWordRowOne] = this.splitAtIndex(target1, lastSpaceIndexRow1 + 1);
 
-      alert("move")
+    let dashCounter  = 0
+    for(let i = 0 ; i < WIDTH; i++){
+       if (originalArr[rowIndex + 1][i] == "-"){
+          dashCounter++
+       }
+       else{
+        break;
+       }
+
     }
+   
+    let amountOfSpaces = dashCounter
+    const [leftSpaces, rightRow2] = this.splitAtIndex(target2, amountOfSpaces);
+
+    
+   
+    let lengthOfRightword = rightWordRowOne.length
+
+
+    //check equals here
+    //put word in space
+    if(lengthOfRightword <= amountOfSpaces ){
+
+  
+
+    let additionalSpace = dashCounter - lengthOfRightword
+   
+    let row2 = rightWordRowOne
+
+    for(let i = dashCounter; i < lengthOfRightword; i++){
+    row2[i] = "-"
+    }
+
+    let combineRow2 = [...row2, ...rightRow2]
+
+    originalArr[rowIndex+1] = combineRow2
+
+    for(let i =  lastSpaceIndexRow1+1 ; i < WIDTH ; i++){
+
+      originalArr[rowIndex][i] = "+"
+
+    }
+
+    drawGrid(HEIGHT, WIDTH)
+    
+
+    
+
+    }
+  }
   //CHECK ALL THIS, ESPECIALLY ONE PAIR FUNCTION, ALSO, CHECK LAST ROW
 
   //4/8/24
@@ -853,6 +871,19 @@ class RecursiveClass {
     return originalArr
     }
       
+    DisplayGridAndCursor()
+    {
+
+      drawGrid(HEIGHT, WIDTH)
+      drawCursor(
+        horizontalCursorPosition + HOFFSET,
+        verticalCursorPosition + VOFFSET)
+        return originalArr;
+
+    }
+
+
+   
   }
 
 
