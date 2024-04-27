@@ -1,3 +1,7 @@
+
+//NEEDS DOING: 4/27/24
+//MoveWord  - implement a fucntion 
+
 class RecursiveClass {
   constructor() {
     this.maxCols = 7;
@@ -75,7 +79,7 @@ class RecursiveClass {
   //if (insertedArr.length <= WIDTH) 
   {
 
-    alert("craete row called");
+    alert("create row called");
     
       //HEIGHT++;
         //delete final row (padding for iterated inserted array, elsewhere.)
@@ -122,15 +126,40 @@ class RecursiveClass {
   //debugged : 4/11/24
   //testing - works with delete pressed on same line as top row
   //looks good - 4/26/24
+  //rewritten : 4/7/24, tested
   moveWords(originalArr, remainder, rowIndex, colIndex)
   {
     
-    
+    if(rowIndex > HEIGHT-2){
+      //alert("move words")
+      this.createRow(originalArr, [], rowIndex, colIndex)
+      let target1 = originalArr[rowIndex];
+      let target2 = originalArr[rowIndex + 1];
+      let lastSpaceIndexRow1 = target1.lastIndexOf("-");
+      //phrase, right of last dash
+      const [left, rightWordRowOne] = this.splitAtIndex(target1, lastSpaceIndexRow1 + 1);
+      let lengthOfRightWordRow1 = rightWordRowOne.length
+      let aRowOfNulls = []
+      for(let i = 0; i < WIDTH - lengthOfRightWordRow1; i++){
+        aRowOfNulls[i] = "-"
+      }
+      let combined = [...rightWordRowOne, ...aRowOfNulls]
+      originalArr[rowIndex+1] = combined
+      for(let i = WIDTH - lengthOfRightWordRow1; i< WIDTH; i++){
+        originalArr[rowIndex][i] = "-"
+      }
+      
+      drawGrid(HEIGHT, WIDTH)
+      drawCursor(
+        horizontalCursorPosition + HOFFSET,
+        verticalCursorPosition + VOFFSET)
+        return originalArr
+    }
+
     let target1 = originalArr[rowIndex];
     let target2 = originalArr[rowIndex + 1];
     //get left phrase before last dash
     let lastSpaceIndexRow1 = target1.lastIndexOf("-");
-    let lastSpaceIndexRow2 = target2.lastIndexOf("-")
     //phrase, right of last dash
     const [left, rightWordRowOne] = this.splitAtIndex(target1, lastSpaceIndexRow1 + 1);
 
@@ -146,11 +175,12 @@ class RecursiveClass {
     }
    
     let amountOfSpaces = dashCounter
-    const [leftSpaces, rightRow2] = this.splitAtIndex(target2, amountOfSpaces);
+    let lengthOfRightword = rightWordRowOne.length
+    const [leftSpaces, rightRow2] = this.splitAtIndex(target2, lengthOfRightword);
 
     
    
-    let lengthOfRightword = rightWordRowOne.length
+    
 
 
     //check equals here
@@ -163,57 +193,35 @@ class RecursiveClass {
    
     let row2 = rightWordRowOne
 
-    for(let i = dashCounter; i < lengthOfRightword; i++){
-    row2[i] = "-"
+    for(let i = lengthOfRightword; i < WIDTH; i++){
+    //row2[i] = "-"
     }
 
     let combineRow2 = [...row2, ...rightRow2]
 
     originalArr[rowIndex+1] = combineRow2
+    //originalArr[rowIndex][WIDTH-1] = "Z"
 
-    for(let i =  lastSpaceIndexRow1+1 ; i < WIDTH ; i++){
+    for(let i =  WIDTH - lengthOfRightword ; i < WIDTH ; i++){
 
       originalArr[rowIndex][i] = "+"
 
     }
 
     drawGrid(HEIGHT, WIDTH)
+
+    if(originalArr[rowIndex+1][WIDTH-1] != "-" && originalArr[rowIndex+1][WIDTH-1] != undefined)
+    {
+      this.moveWords(originalArr, remainder, rowIndex+1, colIndex) 
+    }
+    this.moveWords(originalArr, remainder, rowIndex+2, colIndex)
     
 
     
 
     }
   }
-  //CHECK ALL THIS, ESPECIALLY ONE PAIR FUNCTION, ALSO, CHECK LAST ROW
-
-  //4/8/24
-  //all word pairs
-  ////debugged : 4/11/24
-   //looks good - 4/26/24
-  moveAllWordsAcrossBorder(originalArr, remainder, rowIndex, colIndex) {
-    if (rowIndex > HEIGHT-1) {
-      alert("height")
-      this.createRowForPushWords(originalArr, remainder, rowIndex)
-      return originalArr;
-    }
-    //gets the remainder for recursive calls
-    let remainder2 = this.moveWords(originalArr, remainder, rowIndex, colIndex)
-
-    this.moveAllWordsAcrossBorder(
-      originalArr,
-      remainder2,
-      rowIndex + 1,
-      colIndex
-    );
-    drawGrid(HEIGHT, WIDTH)
-    drawCursor(
-      horizontalCursorPosition + HOFFSET,
-      verticalCursorPosition + VOFFSET)
-      return originalArr;
-  }
-
- 
-
+  
   insertCharacterToArray(array, col, row, character) 
   {
     array[row].splice(col, 0, "W");
