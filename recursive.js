@@ -126,7 +126,7 @@ class RecursiveClass {
   //debugged : 4/11/24
   //testing - works with delete pressed on same line as top row
   //looks good - 4/26/24
-  //rewritten : 4/7/24, tested
+  //rewritten : 4/27/24, tested
   moveWords(originalArr, remainder, rowIndex, colIndex)
   {
     
@@ -173,7 +173,6 @@ class RecursiveClass {
        }
 
     }
-   
     let amountOfSpaces = dashCounter
     let lengthOfRightword = rightWordRowOne.length
     const [leftSpaces, rightRow2] = this.splitAtIndex(target2, lengthOfRightword);
@@ -564,10 +563,11 @@ class RecursiveClass {
   //tested : 4/13/24
   //checked: 4/17/24 - bottom half not looked at.
   //checked: 4/26/24 - looks good
+  //4/27/24 - changed, look at again
   pullTextBackToTop(CallFromIndex, character, originalArr, rowIndex, colIndex) {
     //?
    
-    if(rowIndex === 0)
+    if(rowIndex === 0 || rowIndex === undefined)
     {
       return originalArr;
     }
@@ -577,33 +577,22 @@ class RecursiveClass {
     }
     //understand this bettee
     //if there is not complete characters from cursor to left border, than exit
+    
+    if(CallFromIndex){
     for (let i = colIndex - 1; i >= 0; i--) {
-      if (originalArr[rowIndex][i] == "" || originalArr[rowIndex][i] == "-") {
-      //alert("in if");
-      return originalArr;
+        if (originalArr[rowIndex][i] == "" || originalArr[rowIndex][i] == "-") {
+        return originalArr;
+        }
       }
-    }
+    } 
     let rowOne = []
     let rowTwo = []
     
-    //let rowOne = originalArr[rowIndex+variable];
-    //let rowTwo = originalArr[rowIndex+variable+1];
     
-    //THIS IS ORIGINAL CODE:
     
-    //write more of this?
-
-    //if (HEIGHT > 9){
-    //  rowOne = originalArr[rowIndex-3];
-    //  rowTwo = originalArr[rowIndex-2];
-    //}
-     if (HEIGHT > 7){
-       rowOne = originalArr[rowIndex-1];
-       rowTwo = originalArr[rowIndex];
-    }else{
-       rowOne = originalArr[rowIndex-1];
-        rowTwo = originalArr[rowIndex];
-    }
+    rowOne = originalArr[rowIndex-1];
+    rowTwo = originalArr[rowIndex];
+    
     //final dash, word on right
     let index1stRow = rowOne.lastIndexOf("-");
     //first dash character, word on left
@@ -618,16 +607,11 @@ class RecursiveClass {
     //the amount of top spaces starts at last dash and iterates backwards to find out how many characters there can be (top spaces)
     let amountOfTopSpaces = 0;
    
-    console.log({HEIGHT});
-    
-    let variable = ((HEIGHT - ORIGINALHEIGHT) + (1)) * (-1)
-    variable = -1
-    //-1 and -2
     for (let i = (WIDTH - 1); i >= 0; i--) {
       if (
-        originalArr[rowIndex+variable][i] == "" ||
-        originalArr[rowIndex+variable][i] == " " ||
-        originalArr[rowIndex+variable][i] == "-"
+        originalArr[rowIndex-1][i] == "" ||
+        originalArr[rowIndex-1][i] == " " ||
+        originalArr[rowIndex-1][i] == "-"
       ) {
         amountOfTopSpaces++;
       }
@@ -644,25 +628,6 @@ class RecursiveClass {
     let topLineNextRow = [];
     let topLine = []
    
-    variable = -1
-    //HEIGHT IS 8
-    
-
-    //added a heigth and topline is plus - 1
-    let amt1 = -1* (HEIGHT - 9)
-    let amt2 = -1* (HEIGHT - 10)
-    let difference = ORIGINALHEIGHT - HEIGHT
-    let value = difference*-1
-    amt1 = amt1 + value
-    amt2 = amt2 + value
-    //topLine = originalArr[rowIndex+amt1];
-    //topLineNextRow = originalArr[rowIndex + amt2];
-    
-    //if (HEIGHT === 13){
-    //topLine = originalArr[rowIndex-3];
-    //topLineNextRow = originalArr[rowIndex-2];
-    //}
-    //else{
     topLine = originalArr[rowIndex-1];
     topLineNextRow = originalArr[rowIndex];
     //}
@@ -681,22 +646,23 @@ class RecursiveClass {
       [CharactersOfNextLine, unusedTrim] =
       this.splitAtIndex(topLineNextRow, lastSpaceIndex2); 
     }
-
     //right hand word
     let lengthOfSpaceForWord = CharactersOfNextLine.length;
     //find index for insertion of charatersOfNextLine into topline
     let index = WIDTH - lengthOfSpaceForWord;
-
+    let combine = []
+    //@let left = []
+    //@let unused = []
+    
+    //@if (CallFromIndex){
     //keep the left characters and than replace the rigth with lower word
-    let [left, unused] = this.splitAtIndex(topLine, index);
+    const [left, unused] = this.splitAtIndex(topLine, index);
     //build upper row with the same left and the characters of the lower row
-    let combine = [...left, ...CharactersOfNextLine];
+    combine = [...left, ...CharactersOfNextLine];
     originalArr[rowIndex - 1] = combine;
     //cover left side lower word with dashes - this phrase was raised to top right and now is dashed
-    
-    
     for (let i = 0; i < lengthOfSpaceForWord; i++) {
-    originalArr[rowIndex][i] = "-";
+      originalArr[rowIndex][i] = "-";
     }
     //put cursor on last character on left hand side of top row
     if (CallFromIndex === true)
@@ -714,7 +680,6 @@ class RecursiveClass {
     }
   
 
- 
   /////////////////////////
   //insert that checks for dashes, if are, than is recursive, otherwise
   //isn't and will have a string less than width
