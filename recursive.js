@@ -178,7 +178,7 @@ class RecursiveClass {
     if(lengthOfRightword <= amountOfSpaces ){
       //start row with word from above agfainst right border one row up
       let row2 = rightWordRowOne
-      let combineRow2 = [...row2, ...rightWOrdRowTwo]
+      let combineRow2 = [...row2, ...rightWordRowTwo]
       originalArr[rowIndex+1] = combineRow2
       //check top of two rows to replace the use dvalues with dashes)
       for(let i =  WIDTH - lengthOfRightword ; i < WIDTH ; i++){
@@ -189,8 +189,10 @@ class RecursiveClass {
       if(originalArr[rowIndex+1][WIDTH-1] != "-" && originalArr[rowIndex+1][WIDTH-1] != undefined)
         {
           this.moveWords(originalArr, remainder, rowIndex+1, colIndex) 
+          return originalArr
         }
       this.moveWords(originalArr, remainder, rowIndex+2, colIndex)
+      return originalArr
     }
   }
   
@@ -429,6 +431,10 @@ class RecursiveClass {
    //letter taken from next line first position goes to end of previous line
    
    //this is intial call form index.html
+   if(rowIndex > HEIGHT - 1)
+   {
+      return originalArr
+   }
    if(IsFirstRun)
    {
    if(originalArr[rowIndex][columnIndex] == "-")

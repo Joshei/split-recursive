@@ -30,18 +30,18 @@
 
     // The grid, last row is a padding for recursion. 
     let nestedArray = [
+    ["-", "-", "-", "-", "1", "2" , "3" ],
+    ["-", "-", "-", "-", "a", "b" , "c" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["5", "5", "-", "-", "1", "2" , "4" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "1" , "2" ],
+    ["3", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["a", "b", "c", "d", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["1", "2", "3", "-", "q", "-" , "-" ],
-    ["a", "-", "z", "-", "-", "-" , "-" ],
-    ["b", "-", "x", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "1", "2" , "3" ],
     ["!", "!", "!", "!", "!", "!" , "!" ],
   ];
       //canvas
@@ -137,7 +137,8 @@
         console.log("nested array1: ", nestedArray);
         //nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
-        nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        nestedArray = Recursive.moveWords(nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
+        //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
         let checkThis = horizontalCursorPosition/5
         console.log("nested array2: ", nestedArray);
         drawGrid( HEIGHT, WIDTH)
@@ -160,7 +161,7 @@
           //@let key = ""
             console.log("nested array3: ", nestedArray);
             //4 functions:
-            //nestedArray = Recursive.deleteACharacter([], verticalCursorPosition/10, horizontalCursorPosition/5,  nestedArray, true)
+            nestedArray = Recursive.deleteACharacter([], verticalCursorPosition/10, horizontalCursorPosition/5,  nestedArray, true)
             //nestedArray = Recursive.moveWordAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.pullTextBackToTop(true, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
