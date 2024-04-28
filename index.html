@@ -30,14 +30,14 @@
 
     // The grid, last row is a padding for recursion. 
     let nestedArray = [
-    ["-", "-", "-", "-", "1", "2" , "3" ],
-    ["-", "-", "-", "-", "a", "b" , "c" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["5", "5", "-", "-", "1", "2" , "4" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "1" , "2" ],
-    ["3", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-" ],
+    ["a", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-" ],
@@ -137,7 +137,7 @@
         console.log("nested array1: ", nestedArray);
         //nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
-        nestedArray = Recursive.moveWords(nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
+        //nestedArray = Recursive.moveWords(nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
         //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
         let checkThis = horizontalCursorPosition/5
         console.log("nested array2: ", nestedArray);

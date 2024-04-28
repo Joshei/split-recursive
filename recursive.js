@@ -439,7 +439,7 @@ class RecursiveClass {
    {
    if(originalArr[rowIndex][columnIndex] == "-")
    {
-      return originalArr
+      //return originalArr
    }
    let line1 = originalArr[rowIndex];
    let line2 = originalArr[rowIndex+1]
@@ -500,7 +500,7 @@ class RecursiveClass {
     //one line
     //let completeLineTwo = [...LineTwosWordWithoutFirstLetter, letter ]
     originalArr[rowIndex] = completeLineOne
-    //originalArr[rowIndex+2] = completeLineTwo
+   
     drawGrid(HEIGHT, WIDTH)
     drawCursor(
         horizontalCursorPosition + HOFFSET,

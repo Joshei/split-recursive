@@ -2,10 +2,12 @@ class CursorMovementsClass {
     cursorRight() {
       if (horizontalCursorPosition >= (WIDTH-1)*5){// (WIDTH -1 )*5) {
         //*alert("here")
-        horizontalCursorPosition = (WIDTH-1)*5
-        return -1
+        horizontalCursorPosition = 0
+        verticalCursorPosition = verticalCursorPosition + 10
+      }else{
+        horizontalCursorPosition = horizontalCursorPosition + 5
       }
-      horizontalCursorPosition = horizontalCursorPosition + 5
+      
       drawGrid()
       drawCursor(
         horizontalCursorPosition + HOFFSET,
@@ -14,11 +16,15 @@ class CursorMovementsClass {
     }
     cursorLeft() {
       if (horizontalCursorPosition <= 0) {
-        horizontalCursorPosition = 0
-        return -2
+        horizontalCursorPosition = (WIDTH-1)*5
+        verticalCursorPosition = verticalCursorPosition - 10
+        
+      }
+      else{
+        horizontalCursorPosition = horizontalCursorPosition - 5
       }
       drawGrid()
-      horizontalCursorPosition = horizontalCursorPosition - 5
+      
       drawCursor(
         horizontalCursorPosition + HOFFSET,
         verticalCursorPosition + VOFFSET
