@@ -148,21 +148,19 @@ class RecursiveClass {
       for(let i = WIDTH - lengthOfRightWordRow1; i< WIDTH; i++){
         originalArr[rowIndex][i] = "-"
       }
-      
       drawGrid(HEIGHT, WIDTH)
       drawCursor(
         horizontalCursorPosition + HOFFSET,
         verticalCursorPosition + VOFFSET)
         return originalArr
     }
-
     let target1 = originalArr[rowIndex];
     let target2 = originalArr[rowIndex + 1];
     //get left phrase before last dash
     let lastSpaceIndexRow1 = target1.lastIndexOf("-");
     //phrase, right of last dash
     const [left, rightWordRowOne] = this.splitAtIndex(target1, lastSpaceIndexRow1 + 1);
-
+    //how many dashes from left to right that are spaces to determine if word is pushed onto this row
     let dashCounter  = 0
     for(let i = 0 ; i < WIDTH; i++){
        if (originalArr[rowIndex + 1][i] == "-"){
@@ -171,53 +169,28 @@ class RecursiveClass {
        else{
         break;
        }
-
-    }
+      }
     let amountOfSpaces = dashCounter
+    //word to move's length
     let lengthOfRightword = rightWordRowOne.length
-    const [leftSpaces, rightRow2] = this.splitAtIndex(target2, lengthOfRightword);
-
-    
-   
-    
-
-
-    //check equals here
-    //put word in space
+    const [leftSpaces, rightWordRowTwo] = this.splitAtIndex(target2, lengthOfRightword);
+    //does word fit in space
     if(lengthOfRightword <= amountOfSpaces ){
-
-  
-
-    let additionalSpace = dashCounter - lengthOfRightword
-   
-    let row2 = rightWordRowOne
-
-    for(let i = lengthOfRightword; i < WIDTH; i++){
-    //row2[i] = "-"
-    }
-
-    let combineRow2 = [...row2, ...rightRow2]
-
-    originalArr[rowIndex+1] = combineRow2
-    //originalArr[rowIndex][WIDTH-1] = "Z"
-
-    for(let i =  WIDTH - lengthOfRightword ; i < WIDTH ; i++){
-
-      originalArr[rowIndex][i] = "+"
-
-    }
-
-    drawGrid(HEIGHT, WIDTH)
-
-    if(originalArr[rowIndex+1][WIDTH-1] != "-" && originalArr[rowIndex+1][WIDTH-1] != undefined)
-    {
-      this.moveWords(originalArr, remainder, rowIndex+1, colIndex) 
-    }
-    this.moveWords(originalArr, remainder, rowIndex+2, colIndex)
-    
-
-    
-
+      //start row with word from above agfainst right border one row up
+      let row2 = rightWordRowOne
+      let combineRow2 = [...row2, ...rightWOrdRowTwo]
+      originalArr[rowIndex+1] = combineRow2
+      //check top of two rows to replace the use dvalues with dashes)
+      for(let i =  WIDTH - lengthOfRightword ; i < WIDTH ; i++){
+        originalArr[rowIndex][i] = "+"
+      }
+      drawGrid(HEIGHT, WIDTH)
+      //check for if next row is one below (not two), if not, advance two rows, as is normal
+      if(originalArr[rowIndex+1][WIDTH-1] != "-" && originalArr[rowIndex+1][WIDTH-1] != undefined)
+        {
+          this.moveWords(originalArr, remainder, rowIndex+1, colIndex) 
+        }
+      this.moveWords(originalArr, remainder, rowIndex+2, colIndex)
     }
   }
   
