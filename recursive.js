@@ -224,6 +224,10 @@ class RecursiveClass {
       }
       let [combined1, nextRemainder] = this.splitAtIndex(combinedRow2, WIDTH);
       originalArr[rowIndex+1] = combined1
+      let lengthOfRow2 = row2.length
+      horizontalCursorPosition = horizontalCursorPosition + lengthOfRow2 * 5
+      //verticalCursorPosition = verticalCursorPosition + 10
+
       //check top of two rows to replace the use dvalues with dashes)
       for(let i =  WIDTH - lengthOfRightWord ; i < WIDTH ; i++){
         originalArr[rowIndex][i] = "-"
