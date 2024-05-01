@@ -1,7 +1,5 @@
-
-//NEEDS DOING: 4/27/24
-//MoveWord  - implement a fucntion 
-//call a functioon thwat calls start of recursion, when all is finished, draw grid in there
+// 5/1/24
+//changed drawcursor, because of this cursormovements need to be decremented one
 
 class RecursiveClass {
   constructor() {
@@ -802,7 +800,8 @@ class RecursiveClass {
      return originalArr
   }
   let targetRow = originalArr[rowIndex];
-  let [front, back] = this.splitAtIndex(targetRow, colIndex + 1);
+  //LOOK HERE!!!!!
+  let [front, back] = this.splitAtIndex(targetRow, colIndex + 2);
   let lastIndex =  back.lastIndexOf("-");
   let [unused, leftWord] = this.splitAtIndex(back, lastIndex + 1);
  
@@ -885,7 +884,7 @@ class RecursiveClass {
     //return originalArr
    }
    
-   //horizontalCursorPosition = horizontalCursorPosition + 5
+   horizontalCursorPosition = horizontalCursorPosition + 5
    //checks for an intial call from index
    if(IsFromIndex === true)
   {
