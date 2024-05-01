@@ -30,23 +30,26 @@
 
     // The grid, last row is a padding for recursion. 
     let nestedArray = [
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["a", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "1", "2" , "3" ],
-    ["!", "!", "!", "!", "!", "!" , "!" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "b", "b" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "a", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["1", "2", "3", "4", "5", "6" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "1" , "2" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ],
   ];
       //canvas
-      let WIDTH = 7
-      let HEIGHT = 12
+      let WIDTH = 28
+      let HEIGHT = 15
       let ORIGINALHEIGHT = 10
       const VOFFSET = 25
       const HOFFSET = 30
@@ -95,7 +98,7 @@
         console.log("na: ", nestedArray)
         if(nestedArray && nestedArray[i] && nestedArray[i][j]){
         //fill text with offsets
-        ctx.fillText(nestedArray[i][j], j * 5 + 25, i * 10 + 25)
+        ctx.fillText(nestedArray[i][j], j * 5 + 25 , i * 10 + 25)
         console.log({j}, {i})
         }else{
           continue
@@ -106,7 +109,8 @@
     
     
     function drawCursor(x,y){
-        if(x === 65){
+        //28 tiles times 5 is 140
+        if(x === HOFFSET + 140){
           if(x == HOFFSET + (WIDTH * 5))
           x = 0 + HOFFSET;
           console.log("y1: ", y)
@@ -118,8 +122,8 @@
         console.log("y: ", y)
         ctx.fillText('_', x - 5, y)
       }
-      let horizontalCursorPosition = 0
-      let verticalCursorPosition = 0
+      let horizontalCursorPosition = 3*5
+      let verticalCursorPosition = 8*10
       let gKey = ''
       //@let gInsert = false
       
@@ -128,17 +132,23 @@
       //shift, control, tab, escape, backspace
       //Basiclly, an alph-numeric character causes this to happen
       function printCharacter() {
+        //alert("priuntchar")
         let rowIndex = horizontalCursorPosition/5;
         let colIndex = verticalCursorPosition/10;
         ctx.clearRect(0, 0, 300, 300)
         console.log('v ', verticalCursorPosition)
         console.log('h ', horizontalCursorPosition)
-        let key = "Z"
+        //let gKey = "Z"
         console.log("nested array1: ", nestedArray);
         //nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
-        nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
-        //nestedArray = Recursive.moveWords(nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
-        //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        
+        
+        nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5-1, nestedArray, gKey)
+        nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
+        nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        
+        //nestedArray = Recursive. pushWords(true, nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
+
         let checkThis = horizontalCursorPosition/5
         console.log("nested array2: ", nestedArray);
         drawGrid( HEIGHT, WIDTH)
@@ -148,28 +158,45 @@
         )
       }
       
-      
+     
       document.addEventListener('keydown', function (e) {
         gKey = e.key
+       
         if(gKey == 'Enter')
         {
-          //HEIGHT++
-          nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
+
+        window.setInterval(a, 1)
         }
-        else if(gKey == 'Delete')
+        //if(gKey == 'Enter')
+        //{
+        //  //HEIGHT++
+        //  nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
+        //}
+        //else 
+        if(gKey == 'Delete')
         {
           //@let key = ""
             console.log("nested array3: ", nestedArray);
             //4 functions:
-            nestedArray = Recursive.deleteACharacter([], verticalCursorPosition/10, horizontalCursorPosition/5,  nestedArray, true)
+            nestedArray = Recursive.deleteACharacterKickStart([], verticalCursorPosition/10, horizontalCursorPosition/5-1,  nestedArray, true)
             //nestedArray = Recursive.moveWordAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.pullTextBackToTop(true, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-            //nestedArray = Recursive.moveWords(nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
+            //nestedArray = Recursive.pushWords(true, nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
         }
+        
         customBox1.controlInput()
       })
+   
       
+    function a()
+    {
+      //customBox1.controlInput()
+      gKey = "Z"
+      customBox1.controlInput()
+      //CursorMovements.cursorDown()
+      console.log("a function")
+    }
       
       //window.addEventListener('keydown', function (e) {
       //  if (
