@@ -440,9 +440,12 @@ class RecursiveClass {
 
 
   //calls deleteACharacter so that there is only one cursor and grid used
-  deleteCharacterKickStart(){[], verticalCursorPosition/10, horizontalCursorPosition/5-1,  nestedArray, true
+  deleteACharacterKickStart(remainder, rowIndex, columnIndex,  originalArr, IsFirstRun){
 
-
+    let array = []
+    array = this.deleteACharacter(remainder, rowIndex, columnIndex,  originalArr, IsFirstRun)
+    this.DisplayGridAndCursor()
+    return array
   }
 
   
@@ -486,8 +489,9 @@ class RecursiveClass {
 
    //check for cursor within the leftword
     if((originalArr[rowIndex][columnIndex+2] != "-") &&  (originalArr[rowIndex][columnIndex+2] != "") && (originalArr[rowIndex][columnIndex] != "-") &&(originalArr[rowIndex][columnIndex] != "" )){
-        originalArr[rowIndex][columnIndex + 1] = "-"
-       drawGrid(HEIGHT, WIDTH)
+        originalArr[rowIndex][columnIndex] = "-"
+       //@drawGrid(HEIGHT, WIDTH)
+       horizontalCursorPosition = horizontalCursorPosition - 5
       return originalArr
     }
    
@@ -522,7 +526,7 @@ class RecursiveClass {
    //@from index.html
    this.deleteACharacter( [], rowIndex+1, 0,  originalArr, false)
    
-   drawGrid(HEIGHT, WIDTH)
+   //@drawGrid(HEIGHT, WIDTH)
 
    return originalArr
   }else{
@@ -561,8 +565,8 @@ class RecursiveClass {
     //@    horizontalCursorPosition + HOFFSET,
     //@    verticalCursorPosition + VOFFSET
     //@)
+    //@drawGrid(HEIGHT, WIDTH)
     //recursive call
-    drawGrid(HEIGHT, WIDTH)
     this.deleteACharacter( [], rowIndex+1, 0,  originalArr, false)
     return originalArr 
   }  
@@ -892,7 +896,7 @@ class RecursiveClass {
       drawCursor(
         horizontalCursorPosition + HOFFSET,
         verticalCursorPosition + VOFFSET)
-        return originalArr;
+        //@return originalArr;
 
     }
 
