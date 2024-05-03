@@ -5,6 +5,7 @@ class CustomBoxClass {
     }
     controlInput() {
     console.log("gkey2",gKey);
+    
     if (gKey == 'Shift' || gKey == 'Control' || gKey == 'Tab' || gKey == 'Escape' || gKey == 'Backspace'){
       return;
     }

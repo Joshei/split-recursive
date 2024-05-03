@@ -36,13 +36,13 @@
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["a", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "b" ],
+     ["b", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["c", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["d", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["e", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "b" , "b", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "a" , "b" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "1" , "2" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "2" , "3" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "4" , "5" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ],
@@ -128,7 +128,7 @@
       let gKey = ''
       //@let gInsert = false
       
-      
+      let Flipper = true
       //is not called for cursor movement, enter, delete
       //shift, control, tab, escape, backspace
       //Basiclly, an alph-numeric character causes this to happen
@@ -145,8 +145,12 @@
         
         
         nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5-1, nestedArray, gKey)
-        //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
+        
+        
         //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        drawGrid(HEIGHT, WIDTH)
+        //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
+       
         
         //nestedArray = Recursive. pushWords(true, nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
 
@@ -160,13 +164,13 @@
       }
       
      
-      document.addEventListener('keydown', function (e) {
+      document.addEventListener('keyup', function (e) {
         gKey = e.key
        
         if(gKey == 'Enter')
         {
 
-        window.setInterval(a, 1)
+        //window.setInterval(a, 1)
         }
         //if(gKey == 'Enter')
         //{
@@ -174,7 +178,7 @@
         //  nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
         //}
         //else 
-        if(gKey == 'Delete')
+        else if(gKey == 'Delete')
         {
           //@let key = ""
             console.log("nested array3: ", nestedArray);
@@ -187,15 +191,29 @@
         }
         
         customBox1.controlInput()
+
+
+        //else if (gKey == 'ArrowDown') {
+      //CursorMovements.cursorDown()
+    //}
+    //else if (gKey == 'ArrowUp') {
+    //  CursorMovements.cursorUp()
+    //}
+    //else {
+    //  printCharacter()   
+    //}
+    
+
+
       })
    
       
     function a()
     {
       //customBox1.controlInput()
-      gKey = "Z"
-      customBox1.controlInput()
-      //CursorMovements.cursorDown()
+      //gKey = "Z"
+      //customBox1.controlInput()
+      CursorMovements.cursorDown()
       console.log("a function")
     }
       
