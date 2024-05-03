@@ -78,7 +78,7 @@ class RecursiveClass {
   //if (insertedArr.length <= WIDTH) 
   {
 
-    alert("create row called");
+    //alert("create row called");
     
       //HEIGHT++;
         //delete final row (padding for iterated inserted array, elsewhere.)
@@ -97,14 +97,7 @@ class RecursiveClass {
       //@this.fillNullWithDashOnRow(rowIndex+1, originalArr)
       HEIGHT++ 
     }
-    drawGrid(HEIGHT, WIDTH)
-      horizontalCursorPosition = 0;
-      verticalCursorPosition = verticalCursorPosition + 10;
-    drawCursor(
-      horizontalCursorPosition + HOFFSET,
-      verticalCursorPosition + VOFFSET
-    );
-    
+   
     return originalArr
     //inserted array is greater than one row  
     }
@@ -284,7 +277,7 @@ class RecursiveClass {
         arrayToChange[RowIndex][i] == " " ||
         typeof arrayToChange[RowIndex][i] == "undefined"
       ) {
-        arrayToChange[RowIndex][i] = "X";
+        arrayToChange[RowIndex][i] = "-";
       }
     }
     drawGrid(HEIGHT, WIDTH);
@@ -836,55 +829,10 @@ class RecursiveClass {
   //checks for a single character that is left over from total string
   if(leftOverRemainder[0] != "-" && leftOverRemainder[0] != "" && HEIGHT == verticalCursorPosition/10+1 && horizontalCursorPosition/5 != WIDTH-1)
   {
-    alert("in create")
+    //alert("in create")
     this.createRow(originalArr, leftOverRemainder, rowIndex, colIndex)
     originalArr[rowIndex+1] = leftOverRemainder
     this.fillNullWithDashOnRow(rowIndex+1, originalArr)
-    drawGrid()
-
-    
-    //get left word
-    let lastIndex =  thisIsOneRowOrLess.indexOf("-");
-    let [wordOnLeft, wordOnRight] = this.splitAtIndex(thisIsOneRowOrLess, lastIndex);
-    let lengthOfLeftWord = wordOnLeft.length
-    
-    //calculate remaining space for word
-    let amountOfTopSpaces = 0
-    for (let i = (WIDTH - 1); i >= 0; i--) {
-      if (
-        originalArr[rowIndex][i] == "" ||
-        originalArr[rowIndex][i] == " " ||
-        originalArr[rowIndex][i] == "-"
-      ) {
-        amountOfTopSpaces++;
-      }
-      else{
-        break;
-      }
-    }
-
-    //word does fit into top - remove all this
-    if(lengthOfLeftWord <= amountOfTopSpaces)
-    {  
-      let targetOne = originalArr[rowIndex-1]
-      let targetTwo = originalArr[rowIndex]
-
-      let lastIndexRow2 =  targetTwo.indexOf("-");
-      let lastIndexRow1 = targetOne.indexOf("-")
-      let [rowTwoLeftWord, rowTwoWithoutLeftWord] = this.splitAtIndex(targetTwo, lastIndexRow2)
-      let lengthOfRow2LeftWord = rowTwoLeftWord.length
-      let [left, right] = this.splitAtIndex(targetOne, WIDTH - lastIndexRow2)
-
-      let newRowOne = [...left, ...rowTwoLeftWord ]
-      lengthOfRow2LeftWord = rowTwoLeftWord.length
-      for(let i = 0 ; i < lengthOfRow2LeftWord ; i++)
-      {
-        rowTwoLeftWord[i] = "C"
-      }
-      originalArr[rowIndex-1] = newRowOne
-      originalArr[rowIndex+1] = ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-      originalArr[rowIndex+1] = leftOverRemainder
-    }
   }
 
   //checks to see if all lines are moved, depends on last character or row
