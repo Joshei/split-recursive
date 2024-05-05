@@ -36,12 +36,12 @@
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["a", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "b" ],
-     ["b", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["c", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["d", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["e", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "e" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "f" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "g" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
@@ -144,11 +144,11 @@
         //nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
         
         
-        nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5-1, nestedArray, gKey)
+        nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
         
         
         //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-        drawGrid(HEIGHT, WIDTH)
+        
         //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
        
         
@@ -156,11 +156,7 @@
 
         let checkThis = horizontalCursorPosition/5
         console.log("nested array2: ", nestedArray);
-        drawGrid( HEIGHT, WIDTH)
-        drawCursor(
-          horizontalCursorPosition + HOFFSET ,
-          verticalCursorPosition + VOFFSET
-        )
+        Recursive.displayGridAndCursor()
       }
       
      
@@ -188,6 +184,8 @@
             //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray =  Recursive.pullTextBackToTop(true, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
             //nestedArray = Recursive.pushWords(true, nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
+            Recursive.displayGridAndCursor()
+            
         }
         
         customBox1.controlInput()
@@ -207,15 +205,7 @@
 
       })
    
-      
-    function a()
-    {
-      //customBox1.controlInput()
-      //gKey = "Z"
-      //customBox1.controlInput()
-      CursorMovements.cursorDown()
-      console.log("a function")
-    }
+    
       
       //window.addEventListener('keydown', function (e) {
       //  if (
