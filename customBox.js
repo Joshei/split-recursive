@@ -10,16 +10,6 @@ class CustomBoxClass {
       return;
     }
     
-    //@if (gKey ==  'Insert') {
-    //@  gInsert = !gInsert
-    //@  if (gInsert) {
-    //@    insertOn.innerHTML = 'Insert On'
-    //@  } else {
-    //@    insertOn.innerHTML = 'Insert Off'
-    //@  }
-    //@  return;
-    //@}
-    
     
     if (gKey == 'Delete') {
     }
@@ -33,7 +23,9 @@ class CustomBoxClass {
       CursorMovements.cursorDown()
     } else if (gKey == 'Enter') {
     } else {
-      printCharacter()   
+      //const timer = setTimeout(printCharacter, 1)
+      //const timer2 = setTimeout(this.delay, 1)
+      //printCharacter()   
     }
       
     xAndY.innerHTML =
@@ -43,4 +35,10 @@ class CustomBoxClass {
       (verticalCursorPosition/10 )
       return
     }
-}
+
+  delay(){
+
+  }
+  }
+
+

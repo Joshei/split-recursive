@@ -100,7 +100,7 @@ class RecursiveClass {
       {
         //delete final row (padding for iterated inserted array, elsewhere.)
         //delete final row (padding for iterated inserted array, elsewhere.)
-        this.deleteRow(originalArr, rowIndex) 
+        this.deleteRow(originalArr, rowIndex+1) 
         //originalArr[rowIndex][0] = "A"
         originalArr.push(["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ]),
       
@@ -748,138 +748,21 @@ class RecursiveClass {
     return originalArr;
     }
   
-  recursiveFunctionInsert(ISOnFIrstCall, rowIndex, colIndex, originalArr, leftOverChars)
-  { 
-    //drawGrid(HEIGHT, WIDTH)
-    //bails out of recursion
-    if(rowIndex > HEIGHT - 1)
-    {
-      return originalArr
-    }
-    //creates row if row is last row and there is not an empty character at end of row
-    if (this.GCreateRowFlag == true && (rowIndex === HEIGHT-1)  && (originalArr[rowIndex][WIDTH-1] !== "-") )
-    //if there is a character in last position and a key press in the row, than create another row
-    {
-      this.GCreateRowFlag = false
-      this.makeExtraRowForInsert(ISOnFIrstCall, rowIndex, colIndex, originalArr,  leftOverChars)
-    }
-    this.GCreateRowFlag = true
-    //there are two rows, top and lower
-    let topRow = originalArr[rowIndex-1];
-    let lowerRow = originalArr[rowIndex]
-    let topRowWithAdditionalCharacter = [...topRow, ...leftOverChars]
-    let lastindex =  topRowWithAdditionalCharacter.lastIndexOf("-");
-    let [theRest, letter] = this.splitAtIndex(topRowWithAdditionalCharacter, lastindex + 1 )
-    let combine = [...letter, ...lowerRow] 
-    //splits string at the width, so will fit on one row, and rest is set to remainder.
-    let [thisIsOneRowOrLessOfTopRow, leftOverRemainderCharTop] = this.splitAtIndex(combine, WIDTH);
-    originalArr[rowIndex] = thisIsOneRowOrLessOfTopRow;
-    let firstIndex =  thisIsOneRowOrLessOfTopRow.indexOf("-");
-    this.recursiveFunctionInsert2(thisIsOneRowOrLessOfTopRow, rowIndex+1, colIndex, originalArr,  leftOverRemainderCharTop)
+  
+
+ displayGridAndCursor(){
+  drawGrid(HEIGHT, WIDTH)
+  drawCursor(
+    horizontalCursorPosition + HOFFSET,
+    verticalCursorPosition + VOFFSET)
   }
 
-  //this is main recursion for insert text
-  recursiveFunctionInsert2(thisIsOneRowOrLessTop, rowIndex, colIndex, originalArr,  leftOverChar)
-  {
-    ///bails out
-    if(rowIndex > HEIGHT - 1)
-    {
-      return originalArr
-    }
-
-        
-    if(rowIndex >  HEIGHT - 1 && originalArr[rowIndex][WIDTH-1] != "-" && !this.HasBeenCalled)
-    {
-      
-        this.createRow2(originalArr, [], rowIndex, colIndex )
-        originalArr[rowIndex][0] = leftOverChar[0]
-        this.HasBeenCalled = true
-        
-
-        //when the last row is entirely dashes, than there was no dash on the row above (final column) so delete the row
-        let Delete = true;
-        for(let i = 0; i < WIDTH; i++){
-          if (originalArr[rowIndex][i] != "-"){
-            Delete = false
-          
-          }
-         
-            
-          if (Delete)
-          {
-          this.deleteRow(originalArr, rowIndex)
-          HEIGHT--
-          
-        }
-
-            
-          }
-
-          return originalArr
-    }
-       
-    
-    
-
-    
-    //two rows, upper and lower
-    let upperRow = originalArr[rowIndex-1]
-    let lowerRow = originalArr[rowIndex]
-    let combinedLowerRow = [...leftOverChar, ...lowerRow]
-    //one rows worth
-    let [width, right] = this.splitAtIndex(combinedLowerRow, WIDTH)
-    originalArr[rowIndex] =  width
-    //@this.DisplayGridAndCursor()
-    //@drawGrid(HEIGHT, WIDTH)
-    //main recursive call
-
-    this.initialInsert(false, rowIndex, colIndex, originalArr, right)
-    //this.recursiveFunctionInsert(false, rowIndex, colIndex, originalArr, right)
-
-    return originalArr
-    //this.initialInsert(false, rowIndex, colIndex, originalArr, right)
-    //this.recursiveFunctionInsert2( thisIsOneRowOrLessTop, rowIndex + 1, colIndex,  originalArr,  right)
-  }
-
-  //called from recursion, makes a new row 
-  makeExtraRowForInsert(IsFirstCallFromIndex, rowIndex, colIndex, originalArr, notUsed)
-  {
-    alert("make extra")
-    
-    //only creates row, on initial insert, not those recursive calls
-    if(IsFirstCallFromIndex){
-    this.createRow(originalArr, [], rowIndex, colIndex) 
-    }
-    //negate creatrow call
-    verticalCursorPosition = verticalCursorPosition - 10
-    //@drawGrid(HEIGHT, WIDTH)
-    //@drawCursor(
-    //@  horizontalCursorPosition + HOFFSET,
-    //@  verticalCursorPosition + VOFFSET
-    //@);
-    
-    //check for insert on the new row
-    this.recursiveFunctionInsert(false, rowIndex+1,colIndex, originalArr, [])
-    return originalArr
-    }
-      
-    displayGridAndCursor()
-    {
-
-      drawGrid(HEIGHT, WIDTH)
-      drawCursor(
-      horizontalCursorPosition + HOFFSET,
-      verticalCursorPosition + VOFFSET)
-      
-     
-    }
-
-    
 
     displayGridAndCursor2()
     {
      
       drawGrid(HEIGHT, WIDTH)
+     
       if (horizontalCursorPosition >= (WIDTH-1)*5){// (WIDTH -1 )*5) {
         //*alert("here")
         horizontalCursorPosition = 0
@@ -907,81 +790,74 @@ class RecursiveClass {
 
 
 
-  initialInsert(IsFromIndex, rowIndex, colIndex, originalArr, leftOverChars)
-  {
-    this.HasBeenCalled = false
-    let DashFlagSet = false
- 
- 
-  if(rowIndex > HEIGHT - 1)
-  {
-     return originalArr
-  }
-
-
-  let targetRow = originalArr[rowIndex];
   
-  let front = []
-  let back = []
-  if(originalArr[rowIndex][colIndex+1] != "-"){
-    [front, back] = this.splitAtIndex(targetRow, colIndex+1);
-  }else{
-  //divide at insert index
-    [front, back] = this.splitAtIndex(targetRow, colIndex );
-  }
+  initialInsert(rowIndex, colIndex, originalArr, leftOverChar){
 
-  let lastIndex =  back.indexOf("-");
-  let [unused, leftWord] = this.splitAtIndex(back, lastIndex + 1);
-  let combinedStringWithRemainder = [...front,  ...leftOverChars, ...back];
-  //splits string at the width, so will fit on one row, and rest is set to remainder.
-  let [thisIsOneRowOrLess, leftOverRemainder] = this.splitAtIndex(combinedStringWithRemainder, WIDTH);
-  //checks for a character at end of row
-  if(originalArr[rowIndex][WIDTH-1] === "-")
-   {
-     DashFlagSet = true
-   }
-  originalArr[rowIndex] = thisIsOneRowOrLess; 
-  //checks for a single character that is left over from total string
-  if(leftOverRemainder[0] != "-" && leftOverRemainder[0] != "" && HEIGHT == verticalCursorPosition/10+1 && horizontalCursorPosition/5 != WIDTH-1)
-  {
-    //alert("in create")
-    //this.createRow(originalArr, leftOverRemainder, rowIndex, colIndex)
-    HEIGHT++
-    originalArr[rowIndex+1] = leftOverRemainder
-    this.fillNullWithDashOnRow(rowIndex+1, originalArr)
-    drawGrid(HEIGHT, WIDTH)
-  }
+    if(rowIndex == HEIGHT - 1  && colIndex == WIDTH-1){
+      originalArr[rowIndex][colIndex] = leftOverChar
+      return originalArr
+    }
 
-  
-  if(colIndex == WIDTH - 2 ){
     
-  }else{
-    this.setXandYPositions();
-  }
-  //horizontalCursorPosition = horizontalCursorPosition + 5
-  //checks to see if all lines are moved, depends on last character or row
-  if(leftOverRemainder[0] == "-" || leftOverRemainder[0] == ""){
-    
-
-    return originalArr
-  } 
-  //situates cursor and grid  
-  
-
-   //checks for an intial call from index
-   if(IsFromIndex === true)
-   {
-    this.recursiveFunctionInsert(true, rowIndex+1 , colIndex, originalArr, leftOverRemainder)
-   }
-  else{
-    this.recursiveFunctionInsert(false, rowIndex+1 , colIndex, originalArr, leftOverRemainder)
-  }
-  
-  return originalArr
-  }
-  
+    this.checkOnLastLineSoCreateRow(originalArr, leftOverChar, rowIndex, colIndex)
+    if(rowIndex > HEIGHT -2){
+      return originalArr
+    }
+   //just move this row right, not next rows
+    let topRow = originalArr[rowIndex];
+    let lowerRow = originalArr[rowIndex+1]
    
+    let [leftTopRow, rightTopRow] = this.splitAtIndex(topRow, colIndex)
+    let combineTopRow = [...leftTopRow, ...leftOverChar, ...rightTopRow]
+    let [finishedTopRow, leftOver] = this.splitAtIndex(combineTopRow, WIDTH)
+    originalArr[rowIndex] = finishedTopRow
+    
+    this.pushRowRight(rowIndex+1, 0, originalArr, leftOver)
+    if(originalArr[rowIndex-1][WIDTH-1] == "-"){
+      return originalArr
+    }
+    horizontalCursorPosition = horizontalCursorPosition + 5
+    return originalArr
   }
+
+  pushRowRight(rowIndex, colIndex, originalArr, leftOverChar){
+   
+    this.checkOnLastLineSoCreateRow(originalArr, leftOverChar, rowIndex, colIndex)
+    if(rowIndex > HEIGHT -1){
+      return originalArr
+    }
+    let topRow = originalArr[(rowIndex-1)];
+    let lowerRow = originalArr[rowIndex]
+    //get last character from top row - goes to beginning of lower row
+    //let topRowLastCharacter = topRow[WIDTH-1]
+    let combineToBottomRow = []
+    if (leftOverChar == "-"){
+      combineToBottomRow = [...lowerRow]
+    }else{
+      combineToBottomRow = [...leftOverChar, ...lowerRow]
+    }
+    let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
+    originalArr[rowIndex] = bottomRowReady
+   
+   
+      this.pushRowRight(rowIndex+1, 0, originalArr, remainingChars)
+      if(originalArr[rowIndex-1][WIDTH-1] == "-"){
+        return originalArr
+      }
+      return originalArr
+    }
+  
+    checkOnLastLineSoCreateRow(originalArr, leftOverChar, rowIndex, colIndex){
+      if (originalArr[rowIndex][WIDTH-1] != "-" && rowIndex == HEIGHT-1){
+        this.createRow(originalArr, leftOverChar, rowIndex, colIndex)
+        horizontalCursorPosition = 5
+        verticalCursorPosition = verticalCursorPosition + 10
+        
+      }
+      return originalArr
+    }
+
+}
 
 
 

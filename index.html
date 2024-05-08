@@ -25,6 +25,8 @@
     </button>
     <div></div>
     <div id="xAndY"></div>
+    <div id="test1"></div>
+
     <script>
 
 
@@ -39,9 +41,9 @@
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "e" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "f" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "g" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
      ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
@@ -79,7 +81,9 @@
       //@var firstLengthOfOverlap = 0
       //@var sencondLengthOfOverlap = 0
   
-    
+     
+
+      
       
     function clearArray() {
         ctx.clearRect(0, 0, 100, 100)
@@ -123,16 +127,63 @@
         ctx.fillText('_', x - 5, y)
         //ctx.fillText('_', x - 0, y)
       }
-      let horizontalCursorPosition = 3*5
-      let verticalCursorPosition = 8*10
+      //let horizontalCursorPosition = 3*5
+      //let verticalCursorPosition = 8*10
+      let horizontalCursorPosition = 0
+      let verticalCursorPosition = 0
       let gKey = ''
       //@let gInsert = false
       
       let Flipper = true
+      let counter = 0
+
+      //Recursive.displayGridAndCursor2()
+      
+      function arrowRight(){
+        //alert("arrow")
+        if(gKey == "ArrowRight")
+        {
+         // alert("arrow2")
+        //CursorMovements.cursorRight()
+        Recursive.displayGridAndCursor2()
+        }
+        return
+
+      }
+
+      var keyState = {}
+      window.addEventListener('keydown', function(e){
+        keyState[e.keyCode || e.which] = true;}, true)
+      
+      window.addEventListener('keyup', function(e){
+      keyState[e.keyCode || e.which] = false;}, true)
+      
+      
+      Recursive.displayGridAndCursor2()
+        
+      
       //is not called for cursor movement, enter, delete
       //shift, control, tab, escape, backspace
       //Basiclly, an alph-numeric character causes this to happen
       function printCharacter() {
+        
+        //right
+        if(keyState[39]){
+          CursorMovements.cursorRight()
+        }
+        //left
+        else if(keyState[37]){
+          CursorMovements.cursorLeft()
+        }
+        //up
+        else if(keyState[38]){
+          CursorMovements.cursorUp()
+        }
+        //down
+        else if(keyState[40]){
+          CursorMovements.cursorDown()
+        }
+
         //alert("priuntchar")
         let rowIndex = horizontalCursorPosition/5;
         let colIndex = verticalCursorPosition/10;
@@ -141,72 +192,45 @@
         console.log('h ', horizontalCursorPosition)
         //let gKey = "Z"
         console.log("nested array1: ", nestedArray);
-        //nestedArray = Recursive.insertClean(true, nestedArray, [gKey], verticalCursorPosition/10, horizontalCursorPosition/5 )
-        
-        
-        nestedArray = Recursive.initialInsert(true, verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
-        
-        
-        //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-        
-        //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
        
+        //nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
+        //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
         
-        //nestedArray = Recursive. pushWords(true, nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
+        setTimeout(printCharacter, 1)
+        Recursive.displayGridAndCursor()        
+      }
 
-        let checkThis = horizontalCursorPosition/5
-        console.log("nested array2: ", nestedArray);
-        Recursive.displayGridAndCursor()
+      printCharacter()
+      
+      
+      const test = document.addEventListener('keydown', function (e) {
+
+      gKey = e.key
+      
+      
+      if(gKey == 'Enter')
+      {
+        HEIGHT++
+        nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
       }
       
-     
-      document.addEventListener('keyup', function (e) {
-        gKey = e.key
-       
-        if(gKey == 'Enter')
-        {
-
-        //window.setInterval(a, 1)
-        }
-        //if(gKey == 'Enter')
-        //{
-        //  //HEIGHT++
-        //  nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
-        //}
-        //else 
-        else if(gKey == 'Delete')
-        {
-          //@let key = ""
-            console.log("nested array3: ", nestedArray);
-            //4 functions:
-            nestedArray = Recursive.deleteACharacterKickStart([], verticalCursorPosition/10, horizontalCursorPosition/5-1,  nestedArray, true)
-            //nestedArray = Recursive.moveWordAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
-            //nestedArray =  Recursive.moveAllWordsAcrossBorder(nestedArray, [], verticalCursorPosition/10, horizontalCursorPosition/5)
-            //nestedArray =  Recursive.pullTextBackToTop(true, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-            //nestedArray = Recursive.pushWords(true, nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition/5)
-            Recursive.displayGridAndCursor()
-            
-        }
+      else if(gKey == 'Delete')
+      {
         
-        customBox1.controlInput()
-
-
-        //else if (gKey == 'ArrowDown') {
-      //CursorMovements.cursorDown()
-    //}
-    //else if (gKey == 'ArrowUp') {
-    //  CursorMovements.cursorUp()
-    //}
-    //else {
-    //  printCharacter()   
-    //}
-    
-
-
-      })
+          console.log("nested array3: ", nestedArray);
+          //4 functions:
+          nestedArray = Recursive.deleteACharacterKickStart([], verticalCursorPosition/10, horizontalCursorPosition/5-1,  nestedArray, true)
+          //nestedArray =  Recursive.pullTextBackToTop(true, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+          //nestedArray = Recursive.pushWords(true, nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition   
+      }
+    })
    
-    
       
+
+      
+    
+    
       //window.addEventListener('keydown', function (e) {
       //  if (
       //    ['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(
