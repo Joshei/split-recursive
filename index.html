@@ -134,22 +134,9 @@
       let gKey = ''
       //@let gInsert = false
       
-      let Flipper = true
+      
       let counter = 0
 
-      //Recursive.displayGridAndCursor2()
-      
-      function arrowRight(){
-        //alert("arrow")
-        if(gKey == "ArrowRight")
-        {
-         // alert("arrow2")
-        //CursorMovements.cursorRight()
-        Recursive.displayGridAndCursor2()
-        }
-        return
-
-      }
 
       var keyState = {}
       window.addEventListener('keydown', function(e){
@@ -162,10 +149,25 @@
       Recursive.displayGridAndCursor2()
         
       
-      //is not called for cursor movement, enter, delete
-      //shift, control, tab, escape, backspace
-      //Basiclly, an alph-numeric character causes this to happen
+      let lastTime = 0
+      let running = true
+      const maxFPS = 1.0
+      const maxPeriod = 1.0 / maxFPS
+      let time = 0.0
+      let deltaTime = 0.0 
+     
       function printCharacter() {
+      
+
+        //requestAnimationFrame(printCharacter)
+        time =  performance.now()
+        deltaTime = time - lastTime
+
+        //alert("1")
+        if(true){//deltaTime >= maxPeriod){
+        //alert("2")
+        lastTime = time
+       
         
         //right
         if(keyState[39]){
@@ -187,19 +189,20 @@
         //alert("priuntchar")
         let rowIndex = horizontalCursorPosition/5;
         let colIndex = verticalCursorPosition/10;
-        ctx.clearRect(0, 0, 300, 300)
-        console.log('v ', verticalCursorPosition)
-        console.log('h ', horizontalCursorPosition)
-        //let gKey = "Z"
-        console.log("nested array1: ", nestedArray);
-       
+        //ctx.clearRect(0, 0, 300, 300)
+        
         //nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
         //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
         //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
         
+        
         setTimeout(printCharacter, 1)
         Recursive.displayGridAndCursor()        
+       
+      }else{
+        return
       }
+    }
 
       printCharacter()
       
@@ -212,7 +215,10 @@
       if(gKey == 'Enter')
       {
         HEIGHT++
-        nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
+        //nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
+        const t0 = performance.now()
+        let a = pausehere
+      
       }
       
       else if(gKey == 'Delete')
