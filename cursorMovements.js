@@ -10,6 +10,10 @@ class CursorMovementsClass {
       
     }
     cursorLeft() {
+      if(horizontalCursorPosition/5 <= 0 && verticalCursorPosition/10 <= 0)
+      {
+        return
+      }
       if (horizontalCursorPosition <= 0) {
         horizontalCursorPosition = (WIDTH-1)*5
         verticalCursorPosition = verticalCursorPosition - 10

@@ -20,15 +20,15 @@
       height="240"
       style="border: 1px solid #550233"
     > </canvas>
-    <button id="button6" onclick="TextArea.displayTextBoxCopy()">
-      Display Text
-    </button>
-    <div></div>
     <div id="xAndY"></div>
-    <div id="test1"></div>
+    <div id="speedAdjust"></div>
 
     <script>
 
+      speedAdjust.innerHTML =
+      `Cursor speed: 100%` 
+        
+      
 
     // The grid, last row is a padding for recursion. 
     let nestedArray = [
@@ -76,6 +76,7 @@
       ctx.textBaseline = 'middle'
       var x = size / 2
       var y = size / 2
+      let adjustableSpeed = 200
       //@var indexOfXForLineBeforeLastRowSpace = 0
       //@var lastIndexValueForInsert = -1
       //@var firstLengthOfOverlap = 0
@@ -167,8 +168,6 @@
         if(true){//deltaTime >= maxPeriod){
         //alert("2")
         lastTime = time
-       
-        
         //right
         if(keyState[39]){
           CursorMovements.cursorRight()
@@ -196,7 +195,7 @@
         //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
         
         
-        setTimeout(printCharacter, 1)
+        setTimeout(printCharacter, 200 - adjustableSpeed)
         Recursive.displayGridAndCursor()        
        
       }else{
@@ -211,8 +210,30 @@
 
       gKey = e.key
       
+      if(gKey == '+'){
+      //alert("plus");
+      if(adjustableSpeed >= 200){
+        adjustableSpeed = 200}
+      else{
+        adjustableSpeed++
+      }
+      speedAdjust.innerHTML =
+      `Cursor speed: ${(adjustableSpeed*.5)}%   ` 
+      }
       
-      if(gKey == 'Enter')
+      
+      else if(gKey == '-'){
+      if(adjustableSpeed <= 0){
+        adjustableSpeed = 0}
+      else{
+      adjustableSpeed--
+      }
+      speedAdjust.innerHTML =
+      `Cursor speed: ${(adjustableSpeed*.5)}%   ` 
+        
+      }
+
+      else if(gKey == 'Enter')
       {
         HEIGHT++
         //nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
@@ -223,7 +244,7 @@
       
       else if(gKey == 'Delete')
       {
-        
+        alert("delete")
           console.log("nested array3: ", nestedArray);
           //4 functions:
           nestedArray = Recursive.deleteACharacterKickStart([], verticalCursorPosition/10, horizontalCursorPosition/5-1,  nestedArray, true)
