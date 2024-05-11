@@ -431,6 +431,7 @@ class RecursiveClass {
       //@);
       //@return originalArr;
     }
+    
 
     //@drawGrid(HEIGHT, WIDTH);
     //alert("here")
@@ -793,6 +794,9 @@ class RecursiveClass {
   
   initialInsert(rowIndex, colIndex, originalArr, leftOverChar){
 
+    //alert("here");
+    //return(originalArr)
+    //can't insert on last character of array, just changes the character
     if(rowIndex == HEIGHT - 1  && colIndex == WIDTH-1){
       originalArr[rowIndex][colIndex] = leftOverChar
       return originalArr
@@ -803,19 +807,25 @@ class RecursiveClass {
     if(rowIndex > HEIGHT -2){
       return originalArr
     }
-   //just move this row right, not next rows
+    //these are the two lines we are using
     let topRow = originalArr[rowIndex];
     let lowerRow = originalArr[rowIndex+1]
    
-    let [leftTopRow, rightTopRow] = this.splitAtIndex(topRow, colIndex)
+    let [leftTopRow, rightTopRow] = this.splitAtIndex(topRow, colIndex+1)
+    //insert character at index
     let combineTopRow = [...leftTopRow, ...leftOverChar, ...rightTopRow]
+    //this is one row, exactly, because of WIDTH
     let [finishedTopRow, leftOver] = this.splitAtIndex(combineTopRow, WIDTH)
+    //set row
     originalArr[rowIndex] = finishedTopRow
-    
+    //push rows right because of insert
     this.pushRowRight(rowIndex+1, 0, originalArr, leftOver)
-    if(originalArr[rowIndex-1][WIDTH-1] == "-"){
+    //if there is a dash on the row, there is no character on last column
+    //so there is  no push than, bail out, we're done
+    if(rowIndex == 0 ||originalArr[rowIndex-1][WIDTH-1] == "-"   ){
       return originalArr
     }
+    //change this for cursor 
     horizontalCursorPosition = horizontalCursorPosition + 5
     return originalArr
   }
@@ -826,30 +836,39 @@ class RecursiveClass {
     if(rowIndex > HEIGHT -1){
       return originalArr
     }
+    //two rows were using for push
     let topRow = originalArr[(rowIndex-1)];
     let lowerRow = originalArr[rowIndex]
     //get last character from top row - goes to beginning of lower row
     //let topRowLastCharacter = topRow[WIDTH-1]
     let combineToBottomRow = []
+    //this is a pass of a dash, which will mean that the former row ends with a dash
     if (leftOverChar == "-"){
       combineToBottomRow = [...lowerRow]
     }else{
       combineToBottomRow = [...leftOverChar, ...lowerRow]
     }
+    //one row, exactly, because of WIDTH
     let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
     originalArr[rowIndex] = bottomRowReady
    
-   
-      this.pushRowRight(rowIndex+1, 0, originalArr, remainingChars)
-      if(originalArr[rowIndex-1][WIDTH-1] == "-"){
-        return originalArr
-      }
+    //push next row to right(one position)  recursion
+    this.pushRowRight(rowIndex+1, 0, originalArr, remainingChars)
+    //above row has a dash which means there was no character for advancing (this will be null)
+    //so were all done with this function
+    if(originalArr[rowIndex-1][WIDTH-1] == "-"){
       return originalArr
+    }
+    return originalArr
     }
   
     checkOnLastLineSoCreateRow(originalArr, leftOverChar, rowIndex, colIndex){
+      //if we are on the last line and there is a character on rightmost character
+      //create a row
       if (originalArr[rowIndex][WIDTH-1] != "-" && rowIndex == HEIGHT-1){
         this.createRow(originalArr, leftOverChar, rowIndex, colIndex)
+        //reposition cursor and grid
+
         horizontalCursorPosition = 5
         verticalCursorPosition = verticalCursorPosition + 10
         

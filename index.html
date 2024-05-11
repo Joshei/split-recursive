@@ -24,9 +24,9 @@
     <div id="speedAdjust"></div>
 
     <script>
-
+      const MAXSPEED = 200
       speedAdjust.innerHTML =
-      `Cursor speed: 100%` 
+      `Cursor speed: ${MAXSPEED}` 
         
       
 
@@ -76,7 +76,7 @@
       ctx.textBaseline = 'middle'
       var x = size / 2
       var y = size / 2
-      let adjustableSpeed = 200
+      let adjustableSpeed = MAXSPEED
       //@var indexOfXForLineBeforeLastRowSpace = 0
       //@var lastIndexValueForInsert = -1
       //@var firstLengthOfOverlap = 0
@@ -94,7 +94,7 @@
       }
 
 
-    //function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
+    
     function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
         clearArray()
         ctx.fillStyle = 'black'
@@ -126,112 +126,140 @@
         ctx.fillStyle = 'red'
         console.log("y: ", y)
         ctx.fillText('_', x - 5, y)
-        //ctx.fillText('_', x - 0, y)
+        
       }
       //let horizontalCursorPosition = 3*5
       //let verticalCursorPosition = 8*10
       let horizontalCursorPosition = 0
       let verticalCursorPosition = 0
       let gKey = ''
+      let key = ""
       //@let gInsert = false
       
       
       let counter = 0
+      
 
 
       var keyState = {}
-      window.addEventListener('keydown', function(e){
-        keyState[e.keyCode || e.which] = true;}, true)
-      
-      window.addEventListener('keyup', function(e){
-      keyState[e.keyCode || e.which] = false;}, true)
-      
-      
-      Recursive.displayGridAndCursor2()
+      document.addEventListener('keydown', function(e){
         
+        keyState[e.keyCode || e.which] = true;
+        gKey = e.key
+        
+        }, true)
       
-      let lastTime = 0
-      let running = true
-      const maxFPS = 1.0
-      const maxPeriod = 1.0 / maxFPS
-      let time = 0.0
-      let deltaTime = 0.0 
-     
-      function printCharacter() {
-      
-
-        //requestAnimationFrame(printCharacter)
-        time =  performance.now()
-        deltaTime = time - lastTime
-
-        //alert("1")
-        if(true){//deltaTime >= maxPeriod){
-        //alert("2")
-        lastTime = time
-        //right
-        if(keyState[39]){
-          CursorMovements.cursorRight()
-        }
-        //left
-        else if(keyState[37]){
-          CursorMovements.cursorLeft()
-        }
-        //up
-        else if(keyState[38]){
-          CursorMovements.cursorUp()
-        }
-        //down
-        else if(keyState[40]){
-          CursorMovements.cursorDown()
-        }
-
-        //alert("priuntchar")
-        let rowIndex = horizontalCursorPosition/5;
-        let colIndex = verticalCursorPosition/10;
-        //ctx.clearRect(0, 0, 300, 300)
-        
-        //nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
-        //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-        //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
-        
-        
-        setTimeout(printCharacter, 200 - adjustableSpeed)
-        Recursive.displayGridAndCursor()        
+      document.addEventListener('keyup', function(e){
        
-      }else{
-        return
+      keyState[e.keyCode || e.which] = false;
+      //gKey = e.key
+     
+      }, true)
+      
+     function wait(){
+
+      if(gKey !== "ArrowRight" && gKey !== "ArrowLeft" && gKey !== "ArrowUp" && gKey !== "ArrowDown")
+      {
+        nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
+        nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
       }
+      return
     }
 
-      printCharacter()
-      
-      
-      const test = document.addEventListener('keydown', function (e) {
+    function dummy(){
 
-      gKey = e.key
-      
-      if(gKey == '+'){
-      //alert("plus");
-      if(adjustableSpeed >= 200){
-        adjustableSpeed = 200}
+    }
+
+    function pressedAdd(){
+      if(adjustableSpeed >= MAXSPEED){
+      adjustableSpeed = MAXSPEED}
       else{
-        adjustableSpeed++
+      adjustableSpeed++
       }
       speedAdjust.innerHTML =
-      `Cursor speed: ${(adjustableSpeed*.5)}%   ` 
-      }
-      
-      
-      else if(gKey == '-'){
+      `Cursor speed: ${(adjustableSpeed*.5)}%   `
+    }
+
+    function pressedSubtract(){
       if(adjustableSpeed <= 0){
-        adjustableSpeed = 0}
+      adjustableSpeed = 0}
       else{
       adjustableSpeed--
       }
       speedAdjust.innerHTML =
       `Cursor speed: ${(adjustableSpeed*.5)}%   ` 
+    }
+     
+      function printCharacter() {
+
+      let flagForCursor = false
+      
+
+      if(keyState[107]){
+      pressedAdd()
+      }
+      else if(keyState[109]){
+      pressedSubtract()
+      }
+   
+      else if(keyState[39]){
+        
+        CursorMovements.cursorRight()
+        //flagForCursor = true
         
       }
+      else if(keyState[37]){
+        CursorMovements.cursorLeft()
+        //flagForCursor = true
+        
+      }
+      //up
+      else if(keyState[38]){
+        CursorMovements.cursorUp()
+       
+      }
+      //down
+      else if(keyState[40]){
+        CursorMovements.cursorDown()
+       
+      }
+      //keyjs.dev
+      else if(gKey >= 0 && gKey <= 9){
+        //alert("gKey")
+        wait()
+        gKey = ""
+      
+      }
+
+        setTimeout(dummy, 2) 
+        //Recursive.displayGridAndCursor()  
+        //return
+
+       
+
+      
+        
+        let rowIndex = horizontalCursorPosition/5;
+        let colIndex = verticalCursorPosition/10;
+        //ctx.clearRect(0, 0, 300, 300)
+        
+
+        
+
+        //nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
+        //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
+        Recursive.displayGridAndCursor()  
+        setTimeout(printCharacter, MAXSPEED - adjustableSpeed)
+        }  
+  
+
+      printCharacter()
+      
+/*      
+
+      const test = document.addEventListener('keydown', function (e) {
 
       else if(gKey == 'Enter')
       {
@@ -253,7 +281,7 @@
       }
     })
    
-      
+*/  
 
       
     
