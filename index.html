@@ -1,4 +1,4 @@
-<html lang="en">
+0<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -24,9 +24,9 @@
     <div id="speedAdjust"></div>
 
     <script>
-      const MAXSPEED = 200
+      const MAXSPEED = 190
       speedAdjust.innerHTML =
-      `Cursor speed: ${MAXSPEED}` 
+      `Cursor speed: 100%` 
         
       
 
@@ -76,12 +76,13 @@
       ctx.textBaseline = 'middle'
       var x = size / 2
       var y = size / 2
-      let adjustableSpeed = MAXSPEED
+      let adjustableSpeed = 0
       //@var indexOfXForLineBeforeLastRowSpace = 0
       //@var lastIndexValueForInsert = -1
       //@var firstLengthOfOverlap = 0
       //@var sencondLengthOfOverlap = 0
-  
+      const variable = [
+        {code:65, value:'a'}, {code:66, value:'b'}, {code:67, value:'c'}, {code:68, value:'d'}, {code:69, value:'e'}, {code:70, value:'f'}, {code:71, value:'g'}, {code:72, value:'h'}, {code:73, value:'i'}, {code:74, value:'j'}, {code:75, value:'k'}, {code:76, value:'l'}, {code:77, value:'m'}, {code:78, value:'n'}, {code:79, value:'o'}, {code:80, value:'p'}, {code:81, value:'q'}, {code:82, value:'r'}, {code:83, value:'s'}, {code:84, value:'t'}, {code:85, value:'u'}, {code:86, value:'v'}, {code:87, value:'w'}, {code:88, value:'x'}, {code:89, value:'y'}, {code:90, value:'z'}  ]
      
 
       
@@ -142,27 +143,31 @@
 
 
       var keyState = {}
+      let variableForMaking = ""
       document.addEventListener('keydown', function(e){
         
         keyState[e.keyCode || e.which] = true;
-        gKey = e.key
+        variableForMaking = e.keyCode
+        //gKey = e.key
         
         }, true)
       
       document.addEventListener('keyup', function(e){
        
       keyState[e.keyCode || e.which] = false;
-      //gKey = e.key
+      variableForMaking = e.keyCode
+      gKey = e.key
      
       }, true)
       
      function wait(){
 
+      alert(gKey)
       if(gKey !== "ArrowRight" && gKey !== "ArrowLeft" && gKey !== "ArrowUp" && gKey !== "ArrowDown")
       {
-        nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
-        nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-        nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
+        //nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
+        //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+        //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
       }
       return
     }
@@ -171,6 +176,10 @@
 
     }
 
+
+
+    /////////////////WORKING HERE, SETTING TIMER STUFF//////////////    190 and 200
+
     function pressedAdd(){
       if(adjustableSpeed >= MAXSPEED){
       adjustableSpeed = MAXSPEED}
@@ -178,7 +187,7 @@
       adjustableSpeed++
       }
       speedAdjust.innerHTML =
-      `Cursor speed: ${(adjustableSpeed*.5)}%   `
+      `Cursor speed: ${(MAXSPEED  - adjustableSpeed)}%   `
     }
 
     function pressedSubtract(){
@@ -188,73 +197,55 @@
       adjustableSpeed--
       }
       speedAdjust.innerHTML =
-      `Cursor speed: ${(adjustableSpeed*.5)}%   ` 
+      `Cursor speed: ${(MAXSPEED + adjustableSpeed)}%   ` 
     }
      
       function printCharacter() {
 
       let flagForCursor = false
-      
-
       if(keyState[107]){
       pressedAdd()
       }
       else if(keyState[109]){
       pressedSubtract()
       }
-   
+      //right
       else if(keyState[39]){
         
         CursorMovements.cursorRight()
-        //flagForCursor = true
-        
       }
+      //left
       else if(keyState[37]){
         CursorMovements.cursorLeft()
-        //flagForCursor = true
         
       }
       //up
       else if(keyState[38]){
         CursorMovements.cursorUp()
-       
       }
       //down
       else if(keyState[40]){
         CursorMovements.cursorDown()
-       
+      } 
+      else if(keyState[variableForMaking]){
+      let keyOfArray = variable.find(o =>  o.code === variableForMaking)
+      if(keyOfArray === undefined){
       }
-      //keyjs.dev
-      else if(gKey >= 0 && gKey <= 9){
-        //alert("gKey")
-        wait()
-        gKey = ""
-      
+      else{
+      gKey = keyOfArray.value
+      Recursive.test(gKey, nestedArray, verticalCursorPosition/10)
       }
-
-        setTimeout(dummy, 2) 
-        //Recursive.displayGridAndCursor()  
-        //return
-
-       
-
-      
-        
-        let rowIndex = horizontalCursorPosition/5;
-        let colIndex = verticalCursorPosition/10;
-        //ctx.clearRect(0, 0, 300, 300)
-        
-
-        
-
-        //nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
-        //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-        //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
-        Recursive.displayGridAndCursor()  
-        setTimeout(printCharacter, MAXSPEED - adjustableSpeed)
-        }  
-  
-
+      }
+      setTimeout(dummy, 2) 
+      let rowIndex = horizontalCursorPosition/5;
+      let colIndex = verticalCursorPosition/10;
+      //ctx.clearRect(0, 0, 300, 300)
+      //nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
+      //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+      //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
+      Recursive.displayGridAndCursor()  
+      setTimeout(printCharacter, MAXSPEED - adjustableSpeed)
+      }  
       printCharacter()
       
 /*      

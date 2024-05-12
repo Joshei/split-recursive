@@ -876,7 +876,22 @@ class RecursiveClass {
       return originalArr
     }
 
+    ////
+
+    test(key, originalArr , index){
+      //alert("test")
+    horizontalCursorPosition = horizontalCursorPosition + 5
+    originalArr[index][horizontalCursorPosition/5] = key
+    
+    this.displayGridAndCursor2
+  }
+
+    ////
+
+
 }
+
+  
 
 
 
