@@ -18,6 +18,7 @@ class CursorMovementsClass {
         horizontalCursorPosition = (WIDTH-1)*5
         verticalCursorPosition = verticalCursorPosition - 10
         
+        
       }
       else{
         horizontalCursorPosition = horizontalCursorPosition - 5
@@ -44,3 +45,5 @@ class CursorMovementsClass {
       
     }
   }
+
+  

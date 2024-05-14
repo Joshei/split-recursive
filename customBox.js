@@ -27,18 +27,19 @@ class CustomBoxClass {
       //const timer2 = setTimeout(this.delay, 1)
       //printCharacter()   
     }
-      
-    xAndY.innerHTML =
-        'X: ' +
-        (horizontalCursorPosition/5) +
-        '  &nbsp&nbsp&nbsp   Y: ' +
-      (verticalCursorPosition/10 )
-      return
+    
     }
 
-  delay(){
+      
+    
 
-  }
+ 
   }
 
+  xAndY.innerHTML =
+  'X: ' +
+  (horizontalCursorPosition/5) +
+  '  &nbsp&nbsp&nbsp   Y: ' +
+  (verticalCursorPosition/10 )
+  
 
