@@ -36,10 +36,5 @@ class CustomBoxClass {
  
   }
 
-  xAndY.innerHTML =
-  'X: ' +
-  (horizontalCursorPosition/5) +
-  '  &nbsp&nbsp&nbsp   Y: ' +
-  (verticalCursorPosition/10 )
-  
+ 
 

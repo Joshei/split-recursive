@@ -762,7 +762,7 @@ class RecursiveClass {
     displayGridAndCursor2()
     {
      
-      drawGrid(HEIGHT, WIDTH)
+     
      
       if (horizontalCursorPosition >= (WIDTH-1)*5){// (WIDTH -1 )*5) {
         //*alert("here")
@@ -771,9 +771,12 @@ class RecursiveClass {
       }else{
         horizontalCursorPosition = horizontalCursorPosition + 5
       }
+      drawGrid(HEIGHT, WIDTH)
       drawCursor(
       horizontalCursorPosition + HOFFSET,
       verticalCursorPosition + VOFFSET)
+
+      return
     
     }
 
@@ -794,6 +797,12 @@ class RecursiveClass {
   
   initialInsert(rowIndex, colIndex, originalArr, leftOverChar){
 
+    ///THIS IS TEMPORARY CODE - will it function here? 
+    let horizString =  (horizontalCursorPosition/5).toString()
+    let vertString = (verticalCursorPosition/10).toString() 
+    let a = document.getElementById("xAndY")
+    a.innerHTML = 'Horizontal: ' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
+    
     //alert("here");
     //return(originalArr)
     //can't insert on last character of array, just changes the character
@@ -879,11 +888,20 @@ class RecursiveClass {
     ////
 
     test(key, originalArr , index){
+
+      //right
+      if (keyState[37] || keyState[38] || keyState[39] || keyState[40]){
+        //alert("hello")
+        return originalArr
+      
+      }
       //alert("test")
     horizontalCursorPosition = horizontalCursorPosition + 5
     originalArr[index][horizontalCursorPosition/5] = key
     
-    this.displayGridAndCursor2
+    //setTimeout(this.displayGridAndCursor, 2000)
+
+    return originalArr
   }
 
     ////
@@ -891,6 +909,24 @@ class RecursiveClass {
 
 }
 
+
+/*
+  let down = false
+    document.addEventListener('keydown' , function (e){
+      gKey = e.key
+      if(down) return
+      down = true
+
+      nestedArray = Recursive.test(gKey, nestedArray, verticalCursorPosition/10)
+
+    }, false);
+
+    document.addEventListener('keyup' , function (e){
+      gKey = e.key
+      down = false}, false)
+      */
+
+    
   
 
 
