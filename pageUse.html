@@ -13,23 +13,23 @@
     //isn'r and will have a string less than width
     function initialInsert(rowIndex)
     {
-    let targetRow = originalArr[rowIndex];
+    let targetRow = grid[rowIndex];
     let [front, back] = this.splitAtIndex(targetRow, colIndex);
     let combinedStringWithRemainder = [...front, ...leftoverChars, ...back];
     //splits string at the width, so will fit on one row, and rest is set to remainder.
     let [thisIsOneRowOrLess, leftoverRemainder] = this.splitAtIndex(combine, WIDTH);
 
-    originalArr[rowIndex] = thisIsOneRowOrLess; 
+    grid[rowIndex] = thisIsOneRowOrLess; 
 
     if(combinedStringWithRemainder > WIDTH)
     {
       recursiveFunction(rowIndex)
-      return originalArr
+      return grid
     }
     else
     {
       drawGrid(HEIGHT, WIDTH)
-      return originalArr
+      return grid
       
     }
 
@@ -41,14 +41,14 @@
     function recursiveFunctionInsert(rowIndex){
 
       drawGrid(HEIGHT, WIDTH)
-      let firstRow = originalArr[rowIndex]
-      let secondRow = originalArr[rowIndex+1]
+      let firstRow = grid[rowIndex]
+      let secondRow = grid[rowIndex+1]
       // get row two's first character 
       let rowTwosFirstCharacter = secondRow[rowIndex][0]
       //remove first character of first row   
       let [unUsed, rowOneWithoutFirstCharacter] = this.splitAtIndex(firstRow, 1);
       let thisIsOneRowFinal = [...rowTwosFirstCharacter, ...rowOneWithoutFirstCharacter]
-      originalArr[rowIndex] = thisIsOneRowFinal
+      grid[rowIndex] = thisIsOneRowFinal
       recursiveFunction(rowIndex+1)
     }
 

@@ -7,17 +7,17 @@ function splitAtIndex(arr, index) {
   return [front, back];
 }
 
-let nestedArray = [
+let gridArray = [
   ["h", "e", "l", "l", "o", "-"],
   ["w", "o", "r", "l", "d"],
 ];
-console.log(nestedArray);
+console.log(gridArray);
 
 
 function adjustForWordBreaks(
   frontPart,
   remainder,
-  originalArr,
+  grid,
   rowIndex,
   iteration
 ) {
@@ -30,10 +30,10 @@ function adjustForWordBreaks(
     //if line ends *without* breaking word (front ends with space, or remainder starts with one)
 
     console.log(consolePad, "no word broken on trimmed line");
-    //the front half of that becomes originalArray[rowIndex]
-    originalArr[rowIndex] = frontPart;
+    //the front half of that becomes griday[rowIndex]
+    grid[rowIndex] = frontPart;
     console.log(consolePad, "replace original array row with trimmed line");
-    console.log(consolePad, snapshot(originalArr));
+    console.log(consolePad, snapshot(grid));
     //if there's anything left over, push it into position 0 of the next row
     if (remainder.length > 0) {
       console.log(consolePad, "trimmed line had remainder afterwards");
@@ -47,11 +47,11 @@ function adjustForWordBreaks(
         " !!"
       );
       //make the recursive call to add the remainder to the next line
-      originalArr = insertClean(originalArr, remainder, rowIndex + 1, 0);
+      grid = insertClean(grid, remainder, rowIndex + 1, 0);
       console.log(consolePad, "!! Return to iteration", iteration, "!!");
       console.log(consolePad, "array after inserting remainder:");
-      console.log(consolePad, snapshot(originalArr));
-      return originalArr;
+      console.log(consolePad, snapshot(grid));
+      return grid;
     }
   } else {
 
@@ -69,12 +69,12 @@ function adjustForWordBreaks(
     console.log(consolePad, "trimmed line split at word break:", trimmedLeft);
     console.log(consolePad, "partial word:", wordPart);
     //replace original row with the word-excluded part of the line
-    originalArr[rowIndex] = trimmedLeft;
+    grid[rowIndex] = trimmedLeft;
     console.log(
       consolePad,
       "replace original row with trimmed left part of line"
     );
-    console.log(consolePad, snapshot(originalArr));
+    console.log(consolePad, snapshot(grid));
     //take word fragment, tack it to the beginning of "remainder" array
     let newRemainder = [...wordPart, ...remainder];
     console.log(consolePad, "added word part to remainder");
@@ -90,36 +90,36 @@ function adjustForWordBreaks(
 
     
     //make the recursive call to add the new remainder to the next line
-    originalArr = insertClean(originalArr, newRemainder, rowIndex + 1, 0);
+    grid = insertClean(grid, newRemainder, rowIndex + 1, 0);
     console.log(consolePad, "!! Return to iteration", iteration, "!!");
     console.log(
       consolePad,
       "array after inserting remainder with repaired word"
     );
-    console.log(consolePad, snapshot(originalArr));
-    return originalArr;
+    console.log(consolePad, snapshot(grid));
+    return grid;
   }
 }
 
-function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
+function insertNewArr(grid, insertedArr, rowIndex, colIndex) {
   counter++; //global counter can only ever contain the largest iteration number
   let innerCounter = counter; //locally declared counter is scoped to *this* iteration of the function
   let consolePad = "  ".repeat(innerCounter);
   console.log(consolePad, "-------------");
   console.log(consolePad, "ITERATION ", counter);
   console.log(consolePad, "***!!!start of insertNewArr function!!!***");
-  console.log(consolePad, "--( originalArr");
-  console.log(consolePad, snapshot(originalArr));
+  console.log(consolePad, "--( grid");
+  console.log(consolePad, snapshot(grid));
   console.log(consolePad, "insertedArr");
   console.log(consolePad, insertedArr);
   console.log(consolePad, "row:", rowIndex, "col", colIndex, ")--");
-  let targetRow = originalArr[rowIndex];
+  let targetRow = grid[rowIndex];
 
   if (targetRow) {
     //assuming there's a row here already
     console.log(
       consolePad,
-      "inserting array into an existing row of originalArr"
+      "inserting array into an existing row of grid"
     );
     //split the original row at that index into "front" & "back" pieces
     const [frontPiece, backPiece] = splitAtIndex(targetRow, colIndex);
@@ -135,8 +135,8 @@ function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
 
       console.log(consolePad, "new array fits on one line");
       //overwrite insertedArr[rowIndex] with combined array
-      originalArr[rowIndex] = combinedArr;
-      console.log(consolePad, "after row insertion:", snapshot(originalArr));
+      grid[rowIndex] = combinedArr;
+      console.log(consolePad, "after row insertion:", snapshot(grid));
     } else {
       //new array too long to fit on one line
       console.log(consolePad, "need to split lines");
@@ -148,16 +148,16 @@ function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
       //if(!(trimmedLine.at(-1) == '-' || remainder[0]=='-') ){
 
       //can't make the final recursive call until word adjustments have been made
-      originalArr = adjustForWordBreaks(
+      grid = adjustForWordBreaks(
         trimmedLine,
         remainder,
-        originalArr,
+        grid,
         rowIndex,
         innerCounter
       );
     }
   } else {
-    //adding a whole new row to the end of originalArr
+    //adding a whole new row to the end of grid
     console.log(
       consolePad,
       "adding inserted array to end of new array by creating a new line"
@@ -168,9 +168,9 @@ function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
 
       console.log(consolePad, "new inserted row is within width constraints");
       // push the inserted arr as a new row
-      originalArr.push(insertedArr);
+      grid.push(insertedArr);
       console.log(consolePad, "original array with new inserted line appended");
-      console.log(consolePad, snapshot(originalArr));
+      console.log(consolePad, snapshot(grid));
     } else {
       //new row is too long
 
@@ -186,19 +186,19 @@ function insertNewArr(originalArr, insertedArr, rowIndex, colIndex) {
       );
       console.log(consolePad, remainder);
       //can't make the final recursive call until word adjustments have been made
-      originalArr = adjustForWordBreaks(
+      grid = adjustForWordBreaks(
         nextLine,
         remainder,
-        originalArr,
+        grid,
         rowIndex,
         innerCounter
       );
     }
   }
   console.log(consolePad, "**!!END OF ITERATION ", innerCounter, "!!**");
-  console.log(consolePad, snapshot(originalArr));
+  console.log(consolePad, snapshot(grid));
   console.log(consolePad, "-------------");
-  return originalArr;
+  return grid;
 }
 
 function snapshot(original) {
@@ -210,8 +210,8 @@ function snapshot(original) {
 }
 
 //insert into a clean duplicate bc it's nicer
-function insertClean(originalArray, insertedArray, rowIndex, colIndex) {
-  let newArray = snapshot(originalArray);
+function insertClean(griday, insertedArray, rowIndex, colIndex) {
+  let newArray = snapshot(griday);
 
   return insertNewArr(newArray, insertedArray, rowIndex, colIndex);
 }
@@ -219,7 +219,7 @@ function insertClean(originalArray, insertedArray, rowIndex, colIndex) {
 /* TEST SECTION */
 console.log("insert [x,y,z,'-',l,m,n,o,p] at [0][2]");
 const testArr = insertClean(
-  nestedArray,
+  gridArray,
   ["x", "y", "z", "-", "l", "m", "n", "-", "p", "q"],
   0,
   2

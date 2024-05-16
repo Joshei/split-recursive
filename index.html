@@ -1,19 +1,3 @@
-
-  <SCRIPT>
-  //MAKE SURE DELETE AND ENTER ARE FACTORED
-  //MAKE SURE NUMBERS ARE ADDED TO ARRAY OF OBJECTS
-  //RENAME NESTEDARRAY AND ORIGINALARR
-  //LOOK AT INTIAL VALUE OF ADJUSTABLESPEED
-  //
-  // put fast and slow in the other one key press handler
-  // handler kicks in at 85%
-  // keep cursor in where it is at
-  // move all other presses into test. one key press handler
-  // disregard arrows in test
-
-
- </SCRIPT>
-  
   <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -21,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-<body>
+  <body>
   <script src="cursorMovements.js"></script>
   <script src="customBox.js"></script>
   <script src="recursive.js"></script>
@@ -37,204 +21,131 @@
       style="border: 1px solid #550233"
     > </canvas>
     <div id="xAndY"></div>
-    <div id="speedAdjust"></div>
-    <div id="test"></div>
+  <script>
+  let horizontalCursorPosition = 0
+  let verticalCursorPosition = 0
+  
+  // The grid, last row is a padding for recursion. 
+  let gridArray = [
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ],
+];
 
-    <script>
-     speedAdjust.innerHTML =
-      `Cursor speed: 100%` 
-      let horizontalCursorPosition = 0
-      let verticalCursorPosition = 0
+  //canvas
+  let WIDTH = 28
+  let HEIGHT = 15
+  let ORIGINALHEIGHT = 10
+  const VOFFSET = 25
+  const HOFFSET = 30
+  var canvas = document.getElementById('canvas_id')
+  var insertOn = document.getElementById('insert')
+  let textBox = [[]]
+  let rows = WIDTH
+  let cols = HEIGHT
+  let ctx = canvas.getContext('2d')
+  var size = 220
+  canvas.style.width = size + 'px'
+  canvas.style.height = size + 'px'
+  var scale = window.devicePixelRatio 
+  canvas.width = size * scale
+  canvas.height = size * scale
+  ctx.scale(scale, scale)
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, 800, 800)
+  ctx.fillStyle = '#000000'
+  ctx.font = '10px Monospace'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  var x = size / 2
+  var y = size / 2
+  
+  //clears out grid
+  function clearArray() {
+    ctx.clearRect(0, 0, 100, 100)
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.fillStyle = '#000000'
+  }
+  
+  //draws grid
+  function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
+    clearArray()
+    ctx.fillStyle = 'black'
+    for (let i = 0; i < iValue; i++) {
+    for (let j = 0; j < jValue ; j++) {
+    console.log("na: ", gridArray)
+    if(gridArray && gridArray[i] && gridArray[i][j]){
+    //fill text with offsets
+    ctx.fillText(gridArray[i][j], j * 5 + 25 , i * 10 + 25)
+    console.log({j}, {i})
+    }else{
+      continue
+    }
+    }
+  }
+}
 
-      
-
-    // The grid, last row is a padding for recursion. 
-    let nestedArray = [
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-     ["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ],
-  ];
-      //canvas
-      let WIDTH = 28
-      let HEIGHT = 15
-      let ORIGINALHEIGHT = 10
-      const VOFFSET = 25
-      const HOFFSET = 30
-      var canvas = document.getElementById('canvas_id')
-      var insertOn = document.getElementById('insert')
-      let textBox = [[]]
-      let rows = WIDTH
-      let cols = HEIGHT
-      let ctx = canvas.getContext('2d')
-      var size = 220
-      canvas.style.width = size + 'px'
-      canvas.style.height = size + 'px'
-      var scale = window.devicePixelRatio 
-      canvas.width = size * scale
-      canvas.height = size * scale
-      ctx.scale(scale, scale)
-      ctx.fillStyle = '#ffffff'
-      ctx.fillRect(0, 0, 800, 800)
-      ctx.fillStyle = '#000000'
-      ctx.font = '10px Monospace'
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      var x = size / 2
-      var y = size / 2
-      
-      // slowest rate is .700 of a second, see below!
-      let adjustableSpeed = 0.0 
-      const variable = [
-        {code:65, value:'a'}, {code:66, value:'b'}, {code:67, value:'c'}, {code:68, value:'d'}, {code:69, value:'e'}, {code:70, value:'f'}, {code:71, value:'g'}, {code:72, value:'h'}, {code:73, value:'i'}, {code:74, value:'j'}, {code:75, value:'k'}, {code:76, value:'l'}, {code:77, value:'m'}, {code:78, value:'n'}, {code:79, value:'o'}, {code:80, value:'p'}, {code:81, value:'q'}, {code:82, value:'r'}, {code:83, value:'s'}, {code:84, value:'t'}, {code:85, value:'u'}, {code:86, value:'v'}, {code:87, value:'w'}, {code:88, value:'x'}, {code:89, value:'y'}, {code:90, value:'z'}, 
-        {code:48, value:'0'}, {code:49, value:'1'}, {code:50, value:'2'}, {code:51, value:'3'}, {code:52, value:'4'}, {code:53, value:'5'}, {code:54, value:'6'}, {code:55, value:'7'}, {code:56, value:'8'}, {code:57,value:'9'}] 
+  //draws cursor on grid
+  function drawCursor(x,y){
+    //28 tiles times 5 is 140
+    if(x === HOFFSET + 140){
+      if(x == HOFFSET + (WIDTH * 5))
+      x = 0 + HOFFSET;
+      y =y + 10
+    }
+    ctx.font = '10px Monospace'
+    ctx.fillStyle = 'red'
+    console.log("y: ", y)
+    ctx.fillText('_', x - 5, y)
+    }
+    
+    let gKey = ''
+    var keyState = {}
+    let eventKeyCode = ""
+    let down = false
+    
+    document.body.addEventListener('keydown', function(e){
+    keyState[e.keyCode || e.which] = true;
+    eventKeyCode = e.keyCode
+    gKey = e.key
+    if (down) return
+    down = true
+    //for testing
+    //gridArray = Recursive.test(gKey, gridArray, verticalCursorPosition/10)
+    cursorAndFunctionCalls()
+    }, false)
+    
+    document.addEventListener('keyup', function(e){
+    keyState[e.keyCode || e.which] = false;
+    gKey = e.key
+    //e.repeat= false
+    eventKeyCode = e.keyCode
+    down = false
+    }, false)
      
-      //clears out grid
-      function clearArray() {
-        ctx.clearRect(0, 0, 100, 100)
-        ctx.fillStyle = '#ffffff'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle = '#000000'
-      }
-      //draws grid
-      function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
-        clearArray()
-        ctx.fillStyle = 'black'
-        for (let i = 0; i < iValue; i++) {
-        for (let j = 0; j < jValue ; j++) {
-        console.log("na: ", nestedArray)
-        if(nestedArray && nestedArray[i] && nestedArray[i][j]){
-        //fill text with offsets
-        ctx.fillText(nestedArray[i][j], j * 5 + 25 , i * 10 + 25)
-        console.log({j}, {i})
-        }else{
-          continue
-        }
-        }
-      }
-    }
-    
-    //draws cursor on grid
-    function drawCursor(x,y){
-      //28 tiles times 5 is 140
-      if(x === HOFFSET + 140){
-        if(x == HOFFSET + (WIDTH * 5))
-        x = 0 + HOFFSET;
-        y =y + 10
-      }
-      ctx.font = '10px Monospace'
-      ctx.fillStyle = 'red'
-      console.log("y: ", y)
-      ctx.fillText('_', x - 5, y)
-      }
-
-      let gKey = ''
-      var keyState = {}
-      let eventKeyCode = ""
-
-      let down = false
-      document.body.addEventListener('keydown', function(e){
-        
-      keyState[e.keyCode || e.which] = true;
-      eventKeyCode = e.keyCode
-      gKey = e.key
-      if (down) return
-      down = true
-
-      
-
-        nestedArray = Recursive.test(gKey, nestedArray, verticalCursorPosition/10)
-        printCharacter()
-        
-
-      }, false)
-      
-      document.addEventListener('keyup', function(e){
-       
-      keyState[e.keyCode || e.which] = false;
-      gKey = e.key
-      //e.repeat= false
-      eventKeyCode = e.keyCode
-      down = false
-    
-      }, false)
-      
-    //there is a timeout on this to prevent out of order
-    function wait(){
-    //nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
-    //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-    //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
-    return
-    }
-
-    //this is called to use settimeout, prevent out of order situation
-    function dummy(){
-    }
-
-    let adjuster = 0
-    
-
-    
-    //as adjuster nears zero, the speed increases and percent of cursor speed is closer to 100%
-    function increaseToFast(){
-    //this is limit of speed
-    if(adjustableSpeed <= 0){
-    adjustableSpeed = 0}
-    else{
-    //decreases speed variable so that it may be deleted from adjuster, the lower the value, the faster the response
-    adjustableSpeed = adjustableSpeed - 5
-    }
-    //to find the value of the adjuster, is added, so makes amount fo text more
-    adjuster = (100-adjustableSpeed )
-    speedAdjust.innerHTML =
-    `Cursor speed: ${adjuster}%   `
-    }
-
-    //as the adjuster aproaches 100%, speed decreases, and percent of cursor speed is closer to 0%
-    function decreaseToSlow(){
-      //this is limit of speed
-      if(adjustableSpeed >= 100){
-      adjustableSpeed = 100
-      }
-      else{
-      //increases speed, makes the text display the amount less 
-      adjustableSpeed = adjustableSpeed + 5}
-      adjuster = (100-adjustableSpeed ) 
-      speedAdjust.innerHTML =
-      `Cursor speed: ${adjuster}%   ` 
-    }
-     
-
-    function printCharacter() {
-    let flagForCursor = false
-    //multiplication - numberpad
-    if(keyState[107]){
-    increaseToFast()
-    }
-    //subtraction - numpad
-    else if(keyState[109]){
-      decreaseToSlow()
-    }
+    function cursorAndFunctionCalls() {
     //right
-    else if(keyState[39]){
+    if(keyState[39]){
+      horizontalCursorPosition = horizontalCursorPosition + 5
       CursorMovements.cursorRight()
     }
     //left
     else if(keyState[37]){
       CursorMovements.cursorLeft()
-      
     }
     //up
     else if(keyState[38]){
@@ -243,93 +154,51 @@
     //down
     else if(keyState[40]){
       CursorMovements.cursorDown()
+      verticalCursorPosition = verticalCursorPosition + 5
     } 
+    //3 main functions to use
+    //gridArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, gridArray, gKey)
+    //gridArray =  Recursive.pullTextBackToTop(true, gKey, gridArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+    //gridArray = Recursive.pushWords(true, gridArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
+    Recursive.displayGridAndCursor()  
+    }  
 
-
-
-    /////////////////
-
-
-    //handles non-utility code to display letters and number
-//    else if(keyState[eventKeyCode]){
-//    let keyOfArray = variable.find(o =>  o.code === eventKeyCode)
-//    //didnt find a value
-//    if(keyOfArray === undefined){
-//    }
-//    else{
-//    //sets the key value for major functionality
-//    gKey = keyOfArray.value
-//    //kept, just in case, needed later for testing 
-//    //nestedArray = Recursive.test(gKey, nestedArray, verticalCursorPosition/10)
- //   }
- //   }
-
-  ///////////////////////////
-
-
-    ///
-      //keep everything in the right order
-      setTimeout(dummy, 2) 
-      //let rowIndex = horizontalCursorPosition/5;
-      //let colIndex = verticalCursorPosition/10;
-      
-      //3 main fucntions yo use
-      //nestedArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, nestedArray, gKey)
-      //nestedArray =  Recursive.pullTextBackToTop(true, gKey, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-      //nestedArray = Recursive.pushWords(true, nestedArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
-      
-      Recursive.displayGridAndCursor()  
-      //increasetofast makes  adjustable speed lower by .5 percent  - less wait
-      //decraese makes adjustable speed higher by .5 - more wait 
-      //highest rate is 100%, 20 is highest value. 20 * 100% = 2000ms, which is slowest rate
-      
-      //setTimeout(printCharacter, (adjustableSpeed*20))
-      
-      }  
-      //starts on start
-      printCharacter()
-      
+    cursorAndFunctionCalls()
 /*      
-
       const test = document.addEventListener('keydown', function (e) {
-
       else if(gKey == 'Enter')
       {
         HEIGHT++
-        //nestedArray = Recursive.pressedEnter(nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
+        //gridArray = Recursive.pressedEnter(gridArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
         const t0 = performance.now()
         let a = pausehere
       
       }
-      
       else if(gKey == 'Delete')
       {
         alert("delete")
-          console.log("nested array3: ", nestedArray);
+          console.log("nested array3: ", gridArray);
           //4 functions:
-          nestedArray = Recursive.deleteACharacterKickStart([], verticalCursorPosition/10, horizontalCursorPosition/5-1,  nestedArray, true)
-          //nestedArray =  Recursive.pullTextBackToTop(true, nestedArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-          //nestedArray = Recursive.pushWords(true, nestedArray,[],verticalCursorPosition/10, horizontalCursorPosition   
+          gridArray = Recursive.deleteACharacterKickStart([], verticalCursorPosition/10, horizontalCursorPosition/5-1,  gridArray, true)
+          //gridArray =  Recursive.pullTextBackToTop(true, gridArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+          //gridArray = Recursive.pushWords(true, gridArray,[],verticalCursorPosition/10, horizontalCursorPosition   
       }
     })
-   
 */
-    /*
+/*
   let down = false
     document.addEventListener('keydown' , function (e){
       gKey = e.key
       if(down) return
       down = true
 
-      nestedArray = Recursive.test(gKey, nestedArray, verticalCursorPosition/10)
+      gridArray = Recursive.test(gKey, gridArray, verticalCursorPosition/10)
 
     }, false);
 
     document.addEventListener('keyup' , function (e){
       gKey = e.key
       down = false}, false)
-      */
-
-    
+*/
     </script>
     </body>
