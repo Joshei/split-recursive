@@ -13,11 +13,12 @@
     const CursorMovements = new CursorMovementsClass()
     const customBox1 = new CustomBoxClass()
     const Recursive = new RecursiveClass() 
+    let FIRSTSETHEIGHT = 200
     </script>
     <canvas
       id="canvas_id"
       width="220"
-      height="240"
+      height=FIRSTSETHEIGHT
       style="border: 1px solid #550233"
     > </canvas>
     <div id="xAndY"></div>
@@ -36,11 +37,11 @@
     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
-    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "1" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "2" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "a" , "-","-", "-", "-", "-", "-", "-" , "3" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "a" , "b","c", "-", "-", "-", "-", "-" , "4" ],
+    ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "5" ],
     ["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ],
     ["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ],
 ];
@@ -48,9 +49,9 @@
   //canvas
   let WIDTH = 28
   let HEIGHT = 15
-  let ORIGINALHEIGHT = 10
-  const VOFFSET = 25
-  const HOFFSET = 30
+  let ORIGINALHEIGHT = 15
+  const VOFFSET = 32
+  const HOFFSET = 35
   var canvas = document.getElementById('canvas_id')
   var insertOn = document.getElementById('insert')
   let textBox = [[]]
@@ -68,8 +69,8 @@
   ctx.fillRect(0, 0, 800, 800)
   ctx.fillStyle = '#000000'
   ctx.font = '10px Monospace'
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
+  //ctx.textAlign = 'center'
+  //ctx.textBaseline = "bottom"
   var x = size / 2
   var y = size / 2
   
@@ -81,16 +82,47 @@
     ctx.fillStyle = '#000000'
   }
   
+  function makeCanvas(verticalSize = FIRSTSETHEIGHT){
+
+    //return
+  //15 220   15
+  var size = verticalSize// HEIGHT * 10 + 45//HEIGHT * 10 + 50
+  let hsize = 200
+  canvas.style.width = hsize + 'px'
+  canvas.style.height = size + 'px'
+  var scale = window.devicePixelRatio 
+  canvas.width = size * scale
+  canvas.height = size * scale
+  ctx.scale(scale, scale)
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, 800, 800)
+  ctx.font = '10px Monospace'
+  ctx.textAlign = 'center'
+  //ctx.textBaseline = 'bottom'
+
+
+  }
   //draws grid
   function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
+
+    
+    //let oneCharHeight = FIRSTSETHEIGHT/15
+    let extraHeightRows = HEIGHT - ORIGINALHEIGHT
+    let totalVert = extraHeightRows*10 + 200
+    //let extraCanvasHeight = oneCharHeight * extraHeightRows
+
+    makeCanvas(totalVert)
+
     clearArray()
     ctx.fillStyle = 'black'
     for (let i = 0; i < iValue; i++) {
     for (let j = 0; j < jValue ; j++) {
     console.log("na: ", gridArray)
     if(gridArray && gridArray[i] && gridArray[i][j]){
-    //fill text with offsets
-    ctx.fillText(gridArray[i][j], j * 5 + 25 , i * 10 + 25)
+    
+      //INCREASING CANVAS WITH THIS INFORMATION:
+      //UNDERSTAND CODE FOR STOP AT MAX WIDTH AND MAX HEIGHT
+    ctx.fillText(gridArray[i][j], j * 5 + 30 , i * 10 + 33)
     console.log({j}, {i})
     }else{
       continue
@@ -140,8 +172,9 @@
     function cursorAndFunctionCalls() {
     //right
     if(keyState[39]){
-      horizontalCursorPosition = horizontalCursorPosition + 5
-      CursorMovements.cursorRight()
+    //move to right double, altogether
+    Recursive.advanceHorizontalOneTime()
+    CursorMovements.cursorRight() 
     }
     //left
     else if(keyState[37]){
@@ -151,15 +184,17 @@
     else if(keyState[38]){
       CursorMovements.cursorUp()
     }
-    //down
+    //move down double, all together
     else if(keyState[40]){
+      //Recursive.advanceVerticalOneTime()
       CursorMovements.cursorDown()
-      verticalCursorPosition = verticalCursorPosition + 5
     } 
+    else{
     //3 main functions to use
-    //gridArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, gridArray, gKey)
-    //gridArray =  Recursive.pullTextBackToTop(true, gKey, gridArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-    //gridArray = Recursive.pushWords(true, gridArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
+    gridArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, gridArray, gKey)
+      //gridArray =  Recursive.pullTextBackToTop(true, gKey, gridArray, verticalCursorPosition/10, horizontalCursorPosition/5)
+      //gridArray = Recursive.pushWords(true, gridArray,[gKey],verticalCursorPosition/10, horizontalCursorPosition/5)
+    }
     Recursive.displayGridAndCursor()  
     }  
 

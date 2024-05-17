@@ -759,6 +759,27 @@ class RecursiveClass {
   }
 
 
+  advanceHorizontalOneTime(){
+  if(horizontalCursorPosition/5 >= WIDTH-1  && verticalCursorPosition/10 >= HEIGHT-1)
+  {
+        return
+  }
+
+  if (horizontalCursorPosition >= (WIDTH-1)*5){// (WIDTH -1 )*5) {
+    //*alert("here")
+    horizontalCursorPosition = 0
+    verticalCursorPosition = verticalCursorPosition + 10
+  }else{
+    horizontalCursorPosition = horizontalCursorPosition + 5
+  }
+  }
+
+  advanceVerticalOneTime(){
+    if(verticalCursorPosition > HEIGHT-1){
+      return
+    }
+    verticalCursorPosition=verticalCursorPosition+10
+  }
     displayGridAndCursor2()
     {
      
@@ -792,10 +813,7 @@ class RecursiveClass {
     }
 
 
-
-
-  
-  initialInsert(rowIndex, colIndex, grid, leftOverChar){
+    initialInsert(rowIndex, colIndex, grid, leftOverChar){
 
     ///THIS IS TEMPORARY CODE - will it function here? 
     let horizString =  (horizontalCursorPosition/5).toString()
@@ -813,14 +831,14 @@ class RecursiveClass {
 
     
     this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
-    if(rowIndex > HEIGHT -2){
+    if(rowIndex > HEIGHT -1){
       return grid
     }
     //these are the two lines we are using
     let topRow = grid[rowIndex];
     let lowerRow = grid[rowIndex+1]
    
-    let [leftTopRow, rightTopRow] = this.splitAtIndex(topRow, colIndex+1)
+    let [leftTopRow, rightTopRow] = this.splitAtIndex(topRow, colIndex)
     //insert character at index
     let combineTopRow = [...leftTopRow, ...leftOverChar, ...rightTopRow]
     //this is one row, exactly, because of WIDTH

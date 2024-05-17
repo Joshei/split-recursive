@@ -1,5 +1,10 @@
 class CursorMovementsClass {
     cursorRight() {
+      
+      if(horizontalCursorPosition/5 >= WIDTH-1  && verticalCursorPosition/10 >= HEIGHT-1)
+      {
+        return
+      }
       if (horizontalCursorPosition >= (WIDTH-1)*5){// (WIDTH -1 )*5) {
         //*alert("here")
         horizontalCursorPosition = 0
