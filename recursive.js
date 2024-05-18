@@ -472,16 +472,6 @@ class RecursiveClass {
   //checked:  4/16/24
   deleteACharacter(remainder, rowIndex, columnIndex,  grid, IsFirstRun) {
 
-    if(columnIndex == 0 && grid[rowIndex-1][WIDTH-1] === "-")
-    {
-      horizontalCursorPosition = horizontalCursorPosition - 5
-      return grid
-    }
-
-    if(grid[rowIndex][columnIndex] == "" || grid[rowIndex][columnIndex] == "-")
-    {
-      //return grid
-    }
   //bails out of recursion
    if(rowIndex > HEIGHT - 1)
    {
@@ -489,117 +479,58 @@ class RecursiveClass {
    }
 
   
-   if(IsFirstRun)
-   {
+      
 
-    if(horizontalCursorPosition === 0){
+      if (topRow1[WIDTH-1] === "-"){
+        let topRow1 = grid[rowIndex];
+        let bottomRow1 = grid[rowIndex+1]
+        //return grid
+        let [topRowLeftSide, topRowRightSide] = this.splitAtIndex(topRow1, columnIndex+1) ;
+        let [leftSide, rightSideRemovedCharacter] = this.splitAtIndex(topRowRightSide, 1) ;
+        //get bottom character
 
-      grid[rowIndex][0] = "-"
-      this.deleteLeftUpdateCursor()
+        let combine = [...topRowLeftSide, ...rightSideRemovedCharacter, ...["!"]]
+        grid[rowIndex] = combine
+        this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
+        return grid
+      
+      }else{
+      let topRow = grid[rowIndex];
+      let bottomRow = grid[rowIndex+1]
+      //this.deleteLeftUpdateCursor()
+      //remove front character top row
+      let [frontChracterTopRow, topWithoutFrontCharacter] = this.splitAtIndex(topRow, 1) ;
+      //get character second row last
+      let [bottomLeftmostCharacter, bottomNotUsed] = this.splitAtIndex(bottomRow, 1) ;
+      let combine = [...topWithoutFrontCharacter, ...bottomLeftmostCharacter ]
+      //put second row last character on end of top row 
+      grid[rowIndex] = combine
+      this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
       return grid
     }
-   
-   //two rows, upper and lower
-   let topRow = grid[rowIndex];
-   let bottomRow = grid[rowIndex+1]
-   let cursorPosition = columnIndex
-   //break up line1 at the cursor position into to parts, divided by one space beyond cursor
-   let [left, right] = this.splitAtIndex(topRow, cursorPosition+1) ;
-   //get length of characters
-   let len = left.length
-   //get phrase one less than cursor on top rpw
-   let [leftPhraseTopRow, notUsed] = this.splitAtIndex(left, len) ;
 
-   //check for cursor within the leftword
-    if((grid[rowIndex][columnIndex+2] != "-") &&  (grid[rowIndex][columnIndex+2] != "") && (grid[rowIndex][columnIndex] != "-") &&(grid[rowIndex][columnIndex] != "" )){
-        grid[rowIndex][columnIndex] = "-"
-       //@drawGrid(HEIGHT, WIDTH)
-       //horizontalCursorPosition = horizontalCursorPosition - 5
-      return grid
+  /*  
+      else{
+
+      let topRow1 = grid[rowIndex];
+
+      let bottomRow1 = grid[rowIndex+1]
+
+      //get first row, bottom row
+      //get right and left at cursor
+      let [frontChractersTopRow, topRightSide] = this.splitAtIndex(topRow1, columnIndex + 1) ;
+      let [removeFirstLetterTopRightSide, rightSideTopRowWithoutLetter] = this.splitAtIndex(topRightSide, 1) ;
+      let [frontChracterLeftBottomRow, bottomRightSide] = this.splitAtIndex(bottomRow1, 1) ;
+      //top row 
+      let combine = [...frontChractersTopRow, ...rightSideTopRowWithoutLetter, ...frontChracterLeftBottomRow]
+
+      grid[rowIndex] = combine
+      this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
+
+      }
+*/
+    
     }
-   
-    //consider removing this
-    let leftPhraseLength = leftPhraseTopRow.length
-    let index = leftPhraseLength 
-
-
-    
-   
-    //get line without the last character for top row
-   let oneCharacterLessThanRow = [...leftPhraseTopRow, ...right] 
-
-   //let [wordToKeep, wordToRid] = this.splitAtIndex(leftPhraseTopRow, index) 
-
-   //consider removing this
-   for (let i = index; i < index+1; i++)
-   {
-      grid[rowIndex][i] = "Y"
-   }
-
-   //get next lines first character 
-   let [CharacterOnRow2, notUsed2] = this.splitAtIndex(bottomRow, 1)
-   //makes a line of code that is exactly one width
-   let combine2 = [  ...oneCharacterLessThanRow, ...CharacterOnRow2 ]
-   
-   //@if(rowIndex === HEIGHT-1)
-   //@{
-   //@  combine2 = [  ...sixDigitLine, ["O"] ]
-   //@}
-   
-   //recursive call
-   this.deleteACharacter( [], rowIndex+1, 0,  grid, false)
-   //horizontalCursorPosition = horizontalCursorPosition  - 5
-  //@drawGrid(HEIGHT, WIDTH)
-  return grid
-  }else{
-
-
-
-
-    //two rows for use
-    let upperRow = grid[rowIndex];
-    let lowerRow = grid[rowIndex+1]
-    //left most character of second line - put at end of line 1
-    let [lineTwosLeftmostCharacterForLineOne, LineTwosWordWithoutFirstLetter] = this.splitAtIndex(lowerRow, 1) ;
-    //remove letter from start of first line
-    let [lineOneFirstCharacterForLineTwo, lineOneWithoutFirstLetter] = this.splitAtIndex(upperRow, 1) ;
-    //add second lines left most character to line ones most right position
-    let completeLineOne = [ ...lineOneWithoutFirstLetter, ...lineTwosLeftmostCharacterForLineOne]
-    
-    if(rowIndex === HEIGHT-1)
-    {
-      completeLineOne = [ ...lineOneWithoutFirstLetter, ["O"]] 
-    }
-    
-    //@let letter = ""
-    //row index is 4 or less, otherwise calls first condition
-    //in condition element is a maximum of 7
-    //there is one more, before increasing height, and that is when the afore-mentioned
-    //section is called and a dash is put in that last position because it is the last
-    //before padding
-    //@if (rowIndex < 4)
-    //@{
-    //@  letter = grid[rowIndex+2][0]
-    //@  console.log("row: ", rowIndex)
-    //@  console.log("letter: ", letter)
-    //@}
-    //let completeLineTwo = [ ...lineOneFirstCharacterForLineTwo,...LineTwosWordWithoutFirstLetter]
-    //one line
-    //let completeLineTwo = [...LineTwosWordWithoutFirstLetter, letter ]
-    grid[rowIndex] = completeLineOne
-   
-    //@drawGrid(HEIGHT, WIDTH)
-    //@drawCursor(
-    //@    horizontalCursorPosition + HOFFSET,
-    //@    verticalCursorPosition + VOFFSET
-    //@)
-    //@drawGrid(HEIGHT, WIDTH)
-    //recursive call
-    this.deleteACharacter( [], rowIndex+1, 0,  grid, false)
-    //horizontalCursorPosition = horizontalCursorPosition  - 5
-    return grid 
-  }  
-}
 
 
     setXandYPositions() {
