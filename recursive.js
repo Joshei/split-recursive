@@ -467,9 +467,8 @@ class RecursiveClass {
 
   
 
-  //  4/7/24:  This is looking very good, reworked!
-  //debugged : 4/11/24
-  //checked:  4/16/24
+  //tried to move all characters with a delete and it did
+  //also, it put an exclamation point at the last position, which is correct
   deleteACharacter(remainder, rowIndex, columnIndex,  grid, IsFirstRun) {
 
   //bails out of recursion
@@ -477,37 +476,34 @@ class RecursiveClass {
    {
       return grid
    }
-
+  let topRow1 = grid[rowIndex];
+  if (topRow1[WIDTH-1] === "-"){
+    let topRow = grid[rowIndex];
+    let bottomRow = grid[rowIndex+1]
+    //return grid
+    let [topRowLeftSide, topRowRightSide] = this.splitAtIndex(topRow, columnIndex+1) ;
+    let [leftSide, rightSideRemovedCharacter] = this.splitAtIndex(topRowRightSide, 1) ;
+    //get bottom character
+    let firstCharacterSecondRow = grid[rowIndex+1][0]
+    let combine = [...topRowLeftSide, ...rightSideRemovedCharacter, ...firstCharacterSecondRow]
+    grid[rowIndex] = combine
+    this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
+    return grid
   
-      
-
-      if (topRow1[WIDTH-1] === "-"){
-        let topRow1 = grid[rowIndex];
-        let bottomRow1 = grid[rowIndex+1]
-        //return grid
-        let [topRowLeftSide, topRowRightSide] = this.splitAtIndex(topRow1, columnIndex+1) ;
-        let [leftSide, rightSideRemovedCharacter] = this.splitAtIndex(topRowRightSide, 1) ;
-        //get bottom character
-
-        let combine = [...topRowLeftSide, ...rightSideRemovedCharacter, ...["!"]]
-        grid[rowIndex] = combine
-        this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
-        return grid
-      
-      }else{
-      let topRow = grid[rowIndex];
-      let bottomRow = grid[rowIndex+1]
-      //this.deleteLeftUpdateCursor()
-      //remove front character top row
-      let [frontChracterTopRow, topWithoutFrontCharacter] = this.splitAtIndex(topRow, 1) ;
-      //get character second row last
-      let [bottomLeftmostCharacter, bottomNotUsed] = this.splitAtIndex(bottomRow, 1) ;
-      let combine = [...topWithoutFrontCharacter, ...bottomLeftmostCharacter ]
-      //put second row last character on end of top row 
-      grid[rowIndex] = combine
-      this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
-      return grid
-    }
+  }else{
+  let topRow = grid[rowIndex];
+  let bottomRow = grid[rowIndex+1]
+  //this.deleteLeftUpdateCursor()
+  //remove front character top row
+  let [frontChracterTopRow, topWithoutFrontCharacter] = this.splitAtIndex(topRow, 1) ;
+  //get character second row last
+  let [bottomLeftmostCharacter, bottomNotUsed] = this.splitAtIndex(bottomRow, 1) ;
+  let combine = [...topWithoutFrontCharacter, ...bottomLeftmostCharacter ]
+  //put second row last character on end of top row 
+  grid[rowIndex] = combine
+  this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
+  return grid
+}
 
   /*  
       else{
