@@ -466,67 +466,125 @@ class RecursiveClass {
   }
 
   
-
-  //tried to move all characters with a delete and it did
-  //also, it put an exclamation point at the last position, which is correct
+  //to test
+  //tested : delete middle without dash at end and character on next line doesnt move
+  //tested: character on last row, delete middle and next row moves, row after doesn't
+  //tested character on last row, delete first caharacter and other charatcres move corretcly
+  //tested first character delete, characters below work fine.
+  //tested first characetr at top left, characters move right, below one and multiple, rows
+  //tested, delete to raise row up from bottom left to top row right, character move right
   deleteACharacter(remainder, rowIndex, columnIndex,  grid, IsFirstRun) {
 
   //bails out of recursion
-   if(rowIndex > HEIGHT - 1)
-   {
-      return grid
+   
+   if(rowIndex == HEIGHT-1){
+    let topRow = grid[rowIndex];
+    let [topRowLeftSide, topRowRightSide] = this.splitAtIndex(topRow, columnIndex+1) ;
+    //strips of the character that was on the right side, this is deleted
+    let [leftSide, rightSideRemovedCharacter] = this.splitAtIndex(topRowRightSide, 1) ;
+    let combine  =  [...topRowLeftSide, ...rightSideRemovedCharacter, ["@"] ]
+    grid[rowIndex] = combine
+    return grid
+
    }
+  //worked with delete on first column
   let topRow1 = grid[rowIndex];
+  //splits row to the two sides of cursor
+  let anotherTopRowForCondition = grid[rowIndex]
+  
+  
+  //LOOKS OKAY, FOR NOW - IS A DASH
+  
+  //is a dash
+  //checks if top row has a dash on last character - delete on first column
   if (topRow1[WIDTH-1] === "-"){
     let topRow = grid[rowIndex];
     let bottomRow = grid[rowIndex+1]
-    //return grid
+    //splits row to the two sides of cursor
     let [topRowLeftSide, topRowRightSide] = this.splitAtIndex(topRow, columnIndex+1) ;
+    //strips of the character that was on the right side, this is deleted
     let [leftSide, rightSideRemovedCharacter] = this.splitAtIndex(topRowRightSide, 1) ;
-    //get bottom character
-    let firstCharacterSecondRow = grid[rowIndex+1][0]
-    let combine = [...topRowLeftSide, ...rightSideRemovedCharacter, ...firstCharacterSecondRow]
+    //combine the two pieces wihthout the character that was deleted
+    let combine = [...topRowLeftSide, ...rightSideRemovedCharacter]
     grid[rowIndex] = combine
-    this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
+    //there is a new character to add, because there is a dash on last column
+    grid[rowIndex][WIDTH-1] = "-"
+    //ends the recursion and begins to unwind
     return grid
   
-  }else{
+  
+    //LOOKED AT TOP, MIGHT BE RIGHT - CHECK EVERYTHING/////////
+    //THIS IS NOT WORKING, BELOW:
+
+    //WORKING ON, NO DASH - ok for now
+  let topRow2 = grid[rowIndex];
+  //there is no dash 
+  //on last columnn so continues to call recursively until end or a dash at rows end
+  }
+  else if (anotherTopRowForCondition[WIDTH-1] != "-" ){//&& horizontalCursorPosition/5 == WIDTH-1){
   let topRow = grid[rowIndex];
   let bottomRow = grid[rowIndex+1]
-  //this.deleteLeftUpdateCursor()
-  //remove front character top row
-  let [frontChracterTopRow, topWithoutFrontCharacter] = this.splitAtIndex(topRow, 1) ;
+  let [frontChractersTopRow, topWithoutFrontCharacters] = this.splitAtIndex(topRow, columnIndex + 1) ;
+  let [left, topRightWithoutDeletedCharacter] = this.splitAtIndex(topWithoutFrontCharacters, 1) ;
+  
+  
   //get character second row last
   let [bottomLeftmostCharacter, bottomNotUsed] = this.splitAtIndex(bottomRow, 1) ;
-  let combine = [...topWithoutFrontCharacter, ...bottomLeftmostCharacter ]
+  
+  let combine = [...frontChractersTopRow, ...topRightWithoutDeletedCharacter, ...bottomLeftmostCharacter ]
   //put second row last character on end of top row 
+  grid[rowIndex] = combine
+  this.removeLeftCharacterAndReplaceEndWithLeftCharacterNextRow(rowIndex+1, grid)
+  this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
+  return grid
+
+
+}
+
+/*
+else{
+
+  //is a dash
+  //WORKING ON THIS, HAS A DASH AT END OF TOP ROW, AND DELETE IS NOT ON FIRST LETTER
+  let topRow = grid[rowIndex];
+  let bottomRow = grid[rowIndex+1]
+  let [frontCharactersTopRow, topWithCharAndWithoutFrontCharacters] = this.splitAtIndex(topRow, columnIndex+1) ;
+  let [letterOnLeftTopRow, topRightWithFrontCharacterRemoved] = this.splitAtIndex(topWithCharAndWithoutFrontCharacters, 1) ;
+
+  let [bottomLeftmostCharacter, bottomNotUsed] = this.splitAtIndex(bottomRow, 1) ;
+  let combine = [...frontCharactersTopRow, ...topRightWithFrontCharacterRemoved, ...bottomLeftmostCharacter]
   grid[rowIndex] = combine
   this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
   return grid
 }
-
-  /*  
-      else{
-
-      let topRow1 = grid[rowIndex];
-
-      let bottomRow1 = grid[rowIndex+1]
-
-      //get first row, bottom row
-      //get right and left at cursor
-      let [frontChractersTopRow, topRightSide] = this.splitAtIndex(topRow1, columnIndex + 1) ;
-      let [removeFirstLetterTopRightSide, rightSideTopRowWithoutLetter] = this.splitAtIndex(topRightSide, 1) ;
-      let [frontChracterLeftBottomRow, bottomRightSide] = this.splitAtIndex(bottomRow1, 1) ;
-      //top row 
-      let combine = [...frontChractersTopRow, ...rightSideTopRowWithoutLetter, ...frontChracterLeftBottomRow]
-
-      grid[rowIndex] = combine
-      this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
-
-      }
 */
+
+  }
+
+
+  removeLeftCharacterAndReplaceEndWithLeftCharacterNextRow(rowIndex, grid){
     
+    if(rowIndex > HEIGHT-1)
+    {
+        return grid
     }
+    //rowindex is topRow
+    let topRow = grid[rowIndex]
+    let botttomRow = grid[rowIndex+1]
+    //get left characeter, bottomrow
+    let leftCharacterofBottomRow = botttomRow[0]
+    //get top row without left most character
+    let [topLeftmostCharacter, topRowWithoutLeftCharacter] = this.splitAtIndex(topRow, 1) ;
+    let newTopRow = [...topRowWithoutLeftCharacter, ...leftCharacterofBottomRow]
+    grid[rowIndex] = newTopRow
+    if(grid[rowIndex][WIDTH-1] === "-")
+      {
+        return grid
+      }
+    this.removeLeftCharacterAndReplaceEndWithLeftCharacterNextRow(rowIndex+2, grid)
+      return grid
+
+  }
 
 
     setXandYPositions() {
@@ -772,8 +830,12 @@ class RecursiveClass {
     let [finishedTopRow, leftOver] = this.splitAtIndex(combineTopRow, WIDTH)
     //set row
     grid[rowIndex] = finishedTopRow
-    //push rows right because of insert
-    this.pushRowRight(rowIndex+1, 0, grid, leftOver)
+
+    //is not the initial cakk
+    if (leftOverChar){
+      //push rows right because of insert
+      this.pushRowRight(rowIndex+1, 0, grid, leftOver)
+    }
     //if there is a dash on the row, there is no character on last column
     //so there is  no push than, bail out, we're done
     if(rowIndex == 0 ||grid[rowIndex-1][WIDTH-1] == "-"   ){
@@ -813,7 +875,7 @@ class RecursiveClass {
     if(grid[rowIndex-1][WIDTH-1] == "-"){
       return grid
     }
-    return grid
+    return grid//
     }
   
     checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
