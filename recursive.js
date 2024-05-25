@@ -797,6 +797,10 @@ else{
       }
     }
 
+    
+    ///
+    ///////////COMMENT TESTS ON INITIAL AND DELETE, CLEAN UP
+    ////
 
     initialInsert(rowIndex, colIndex, grid, leftOverChar){
 
@@ -805,16 +809,6 @@ else{
     let vertString = (verticalCursorPosition/10).toString() 
     let a = document.getElementById("xAndY")
     a.innerHTML = 'Horizontal: ' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
-    
-    //alert("here");
-    //return(grid)
-    //can't insert on last character of array, just changes the character
-    if(rowIndex == HEIGHT - 1  && colIndex == WIDTH-1){
-      grid[rowIndex][colIndex] = leftOverChar
-      return grid
-    }
-
-    
     this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
     if(rowIndex > HEIGHT -1){
       return grid
@@ -842,10 +836,13 @@ else{
       return grid
     }
     //change this for cursor 
-    horizontalCursorPosition = horizontalCursorPosition + 5
+    //horizontalCursorPosition = horizontalCursorPosition + 5
     return grid
   }
 
+
+
+  
   pushRowRight(rowIndex, colIndex, grid, leftOverChar){
    
     this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
@@ -879,9 +876,10 @@ else{
     }
   
     checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
+      
       //if we are on the last line and there is a character on rightmost character
-      //create a row
-      if (grid[rowIndex][WIDTH-1] != "-" && rowIndex == HEIGHT-1){
+      //create a row if on last row
+      if (grid[rowIndex][WIDTH-1] != "-" && rowIndex === HEIGHT-1 && verticalCursorPosition/10 === HEIGHT-1){
         this.createRow(grid, leftOverChar, rowIndex, colIndex)
         //reposition cursor and grid
 
