@@ -466,13 +466,16 @@ class RecursiveClass {
   }
 
   
+
+  //REFACTERED INSERT, NOW DO THIS : DELETE A CHARACTER
+  //POSSIBLY FILL IN FIRST VARIABLE IN CALL
   //to test
-  //tested : delete middle without dash at end and character on next line doesnt move
-  //tested: character on last row, delete middle and next row moves, row after doesn't
-  //tested character on last row, delete first caharacter and other charatcres move corretcly
-  //tested first character delete, characters below work fine.
-  //tested first characetr at top left, characters move right, below one and multiple, rows
-  //tested, delete to raise row up from bottom left to top row right, character move right
+  //tested:  delete middle without dash at end and character on next line doesnt move
+  //tested:  character on last row, delete middle and next row moves, row after doesn't
+  //tested: character on last row, delete first caharacter and other charatcres move corretcly
+  //tested: first character delete, characters below work fine.
+  //tested: first characetr at top left, characters move right, below one and multiple, rows
+  //tested: delete to raise row up from bottom left to top row right, character move right
   deleteACharacter(remainder, rowIndex, columnIndex,  grid, IsFirstRun) {
 
   //bails out of recursion
@@ -488,7 +491,7 @@ class RecursiveClass {
 
    }
   //worked with delete on first column
-  let topRow1 = grid[rowIndex];
+  let topRow1 = grid[rowIndex+1];
   //splits row to the two sides of cursor
   let anotherTopRowForCondition = grid[rowIndex]
   
@@ -510,6 +513,7 @@ class RecursiveClass {
     //there is a new character to add, because there is a dash on last column
     grid[rowIndex][WIDTH-1] = "-"
     //ends the recursion and begins to unwind
+    //this.deleteACharacter( [], rowIndex+1, 0,  grid, true)
     return grid
   
   
@@ -796,15 +800,14 @@ else{
         horizontalCursorPosition = horizontalCursorPosition - 5
       }
     }
-
+    //  push with letter on end  and a character in middle, push on left
+    //  push with letter on end  and a character in middle, push on middle
+    //  push with two rows on end, both move to next row
+    //  two digits before two end points on end, all move correctly
+    //  insert on empty row
+    //  insert on last column with and without on last row and two there
     
-    ///
-    ///////////COMMENT TESTS ON INITIAL AND DELETE, CLEAN UP
-    ////
-
     initialInsert(rowIndex, colIndex, grid, leftOverChar){
-
-    ///THIS IS TEMPORARY CODE - will it function here? 
     let horizString =  (horizontalCursorPosition/5).toString()
     let vertString = (verticalCursorPosition/10).toString() 
     let a = document.getElementById("xAndY")
@@ -816,7 +819,7 @@ else{
     //these are the two lines we are using
     let topRow = grid[rowIndex];
     let lowerRow = grid[rowIndex+1]
-   
+    //splits array apart at insertion point
     let [leftTopRow, rightTopRow] = this.splitAtIndex(topRow, colIndex)
     //insert character at index
     let combineTopRow = [...leftTopRow, ...leftOverChar, ...rightTopRow]
@@ -825,18 +828,11 @@ else{
     //set row
     grid[rowIndex] = finishedTopRow
 
-    //is not the initial cakk
+    //if true isn't first run
     if (leftOverChar){
       //push rows right because of insert
       this.pushRowRight(rowIndex+1, 0, grid, leftOver)
     }
-    //if there is a dash on the row, there is no character on last column
-    //so there is  no push than, bail out, we're done
-    if(rowIndex == 0 ||grid[rowIndex-1][WIDTH-1] == "-"   ){
-      return grid
-    }
-    //change this for cursor 
-    //horizontalCursorPosition = horizontalCursorPosition + 5
     return grid
   }
 
@@ -845,18 +841,18 @@ else{
   
   pushRowRight(rowIndex, colIndex, grid, leftOverChar){
    
+    //check if it is time to add row
     this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
+    //bails out of recursion
     if(rowIndex > HEIGHT -1){
       return grid
     }
     //two rows were using for push
     let topRow = grid[(rowIndex-1)];
     let lowerRow = grid[rowIndex]
-    //get last character from top row - goes to beginning of lower row
-    //let topRowLastCharacter = topRow[WIDTH-1]
     let combineToBottomRow = []
-    //this is a pass of a dash, which will mean that the former row ends with a dash
-    if (leftOverChar == "-"){
+    //if not a dash on last row end, than add that character on start of next line
+    if (leftOverChar === "-"){
       combineToBottomRow = [...lowerRow]
     }else{
       combineToBottomRow = [...leftOverChar, ...lowerRow]
@@ -865,53 +861,23 @@ else{
     let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
     grid[rowIndex] = bottomRowReady
    
+    if(remainingChars != "-"){
     //push next row to right(one position)  recursion
-    this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
-    //above row has a dash which means there was no character for advancing (this will be null)
-    //so were all done with this function
-    if(grid[rowIndex-1][WIDTH-1] == "-"){
-      return grid
+      this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
     }
-    return grid//
+    return grid
     }
-  
+
+    //do we add a row?
     checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
       
       //if we are on the last line and there is a character on rightmost character
       //create a row if on last row
       if (grid[rowIndex][WIDTH-1] != "-" && rowIndex === HEIGHT-1 && verticalCursorPosition/10 === HEIGHT-1){
         this.createRow(grid, leftOverChar, rowIndex, colIndex)
-        //reposition cursor and grid
-
-        horizontalCursorPosition = 5
-        verticalCursorPosition = verticalCursorPosition + 10
-        
       }
       return grid
     }
-
-    ////
-
-    test(key, grid , index){
-
-     
-    if (keyState[37] || keyState[38] || keyState[39] || keyState[40]){
-       
-      return grid
-      
-    }
-     
-    //horizontalCursorPosition = horizontalCursorPosition + 5
-    grid[index][horizontalCursorPosition/5] = key
-    
-    this.displayGridAndCursor2()
-
-    return grid
-  }
-
-    ////
-
-
 }
 
 

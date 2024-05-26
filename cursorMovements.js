@@ -45,9 +45,12 @@ class CursorMovementsClass {
         return -4
       }
     
-      
-      verticalCursorPosition = verticalCursorPosition + 20
-      
+      if(verticalCursorPosition/10 == (HEIGHT-2)){
+        verticalCursorPosition = verticalCursorPosition + 10
+      }
+      else{
+        verticalCursorPosition = verticalCursorPosition + 20
+      }
     }
   }
 
