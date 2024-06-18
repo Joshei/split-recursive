@@ -456,15 +456,15 @@ class RecursiveClass {
     return grid;
   }
 
-  //delete middle without dash at end and character on next line doesnt move
-  //delete on last row, 2 and one on dash
-  //delete on last row, 2 and none on dash
-  //character on last row, delete middle and next row moves, row after doesn't
-  //character on last row, delete first caharacter and other charatcres move corretcly
-  //first character delete, characters below work fine.
-  //first characetr at top left, characters move right, below one and multiple, rows
-  //delete to raise row up from bottom left to top row right, character move right
-  //test this, delete without character on first colmun of second row
+  //  delete middle without dash at end and character on next line doesnt move
+  //  delete on last row, 2 and one on dash
+  //  delete on last row, 2 and none on dash
+  //  character on last row, delete middle and next row moves, row after doesn't
+  //  character on last row, delete first caharacter and other charatcres move corretcly
+  //  first character delete, characters below work fine.
+  //  first characetr at top left, characters move right, below one and multiple, rows
+  //  delete to raise row up from bottom left to top row right, character move right
+  //  test this, delete without character on first colmun of second row
   deleteACharacter(remainder, rowIndex, columnIndex,  grid) {
 
     let counterOfUsedRows = 0
@@ -791,15 +791,15 @@ class RecursiveClass {
         horizontalCursorPosition = horizontalCursorPosition - 5
       }
     }
-    //  push with letter on end  and a character in middle, push on left
-    //  push with letter on end  and a character in middle, push on middle
-    //  push with two rows on end, both move to next row
-    //  two digits before two end points on end, all move correctly
+    //push with letter on end  and a character in middle, push on left
+    //push with letter on end  and a character in middle, push on middle
+    //push with two rows on end, both move to next row
+    //two digits before two end points on end, all move correctly
     //  insert on empty row
     //  insert on last column with and without on last row and two there
     //  insert with dash on last character, otherwise full.
     //  insert with dash on last character, otherwise full, second line no dash on last character
-    
+    //  insert on last row, both with last character and null
     initialInsert(rowIndex, colIndex, grid, leftOverChar){
     let horizString =  (horizontalCursorPosition/5).toString()
     let vertString = (verticalCursorPosition/10).toString() 
