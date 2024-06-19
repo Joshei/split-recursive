@@ -96,7 +96,7 @@
   canvas.style.width = hsize + 'px'
   canvas.style.height = size + 'px'
   var scale = window.devicePixelRatio 
-  canvas.width = size * scale
+  canvas.width = hsize * scale
   canvas.height = size * scale
   ctx.scale(scale, scale)
   ctx.fillStyle = '#ffffff'
@@ -128,7 +128,7 @@
       //INCREASING CANVAS WITH THIS INFORMATION:
       //UNDERSTAND CODE FOR STOP AT MAX WIDTH AND MAX HEIGHT
     ctx.fillText(gridArray[i][j], j * 5 + 30 , i * 10 + 33)
-    console.log({j}, {i})
+    console.log("ZZZ: ", {j}, {i})
     }else{
       continue
     }
@@ -194,12 +194,16 @@
       //Recursive.advanceVerticalOneTime()
       CursorMovements.cursorDown()
     } 
-    else if(gKey == 'Delete')
+    else if(gKey === 'Delete')
     {
        console.log("nested array3: ", gridArray);
        gridArray = Recursive.deleteACharacter([], verticalCursorPosition/10, horizontalCursorPosition/5-1,  gridArray)
     }
-    else{
+    else if(gKey == "Enter"){
+      gridArray = Recursive.pressedEnter(gridArray, verticalCursorPosition/10, horizontalCursorPosition/5, "", "", true)
+    }
+    else if(gKey == 'Insert'){
+    
     //3 main functions to use
     gridArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, gridArray, gKey)
       //gridArray =  Recursive.pullTextBackToTop(true, gKey, gridArray, verticalCursorPosition/10, horizontalCursorPosition/5)
@@ -212,7 +216,7 @@
     cursorAndFunctionCalls()
 /*      
       const test = document.addEventListener('keydown', function (e) {
-      else if(gKey == 'Enter')
+      else if(gKey == 'Enter')//
       {
         HEIGHT++
         //gridArray = Recursive.pressedEnter(gridArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)

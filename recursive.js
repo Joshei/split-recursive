@@ -97,22 +97,13 @@ class RecursiveClass {
 
     
     createRow(grid, insertedArr, rowIndex, colIndex) {
-  
-      {
-        //delete final row (padding for iterated inserted array, elsewhere.)
-        //delete final row (padding for iterated inserted array, elsewhere.)
         this.deleteRow(grid, rowIndex+1) 
-        //grid[rowIndex][0] = "A"
-        grid.push(["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ]),
-      
+       grid.push(["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ]),
         //push for new final row again (padding for recursive calls, elsewhere)
         grid.push(["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ]),
       
         HEIGHT++ 
-      }
-       
         return grid
-        
         }
     
 
@@ -333,32 +324,7 @@ class RecursiveClass {
     wordToPass,
     IsFirstTime
   ) {
-    this.fillNullWithDashOnRow(rowIndex3, grid)
     
-    //only on intial call, not when being recursive.
-    if (IsFirstTime) {
-    alert("1")
-    //this.createRow(grid, remainder, rowIndex3, colIndex) 
-    //drawGrid(HEIGHT, WIDTH)
-    //delete row of nulls to put back on last row below
-    //@this.deleteRow(grid, (HEIGHT))
-    //@grid.push (["-", "-", "-", "-", "-", "-" , "-" ],)
-    //@grid.push (["", "", "", "", "", "" , "" ],)
-    //@HEIGHT++
-    //@alert("was here?!?!")
-    if(rowIndex3 == HEIGHT - 1)
-      {
-        alert("2");
-        
-        //this.createRow(grid, remainder, rowIndex3+2)
-        
-        //@HEIGHT++
-        //return grid
-        
-      }
-    }
-
-    //@console.log("imp", typeof remainder);
     //check if remainder has a value
     if (Object.keys(remainder).length === 0) {
       remainder = "";
@@ -367,15 +333,12 @@ class RecursiveClass {
     let target2 = grid[rowIndex3 + 1];
     //these characters are pushed to next row because of enter press
     let amtCharactersToPass = WIDTH - colIndex;
-    //@ let target3 = grid[rowIndex3 + 2];
-    //@let indexOfWordToPass = colIndex + 1;
     let thisIsFullPhrase = [...wordToPass, ...target1];
     //get left side to cursor
     let [isntUsed, row1LastCharacters] = this.splitAtIndex(
       thisIsFullPhrase,
       colIndex
     );
-    //@for (let i = amtCharactersToPass; i < WIDTH; i++) {}
     //remainder is leftover from string when a widths worth of data is gottem
     let combine = [...remainder, ...target2];
     //split at cursor
@@ -389,11 +352,7 @@ class RecursiveClass {
         secondRowNearlyDone,
         WIDTH
       );
-      
-      grid[rowIndex3 + 1] = secondRowDone;
-     
-    
-    
+    grid[rowIndex3 + 1] = secondRowDone;
     } else {
       //build second row
       let secondRowNearlyDone = [...wordToPass, ...combine];
@@ -403,40 +362,27 @@ class RecursiveClass {
       );
       grid[rowIndex3 + 1] = secondRowDone;
     }
-    //@drawGrid(HEIGHT, WIDTH);
     //again, on initial call, cover null with dash
     if (IsFirstTime) {
       for (let i = WIDTH - amtCharactersToPass; i < WIDTH; i++) {
         grid[rowIndex3][i] = "-";
-      }
-     //* drawGrid(HEIGHT, WIDTH);
-    //*}
-    //*if(IsFirstTime)
-    //*{
-      
+      }     
     } 
     IsFirstTime = false
     if (rowIndex3 > HEIGHT-2) {
-      alert("y")
-      
       this.createRow(grid, remainder, rowIndex3+1, colIndex)
       let amountOfNulls = colIndex
       for(let i = WIDTH-amountOfNulls; i < WIDTH ; i++ )
       {
         grid[rowIndex3+1][i] = "-"
       }
-      //@drawGrid(HEIGHT,WIDTH)
-      //@drawCursor(
-      //@  horizontalCursorPosition + HOFFSET,
-      //@  verticalCursorPosition + VOFFSET
-      //@);
-      //@return grid;
+      drawGrid(HEIGHT,WIDTH)
+      drawCursor(
+      horizontalCursorPosition + HOFFSET,
+      verticalCursorPosition + VOFFSET
+      );
+      return grid;
     }
-    
-
-    //@drawGrid(HEIGHT, WIDTH);
-    //alert("here")
-    //@verticalCursorPosition =  (verticalCursorPosition + 10)
     horizontalCursorPosition = 0
     drawCursor(
       horizontalCursorPosition + HOFFSET,
