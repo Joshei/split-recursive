@@ -132,8 +132,6 @@ class RecursiveClass {
   pushWords(IsFromIndex, grid, remainder, rowIndex, colIndex)
   {
 
-    //drawGrid(HEIGHT, WIDTH)
-    //alert("has entered PushWords")
 
     if(rowIndex > HEIGHT-1){
       return grid
@@ -146,29 +144,29 @@ class RecursiveClass {
       
       //alert("move words")
       this.createRow(grid, rowIndex)
-      let target1 = grid[rowIndex];
-      let target2 = grid[rowIndex + 1];
-      let lastSpaceIndexRow1 = target1.lastIndexOf("-");
+      let topRow = grid[rowIndex];
+      let bottomRow = grid[rowIndex + 1];
+      let lastSpaceIndexRow = topRow.lastIndexOf("-");
       //phrase, right of last dash
-      const [left, rightWordRowOne] = this.splitAtIndex(target1, lastSpaceIndexRow1 + 1);
-      let lengthOfRightWordRow1 = rightWordRowOne.length
+      const [left, rightWordAtEndOfRowOne] = this.splitAtIndex(topRow, lastSpaceIndexRow + 1);
+      let lengthOfRightWordAtRowOne = rightWordAtEndOfRowOne.length
       let lengthOfRemainder = remainder.length
       
 
-      let combined1 = []
+      
       let nextRemainder = []
       let aRowOfNulls = []
-      for(let i = 0; i < WIDTH - lengthOfRightWordRow1 + lengthOfRemainder; i++){
-        aRowOfNulls[i] = "-"
+      for(let i = 0; i < WIDTH - lengthOfRightWordAtRowOne + lengthOfRemainder; i++){
+        RowOfNulls[i] = "-"
       }
       
 
-      const combinedA = [...rightWordRowOne, ...aRowOfNulls]
-      let [combined1a, nextRemaindera] = this.splitAtIndex(combinedA, WIDTH);
+      const combined = [...rightWordAtEndOfRowOne, ...RowOfNulls]
+      let [leftPhrase, notUsed] = this.splitAtIndex(combined, WIDTH);
 
 
-      grid[rowIndex+1] = combined1a
-      for(let i = WIDTH - lengthOfRightWordRow1; i< WIDTH; i++){
+      grid[rowIndex+1] = leftPhrase
+      for(let i = WIDTH - lengthOfRightWordAtRowOne; i< WIDTH; i++){
         grid[rowIndex][i] = "-"
       }
       //drawGrid(HEIGHT, WIDTH)
@@ -177,12 +175,12 @@ class RecursiveClass {
       //  verticalCursorPosition + VOFFSET)
       //  return grid
     }
-    let target1 = grid[rowIndex];
-    let target2 = grid[rowIndex + 1];
+    let topRow = grid[rowIndex];
+    let bottomRow = grid[rowIndex + 1];
     //get left phrase before last dash
-    let lastSpaceIndexRow1 = target1.lastIndexOf("-");
+    let lastSpaceIndexRow = topRow.lastIndexOf("-");
     //phrase, right of last dash
-    const [left, rightWordRowOne] = this.splitAtIndex(target1, lastSpaceIndexRow1 + 1);
+    const [left, rightWordAtEndOfRowOne] = this.splitAtIndex(topRow, lastSpaceIndexRow + 1);
     //how many dashes from left to right that are spaces to determine if word is pushed onto this row
     let dashCounter  = 0
     for(let i = 0 ; i < WIDTH; i++){
@@ -193,18 +191,22 @@ class RecursiveClass {
         break;
        }
       }
+
+      
+
+
+
+
+
     let amountOfSpaces = dashCounter
     //word to move's length
-    let lengthOfRightWord = rightWordRowOne.length
+    let lengthOfRightWordAtRowOne = rightWordAtEndOfRowOne.length
 
-    //add the first and only character jus on first call
-    if(IsFromIndex){
-      //lengthOfRightWord++
-    }
-    const [leftSpaces, rightWordRowTwo] = this.splitAtIndex(target2, lengthOfRightWord);
+    
+    const [unused, rightWordAtEndOfRowTwo] = this.splitAtIndex(bottomRow, lengthOfRightWordAtRowOne);
 
-    let index = WIDTH - lengthOfRightWord
-    if(lengthOfRightWord === 0){
+    let index = WIDTH - lengthOfRightWordAtRowOne
+    if(lengthOfRightWordAtRowOne === 0){
       return grid
     }
 
@@ -212,33 +214,35 @@ class RecursiveClass {
     //{
     //   return grid
     //}
-    if(lengthOfRightWord == WIDTH)
+    if(lengthOfRightWordAtRowOne == WIDTH)
     {
       return grid
     }
     //does word fit in space
-    if(lengthOfRightWord <= amountOfSpaces ){
+    if(lengthOfRightWordAtRowOne <= amountOfSpaces ){
       //start row with word from above agfainst right border one row up
-      let row2 = rightWordRowOne
-      let combinedRow2 = []
+      
+
+      //?
+      let combined = []
       if(false){
-        combinedRow2 = [...remainder, ...row2, ...rightWordRowTwo]
+        combined = [...remainder, ...rightWordAtEndOfRowOne, ...rightWordAtEndOfRowTwo]
       }
       else{
-        combinedRow2 = [...row2, ...rightWordRowTwo]
+        combined = [...rightWordAtEndOfRowOne, ...rightWordAtEndOfRowTwo]
       }
-      let [combined1, nextRemainder] = this.splitAtIndex(combinedRow2, WIDTH);
-      grid[rowIndex+1] = combined1
-      let lengthOfRow2 = row2.length
+      let [leftRow, nextRemainder] = this.splitAtIndex(combined, WIDTH);
+      grid[rowIndex+1] = leftRow
+      //let lengthOfRow2 = rightWordAtEndOfRowOne.length
       horizontalCursorPosition = 0//horizontalCursorPosition + lengthOfRow2 * 5
       verticalCursorPosition = verticalCursorPosition + 10
 
       //check top of two rows to replace the use dvalues with dashes)
-      for(let i =  lengthOfRightWord ; i < WIDTH ; i++){
+      for(let i =  lengthOfRightWordAtRowOne ; i < WIDTH ; i++){
         grid[rowIndex][i] = "-"
       }
       //drawGrid(HEIGHT, WIDTH)
-      horizontalCursorPosition = horizontalCursorPosition + lengthOfRightWord * 5
+      horizontalCursorPosition = horizontalCursorPosition + lengthOfRightWordAtRowOne * 5
       //check for if next row is one below (not two), if not, advance two rows, as is normal
       if(grid[rowIndex+1][WIDTH-1] != "-" && grid[rowIndex+1][WIDTH-1] != undefined)
         {
@@ -248,7 +252,7 @@ class RecursiveClass {
       this.pushWords(false, grid, nextRemainder, rowIndex+2, 0)
       return grid
     }
-    //alert("out")
+   
     return grid
   }
   
