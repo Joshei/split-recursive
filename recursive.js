@@ -96,15 +96,17 @@ class RecursiveClass {
     }
 
     
-    createRow(grid, insertedArr, rowIndex, colIndex) {
-        this.deleteRow(grid, rowIndex+1) 
+    createRow(grid, rowIndex) {
+      //remove last line, which is exclamation marks
+       this.deleteRow(grid, rowIndex+1) 
+       //add a new row of nulls
        grid.push(["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ]),
-        //push for new final row again (padding for recursive calls, elsewhere)
-        grid.push(["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ]),
-      
-        HEIGHT++ 
-        return grid
-        }
+       //add exclamation marks at end again
+       grid.push(["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ]),
+       //important, allows new line to display in the drawgrid
+       HEIGHT++ 
+       return grid
+      }
     
 
 
@@ -143,7 +145,7 @@ class RecursiveClass {
     if(rowIndex > HEIGHT-2){
       
       //alert("move words")
-      this.createRow(grid, [], rowIndex, colIndex)
+      this.createRow(grid, rowIndex)
       let target1 = grid[rowIndex];
       let target2 = grid[rowIndex + 1];
       let lastSpaceIndexRow1 = target1.lastIndexOf("-");
@@ -312,78 +314,84 @@ class RecursiveClass {
     const back = arr.slice(index);
     return [front, back];
   }
-  
-  //debugged : 4/11/24
-  //this function uses createrow,  pushWords use just createrow
-  //tested : 4/16/24 =  changed - : 4/20/24
+  //6/19/24
+  //  top empty row
+  //  top on characters
+  //  on first column
+  //  on middle column
+  //  on last column
+  //  mid text
+  //  last row, first, middle, last  
   pressedEnter(
     grid,
-    rowIndex3,
+    rowIndex,
     colIndex,
     remainder,
-    wordToPass,
     IsFirstTime
+
   ) {
-    
-    //check if remainder has a value
+    //if no remainder set it to null
     if (Object.keys(remainder).length === 0) {
       remainder = "";
     }
-    let target1 = grid[rowIndex3];
-    let target2 = grid[rowIndex3 + 1];
-    //these characters are pushed to next row because of enter press
-    let amtCharactersToPass = WIDTH - colIndex;
-    let thisIsFullPhrase = [...wordToPass, ...target1];
-    //get left side to cursor
-    let [isntUsed, row1LastCharacters] = this.splitAtIndex(
-      thisIsFullPhrase,
+    let topRow = grid[rowIndex];
+    //row after toprow
+    let bottomRow = grid[rowIndex + 1];
+    //colindex is where cursor split the phrase into two halves
+    let amtCharactersToPassToNextRow = WIDTH - colIndex;
+    let [isntUsed, leftSideOfCursor] = this.splitAtIndex(
+      topRow,
       colIndex
     );
-    //remainder is leftover from string when a widths worth of data is gottem
-    let combine = [...remainder, ...target2];
-    //split at cursor
-    let [notUsed, lastCharacters] = this.splitAtIndex(combine, colIndex);
+    let secondRowDone = []
+    let newRemainder = []
+    //remainder is leftover from string when a widths worth of data is gotten
+    let combine = [...remainder, ...bottomRow];
+    
     //on initial call 
     if (IsFirstTime === true) {
-      //characters from the phrase brroken at cursor above
-      let secondRowNearlyDone = [...row1LastCharacters, ...combine];
-      //one rows worth
-      let [secondRowDone, remainder1] = this.splitAtIndex(
+      //combine left hand side of top at cursor and the bottom with remainder from last call
+      let secondRowNearlyDone = [...leftSideOfCursor, ...combine];
+      //cuts it to the size of one row
+      [secondRowDone, newRemainder] = this.splitAtIndex(
         secondRowNearlyDone,
         WIDTH
       );
-    grid[rowIndex3 + 1] = secondRowDone;
+    grid[rowIndex + 1] = secondRowDone;
     } else {
-      //build second row
-      let secondRowNearlyDone = [...wordToPass, ...combine];
-      let [secondRowDone, remainder1] = this.splitAtIndex(
-        secondRowNearlyDone,
+      //like above but no text on left side because enter pushes next rows directly down
+      //is size of one row
+        [secondRowDone, newRemainder] = this.splitAtIndex(
+        combine,
         WIDTH
       );
-      grid[rowIndex3 + 1] = secondRowDone;
+      //set second row
+      grid[rowIndex + 1] = secondRowDone;
     }
-    //again, on initial call, cover null with dash
+    //on initial call, cover with null on right side, because it is carried to next line
     if (IsFirstTime) {
-      for (let i = WIDTH - amtCharactersToPass; i < WIDTH; i++) {
-        grid[rowIndex3][i] = "-";
+      for (let i = WIDTH - amtCharactersToPassToNextRow; i < WIDTH; i++) {
+        grid[rowIndex][i] = "-";
       }     
     } 
+    //no longer first time, done using value
     IsFirstTime = false
-    if (rowIndex3 > HEIGHT-2) {
-      this.createRow(grid, remainder, rowIndex3+1, colIndex)
-      let amountOfNulls = colIndex
-      for(let i = WIDTH-amountOfNulls; i < WIDTH ; i++ )
+    //index is HEIGHT - 1, and is next value
+    //is on last row with an enter, so create a new line
+    if (rowIndex > HEIGHT-2) {
+
+      this.createRow(grid, rowIndex+1)
+      //fill in nulls after displaying text moved there from above
+      let amountOfNullsForNewBottomRow = colIndex
+      for(let i = WIDTH-amountOfNullsForNewBottomRow; i < WIDTH ; i++ )
       {
-        grid[rowIndex3+1][i] = "-"
+        grid[rowIndex+1][i] = "-"
       }
-      drawGrid(HEIGHT,WIDTH)
-      drawCursor(
-      horizontalCursorPosition + HOFFSET,
-      verticalCursorPosition + VOFFSET
-      );
-      return grid;
+      return grid
     }
+    //set for cursor on next line, first column
     horizontalCursorPosition = 0
+    drawGrid(HEIGHT, WIDTH)
     drawCursor(
       horizontalCursorPosition + HOFFSET,
       verticalCursorPosition + VOFFSET
@@ -391,10 +399,9 @@ class RecursiveClass {
     //enter effects next row here
     this.pressedEnter(
       grid,
-      rowIndex3 + 1,
+      rowIndex + 1,
       colIndex,
-      remainder,
-      lastCharacters,
+      newRemainder,
       false
     );
     return grid;
@@ -802,7 +809,7 @@ class RecursiveClass {
       //if we are on the last line and there is a character on rightmost character
       //create a row if on last row
       if (grid[rowIndex][WIDTH-1] != "-" && rowIndex === HEIGHT-1 && verticalCursorPosition/10 === HEIGHT-1){
-        this.createRow(grid, leftOverChar, rowIndex, colIndex)
+        this.createRow(grid, rowIndex)
       }
       return grid
     }
