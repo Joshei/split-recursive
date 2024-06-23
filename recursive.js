@@ -20,6 +20,7 @@ class RecursiveClass {
     this.GCreateRowFlag = true
     this.HasBeenCalled = false
     this.counterOfRows = 0
+    this.UseRemainder = true
     
   }
 
@@ -125,66 +126,108 @@ class RecursiveClass {
 //@    return grid
 //@  }
 
-  //debugged : 4/11/24
-  //testing - works with delete pressed on same line as top row
-  //looks good - 4/26/24
-  //rewritten : 4/27/24, tested
-  pushWords(IsFromIndex, grid, remainder, rowIndex, colIndex)
+  //check value of width and greater value
+  pushWords(grid, remainder, rowIndex)
   {
-
-
     if(rowIndex > HEIGHT-1){
-      return grid
+      //return grid
     }
+   //on last row with a push
+    if(rowIndex > HEIGHT-2){// && verticalCursorPosition/10 == HEIGHT-1){
+    alert("push words")
+    //make a row at very end
+    this.createRow(grid, rowIndex)
+    let topRow = grid[rowIndex];
 
-    let nextRemainder = []
-    let combined1 = []
+
+
+    ////////////////////set 1/////////////////////////
+
+    //let bottomRow = grid[rowIndex + 1];
+    //change to last space to get rightmost word
+    let lastSpaceIndexRow = topRow.lastIndexOf("-");
+    //phrase, right of last space, on top row
+    const [left, rightWordAtEndOfRowOne] = this.splitAtIndex(topRow, lastSpaceIndexRow + 1);
+    let lengthOfRightWordAtRowOne = rightWordAtEndOfRowOne.length
     
-    if(rowIndex > HEIGHT-2){
-      
-      //alert("move words")
-      this.createRow(grid, rowIndex)
-      let topRow = grid[rowIndex];
-      let bottomRow = grid[rowIndex + 1];
-      let lastSpaceIndexRow = topRow.lastIndexOf("-");
-      //phrase, right of last dash
-      const [left, rightWordAtEndOfRowOne] = this.splitAtIndex(topRow, lastSpaceIndexRow + 1);
-      let lengthOfRightWordAtRowOne = rightWordAtEndOfRowOne.length
-      let lengthOfRemainder = remainder.length
-      
-
-      
-      let nextRemainder = []
-      let aRowOfNulls = []
-      for(let i = 0; i < WIDTH - lengthOfRightWordAtRowOne + lengthOfRemainder; i++){
-        RowOfNulls[i] = "-"
-      }
-      
-
-      const combined = [...rightWordAtEndOfRowOne, ...RowOfNulls]
-      let [leftPhrase, notUsed] = this.splitAtIndex(combined, WIDTH);
-
-
-      grid[rowIndex+1] = leftPhrase
-      for(let i = WIDTH - lengthOfRightWordAtRowOne; i< WIDTH; i++){
-        grid[rowIndex][i] = "-"
+    
+   ///////////////////////////////////////////// 
+    
+    
+    //let lengthOfRemainder = remainder.length
+    let RowOfNulls = []
+    for(let i = 0; i < WIDTH - lengthOfRightWordAtRowOne; i++){
+      RowOfNulls[i] = "-"
+    }
+    //move row of first row to second row and add nulls
+    const secondRow = [...rightWordAtEndOfRowOne, ...RowOfNulls]
+    //let [leftPhrase, notUsed] = this.splitAtIndex(combined, WIDTH);
+    grid[rowIndex+1] = secondRow
+    //fill top row with dashes where moved text was
+    for(let i = WIDTH - lengthOfRightWordAtRowOne; i< WIDTH; i++){
+      grid[rowIndex][i] = "P"
       }
       //drawGrid(HEIGHT, WIDTH)
       //drawCursor(
       //  horizontalCursorPosition + HOFFSET,
       //  verticalCursorPosition + VOFFSET)
-      //  return grid
+      return grid
     }
+
     let topRow = grid[rowIndex];
     let bottomRow = grid[rowIndex + 1];
+
+
+    ///////////////////set 2///////////////////////////////
+
     //get left phrase before last dash
-    let lastSpaceIndexRow = topRow.lastIndexOf("-");
-    //phrase, right of last dash
-    const [left, rightWordAtEndOfRowOne] = this.splitAtIndex(topRow, lastSpaceIndexRow + 1);
-    //how many dashes from left to right that are spaces to determine if word is pushed onto this row
+    //check fit that is spaces and nulls available
+    let lastIndexOfNullOnTopRow = topRow.lastIndexOf("-");
+    let lastIndexOfSpaceOnTopRow = topRow.lastIndexOf(" ");
+    let maxIndexOfNullOrString = 0
+    if(lastIndexOfSpaceOnTopRow >= lastIndexOfNullOnTopRow){
+      maxIndexOfNullOrString = lastIndexOfSpaceOnTopRow
+    }else{
+      //choose space or null character that is farthest right on row
+      maxIndexOfNullOrString = lastIndexOfNullOnTopRow
+    }
+    if (maxIndexOfNullOrString === -1){
+      return grid
+    }
+    //last dash or space before right hand word to be moved
+    const [left, rightWordAtEndOfRowOne] = this.splitAtIndex(topRow, maxIndexOfNullOrString + 1);
+    let lengthOfRightWordAtRowOne = rightWordAtEndOfRowOne.length
+
+    ////////////////////////////////////////////////
+    
+    
+    
+    //amount of dashes and spaces on bottom row that the top row, right hand phrase, can move into
+    let firstIndexOfNullOnBottomRow = bottomRow.IndexOf("-");
+    let firstIndexOfSpaceOnBottomRow = bottomRow.IndexOf(" ");
+    minIndexOfNullOrString = 0
+    if(firstIndexOfSpaceOnRow < firstIndexOfNullOnBottomRow){
+      minIndexOfNullOrString = firstIndexOfSpaceOnBottomRow
+    }else{
+      //choose space or null character that is farthest right on row
+      minIndexOfNullOrString = firstIndexOfNullOnBottomRow
+    }
+    if (minIndexOfNullOrString === -1){
+      return grid
+    }
+    //before first space or null, whichever is first
+    const [leftHandSideWordOnBottomRow, unused] = this.splitAtIndex(bottomRow, minIndexOfNullOrString );
+    //index of end of left space (null, or space)
+    let lengthOfLeftSpaceAtRowTwo = leftHandSideWordOnBottomRow.length
+    
+    
+    
+    
+    
+    
     let dashCounter  = 0
     for(let i = 0 ; i < WIDTH; i++){
-       if (grid[rowIndex + 1][i] == "-"){
+       if (grid[rowIndex + 1][i] == "-" || grid[rowIndex+1][i] == " "){
           dashCounter++
        }
        else{
@@ -192,70 +235,49 @@ class RecursiveClass {
        }
       }
 
-      
 
-
-
-
-
-    let amountOfSpaces = dashCounter
+    let availableSpacesOnleftOfRowTwo = minIndexOfNullOrString
+    let availableSpacesOnRightOfRowOne = minIndexOfNullOrString
+    let totalMaximumLengthOfTopAndBottomRows = availableSpacesOnRightOfRowOne + availableSpacesOnleftOfRowTwo 
     //word to move's length
-    let lengthOfRightWordAtRowOne = rightWordAtEndOfRowOne.length
-
-    
-    const [unused, rightWordAtEndOfRowTwo] = this.splitAtIndex(bottomRow, lengthOfRightWordAtRowOne);
-
-    let index = WIDTH - lengthOfRightWordAtRowOne
+    //let lengthOfRightWordAtRowOne = rightWordAtEndOfRowOne.length
+    //there is no word
     if(lengthOfRightWordAtRowOne === 0){
+      this.pushWords(grid, [" "] ,rowIndex+1)
       return grid
     }
-
-    //if(colIndex  !== index && IsFromIndex)
-    //{
-    //   return grid
-    //}
-    if(lengthOfRightWordAtRowOne == WIDTH)
+    //word is entire width
+    if(lengthOfRightWordAtRowOne >= WIDTH)
     {
       return grid
     }
-    //does word fit in space
-    if(lengthOfRightWordAtRowOne <= amountOfSpaces ){
-      //start row with word from above agfainst right border one row up
-      
-
-      //?
-      let combined = []
-      if(false){
-        combined = [...remainder, ...rightWordAtEndOfRowOne, ...rightWordAtEndOfRowTwo]
-      }
-      else{
-        combined = [...rightWordAtEndOfRowOne, ...rightWordAtEndOfRowTwo]
-      }
-      let [leftRow, nextRemainder] = this.splitAtIndex(combined, WIDTH);
-      grid[rowIndex+1] = leftRow
-      //let lengthOfRow2 = rightWordAtEndOfRowOne.length
-      horizontalCursorPosition = 0//horizontalCursorPosition + lengthOfRow2 * 5
-      verticalCursorPosition = verticalCursorPosition + 10
-
-      //check top of two rows to replace the use dvalues with dashes)
-      for(let i =  lengthOfRightWordAtRowOne ; i < WIDTH ; i++){
-        grid[rowIndex][i] = "-"
-      }
-      //drawGrid(HEIGHT, WIDTH)
-      horizontalCursorPosition = horizontalCursorPosition + lengthOfRightWordAtRowOne * 5
-      //check for if next row is one below (not two), if not, advance two rows, as is normal
-      if(grid[rowIndex+1][WIDTH-1] != "-" && grid[rowIndex+1][WIDTH-1] != undefined)
-        {
-          this.pushWords(false,grid, nextRemainder, rowIndex+1, 0) 
-          return grid
-        }
-      this.pushWords(false, grid, nextRemainder, rowIndex+2, 0)
+    //does word fit in space on next row that has available spaces or nulls
+    if(lengthOfRightWordAtRowOne + lengthOfLeftSpaceAtRowTwo <= totalMaximumLengthOfTopAndBottomRows){
+    let combined = []
+    //combine both words to make a sring of characters that overflows to next row, and is used with newremiander
+    combined = [...remainder,...rightWordAtEndOfRowOne, ...leftHandSideWordOnBottomRow,...rightPhraseAtEndOfRowTwoWithoutSpaceForWord]
+    const [newBottomRow, newRemainder] = this.splitAtIndex(combined, WIDTH);
+    grid[rowIndex+1] = newBottomRow
+    //set cursor at next row, first column
+    horizontalCursorPosition = 0
+    verticalCursorPosition = verticalCursorPosition + 10
+    if(lengthOfRightWordAtRowOne == 0){
+    }else{
+    //fill in moved text space with dashes on top row
+    for(let i =  WIDTH - lengthOfRightWordAtRowOne ; i < WIDTH ; i++){
+      grid[rowIndex][i] = "T"
+    }
+    }
+   //set for cursor.  Put cursor at end of inserted row.
+    horizontalCursorPosition = horizontalCursorPosition + lengthOfRightWordAtRowOne * 5
+    this.pushWords(grid, newRemainder, rowIndex+1)
+    }
       return grid
     }
-   
-    return grid
-  }
-  
+
+
+
+    
   insertCharacterToArray(array, col, row, character) 
   {
     array[row].splice(col, 0, "W");
@@ -744,6 +766,7 @@ class RecursiveClass {
     //  insert with dash on last character, otherwise full, second line no dash on last character
     //  insert on last row, both with last character and null
     initialInsert(rowIndex, colIndex, grid, leftOverChar){
+    //alert("initial insert")
     let horizString =  (horizontalCursorPosition/5).toString()
     let vertString = (verticalCursorPosition/10).toString() 
     let a = document.getElementById("xAndY")
