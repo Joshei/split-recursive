@@ -10,7 +10,6 @@ class RecursiveClass {
     this.testCounter = 0;
     this.BreakoutOfDelete = false;
     this.rem = [];
-    //this.IsJustFromRecursive = false
     this.calledOneTimeAlready = false
     this.CounterForHeight = 0
     this.HasBeenToRecursiveFunction = false
@@ -20,18 +19,8 @@ class RecursiveClass {
     this.UseRemainder = true
   }
 
-  
-  copyArray(sourceArray, destArray, commonLength){
-    for(let i = 0; i < commonLength; i++)
-    {
-      let tempValue = sourceArray[i]
-      destArray[i] = tempValue
-    }
-    return destArray
-  }
- 
-  createRow(grid, rowIndex) {
-  //remove last line, which is exclamation marks
+    createRow(grid, rowIndex) {
+    //remove last line, which is exclamation marks
     this.deleteRow(grid, rowIndex+1) 
     //add a new row of nulls
     grid.push(["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ]),
@@ -43,32 +32,28 @@ class RecursiveClass {
   }
 
   getLastSpaceOrNull(grid ,topRow){
-
-    //get left phrase before last dash
-      //check fit that is spaces and nulls available
-      let lastIndexOfNullOnTopRow = topRow.lastIndexOf("-");
-      let lastIndexOfSpaceOnTopRow = topRow.lastIndexOf(" ");
-      let maxIndexOfNullOrString = 0
-      if(lastIndexOfSpaceOnTopRow >= lastIndexOfNullOnTopRow){
-        maxIndexOfNullOrString = lastIndexOfSpaceOnTopRow
-      }else{
-        //choose space or null character that is farthest right on row
-        maxIndexOfNullOrString = lastIndexOfNullOnTopRow
-      }
-      if (maxIndexOfNullOrString === -1){
-        return grid
-      }
-      //last dash or space before right hand word to be moved
-      const [left, rightWordAtEndOfRowOne] = this.splitAtIndex(topRow, maxIndexOfNullOrString + 1);
-     
-      return [grid,rightWordAtEndOfRowOne]
-
+  //get left phrase before last dash
+  //check fit that is spaces and nulls available
+  let lastIndexOfNullOnTopRow = topRow.lastIndexOf("-");
+  let lastIndexOfSpaceOnTopRow = topRow.lastIndexOf(" ");
+  let maxIndexOfNullOrString = 0
+  if(lastIndexOfSpaceOnTopRow >= lastIndexOfNullOnTopRow){
+    maxIndexOfNullOrString = lastIndexOfSpaceOnTopRow
+  }else{
+    //choose space or null character that is farthest right on row
+    maxIndexOfNullOrString = lastIndexOfNullOnTopRow
   }
+  if (maxIndexOfNullOrString === -1){
+    return grid
+  }
+  //last dash or space before right hand word to be moved
+  const [left, rightWordAtEndOfRowOne] = this.splitAtIndex(topRow, maxIndexOfNullOrString + 1);
+  return [grid,rightWordAtEndOfRowOne]
+}
 
   //check value of width and greater value
   pushWords(grid, remainder, rowIndex)
   {
-   
     let rightWordAtEndOfRowOne = []
     //on last row with a push
     if(rowIndex > HEIGHT-2){
@@ -104,15 +89,13 @@ class RecursiveClass {
         verticalCursorPosition + VOFFSET)
       return grid
     }
-
-    ////////end base case//////////////////////////////
+    //end base case
     let wasVariablegridCheck = []
     let anothertWordAtEndOfRowOne = []
     let topRow = grid[rowIndex];
     let bottomRow = grid[verticalCursorPosition/10 + 1];
     [wasVariablegridCheck, anothertWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid,topRow)
     let lengthOfRightWordAtRowOne = anothertWordAtEndOfRowOne.length
-    
     //before first space or null, whichever is first  
     let firstIndexOfNullOnBottomRow = bottomRow.indexOf("-");
     let firstIndexOfSpaceOnBottomRow = bottomRow.indexOf(" ");
@@ -135,11 +118,10 @@ class RecursiveClass {
     let LengthOfNullsAndSpacesAfterLeftWord = 0
     //get next dash or space after word on left - bottom row
     for(let i = lastIndexOfFirstWord+1 ; i < WIDTH; i++){
-         
-          if (grid[rowIndex+1][i] != "-" &&  grid[rowIndex+1][i] != " "){
+      if (grid[rowIndex+1][i] != "-" &&  grid[rowIndex+1][i] != " "){
             break
-          }
-          LengthOfNullsAndSpacesAfterLeftWord++
+      }
+      LengthOfNullsAndSpacesAfterLeftWord++
     }
     //will word fit below in the spaces and nulls that are before the next real character
     if(lengthOfRightWordAtRowOne <= LengthOfNullsAndSpacesAfterLeftWord){
@@ -184,18 +166,6 @@ class RecursiveClass {
     return arrayToChange;
   }
   
-  snapshot(original) {
-    console.log("orig: 0", original);
-    let newArray = original.map((oldRow) => {
-      console.log({oldRow})
-      console.log("map: ", this.mapCounter);
-      this.mapCounter = this.mapCounter + 1;
-      console.log("oldRow2", ...oldRow)
-      return [...oldRow];
-    });
-    console.log("or: ", newArray);
-    return newArray;
-  }
   splitAtIndex(arr, index) {
     console.log("index: ", index);
     console.log("arr: ", arr);
@@ -203,6 +173,7 @@ class RecursiveClass {
     const back = arr.slice(index);
     return [front, back];
   }
+
   //6/19/24
   //  top empty row
   //  top on characters
@@ -217,8 +188,7 @@ class RecursiveClass {
     colIndex,
     remainder,
     IsFirstTime
-
-  ) {
+    ) {
     //if no remainder set it to null
     if (Object.keys(remainder).length === 0) {
       remainder = "";
@@ -236,7 +206,6 @@ class RecursiveClass {
     let newRemainder = []
     //remainder is leftover from string when a widths worth of data is gotten
     let combine = [...remainder, ...bottomRow];
-    
     //on initial call 
     if (IsFirstTime === true) {
       //combine left hand side of top at cursor and the bottom with remainder from last call
@@ -268,7 +237,6 @@ class RecursiveClass {
     //index is HEIGHT - 1, and is next value
     //is on last row with an enter, so create a new line
     if (rowIndex > HEIGHT-2) {
-
       this.createRow(grid, rowIndex+1)
       //fill in nulls after displaying text moved there from above
       let amountOfNullsForNewBottomRow = colIndex
@@ -369,12 +337,13 @@ class RecursiveClass {
   let combine = [...frontCharactersTopRow, ...topRightWithoutDeletedCharacter, ...bottomLeftmostCharacter ]
   grid[rowIndex] = combine
   //this is a function that has a recursion call.  
-  this.removeLeftCharacterFrom2ndRowAndReplaceRowAboveOnMostRightSide(counterOfUsedRows, rowIndex+1, grid)
+  this.removeLeftCharacterFrom2ndRowAndReplaceAboveOnMostRightSide(counterOfUsedRows, rowIndex+1, grid)
   return grid
-}
   }
+}
 
-  removeLeftCharacterFrom2ndRowAndReplaceRowAboveOnMostRightSide(amtOfUsedRows, rowIndex, grid){
+
+  removeLeftCharacterFrom2ndRowAndReplaceAboveOnMostRightSide(amtOfUsedRows, rowIndex, grid){
     //counter is used to check for proper amount of lines to be run
     this.counterOfRows++
     //if run for all rows, or none at all bail out
@@ -404,7 +373,7 @@ class RecursiveClass {
     let newTopRow = [...topRowWithoutLeftCharacter, ...leftCharacterofBottomRow]
     grid[rowIndex] = newTopRow
     //tail end recursion, runs until end of rows, or dash is encountered after number of rows
-    this.removeLeftCharacterFrom2ndRowAndReplaceRowAboveOnMostRightSide(amtOfUsedRows, rowIndex+1, grid)
+    this.removeLeftCharacterFrom2ndRowAndReplaceAboveOnMostRightSide(amtOfUsedRows, rowIndex+1, grid)
     //rest this global value, for use next time
     this.counterOfRows = 0
     return grid
@@ -417,14 +386,12 @@ class RecursiveClass {
     verticalCursorPosition + VOFFSET)
   }
 
-//
   advanceHorizontalOneTime(){
   if(horizontalCursorPosition/5 >= WIDTH-1  && verticalCursorPosition/10 >= HEIGHT-1)
   {
         return
   }
-
-  if (horizontalCursorPosition >= (WIDTH-1)*5){// (WIDTH -1 )*5) {
+  if (horizontalCursorPosition >= (WIDTH-1)*5){
     horizontalCursorPosition = 0
     verticalCursorPosition = verticalCursorPosition + 10
   }else{
