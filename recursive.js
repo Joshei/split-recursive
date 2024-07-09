@@ -34,6 +34,7 @@ class RecursiveClass {
   getLastSpaceOrNull(grid ,topRow){
   //get left phrase before last dash
   //check fit that is spaces and nulls available
+  //
   let lastIndexOfNullOnTopRow = topRow.lastIndexOf("-");
   let lastIndexOfSpaceOnTopRow = topRow.lastIndexOf(" ");
   let maxIndexOfNullOrString = 0
