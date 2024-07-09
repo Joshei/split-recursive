@@ -417,7 +417,7 @@ class RecursiveClass {
     verticalCursorPosition + VOFFSET)
   }
 
-
+//
   advanceHorizontalOneTime(){
   if(horizontalCursorPosition/5 >= WIDTH-1  && verticalCursorPosition/10 >= HEIGHT-1)
   {
