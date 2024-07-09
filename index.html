@@ -72,8 +72,6 @@
   ctx.fillRect(0, 0, 800, 800)
   ctx.fillStyle = '#000000'
   ctx.font = '10px Monospace'
-  //ctx.textAlign = 'center'
-  //ctx.textBaseline = "bottom"
   var x = size / 2
   var y = size / 2
   
@@ -86,10 +84,7 @@
   }
   
   function makeCanvas(verticalSize = FIRSTSETHEIGHT){
-
-    //return
-  //15 220   15
-  var size = verticalSize// HEIGHT * 10 + 45//HEIGHT * 10 + 50
+  var size = verticalSize
   let hsize = 200
   canvas.style.width = hsize + 'px'
   canvas.style.height = size + 'px'
@@ -101,30 +96,19 @@
   ctx.fillRect(0, 0, 800, 800)
   ctx.font = '10px Monospace'
   ctx.textAlign = 'center'
-  //ctx.textBaseline = 'bottom'
-
-
   }
+  
   //draws grid
   function drawGrid(iValue = HEIGHT, jValue = WIDTH) {
-
-    
-    //let oneCharHeight = FIRSTSETHEIGHT/15
     let extraHeightRows = HEIGHT - ORIGINALHEIGHT
     let totalVert = extraHeightRows*10 + 200
-    //let extraCanvasHeight = oneCharHeight * extraHeightRows
-
     makeCanvas(totalVert)
-
     clearArray()
     ctx.fillStyle = 'black'
     for (let i = 0; i < iValue; i++) {
     for (let j = 0; j < jValue ; j++) {
     console.log("na: ", gridArray)
     if(gridArray && gridArray[i] && gridArray[i][j]){
-    
-      //INCREASING CANVAS WITH THIS INFORMATION:
-      //UNDERSTAND CODE FOR STOP AT MAX WIDTH AND MAX HEIGHT
     ctx.fillText(gridArray[i][j], j * 5 + 30 , i * 10 + 33)
     console.log("ZZZ: ", {j}, {i})
     }else{
@@ -152,18 +136,14 @@
     var keyState = {}
     let eventKeyCode = ""
     let down = false
-    
     document.body.addEventListener('keydown', function(e){
     keyState[e.keyCode || e.which] = true;
     eventKeyCode = e.keyCode
     gKey = e.key
     if (down) return
     down = true
-    //for testing
-    //gridArray = Recursive.test(gKey, gridArray, verticalCursorPosition/10)
     cursorAndFunctionCalls()
     }, false)
-    
     document.addEventListener('keyup', function(e){
     keyState[e.keyCode || e.which] = false;
     gKey = e.key
@@ -175,7 +155,7 @@
     function cursorAndFunctionCalls() {
     //right
     if(keyState[39]){
-    //move to right double, altogether
+    //?
     Recursive.advanceHorizontalOneTime()
     CursorMovements.cursorRight() 
     }
@@ -187,9 +167,8 @@
     else if(keyState[38]){
       CursorMovements.cursorUp()
     }
-    //move down double, all together
+    //down
     else if(keyState[40]){
-      //Recursive.advanceVerticalOneTime()
       CursorMovements.cursorDown()
     } 
     else if(gKey === 'Delete')
@@ -201,54 +180,12 @@
       gridArray = Recursive.pressedEnter(gridArray, verticalCursorPosition/10, horizontalCursorPosition/5, "",true)
     }
     else if(gKey !== ""){
-    
-    //3 main functions to use
     gridArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, gridArray, gKey)
-    //gridArray =  Recursive.pullTextBackToTop(true, gKey, gridArray, verticalCursorPosition/10, horizontalCursorPosition/5)
     gridArray = Recursive.pushWords(gridArray, [""],  verticalCursorPosition/10)
-      
     }
     drawGrid(HEIGHT, WIDTH)
     Recursive.displayGridAndCursor()  
     } 
-    
-    
-
-    cursorAndFunctionCalls()
-/*      
-      const test = document.addEventListener('keydown', function (e) {
-      else if(gKey == 'Enter')//
-      {
-        HEIGHT++
-        //gridArray = Recursive.pressedEnter(gridArray, verticalCursorPosition/10, horizontalCursorPosition/5, [], [], true)
-        const t0 = performance.now()
-        let a = pausehere
-      
-      }
-      else if(gKey == 'Delete')
-      {
-        alert("delete")
-          console.log("nested array3: ", gridArray);
-          //4 functions:
-          //gridArray =  Recursive.pullTextBackToTop(true, gridArray, verticalCursorPosition/10, horizontalCursorPosition/5)
-          //gridArray = Recursive.pushWords(true, gridArray,[],verticalCursorPosition/10, horizontalCursorPosition   
-      }
-    })
-*/
-/*
-  let down = false
-    document.addEventListener('keydown' , function (e){
-      gKey = e.key
-      if(down) return
-      down = true
-
-      gridArray = Recursive.test(gKey, gridArray, verticalCursorPosition/10)
-
-    }, false);
-
-    document.addEventListener('keyup' , function (e){
-      gKey = e.key
-      down = false}, false)
-*/
+     cursorAndFunctionCalls()
     </script>
     </body>
