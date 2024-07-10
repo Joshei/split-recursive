@@ -1,22 +1,6 @@
 class RecursiveClass {
   constructor() {
-    this.maxCols = 7;
-    this.counter = 0;
-    this.initialColumn = 0;
-    this.mapCounter = 0;
-    this.testcounter = 0;
-    this.flag = 0;
-    this.flagToManyDashes = false;
-    this.testCounter = 0;
-    this.BreakoutOfDelete = false;
-    this.rem = [];
-    this.calledOneTimeAlready = false
-    this.CounterForHeight = 0
-    this.HasBeenToRecursiveFunction = false
-    this.GCreateRowFlag = true
-    this.HasBeenCalled = false
-    this.counterOfRows = 0
-    this.UseRemainder = true
+  this.counterOfRows = 0
   }
 
     createRow(grid, rowIndex) {
@@ -29,6 +13,7 @@ class RecursiveClass {
     //important, allows new line to display in the drawgrid
     HEIGHT++ 
     return grid
+    
   }
 
   getLastSpaceOrNull(grid ,topRow){
@@ -55,6 +40,9 @@ class RecursiveClass {
   //check value of width and greater value
   pushWords(grid, remainder, rowIndex)
   {
+
+    //?
+    //this.counter = 0
     let rightWordAtEndOfRowOne = []
     //on last row with a push
     if(rowIndex > HEIGHT-2){
@@ -399,6 +387,105 @@ class RecursiveClass {
     horizontalCursorPosition = horizontalCursorPosition + 5
   }
   }
+
+///////////////////////from cleanupPushword
+
+    //push with letter on end  and a character in middle, push on left
+    //push with letter on end  and a character in middle, push on middle
+    //push with two rows on end, both move to next row
+    //two digits before two end points on end, all move correctly
+    //  insert on empty row
+    //  insert on last column with and without on last row and two there
+    //  insert with dash on last character, otherwise full.
+    //  insert with dash on last character, otherwise full, second line no dash on last character
+    //  insert on last row, both with last character and null
+    initialInsert(rowIndex, colIndex, grid, leftOverChar){
+      //alert("initial insert")
+      let horizString =  (horizontalCursorPosition/5).toString()
+      let vertString = (verticalCursorPosition/10).toString() 
+      let a = document.getElementById("xAndY")
+      a.innerHTML = 'Horizontal: ' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
+      this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
+      if(rowIndex > HEIGHT -1){
+        return grid
+      }
+      //these are the two lines we are using
+      let topRow = grid[rowIndex];
+      let lowerRow = grid[rowIndex+1]
+      //splits array apart at insertion point
+      let [leftTopRow, rightTopRow] = this.splitAtIndex(topRow, colIndex)
+      //insert character at index
+      let combineTopRow = [...leftTopRow, ...leftOverChar, ...rightTopRow]
+      //this is one row, exactly, because of WIDTH
+      let [finishedTopRow, leftOver] = this.splitAtIndex(combineTopRow, WIDTH)
+      
+  
+      //if true isn't first run
+      if (grid[rowIndex][WIDTH-1] != "-" ){
+        //push rows right because of insert
+        this.pushRowRight(rowIndex+1, 0, grid, leftOver)
+      }
+      
+      //set row
+      grid[rowIndex] = finishedTopRow
+  
+      return grid
+    }
+  
+  
+
+
+
+///////////////////////
+
+
+////////???
+
+checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
+      
+  //if we are on the last line and there is a character on rightmost character
+  //create a row if on last row
+  if (grid[rowIndex][WIDTH-1] != "-" && rowIndex === HEIGHT-1 && verticalCursorPosition/10 === HEIGHT-1){
+    this.createRow(grid, rowIndex)
+  }
+  return grid
+}
+////////cleanupPushWord
+
+pushRowRight(rowIndex, colIndex, grid, leftOverChar){
+   
+  //check if it is time to add row
+  this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
+  //bails out of recursion
+  if(rowIndex > HEIGHT -1){
+    return grid
+  }
+  //two rows were using for push
+  let topRow = grid[(rowIndex-1)];
+  let lowerRow = grid[rowIndex]
+  let combineToBottomRow = []
+  //if not a dash on last row end, than add that character on start of next line
+  if (leftOverChar === "-"){
+    combineToBottomRow = [...lowerRow]
+  }else{
+    combineToBottomRow = [...leftOverChar, ...lowerRow]
+  }
+  //one row, exactly, because of WIDTH
+  let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
+  grid[rowIndex] = bottomRowReady
+ 
+  if(remainingChars != "-"){
+  //push next row to right(one position)  recursion
+    this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
+  }
+  return grid
+  }
+
+
+
+//////////////
+
+
 }
 
 
