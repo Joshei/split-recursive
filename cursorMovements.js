@@ -1,3 +1,4 @@
+//controls cursor movement changes and crosses over borders
 class CursorMovementsClass {
     cursorRight() {
       
@@ -5,8 +6,7 @@ class CursorMovementsClass {
       {
         return
       }
-      if (horizontalCursorPosition >= (WIDTH-1)*5){// (WIDTH -1 )*5) {
-        //*alert("here")
+      if (horizontalCursorPosition >= (WIDTH-1)*5){
         horizontalCursorPosition = 0
         verticalCursorPosition = verticalCursorPosition + 10
       }else{
