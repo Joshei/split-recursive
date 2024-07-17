@@ -1,0 +1,14 @@
+{
+  "name": "my-cool-app",
+  "version": "1.0.0",
+  "description": "This is my cool app",
+ 
+  "scripts": {
+    "start": "http-server"
+  },
+  "author": "Me",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
