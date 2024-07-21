@@ -3,6 +3,13 @@ class RecursiveClass {
   this.counterOfRows = 0
   }
 
+  deleteRow(arr, rowNumber) 
+  {
+      arr.splice(rowNumber, 1);
+      return arr;
+  }
+
+
     createRow(grid, rowIndex) {
     //remove last line, which is exclamation marks
     this.deleteRow(grid, rowIndex+1) 
@@ -143,6 +150,7 @@ class RecursiveClass {
       return grid
     }
 
+  
   fillNullWithDashOnRow(RowIndex, arrayToChange) {
     for (let i = 0; i < WIDTH; i++) {
       if (
@@ -394,11 +402,12 @@ class RecursiveClass {
 
 ///////////////////////from cleanupPushword?
 
-    //push with letter on end  and a character in middle, push on left
-    //push with letter on end  and a character in middle, push on middle
-    //push with two rows on end, both move to next row
-    //two digits before two end points on end, all move correctly
+    //  push with letter on end  and a character in middle, push on left
+    //  push with letter on end  and a character in middle, push on middle
+    //  push with two rows on end, both move to next row
+    //  two digits before two end points on end, all move correctly
     //  insert on empty row
+    //  insert on row with chracters
     //  insert on last column with and without on last row and two there
     //  insert with dash on last character, otherwise full.
     //  insert with dash on last character, otherwise full, second line no dash on last character
@@ -423,7 +432,7 @@ class RecursiveClass {
       //this is one row, exactly, because of WIDTH
       let [finishedTopRow, leftOver] = this.splitAtIndex(combineTopRow, WIDTH)
       //there is a character on last row, do call function which is recursive
-      if (grid[rowIndex][WIDTH-1] != "-" ){
+      if ((grid[rowIndex][WIDTH-1] != DASH) && (grid[rowIndex][WIDTH-1] != " ")){
         //push rows right because of insert
         this.pushRowRight(rowIndex+1, 0, grid, leftOver)
       }
