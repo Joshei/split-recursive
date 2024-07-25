@@ -1,13 +1,10 @@
-//
-// FlagWordMovedToNewRow is set when the first column of the next row has a character in it 
-// when true dont creatrow with pushwords because the new row has already been created
-// there is some junk that i startedsett with function paramenters
-
+//comment push and initial, consider current repo for meld
+//test meld commiting
 class RecursiveClass {
   constructor() {
   this.counterOfRows = 0
-  this.FlagIsFromInsert = false
-  }
+  this.RowAddedCount = 1
+ }
 
   deleteRow(arr, rowNumber) 
   {
@@ -16,34 +13,11 @@ class RecursiveClass {
   }
 
 
-    createRow(grid, rowIndex, fromInsertFunction) {
-
-      //if(this.FlagIsFromInsert){
-      //  return grid
-      //}
-      //if(fromInsertFunction){
-      //  //return grid
-      //}
-      if(fromInsertFunction){
-        this.FlagIsFromInsert = true;
-
-          
-      }
-
-      //if(this.FlagIsFromInsert == true)
-      //{
-      //  return grid
-      //}
-    //remove last line, which is exclamation marks
-    //this.deleteRow(grid, rowIndex+1) 
+  createRow(grid, rowIndex) {
     //add a new row of nulls
-    grid.push(["1", "-", "-", "-", "-", "-" , "-", "-", "-", "-",    "Z", "-" , "-", "-", "-", "-", "-", "-", "-" , "-"   ,"-", "-", "-", "-", "-", "-" , "-" ]),
-    //add exclamation marks at end again, which is for padding
-    //grid.push(["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ]),
-    //important, allows new line to display in the drawgrid
+    grid.push(["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-"   ,"-", "-", "-", "-", "-", "-" , "-" ]),
     HEIGHT++ 
     return grid
-    
   }
 
   getLastSpaceOrNull(grid ,topRow){
@@ -66,45 +40,15 @@ class RecursiveClass {
   return [grid,rightWordAtEndOfRowOne]
 }
 
-  pushWords(grid, remainder, rowIndex, CharacterOnLeftAlready)
+  //this last parameter checks for when the end of row already had a character.  This would
+  //allow an end row key press to work if it is on top of it.  Because of this,
+  //push word will function across that right end row.    
+  pushWords(grid, remainder, rowIndex, CharacterOnRightAlready)
   {
-
-    //return grid
-    //?
-    //this.counter = 0
     let rightWordAtEndOfRowOne = []
-    //let FlagMovedToNextRow = false
-    //on last row with a push
-    //if(rowIndex > HEIGHT-2){
-      
-    //if(rowIndex == 14){
-    
-    //waiting for a createrow from insert function - HEIGHT defaults at -1, so it
-    //is + 2 because there is a row of exclamation marks at the end of matrix, so 
-    //it is checking for a row two rows down  
-    //if (rowIndex < HEIGHT+1){
-
-    //if(rowIndex == HEIGHT - 1 && this.FlagIsFromInsert == true){
-      //return grid
-    //}
-    //else
-    if(rowIndex === HEIGHT - 1){
-
-      //return grid
-    }
-    
-    let boole = this.FlagIsFromInsert
-    //if((rowIndex === HEIGHT - 1) && !this.FlagIsFromInsert){//&& !FlagWordMovedToNewRow){
-    
-    if((rowIndex === HEIGHT - 1) && CharacterOnLeftAlready && grid[rowIndex][WIDTH-1] != "-"){//&& !FlagWordMovedToNewRow){
-    
-      //return grid
-      
-    //}
+    if((rowIndex === HEIGHT - 1) && !CharacterOnRightAlready && grid[rowIndex][WIDTH-1] != "-"){
     //make a row at very end
-    //return grid
-    
-    this.createRow(grid, rowIndex, false)
+    this.createRow(grid, rowIndex)
     drawGrid(HEIGHT, WIDTH)
     let topRow = grid[rowIndex];
     //finds the last word after the last space or null, word id on top row, right side
@@ -130,6 +74,19 @@ class RecursiveClass {
         verticalCursorPosition + VOFFSET)
       return grid
     }
+
+    else if((rowIndex === HEIGHT - 1) && CharacterOnRightAlready && grid[rowIndex][WIDTH-1] != "-"){
+      //let rightWordAtEndOfRowOne = []
+      this.createRow(grid, rowIndex)
+      let topRow = grid[rowIndex];
+      const [unusedcheckthis, rightWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid, topRow)
+      let bottomRow = grid[rowIndex+1]
+      bottomRow = rightWordAtEndOfRowOne 
+      grid[rowIndex+1] = bottomRow
+      drawGrid(HEIGHT, WIDTH)
+    }
+
+      
 
     if(rowIndex === HEIGHT - 1){
 
@@ -192,18 +149,13 @@ class RecursiveClass {
     }else{
     //fill in moved text space with dashes on top row
     for(let i =  WIDTH - lengthOfRightWordAtRowOne ; i < WIDTH ; i++){
-      grid[rowIndex][i] = ['-']
+      grid[rowIndex][i] = '-'
     }
     }
    //set for cursor.  Put cursor at end of inserted row.
     horizontalCursorPosition = horizontalCursorPosition + lengthOfRightWordAtRowOne * 5
     //recursive call
-    if(HEIGHT == rowIndex){
-      FlagWordMovedToNewRow = true;
-    }
-
-    // from push!!!! not insert  84 and 175 true, is from push
-    this.pushWords(grid, newRemainder, rowIndex+1, CharacterOnLeftAlready)
+    this.pushWords(grid, newRemainder, rowIndex+1, CharacterOnRightAlready)
     }
       return grid
     }
@@ -290,7 +242,7 @@ class RecursiveClass {
     //index is HEIGHT - 1, and is next value
     //is on last row with an enter, so create a new line
     if (rowIndex > HEIGHT-2) {
-      this.createRow(grid, rowIndex+1, false)
+      this.createRow(grid, rowIndex+1)
       //fill in nulls after displaying text moved there from above
       let amountOfNullsForNewBottomRow = colIndex
       for(let i = WIDTH-amountOfNullsForNewBottomRow; i < WIDTH ; i++ )
@@ -342,8 +294,7 @@ class RecursiveClass {
     return grid
    }
    let topRow = grid[rowIndex]
-  //this is to check if there is a dash on last row of top row
-  //????
+  //this is to check if there is a dash on last row of top row, a new, fresh variable.
   let anotherTopRowForCondition = grid[rowIndex]
   
   //is a dash - checks if top row has a dash on last character - will delete only on this line and add a null
@@ -458,8 +409,6 @@ class RecursiveClass {
   }
   }
 
-///////////////////////from cleanupPushword?
-
     //  push with letter on end  and a character in middle, push on left
     //  push with letter on end  and a character in middle, push on middle
     //  push with two rows on end, both move to next row
@@ -470,6 +419,10 @@ class RecursiveClass {
     //  insert with dash on last character, otherwise full.
     //  insert with dash on last character, otherwise full, second line no dash on last character
     //  insert on last row, both with last character and null
+
+    //this parameter checks for when the end of row already had a character.  This would
+    //allow an end row key press to work if it is on top of it.  Because of this,
+    //insert will function across that right end row.  
     initialInsert(rowIndex, colIndex, grid, leftOverChar, IsCharacterOnLastRow){
       //for displaying
       let horizString =  (horizontalCursorPosition/5).toString()
@@ -477,7 +430,7 @@ class RecursiveClass {
       let a = document.getElementById("xAndY")
       a.innerHTML = 'Horizontal: ' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
       drawGrid(HEIGHT, WIDTH)
-      this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex, true, IsCharacterOnLastRow)
+      this.checkOnLastLineSoCreateRow(grid, rowIndex, IsCharacterOnLastRow)
       drawGrid(HEIGHT, WIDTH)
       if(rowIndex > HEIGHT -1){
         return grid
@@ -495,36 +448,43 @@ class RecursiveClass {
       if ((grid[rowIndex][WIDTH-1] != DASH) && (grid[rowIndex][WIDTH-1] != " ")){
         //push rows right because of insert
         drawGrid(HEIGHT, WIDTH)
-        this.pushRowRight(rowIndex+1, 0, grid, leftOver, true)
+        this.pushRowRight(rowIndex+1, 0, grid, leftOver)
         drawGrid(HEIGHT, WIDTH)
       }
       //set row
-      grid[rowIndex] = finishedTopRow
-  
+      //grid[rowIndex] = finishedTopRow
       return grid
     }
-///////////////////////
 
-////////from:???
-checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex, fromInsertFunction, IsAlreadyACharacterAtEndOfRow){
+checkOnLastLineSoCreateRow(grid, rowIndex, IsAlreadyACharacterAtEndOfRow){
       
   //if we are on the last line and there is a character on rightmost character
   //create a row if on last row
-  if (grid[rowIndex][WIDTH] != "-" && rowIndex === HEIGHT-1 && verticalCursorPosition/10 === HEIGHT-1  && IsAlreadyACharacterAtEndOfRow){
-    this.createRow(grid, rowIndex,fromInsertFunction )
+  if(rowIndex  >= HEIGHT )
+  {
+    return grid
+  }
+  //if (grid[rowIndex][WIDTH] != "-" && rowIndex >= HEIGHT - 2 && verticalCursorPosition/10 >= HEIGHT - 1  && IsAlreadyACharacterAtEndOfRow){
+  
+  if (grid[rowIndex][WIDTH] != "-" && rowIndex ==  HEIGHT - 1  && IsAlreadyACharacterAtEndOfRow && this.RowAddedCount == 1){
+    this.createRow(grid, rowIndex)
+    this.RowAddedCount++
+    drawGrid(HEIGHT, WIDTH)
   }
   return grid
 }
-////////from:  cleanupPushWord
 
-pushRowRight(rowIndex, colIndex, grid, leftOverChar, fromInsertFunction){
-   
-  //check if it is time to add row
-  //this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex, fromInsertFunction)
+
+pushRowRight(rowIndex, colIndex, grid, leftOverChar){
+
+  
   //bails out of recursion
-  if(rowIndex > HEIGHT -1){
+  if(rowIndex > HEIGHT - 1){
     return grid
   }
+  
+  this.checkOnLastLineSoCreateRow(grid, rowIndex, true)//
+  
   //two rows were using for push
   let topRow = grid[(rowIndex-1)];
   let lowerRow = grid[rowIndex]
@@ -538,16 +498,21 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar, fromInsertFunction){
   //one row, exactly, because of WIDTH, left over characters become remainder
   //for next call
   let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH )
+  
+  /////
+  if(grid[rowIndex][WIDTH-1] == "-"){
+    
+    //this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
+  }
+  /////
+
   grid[rowIndex] = bottomRowReady
  
-  if(remainingChars != "-"){
-  //push next row to right(one position)  recursion
-    this.pushRowRight(rowIndex+1, 0, grid, remainingChars, fromInsertFunction)
-  }
+    drawGrid(HEIGHT, WIDTH)
+    this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
   return grid
   }
 
-//////////////
 }
 
 
