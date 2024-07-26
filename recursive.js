@@ -13,11 +13,11 @@ class RecursiveClass {
 
     createRow(grid, rowIndex) {
     //remove last line, which is exclamation marks
-    this.deleteRow(grid, rowIndex+1) 
+    //this.deleteRow(grid, rowIndex+1) 
     //add a new row of nulls
     grid.push(["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ]),
     //add exclamation marks at end again, which is for padding
-    grid.push(["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ]),
+    //grid.push(["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ]),
     //important, allows new line to display in the drawgrid
     HEIGHT++ 
     return grid
@@ -87,7 +87,9 @@ class RecursiveClass {
 
 
 
-    if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || (grid[rowIndex][0] != undefined && grid[rowIndex][0] != "-" ))){
+    if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || 
+    (grid[rowIndex][0] != undefined && grid[rowIndex][0] != "-" ))  || (grid[HEIGHT-1][0] != "-") && (grid[HEIGHT-2][WIDTH-1] != "-") )
+    {
     //end base case
     let wasVariablegridCheck = []
     let anothertWordAtEndOfRowOne = []
@@ -144,7 +146,7 @@ class RecursiveClass {
     }else{
     //fill in moved text space with dashes on top row
     for(let i =  WIDTH - lengthOfRightWordAtRowOne ; i < WIDTH ; i++){
-      grid[rowIndex][i] = ['-']
+      grid[rowIndex][i] = '-'
     }
     }
    //set for cursor.  Put cursor at end of inserted row.
@@ -446,7 +448,8 @@ class RecursiveClass {
       //this is one row, exactly, because of WIDTH
       let [finishedTopRow, leftOver] = this.splitAtIndex(combineTopRow, WIDTH)
       //there is a character on last row, do call function which is recursive
-      if (grid[rowIndex][WIDTH-1] != DASH){
+      //if (grid[rowIndex][WIDTH-1] != DASH)
+        {
         //push rows right because of insert
         grid[rowIndex] = finishedTopRow
         this.pushRowRight(rowIndex+1, 0, grid, leftOver)
@@ -497,10 +500,10 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
   grid[rowIndex] = bottomRowReady
  
-  if(remainingChars != "-"){
+  //if(remainingChars != "-"){
   //push next row to right(one position)  recursion
     this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
-  }
+  //}
   return grid
   }
 
