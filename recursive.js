@@ -1,7 +1,8 @@
 class RecursiveClass {
   constructor() {
   this.counterOfRows = 0
-  }
+  
+}
 
   deleteRow(arr, rowNumber) 
   {
@@ -83,6 +84,10 @@ class RecursiveClass {
         verticalCursorPosition + VOFFSET)
       return grid
     }
+
+
+
+    if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || (grid[rowIndex][0] != undefined && grid[rowIndex][0] != "-" ))){
     //end base case
     let wasVariablegridCheck = []
     let anothertWordAtEndOfRowOne = []
@@ -146,9 +151,18 @@ class RecursiveClass {
     horizontalCursorPosition = horizontalCursorPosition + lengthOfRightWordAtRowOne * 5
     //recursive call
     this.pushWords(grid, newRemainder, rowIndex+1)
-    }
+    return grid  
+  }
+    
+
+    }else{
+      //advances to next row if grid not set up for this word push
+      this.pushWords(grid, [""], rowIndex+1)
       return grid
     }
+
+
+  }
 
   
   fillNullWithDashOnRow(RowIndex, arrayToChange) {
@@ -434,7 +448,11 @@ class RecursiveClass {
       //there is a character on last row, do call function which is recursive
       if (grid[rowIndex][WIDTH-1] != DASH){
         //push rows right because of insert
+        grid[rowIndex] = finishedTopRow
         this.pushRowRight(rowIndex+1, 0, grid, leftOver)
+        //grid[rowIndex] = finishedTopRow
+        return grid
+
       }
       //set row
       grid[rowIndex] = finishedTopRow
@@ -448,13 +466,14 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
       
   //if we are on the last line and there is a character on rightmost character
   //create a row if on last row
-  if (grid[rowIndex][WIDTH-1] != "-" && rowIndex === HEIGHT-1 && verticalCursorPosition/10 === HEIGHT-1){
+  if (grid[HEIGHT-1][WIDTH-1] != "-" && rowIndex <= HEIGHT-1 ){
     this.createRow(grid, rowIndex)
   }
   return grid
 }
 ////////from:  cleanupPushWord
 
+//called from index
 pushRowRight(rowIndex, colIndex, grid, leftOverChar){
    
   //check if it is time to add row
