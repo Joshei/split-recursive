@@ -432,7 +432,7 @@ class RecursiveClass {
       //this is one row, exactly, because of WIDTH
       let [finishedTopRow, leftOver] = this.splitAtIndex(combineTopRow, WIDTH)
       //there is a character on last row, do call function which is recursive
-      if ((grid[rowIndex][WIDTH-1] != DASH) && (grid[rowIndex][WIDTH-1] != " ")){
+      if (grid[rowIndex][WIDTH-1] != DASH){
         //push rows right because of insert
         this.pushRowRight(rowIndex+1, 0, grid, leftOver)
       }
