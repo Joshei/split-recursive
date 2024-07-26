@@ -46,7 +46,7 @@
     
     ["T", DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH,DASH, DASH, DASH, DASH, "1", "2" ],
     [DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH,DASH, DASH, DASH, DASH, "X", "Y" ],
-    [DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH,   DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH,DASH, DASH, DASH, DASH, "B", "A" ],
+    ["Q", DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH,   DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH,DASH, DASH, DASH, DASH, DASH, DASH ],
    
     
     
@@ -188,17 +188,19 @@
     else if(gKey !== ""){
     //These four function calls checks if there already is a character, for when function checks 
     //for a new keypress there, at end of row.  This is because there needs to be at least two characters to do intialinsert and pushwords
+    
+    let a = gridArray[HEIGHT-1][WIDTH-1]
     if(gridArray[HEIGHT-1][WIDTH-1] != "-"){
       gridArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, gridArray, gKey, true)
      }
     else{
       gridArray = Recursive.initialInsert(verticalCursorPosition/10, horizontalCursorPosition/5, gridArray, gKey, false)
     }
-    if(gridArray[HEIGHT-1][WIDTH-1] != "-"){
-      gridArray = Recursive.pushWords(gridArray, [""],  verticalCursorPosition/10, true)
+    if((gridArray[HEIGHT-2][WIDTH-1] != "-") && (gridArray[HEIGHT-1][0] != "-") ){
+      //gridArray = Recursive.pushWords(gridArray, [""],  verticalCursorPosition/10, true)
     }
     else{
-      gridArray = Recursive.pushWords(gridArray, [""],  verticalCursorPosition/10, false)
+      //gridArray = Recursive.pushWords(gridArray, [""],  verticalCursorPosition/10, false)
     }
     }
     Recursive.RowAddedCount = 1

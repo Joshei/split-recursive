@@ -45,8 +45,11 @@ class RecursiveClass {
   //push word will function across that right end row.    
   pushWords(grid, remainder, rowIndex, CharacterOnRightAlready)
   {
+    /*
+    return grid
     let rightWordAtEndOfRowOne = []
-    if((rowIndex === HEIGHT - 1) && !CharacterOnRightAlready && grid[rowIndex][WIDTH-1] != "-"){
+    if(false && (rowIndex === HEIGHT - 1) && !CharacterOnRightAlready && grid[rowIndex][WIDTH-1] != "-"){
+    //if((rowIndex === HEIGHT - 1) && grid[rowIndex][WIDTH-1] != "-" ){
     //make a row at very end
     this.createRow(grid, rowIndex)
     drawGrid(HEIGHT, WIDTH)
@@ -74,17 +77,24 @@ class RecursiveClass {
         verticalCursorPosition + VOFFSET)
       return grid
     }
-
-    else if((rowIndex === HEIGHT - 1) && CharacterOnRightAlready && grid[rowIndex][WIDTH-1] != "-"){
+*/
+    
+    //else 
+    /*
+    if((rowIndex === HEIGHT - 1) && CharacterOnRightAlready && grid[rowIndex][WIDTH-1] != "-"){
       //let rightWordAtEndOfRowOne = []
       this.createRow(grid, rowIndex)
       let topRow = grid[rowIndex];
       const [unusedcheckthis, rightWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid, topRow)
+      const lengthOfRightWordOnRowOne = rightWordAtEndOfRowOne.length
+
       let bottomRow = grid[rowIndex+1]
       bottomRow = rightWordAtEndOfRowOne 
+      grid[rowIndex+1] = (["W", "W", "W", "-", "-", "-" , "W", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-" ,"-", "-", "-", "-", "-", "-" , "-" ]),
       grid[rowIndex+1] = bottomRow
       drawGrid(HEIGHT, WIDTH)
     }
+    */
 
       
 
@@ -452,7 +462,7 @@ class RecursiveClass {
         drawGrid(HEIGHT, WIDTH)
       }
       //set row
-      //grid[rowIndex] = finishedTopRow
+      grid[rowIndex] = finishedTopRow
       return grid
     }
 
