@@ -1,4 +1,5 @@
-class RecursiveClass {//
+
+class RecursiveClass {
   constructor() {
   this.counterOfRows = 0
   
@@ -433,7 +434,7 @@ class RecursiveClass {//
       let horizString =  (horizontalCursorPosition/5).toString()
       let vertString = (verticalCursorPosition/10).toString() 
       let a = document.getElementById("xAndY")
-      a.innerHTML = 'Horizontal: ' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
+      a.innerHTML = 'Horizontala: ' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
       this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
       if(rowIndex > HEIGHT -1){
         return grid
@@ -454,6 +455,7 @@ class RecursiveClass {//
         grid[rowIndex] = finishedTopRow
         this.pushRowRight(rowIndex+1, 0, grid, leftOver)
         //grid[rowIndex] = finishedTopRow
+        CursorMovements.cursorRight()
         return grid
 
       }
@@ -478,8 +480,7 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
 
 //called from index
 pushRowRight(rowIndex, colIndex, grid, leftOverChar){
-   
-  //check if it is time to add row
+   //check if it is time to add row
   this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
   //bails out of recursion
   if(rowIndex > HEIGHT -1){
@@ -503,7 +504,7 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   //if(remainingChars != "-"){
   //push next row to right(one position)  recursion
     this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
-  //}
+    
   return grid
   }
 
