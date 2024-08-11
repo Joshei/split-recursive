@@ -1,4 +1,4 @@
-class RecursiveClass {
+class RecursiveClass {//
   constructor() {
   this.counterOfRows = 0
   
