@@ -459,10 +459,6 @@ class RecursiveClass {
         return grid
 
       }
-      //set row
-      grid[rowIndex] = finishedTopRow
-  
-      return grid
     }
 /////////////////////////
 
