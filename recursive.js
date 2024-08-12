@@ -155,6 +155,7 @@ class RecursiveClass {
     //recursive call
     this.pushWords(grid, newRemainder, rowIndex+1)
     return grid  
+   
   }
     
 
@@ -305,21 +306,26 @@ class RecursiveClass {
   //????
   let anotherTopRowForCondition = grid[rowIndex]
   
+
+
   //is a dash - checks if top row has a dash on last character - will delete only on this line and add a null
   if (anotherTopRowForCondition[WIDTH-1] === "-"){
     let anotherTopRowForCondition = grid[rowIndex]
     //splits row to the two sides of cursor
-    let [topRowLeftSide, topRowRightSideWithFrontChar] = this.splitAtIndex(topRow, columnIndex+1) ;
+    let [topRowLeftSide, topRowRightSideWithFrontChar] = this.splitAtIndex(topRow, columnIndex) ;
     //strips off the character that was on the right side
     let [removedThisCharacter, topRightSideRemovedCharacter] = this.splitAtIndex(topRowRightSideWithFrontChar, 1) ;
     let nullCharacter = ["-"]
     //combine the two pieces wihthout the character that was removed, and add a null at end
     let combine = [...topRowLeftSide, ...topRightSideRemovedCharacter, ...nullCharacter]
     grid[rowIndex] = combine
+    CursorMovements.cursorLeft()
     return grid
   }
   //there is a character on end of row, so remove first row and take character from next row, put on toprow left end
   
+
+
   ///spaces too?
   else if (anotherTopRowForCondition[WIDTH-1] != "-" ){
     counterOfUsedRows = 0
@@ -353,6 +359,7 @@ class RecursiveClass {
   grid[rowIndex] = combine
   //this is a function that has a recursion call.  
   this.removeLeftCharacterFrom2ndRowAndReplaceAboveOnMostRightSide(counterOfUsedRows, rowIndex+1, grid)
+  CursorMovements.cursorLeft()
   return grid
   }
 }
