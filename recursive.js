@@ -1,3 +1,8 @@
+//FIX DELETE ON FIRST COLUMN AND ROW
+//FIX INSERT ON RIGHT MOST COLUMN
+//CHANGE INITIALINSERT
+//WRITE DESTRUCTIVEDISPLAY 
+//CHECK FULL ROW
 
 class RecursiveClass {
   constructor() {
@@ -45,25 +50,46 @@ class RecursiveClass {
   return [grid,rightWordAtEndOfRowOne]
 }
 
+//8/13/24
+//over border in middle
+//right on row end without pushing
+//three pushes at one time.
+//top row
   pushWords(grid, remainder, rowIndex)
   {
 
-    //?
-    //this.counter = 0
-    let rightWordAtEndOfRowOne = []
-    //on last row with a push
-    if(rowIndex > HEIGHT-2){
-    //waiting for a createrow from insert function - HEIGHT defaults at -1, so it
-    //is + 2 because there is a row of exclamation marks at the end of matrix, so 
-    //it is checking for a row two rows down  
-    if (rowIndex < HEIGHT+1){
+   
+    if (rowIndex > HEIGHT - 1){
       return grid
     }
-    //make a row at very end
+    //?
+    //this.counter = 0
+    //let rightWordAtEndOfRowOne = []
+    //on last row with a push
+    if(rowIndex > HEIGHT-2){
+    return grid
+      //waiting for a createrow from insert function - HEIGHT defaults at -1, so it
+    //is + 2 because there is a row of exclamation marks at the end of matrix, so 
+    //it is checking for a row two rows down  
+    
+    //if (rowIndex < HEIGHT+1){
+    //  return grid
+    //}
+    
+    //make a row 
+    
+    
     this.createRow(grid, rowIndex)
     let topRow = grid[rowIndex];
     //finds the last word after the last space or null, word id on top row, right side
-    [unusedcheckthis, rightWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid, topRow)
+    
+    
+    ///////////
+    let [unusedcheckthis, rightWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid, topRow)
+    ////////////
+
+
+
     //length of word
     let lengthOfRightWordAtRowOne = rightWordAtEndOfRowOne.length
     //fill spaces after row on bottom row, with dashes
@@ -94,8 +120,8 @@ class RecursiveClass {
     //end base case
     let wasVariablegridCheck = []
     let anothertWordAtEndOfRowOne = []
-    let topRow = grid[rowIndex];
-    let bottomRow = grid[verticalCursorPosition/10 + 1];
+    let topRow = grid[rowIndex-1];
+    let bottomRow =grid[rowIndex];// grid[verticalCursorPosition/10 + 1];
     //////consolidate this
     [wasVariablegridCheck, anothertWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid,topRow)
     let lengthOfRightWordAtRowOne = anothertWordAtEndOfRowOne.length
@@ -138,20 +164,19 @@ class RecursiveClass {
     const [newBottomRow, newRemainder] = this.splitAtIndex(combined, WIDTH);
     ////drawGrid(HEIGHT, WIDTH)
     //assign row
-    grid[rowIndex+1] = newBottomRow
+    grid[rowIndex] = newBottomRow
     ////drawGrid(HEIGHT, WIDTH)
     //set cursor at next row, first column
     horizontalCursorPosition = 0
-    verticalCursorPosition = verticalCursorPosition + 10
+    //verticalCursorPosition = verticalCursorPosition + 10
+    horizontalCursorPosition = horizontalCursorPosition + (lengthOfRightWordAtRowOne * 5) - 5
     if(lengthOfRightWordAtRowOne == 0){
     }else{
     //fill in moved text space with dashes on top row
     for(let i =  WIDTH - lengthOfRightWordAtRowOne ; i < WIDTH ; i++){
-      grid[rowIndex][i] = '-'
+      grid[rowIndex-1][i] = '-'
     }
     }
-   //set for cursor.  Put cursor at end of inserted row.
-    horizontalCursorPosition = horizontalCursorPosition + lengthOfRightWordAtRowOne * 5
     //recursive call
     this.pushWords(grid, newRemainder, rowIndex+1)
     return grid  
@@ -441,7 +466,7 @@ class RecursiveClass {
       let horizString =  (horizontalCursorPosition/5).toString()
       let vertString = (verticalCursorPosition/10).toString() 
       let a = document.getElementById("xAndY")
-      a.innerHTML = 'Horizontala: ' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
+      a.innerHTML = 'Horizontal' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
       this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
       if(rowIndex > HEIGHT -1){
         return grid
