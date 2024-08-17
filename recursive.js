@@ -70,7 +70,6 @@ class RecursiveClass {
   pushWords(grid, remainder, rowIndex)
   {
 
-   
     if (rowIndex > HEIGHT - 1){
       return grid
     }
@@ -125,11 +124,7 @@ class RecursiveClass {
     }
 
 
-    //is on first row
-    if(grid[rowIndex-1] == undefined)
-    {
-      rowIndex++
-    }
+    
     if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || 
     (grid[rowIndex][0] != undefined && grid[rowIndex][0] != "-" )) )
     {
@@ -209,7 +204,7 @@ class RecursiveClass {
 
 
     
-    
+    //for on bottom row - !!!!!!!  Verticalcursorposition possibly set here!    !!!!!
     for(let i =  WIDTH - anothertWordAtEndOfRowOne.length-1; i < WIDTH; i++){
       if (i === horizontalCursorPosition/5){
         IsOnLeftTopWordForPushWord = true
@@ -253,23 +248,27 @@ class RecursiveClass {
 //  }
 
 
+
+//checking bottom row for cursor
 let CursorIsInLeftWordOfBottom = false
 
+if(rowIndex === verticalCursorPosition/5){
 for(let i =   0 ; i <  firstWordBottomRow.length + 1 ;  i++){
   if (i === horizontalCursorPosition/5){
-    IsOnLeftTopWordForPushWord = true
+    CursorIsInLeftWordOfBottom = true
     //alert("in loop")
     break
   }
 }
+}
 
-if(IsOnLeftTopWordForPushWord ){
+if(CursorIsInLeftWordOfBottom ){
 
   horizontalCursorPosition = horizontalCursorPosition + 5
 
 }
 
-IsOnLeftTopWordForPushWord = false
+CursorIsInLeftWordOfBottom = false
 //if  (horizontalCursorPosition/5 <=  lastIndexOffirstWordBottomRow ){
 //  CursorIsInLeftWordOfBottom = true
 
