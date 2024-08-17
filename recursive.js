@@ -3,10 +3,22 @@
 //CHANGE INITIALINSERT
 //WRITE DESTRUCTIVEDISPLAY 
 //CHECK FULL ROW
+//HOLDER USED FOR PUSH WORD, INSERTING LETTER ON TOP OF RIGHT HAND SIDE LETTERS
+//NEEDS ANOTHER HOLDER, CHECK WORKINGS OF NOT ON TOP, FIRST
+//WAS JUST TRYING TO WORK THE CURSOR ON THE LETTERS, AND THESE 2 HOLDERS NEED TO BE WRITTEN, ODD, I THOUGHT IT WAS OKAY AND WORKING
+// CursorMovements.cursorRight() LINE 525, SET A FLAG TO CALCULATE LAST ROW THAT IS EQAUL TO OWRD LENGTH
+// EXIT FUNCTION WHEN ROWINDEX EQUALS VERTICALCURSORPOSITION
+
+//for(let topLeftWordIndex = WIDTH - (anothertWordAtEndOfRowOne.length)-1; topLeftWordIndex< horizontalCursorPosition - 1; topLeftWordIndex++){
+//  characterCounter++
+//}
+
+
 
 class RecursiveClass {
   constructor() {
   this.counterOfRows = 0
+  this.CursorOnLastColumn = false
   
 }
 
@@ -47,13 +59,13 @@ class RecursiveClass {
   }
   //gets the word after dash or spacew
   const [left, rightWordAtEndOfRowOne] = this.splitAtIndex(topRow, maxIndexOfNullOrString + 1);
-  return [grid,rightWordAtEndOfRowOne]
+  return {leftSide: left, rightSide: rightWordAtEndOfRowOne}
 }
 
 //8/13/24
 //over border in middle
 //right on row end without pushing
-//three pushes at one time.
+//three pushes at one time.+
 //top row
   pushWords(grid, remainder, rowIndex)
   {
@@ -113,17 +125,28 @@ class RecursiveClass {
     }
 
 
-
-    if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || 
-    (grid[rowIndex][0] != undefined && grid[rowIndex][0] != "-" ))  || (grid[HEIGHT-1][0] != "-") && (grid[HEIGHT-2][WIDTH-1] != "-") )
+    //is on first row
+    if(grid[rowIndex-1] == undefined)
     {
+      rowIndex++
+    }
+    if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || 
+    (grid[rowIndex][0] != undefined && grid[rowIndex][0] != "-" )) )
+    {
+
+      let holdthis = rowIndex
     //end base case
     let wasVariablegridCheck = []
     let anothertWordAtEndOfRowOne = []
     let topRow = grid[rowIndex-1];
     let bottomRow =grid[rowIndex];// grid[verticalCursorPosition/10 + 1];
+    let characterCounter = 0
     //////consolidate this
-    [wasVariablegridCheck, anothertWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid,topRow)
+    //[wasVariablegridCheck, anothertWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid,topRow)
+    let holder = this.getLastSpaceOrNull(grid,topRow)
+    wasVariablegridCheck = holder.leftSide
+    anothertWordAtEndOfRowOne = holder.rightSide
+
     let lengthOfRightWordAtRowOne = anothertWordAtEndOfRowOne.length
     //before first space or null, whichever is first  
     let firstIndexOfNullOnBottomRow = bottomRow.indexOf("-");
@@ -160,6 +183,8 @@ class RecursiveClass {
      const [removeThis, afterLeftWordWithReservationForMovingCharacters] = this.splitAtIndex(indexAfterLeftWordBottomRow, lengthOfRightWordAtRowOne );
     //put row together
     combined = [...anothertWordAtEndOfRowOne, ...firstWordBottomRow, ...afterLeftWordWithReservationForMovingCharacters]
+    
+    let lengthOfFirstWordBottomRow = firstWordBottomRow.length
     //get remainder for next recursive call - this is one rows worth
     const [newBottomRow, newRemainder] = this.splitAtIndex(combined, WIDTH);
     ////drawGrid(HEIGHT, WIDTH)
@@ -167,18 +192,103 @@ class RecursiveClass {
     grid[rowIndex] = newBottomRow
     ////drawGrid(HEIGHT, WIDTH)
     //set cursor at next row, first column
-    horizontalCursorPosition = 0
-    //verticalCursorPosition = verticalCursorPosition + 10
-    horizontalCursorPosition = horizontalCursorPosition + (lengthOfRightWordAtRowOne * 5) - 5
-    if(lengthOfRightWordAtRowOne == 0){
+     if(lengthOfRightWordAtRowOne == 0){
     }else{
     //fill in moved text space with dashes on top row
     for(let i =  WIDTH - lengthOfRightWordAtRowOne ; i < WIDTH ; i++){
       grid[rowIndex-1][i] = '-'
     }
     }
-    //recursive call
+    //check if cursor is on the right word, if so, proceed with below
+    let IsOnLeftTopWordForPushWord = false
+    let IsOnTopRightTextForMove = false
+    //get position before when insert moves cursor right for test
+    CursorMovements.cursorLeft()
+    
+    
+
+
+    
+    
+    for(let i =  WIDTH - anothertWordAtEndOfRowOne.length-1; i < WIDTH; i++){
+      if (i === horizontalCursorPosition/5){
+        IsOnLeftTopWordForPushWord = true
+      }
+    }
+
+      //resets text to insert position, before above.
+      CursorMovements.cursorRight()
+   
+    if(IsOnLeftTopWordForPushWord){
+   
+     
+    
+
+      
+    //determine where to put cursor on next tow, after insert
+    for(let topLeftWordIndex = WIDTH - (anothertWordAtEndOfRowOne.length)-1; topLeftWordIndex< horizontalCursorPosition/5 - 1; topLeftWordIndex++){
+      characterCounter++
+    }
+   
+    if(this.CursorOnLastColumn == true){
+      characterCounter = anothertWordAtEndOfRowOne.length
+      horizontalCursorPosition = 0
+      horizontalCursorPosition = characterCounter*5
+    }else{
+      verticalCursorPosition = verticalCursorPosition + 10
+      horizontalCursorPosition = 0
+      horizontalCursorPosition = characterCounter*5 
+    }
+
+    
+  }
+
+  ///////////////////////////////////////////////
+
+//  let IsOnRightTopWordForPushWord = false
+//  for(let i =  WIDTH - anothertWordAtEndOfRowOne.length-1; i < WIDTH - 1; i++){
+//    if (i === horizontalCursorPosition/5){
+//      IsOnRightTopWordForPushWord = true
+//    }
+//  }
+
+
+let CursorIsInLeftWordOfBottom = false
+
+for(let i =   0 ; i <  firstWordBottomRow.length + 1 ;  i++){
+  if (i === horizontalCursorPosition/5){
+    IsOnLeftTopWordForPushWord = true
+    //alert("in loop")
+    break
+  }
+}
+
+if(IsOnLeftTopWordForPushWord ){
+
+  horizontalCursorPosition = horizontalCursorPosition + 5
+
+}
+
+IsOnLeftTopWordForPushWord = false
+//if  (horizontalCursorPosition/5 <=  lastIndexOffirstWordBottomRow ){
+//  CursorIsInLeftWordOfBottom = true
+
+  //check bottom row for making cursor correct
+  //if (IsOnRightTopWordForPushWord){
+
+  //if( CursorIsInLeftWordOfBottom === true){
+    //verticalCursorPosition = verticalCursorPosition + 10
+    //horizontalCursorPosition = 0
+    //horizontalCursorPosition = horizontalCursorPosition + 5
+  //}
+
+//}
+
+  ///////////////////////////////////////////////
+  
+ 
     this.pushWords(grid, newRemainder, rowIndex+1)
+
     return grid  
    
   }
@@ -485,8 +595,24 @@ class RecursiveClass {
         {
         //push rows right because of insert
         grid[rowIndex] = finishedTopRow
+
+        if(horizontalCursorPosition/5 === WIDTH-1){
+          this.CursorOnLastColumn = true
+        }
+
+        if(grid[rowIndex][WIDTH-1] === "-"){
+
+          
+          CursorMovements.cursorRight()
+          return grid
+        }
+
         this.pushRowRight(rowIndex+1, 0, grid, leftOver)
-        //grid[rowIndex] = finishedTopRow
+        grid[rowIndex] = finishedTopRow
+        if(horizontalCursorPosition/5-1 === 0){
+          this.CursorOnLastColumn = true
+        }
+
         CursorMovements.cursorRight()
         return grid
 
