@@ -8,10 +8,7 @@
 //WAS JUST TRYING TO WORK THE CURSOR ON THE LETTERS, AND THESE 2 HOLDERS NEED TO BE WRITTEN, ODD, I THOUGHT IT WAS OKAY AND WORKING
 // CursorMovements.cursorRight() LINE 525, SET A FLAG TO CALCULATE LAST ROW THAT IS EQAUL TO OWRD LENGTH
 // EXIT FUNCTION WHEN ROWINDEX EQUALS VERTICALCURSORPOSITION
-
-//for(let topLeftWordIndex = WIDTH - (anothertWordAtEndOfRowOne.length)-1; topLeftWordIndex< horizontalCursorPosition - 1; topLeftWordIndex++){
-//  characterCounter++
-//}
+// WORKING ON: this.lastRowIndexToPushOn : rowindex + 3, insert!
 
 
 
@@ -19,6 +16,7 @@ class RecursiveClass {
   constructor() {
   this.counterOfRows = 0
   this.CursorOnLastColumn = false
+  this.lastRowIndexToPushOn = -1
   
 }
 
@@ -70,6 +68,21 @@ class RecursiveClass {
   pushWords(grid, remainder, rowIndex)
   {
 
+    
+    //console.log("return grid: ", grid )
+    //return grid
+    //alert("in here")
+    
+    //if(true){
+      
+      //alert("in here2: ")
+      //return grid
+      
+
+    //}
+    if(rowIndex >= this.lastRowIndexToPushOn  && this.lastRowIndexToPushOn != -1){
+      return grid
+    }
     if (rowIndex > HEIGHT - 1){
       return grid
     }
@@ -200,31 +213,23 @@ class RecursiveClass {
     //get position before when insert moves cursor right for test
     CursorMovements.cursorLeft()
     
-    
-
-
-    
-    //for on bottom row - !!!!!!!  Verticalcursorposition possibly set here!    !!!!!
+    //////////////////////////
+    //if cursor is on top right word, than set flag
+    //for on bottom row - !!!!!!!  Verticalcursorposition possibly set here?    !!!!!
     for(let i =  WIDTH - anothertWordAtEndOfRowOne.length-1; i < WIDTH; i++){
       if (i === horizontalCursorPosition/5){
         IsOnLeftTopWordForPushWord = true
       }
     }
-
       //resets text to insert position, before above.
       CursorMovements.cursorRight()
    
     if(IsOnLeftTopWordForPushWord){
-   
-     
-    
-
-      
     //determine where to put cursor on next tow, after insert
     for(let topLeftWordIndex = WIDTH - (anothertWordAtEndOfRowOne.length)-1; topLeftWordIndex< horizontalCursorPosition/5 - 1; topLeftWordIndex++){
       characterCounter++
     }
-   
+    //change cursor position based on if cursor is on last column
     if(this.CursorOnLastColumn == true){
       characterCounter = anothertWordAtEndOfRowOne.length
       horizontalCursorPosition = 0
@@ -237,84 +242,52 @@ class RecursiveClass {
 
     
   }
-
-  ///////////////////////////////////////////////
-
-//  let IsOnRightTopWordForPushWord = false
-//  for(let i =  WIDTH - anothertWordAtEndOfRowOne.length-1; i < WIDTH - 1; i++){
-//    if (i === horizontalCursorPosition/5){
-//      IsOnRightTopWordForPushWord = true
-//    }
-//  }
-
-
-
-//checking bottom row for cursor
+//////////////////////////
+//checking bottom row, left word, for cursor on or to next character (blank)
 let CursorIsInLeftWordOfBottom = false
 
 if(rowIndex === verticalCursorPosition/5){
 for(let i =   0 ; i <  firstWordBottomRow.length + 1 ;  i++){
   if (i === horizontalCursorPosition/5){
     CursorIsInLeftWordOfBottom = true
-    //alert("in loop")
-    break
+     break
   }
 }
 }
-
 if(CursorIsInLeftWordOfBottom ){
-
   horizontalCursorPosition = horizontalCursorPosition + 5
-
 }
 
 CursorIsInLeftWordOfBottom = false
-//if  (horizontalCursorPosition/5 <=  lastIndexOffirstWordBottomRow ){
-//  CursorIsInLeftWordOfBottom = true
 
-  //check bottom row for making cursor correct
-  //if (IsOnRightTopWordForPushWord){
+this.pushWords(grid, newRemainder, rowIndex+1)
 
-  //if( CursorIsInLeftWordOfBottom === true){
-    //verticalCursorPosition = verticalCursorPosition + 10
-    //horizontalCursorPosition = 0
-    //horizontalCursorPosition = horizontalCursorPosition + 5
-  //}
+return grid  
 
-//}
-
-  ///////////////////////////////////////////////
-  
- 
-    this.pushWords(grid, newRemainder, rowIndex+1)
-
-    return grid  
-   
-  }
+}
     
 
-    }else{
-      //advances to next row if grid not set up for this word push
-      this.pushWords(grid, [""], rowIndex+1)
-      return grid
-    }
+}else{
+  //advances to next row if grid not set up for this word push
+  this.pushWords(grid, [""], rowIndex+1)
+  return grid
+}
 
 
+}
+
+fillNullWithDashOnRow(RowIndex, arrayToChange) {
+for (let i = 0; i < WIDTH; i++) {
+  if (
+    arrayToChange[RowIndex][i] == "" ||
+    arrayToChange[RowIndex][i] == " " ||
+    typeof arrayToChange[RowIndex][i] == "undefined"
+  ) {
+    arrayToChange[RowIndex][i] = "-";
   }
-
-  
-  fillNullWithDashOnRow(RowIndex, arrayToChange) {
-    for (let i = 0; i < WIDTH; i++) {
-      if (
-        arrayToChange[RowIndex][i] == "" ||
-        arrayToChange[RowIndex][i] == " " ||
-        typeof arrayToChange[RowIndex][i] == "undefined"
-      ) {
-        arrayToChange[RowIndex][i] = "-";
-      }
-    }
-    return arrayToChange;
-  }
+}
+return arrayToChange;
+}
   
   splitAtIndex(arr, index) {
     console.log("index: ", index);
@@ -595,12 +568,14 @@ CursorIsInLeftWordOfBottom = false
         //push rows right because of insert
         grid[rowIndex] = finishedTopRow
 
+        //checks character on left for cursor positioning
         if(horizontalCursorPosition/5 === WIDTH-1){
           this.CursorOnLastColumn = true
         }
 
-        if(grid[rowIndex][WIDTH-1] === "-"){
-
+        if(grid[rowIndex][WIDTH-1] === "-" && this.lastRowIndexToPushOn === -1){
+          //sets row to bail out on in pushwords
+          this.lastRowIndexToPushOn = rowIndex+1
           
           CursorMovements.cursorRight()
           return grid
@@ -608,10 +583,11 @@ CursorIsInLeftWordOfBottom = false
 
         this.pushRowRight(rowIndex+1, 0, grid, leftOver)
         grid[rowIndex] = finishedTopRow
+        //On zero, because there will be a cursorright
         if(horizontalCursorPosition/5-1 === 0){
+          //last time,this was true, used for setting  cursor
           this.CursorOnLastColumn = true
         }
-
         CursorMovements.cursorRight()
         return grid
 
@@ -633,7 +609,7 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
 
 //called from index
 pushRowRight(rowIndex, colIndex, grid, leftOverChar){
-   //check if it is time to add row
+  //check if it is time to add row
   this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
   //bails out of recursion
   if(rowIndex > HEIGHT -1){
@@ -654,8 +630,13 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
   grid[rowIndex] = bottomRowReady
  
-  //if(remainingChars != "-"){
-  //push next row to right(one position)  recursion
+  if(grid[rowIndex][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1){
+    //sets row to bail out on in pushwords
+    this.lastRowIndexToPushOn = rowIndex + 1
+    //CursorMovements.cursorRight()
+    return grid
+  }
+    //push next row to right(one position)  recursion
     this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
     
   return grid
