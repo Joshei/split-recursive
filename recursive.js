@@ -1,14 +1,9 @@
-//FIX DELETE ON FIRST COLUMN AND ROW
-//FIX INSERT ON RIGHT MOST COLUMN
-//CHANGE INITIALINSERT
-//WRITE DESTRUCTIVEDISPLAY 
-//CHECK FULL ROW
-//HOLDER USED FOR PUSH WORD, INSERTING LETTER ON TOP OF RIGHT HAND SIDE LETTERS
-//NEEDS ANOTHER HOLDER, CHECK WORKINGS OF NOT ON TOP, FIRST
-//WAS JUST TRYING TO WORK THE CURSOR ON THE LETTERS, AND THESE 2 HOLDERS NEED TO BE WRITTEN, ODD, I THOUGHT IT WAS OKAY AND WORKING
-// CursorMovements.cursorRight() LINE 525, SET A FLAG TO CALCULATE LAST ROW THAT IS EQAUL TO OWRD LENGTH
-// EXIT FUNCTION WHEN ROWINDEX EQUALS VERTICALCURSORPOSITION
-// WORKING ON: this.lastRowIndexToPushOn : rowindex + 3, insert!
+//TEST ENTER
+//TEST DELETE?
+//WRITE DESTRUCTIVE INSERT 
+//WRITE DESTRUCTIVE DELETE
+
+
 
 
 
@@ -65,50 +60,27 @@ class RecursiveClass {
 //right on row end without pushing
 //three pushes at one time.+
 //top row
+//CHECK FULL ROWS
   pushWords(grid, remainder, rowIndex)
   {
-
-    
-    //console.log("return grid: ", grid )
-    //return grid
-    //alert("in here")
-    
-    //if(true){
-      
-      //alert("in here2: ")
-      //return grid
-      
-
-    //}
     if(rowIndex >= this.lastRowIndexToPushOn  && this.lastRowIndexToPushOn != -1){
       return grid
     }
     if (rowIndex > HEIGHT - 1){
       return grid
     }
-    //?
-    //this.counter = 0
-    //let rightWordAtEndOfRowOne = []
     //on last row with a push
     if(rowIndex > HEIGHT-2){
     return grid
-      //waiting for a createrow from insert function - HEIGHT defaults at -1, so it
+    //waiting for a createrow from insert function - HEIGHT defaults at -1, so it
     //is + 2 because there is a row of exclamation marks at the end of matrix, so 
     //it is checking for a row two rows down  
-    
-    //if (rowIndex < HEIGHT+1){
-    //  return grid
-    //}
-    
-    //make a row 
-    
-    
     this.createRow(grid, rowIndex)
     let topRow = grid[rowIndex];
     //finds the last word after the last space or null, word id on top row, right side
     
     
-    ///////////
+    ///////////IF THIS CODE IS USED, CHANGE THIS TO USE WITH, "holder" 
     let [unusedcheckthis, rightWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid, topRow)
     ////////////
 
@@ -137,7 +109,8 @@ class RecursiveClass {
     }
 
 
-    
+    //check for a push word situation, a character on last column of row, and a character on next row,
+    //first column
     if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || 
     (grid[rowIndex][0] != undefined && grid[rowIndex][0] != "-" )) )
     {
@@ -149,12 +122,9 @@ class RecursiveClass {
     let topRow = grid[rowIndex-1];
     let bottomRow =grid[rowIndex];// grid[verticalCursorPosition/10 + 1];
     let characterCounter = 0
-    //////consolidate this
-    //[wasVariablegridCheck, anothertWordAtEndOfRowOne] =  this.getLastSpaceOrNull(grid,topRow)
     let holder = this.getLastSpaceOrNull(grid,topRow)
     wasVariablegridCheck = holder.leftSide
     anothertWordAtEndOfRowOne = holder.rightSide
-
     let lengthOfRightWordAtRowOne = anothertWordAtEndOfRowOne.length
     //before first space or null, whichever is first  
     let firstIndexOfNullOnBottomRow = bottomRow.indexOf("-");
@@ -215,12 +185,14 @@ class RecursiveClass {
     
     //////////////////////////
     //if cursor is on top right word, than set flag
-    //for on bottom row - !!!!!!!  Verticalcursorposition possibly set here?    !!!!!
+    //for on top row - !!!!!!!  Verticalcursorposition possibly set here?    !!!!!
+    if(rowIndex-1 === verticalCursorPosition/5){
     for(let i =  WIDTH - anothertWordAtEndOfRowOne.length-1; i < WIDTH; i++){
       if (i === horizontalCursorPosition/5){
         IsOnLeftTopWordForPushWord = true
       }
     }
+  }
       //resets text to insert position, before above.
       CursorMovements.cursorRight()
    
@@ -239,8 +211,6 @@ class RecursiveClass {
       horizontalCursorPosition = 0
       horizontalCursorPosition = characterCounter*5 
     }
-
-    
   }
 //////////////////////////
 //checking bottom row, left word, for cursor on or to next character (blank)
@@ -305,6 +275,7 @@ return arrayToChange;
   //  on last column
   //  mid text
   //  last row, first, middle, last  
+  //  //CHECK FULL ROWS
   pressedEnter(
     grid,
     rowIndex,
@@ -393,6 +364,8 @@ return arrayToChange;
   //first characetr at top left, characters move right, below one and multiple, rows
   //delete to raise row up from bottom left to top row right, character move right
   //test this, delete without character on first colmun of second row
+  ////CHECK FULL ROWS
+  //FIX DELETE ON FIRST COLUMN AND ROW
   deleteACharacter(remainder, rowIndex, columnIndex,  grid) {
     let counterOfUsedRows = 0
     let rowIndexInLoop = rowIndex
@@ -543,6 +516,8 @@ return arrayToChange;
     //  insert with dash on last character, otherwise full.
     //  insert with dash on last character, otherwise full, second line no dash on last character
     //  insert on last row, both with last character and null
+    //  CHECK FULL ROWS
+    //  //FIX INSERT ON RIGHT MOST COLUMN
     initialInsert(rowIndex, colIndex, grid, leftOverChar){
       //for displaying
       let horizString =  (horizontalCursorPosition/5).toString()
