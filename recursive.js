@@ -2,6 +2,8 @@
 //TEST DELETE?
 //WRITE DESTRUCTIVE INSERT 
 //WRITE DESTRUCTIVE DELETE
+//GOOD PLACE TO QUIT, BAILOUT LOOKS GOOD, AND JUST APPLIED QUICK FIXE!
+//NEXT AFTER THE ABOVE IS DASHES
 
 
 
@@ -12,6 +14,7 @@ class RecursiveClass {
   this.counterOfRows = 0
   this.CursorOnLastColumn = false
   this.lastRowIndexToPushOn = -1
+  
   
 }
 
@@ -61,11 +64,17 @@ class RecursiveClass {
 //three pushes at one time.+
 //top row
 //CHECK FULL ROWS
+ 
   pushWords(grid, remainder, rowIndex)
   {
-    if(rowIndex >= this.lastRowIndexToPushOn  && this.lastRowIndexToPushOn != -1){
+    
+      
+      //if(rowIndex >= this.lastRowIndexToPushOn+5  && this.lastRowIndexToPushOn != -1){
+      if(rowIndex >= this.lastRowIndexToPushOn + 1 && this.lastRowIndexToPushOn != -1){
       return grid
     }
+
+   
     if (rowIndex > HEIGHT - 1){
       return grid
     }
@@ -109,6 +118,8 @@ class RecursiveClass {
     }
 
 
+    //DECREASE ALL ROWINDEXES BY ONE
+    
     //check for a push word situation, a character on last column of row, and a character on next row,
     //first column
     if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || 
@@ -169,7 +180,7 @@ class RecursiveClass {
     //assign row
     grid[rowIndex] = newBottomRow
     ////drawGrid(HEIGHT, WIDTH)
-    //set cursor at next row, first column
+    //set cursor at next row, first column//
      if(lengthOfRightWordAtRowOne == 0){
     }else{
     //fill in moved text space with dashes on top row
@@ -186,7 +197,7 @@ class RecursiveClass {
     //////////////////////////
     //if cursor is on top right word, than set flag
     //for on top row - !!!!!!!  Verticalcursorposition possibly set here?    !!!!!
-    if(rowIndex-1 === verticalCursorPosition/5){
+    if(rowIndex-1 === verticalCursorPosition/10){
     for(let i =  WIDTH - anothertWordAtEndOfRowOne.length-1; i < WIDTH; i++){
       if (i === horizontalCursorPosition/5){
         IsOnLeftTopWordForPushWord = true
@@ -209,14 +220,14 @@ class RecursiveClass {
     }else{
       verticalCursorPosition = verticalCursorPosition + 10
       horizontalCursorPosition = 0
-      horizontalCursorPosition = characterCounter*5 
+      horizontalCursorPosition = characterCounter*5 - 5
     }
   }
 //////////////////////////
 //checking bottom row, left word, for cursor on or to next character (blank)
 let CursorIsInLeftWordOfBottom = false
 
-if(rowIndex === verticalCursorPosition/5){
+if(rowIndex === verticalCursorPosition/10){
 for(let i =   0 ; i <  firstWordBottomRow.length + 1 ;  i++){
   if (i === horizontalCursorPosition/5){
     CursorIsInLeftWordOfBottom = true
@@ -231,6 +242,8 @@ if(CursorIsInLeftWordOfBottom ){
 CursorIsInLeftWordOfBottom = false
 
 this.pushWords(grid, newRemainder, rowIndex+1)
+
+
 
 return grid  
 
@@ -550,10 +563,10 @@ return arrayToChange;
 
         if(grid[rowIndex][WIDTH-1] === "-" && this.lastRowIndexToPushOn === -1){
           //sets row to bail out on in pushwords
-          this.lastRowIndexToPushOn = rowIndex+1
+          this.lastRowIndexToPushOn = rowIndex-1
           
-          CursorMovements.cursorRight()
-          return grid
+          CursorMovements.cursorRight()//rowindex -1 (2) : delete return
+          //return grid
         }
 
         this.pushRowRight(rowIndex+1, 0, grid, leftOver)
@@ -607,7 +620,7 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
  
   if(grid[rowIndex][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1){
     //sets row to bail out on in pushwords
-    this.lastRowIndexToPushOn = rowIndex + 1
+    this.lastRowIndexToPushOn = rowIndex - 1
     //CursorMovements.cursorRight()
     return grid
   }
