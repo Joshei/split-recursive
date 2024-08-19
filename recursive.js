@@ -4,7 +4,7 @@
 //WRITE DESTRUCTIVE DELETE
 //GOOD PLACE TO QUIT, BAILOUT LOOKS GOOD, AND JUST APPLIED QUICK FIXE!
 //NEXT AFTER THE ABOVE IS DASHES
-
+//LAST BRANCH SHOULD BE PRETTY MUCH OKAY
 
 
 
@@ -119,7 +119,12 @@ class RecursiveClass {
 
 
     //DECREASE ALL ROWINDEXES BY ONE
+
     
+    
+    ////////////////////////////
+    ////////////////////////////
+
     //check for a push word situation, a character on last column of row, and a character on next row,
     //first column
     if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || 
@@ -258,6 +263,12 @@ return grid
 
 
 }
+
+////////////////////////////
+////////////////////////////
+
+
+
 
 fillNullWithDashOnRow(RowIndex, arrayToChange) {
 for (let i = 0; i < WIDTH; i++) {

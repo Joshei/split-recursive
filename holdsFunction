@@ -1,0 +1,138 @@
+  //check for a push word situation, a character on last column of row, and a character on next row,
+    //first column
+    if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || 
+    (grid[rowIndex][0] != undefined && grid[rowIndex][0] != "-" )) )
+    {
+
+      let holdthis = rowIndex
+    //end base case
+    let wasVariablegridCheck = []
+    let anothertWordAtEndOfRowOne = []
+    let topRow = grid[rowIndex-1];
+    let bottomRow =grid[rowIndex];// grid[verticalCursorPosition/10 + 1];
+    let characterCounter = 0
+    let holder = this.getLastSpaceOrNull(grid,topRow)
+    wasVariablegridCheck = holder.leftSide
+    anothertWordAtEndOfRowOne = holder.rightSide
+    let lengthOfRightWordAtRowOne = anothertWordAtEndOfRowOne.length
+    //before first space or null, whichever is first  
+    let firstIndexOfNullOnBottomRow = bottomRow.indexOf("-");
+    let firstIndexOfSpaceOnBottomRow = bottomRow.indexOf(" ");
+    if(firstIndexOfNullOnBottomRow === -1){
+      firstIndexOfNullOnBottomRow = 27
+    }
+    if(firstIndexOfSpaceOnBottomRow === -1){
+      firstIndexOfSpaceOnBottomRow = 27
+    }
+    let lastIndexOfFirstWord = 0
+    //choose space or null character that is farthest right on row
+    if(firstIndexOfSpaceOnBottomRow < firstIndexOfNullOnBottomRow){
+    lastIndexOfFirstWord = firstIndexOfSpaceOnBottomRow -1
+    }else{
+    lastIndexOfFirstWord = firstIndexOfNullOnBottomRow -1
+    }//word id onm left
+    const [firstWordBottomRow, indexAfterLeftWordBottomRow] = this.splitAtIndex(bottomRow, lastIndexOfFirstWord+1 );
+    let lastIndexOffirstWordBottomRow = firstWordBottomRow.length
+    let EmptySpacesAFTERBottomLeftWord = 0
+    let LengthOfNullsAndSpacesAfterLeftWord = 0
+    //get next dash or space after word on left - bottom row
+    for(let i = lastIndexOfFirstWord+1 ; i < WIDTH; i++){
+      if (grid[rowIndex+1][i] != "-" &&  grid[rowIndex+1][i] != " "){
+            break
+      }
+      LengthOfNullsAndSpacesAfterLeftWord++
+    }
+    //will word fit below in the spaces and nulls that are before the next real character
+    if(lengthOfRightWordAtRowOne <= LengthOfNullsAndSpacesAfterLeftWord){
+      let combined = []
+    //characters will be moved from top to bottom, the final right side has empty
+    //elements that are not assigned yer
+     const [removeThis, afterLeftWordWithReservationForMovingCharacters] = this.splitAtIndex(indexAfterLeftWordBottomRow, lengthOfRightWordAtRowOne );
+    //put row together
+    combined = [...anothertWordAtEndOfRowOne, ...firstWordBottomRow, ...afterLeftWordWithReservationForMovingCharacters]
+    
+    let lengthOfFirstWordBottomRow = firstWordBottomRow.length
+    //get remainder for next recursive call - this is one rows worth
+    const [newBottomRow, newRemainder] = this.splitAtIndex(combined, WIDTH);
+    ////drawGrid(HEIGHT, WIDTH)
+    //assign row
+    grid[rowIndex] = newBottomRow
+    ////drawGrid(HEIGHT, WIDTH)
+    //set cursor at next row, first column//
+     if(lengthOfRightWordAtRowOne == 0){
+    }else{
+    //fill in moved text space with dashes on top row
+    for(let i =  WIDTH - lengthOfRightWordAtRowOne ; i < WIDTH ; i++){
+      grid[rowIndex-1][i] = '-'
+    }
+    }
+    //check if cursor is on the right word, if so, proceed with below
+    let IsOnLeftTopWordForPushWord = false
+    let IsOnTopRightTextForMove = false
+    //get position before when insert moves cursor right for test
+    CursorMovements.cursorLeft()
+    
+    //////////////////////////
+    //if cursor is on top right word, than set flag
+    //for on top row - !!!!!!!  Verticalcursorposition possibly set here?    !!!!!
+    if(rowIndex-1 === verticalCursorPosition/10){
+    for(let i =  WIDTH - anothertWordAtEndOfRowOne.length-1; i < WIDTH; i++){
+      if (i === horizontalCursorPosition/5){
+        IsOnLeftTopWordForPushWord = true
+      }
+    }
+  }
+      //resets text to insert position, before above.
+      CursorMovements.cursorRight()
+   
+    if(IsOnLeftTopWordForPushWord){
+    //determine where to put cursor on next tow, after insert
+    for(let topLeftWordIndex = WIDTH - (anothertWordAtEndOfRowOne.length)-1; topLeftWordIndex< horizontalCursorPosition/5 - 1; topLeftWordIndex++){
+      characterCounter++
+    }
+    //change cursor position based on if cursor is on last column
+    if(this.CursorOnLastColumn == true){
+      characterCounter = anothertWordAtEndOfRowOne.length
+      horizontalCursorPosition = 0
+      horizontalCursorPosition = characterCounter*5
+    }else{
+      verticalCursorPosition = verticalCursorPosition + 10
+      horizontalCursorPosition = 0
+      horizontalCursorPosition = characterCounter*5 - 5
+    }
+  }
+//////////////////////////
+//checking bottom row, left word, for cursor on or to next character (blank)
+let CursorIsInLeftWordOfBottom = false
+
+if(rowIndex === verticalCursorPosition/10){
+for(let i =   0 ; i <  firstWordBottomRow.length + 1 ;  i++){
+  if (i === horizontalCursorPosition/5){
+    CursorIsInLeftWordOfBottom = true
+     break
+  }
+}
+}
+if(CursorIsInLeftWordOfBottom ){
+  horizontalCursorPosition = horizontalCursorPosition + 5
+}
+
+CursorIsInLeftWordOfBottom = false
+
+this.pushWords(grid, newRemainder, rowIndex+1)
+
+
+
+return grid  
+
+}
+    
+
+}else{
+  //advances to next row if grid not set up for this word push
+  this.pushWords(grid, [""], rowIndex+1)
+  return grid
+}
+
+
+}
