@@ -36,6 +36,11 @@
     let EmptySpacesAFTERBottomLeftWord = 0
     let LengthOfNullsAndSpacesAfterLeftWord = 0
     //get next dash or space after word on left - bottom row
+    
+    
+    
+    
+    
     for(let i = lastIndexOfFirstWord+1 ; i < WIDTH; i++){
       if (grid[rowIndex+1][i] != "-" &&  grid[rowIndex+1][i] != " "){
             break
@@ -72,6 +77,11 @@
     //get position before when insert moves cursor right for test
     CursorMovements.cursorLeft()
     
+    
+    
+    
+    
+    
     //////////////////////////
     //if cursor is on top right word, than set flag
     //for on top row - !!!!!!!  Verticalcursorposition possibly set here?    !!!!!
@@ -105,6 +115,10 @@
 //checking bottom row, left word, for cursor on or to next character (blank)
 let CursorIsInLeftWordOfBottom = false
 
+
+
+
+
 if(rowIndex === verticalCursorPosition/10){
 for(let i =   0 ; i <  firstWordBottomRow.length + 1 ;  i++){
   if (i === horizontalCursorPosition/5){
@@ -135,4 +149,3 @@ return grid
 }
 
 
-}

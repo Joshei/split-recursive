@@ -5,7 +5,7 @@
 //GOOD PLACE TO QUIT, BAILOUT LOOKS GOOD, AND JUST APPLIED QUICK FIXE!
 //NEXT AFTER THE ABOVE IS DASHES
 //LAST BRANCH SHOULD BE PRETTY MUCH OKAY
-
+//lastRowIndexToPushOn MUST BE SET TO MAXIMUM TO CREATE A NEW ROW AT checkOnLastLineSoCreateRow
 
 
 
@@ -70,16 +70,16 @@ class RecursiveClass {
     
       
       //if(rowIndex >= this.lastRowIndexToPushOn+5  && this.lastRowIndexToPushOn != -1){
-      if(rowIndex >= this.lastRowIndexToPushOn + 1 && this.lastRowIndexToPushOn != -1){
+      if(rowIndex >= this.lastRowIndexToPushOn+2  && this.lastRowIndexToPushOn != -1){
       return grid
     }
 
    
-    if (rowIndex > HEIGHT - 1){
+    if (rowIndex > HEIGHT - 2){
       return grid
     }
     //on last row with a push
-    if(rowIndex > HEIGHT-2){
+    if(rowIndex > HEIGHT-3){
     return grid
     //waiting for a createrow from insert function - HEIGHT defaults at -1, so it
     //is + 2 because there is a row of exclamation marks at the end of matrix, so 
@@ -124,19 +124,18 @@ class RecursiveClass {
     
     ////////////////////////////
     ////////////////////////////
-
-    //check for a push word situation, a character on last column of row, and a character on next row,
+  //check for a push word situation, a character on last column of row, and a character on next row,
     //first column
-    if ((grid[rowIndex-1][WIDTH-1] != "-") && ((grid[rowIndex-1][WIDTH-2] != "-") || 
-    (grid[rowIndex][0] != undefined && grid[rowIndex][0] != "-" )) )
+    if ((grid[rowIndex][WIDTH-1] != "-") && ((grid[rowIndex][WIDTH-2] != "-") || 
+    (grid[rowIndex+1][0] != undefined && grid[rowIndex+1][0] != "-" )) )
     {
 
-      let holdthis = rowIndex
+      let holdthis = rowIndex+1
     //end base case
     let wasVariablegridCheck = []
     let anothertWordAtEndOfRowOne = []
-    let topRow = grid[rowIndex-1];
-    let bottomRow =grid[rowIndex];// grid[verticalCursorPosition/10 + 1];
+    let topRow = grid[rowIndex];
+    let bottomRow =grid[rowIndex+1];// grid[verticalCursorPosition/10 + 1];
     let characterCounter = 0
     let holder = this.getLastSpaceOrNull(grid,topRow)
     wasVariablegridCheck = holder.leftSide
@@ -162,13 +161,21 @@ class RecursiveClass {
     let lastIndexOffirstWordBottomRow = firstWordBottomRow.length
     let EmptySpacesAFTERBottomLeftWord = 0
     let LengthOfNullsAndSpacesAfterLeftWord = 0
+    
+    
+    
+     //!!!!!!!!!!!!!!!!!!!!!!!!!!
     //get next dash or space after word on left - bottom row
-    for(let i = lastIndexOfFirstWord+1 ; i < WIDTH; i++){
-      if (grid[rowIndex+1][i] != "-" &&  grid[rowIndex+1][i] != " "){
-            break
-      }
-      LengthOfNullsAndSpacesAfterLeftWord++
-    }
+    //for(let i = lastIndexOfFirstWord+1 ; i < WIDTH; i++){
+    //  if (grid[rowIndex+2][i] != "-" &&  grid[rowIndex+2][i] != " "){
+    //        break
+    //  }
+    //  LengthOfNullsAndSpacesAfterLeftWord++
+    //}
+   
+    LengthOfNullsAndSpacesAfterLeftWord = 9
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
     //will word fit below in the spaces and nulls that are before the next real character
     if(lengthOfRightWordAtRowOne <= LengthOfNullsAndSpacesAfterLeftWord){
       let combined = []
@@ -183,14 +190,14 @@ class RecursiveClass {
     const [newBottomRow, newRemainder] = this.splitAtIndex(combined, WIDTH);
     ////drawGrid(HEIGHT, WIDTH)
     //assign row
-    grid[rowIndex] = newBottomRow
+    grid[rowIndex+1] = newBottomRow
     ////drawGrid(HEIGHT, WIDTH)
     //set cursor at next row, first column//
      if(lengthOfRightWordAtRowOne == 0){
     }else{
     //fill in moved text space with dashes on top row
     for(let i =  WIDTH - lengthOfRightWordAtRowOne ; i < WIDTH ; i++){
-      grid[rowIndex-1][i] = '-'
+      grid[rowIndex][i] = '-'
     }
     }
     //check if cursor is on the right word, if so, proceed with below
@@ -199,10 +206,14 @@ class RecursiveClass {
     //get position before when insert moves cursor right for test
     CursorMovements.cursorLeft()
     
+
+
+
+
     //////////////////////////
     //if cursor is on top right word, than set flag
     //for on top row - !!!!!!!  Verticalcursorposition possibly set here?    !!!!!
-    if(rowIndex-1 === verticalCursorPosition/10){
+    if(rowIndex === verticalCursorPosition/10){
     for(let i =  WIDTH - anothertWordAtEndOfRowOne.length-1; i < WIDTH; i++){
       if (i === horizontalCursorPosition/5){
         IsOnLeftTopWordForPushWord = true
@@ -228,11 +239,14 @@ class RecursiveClass {
       horizontalCursorPosition = characterCounter*5 - 5
     }
   }
-//////////////////////////
+
+
+
+  //////////////////////////
 //checking bottom row, left word, for cursor on or to next character (blank)
 let CursorIsInLeftWordOfBottom = false
 
-if(rowIndex === verticalCursorPosition/10){
+if(rowIndex+1 === verticalCursorPosition/10){
 for(let i =   0 ; i <  firstWordBottomRow.length + 1 ;  i++){
   if (i === horizontalCursorPosition/5){
     CursorIsInLeftWordOfBottom = true
@@ -249,7 +263,6 @@ CursorIsInLeftWordOfBottom = false
 this.pushWords(grid, newRemainder, rowIndex+1)
 
 
-
 return grid  
 
 }
@@ -260,6 +273,7 @@ return grid
   this.pushWords(grid, [""], rowIndex+1)
   return grid
 }
+
 
 
 }
@@ -580,7 +594,7 @@ return arrayToChange;
           //return grid
         }
 
-        this.pushRowRight(rowIndex+1, 0, grid, leftOver)
+        this.pushRowRight(rowIndex, 0, grid, leftOver)
         grid[rowIndex] = finishedTopRow
         //On zero, because there will be a cursorright
         if(horizontalCursorPosition/5-1 === 0){
@@ -599,7 +613,7 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
       
   //if we are on the last line and there is a character on rightmost character
   //create a row if on last row
-  if (grid[HEIGHT-1][WIDTH-1] != "-" && rowIndex <= HEIGHT-1 ){
+  if (grid[HEIGHT-1][WIDTH-1] != "-" && rowIndex <= HEIGHT-1 && this.lastRowIndexToPushOn >= HEIGHT-1){
     this.createRow(grid, rowIndex)
   }
   return grid
@@ -608,15 +622,17 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
 
 //called from index
 pushRowRight(rowIndex, colIndex, grid, leftOverChar){
+
+  //return grid
   //check if it is time to add row
-  this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
+  //this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex+1, colIndex)
   //bails out of recursion
-  if(rowIndex > HEIGHT -1){
+  if(rowIndex > HEIGHT -2){
     return grid
   }
   //two rows were using for push
-  let topRow = grid[(rowIndex-1)];
-  let lowerRow = grid[rowIndex]
+  let topRow = grid[(rowIndex)];
+  let lowerRow = grid[rowIndex+1]
   let combineToBottomRow = []
   //if not a dash on last row end, than add that character on start of next line
   if (leftOverChar === "-"){
@@ -627,11 +643,12 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   //one row, exactly, because of WIDTH, left over characters become remainder
   //for next call
   let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
-  grid[rowIndex] = bottomRowReady
+  //let [left, remainingChars] = this.splitAtIndex(remainingChars, WIDTH)
+  grid[rowIndex+1] = bottomRowReady
  
-  if(grid[rowIndex][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1){
+  if(rowIndex+2 <= HEIGHT-1 && grid[rowIndex+2][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1){
     //sets row to bail out on in pushwords
-    this.lastRowIndexToPushOn = rowIndex - 1
+    this.lastRowIndexToPushOn = rowIndex 
     //CursorMovements.cursorRight()
     return grid
   }

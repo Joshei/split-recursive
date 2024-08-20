@@ -1,0 +1,34 @@
+//called from index
+pushRowRight(rowIndex, colIndex, grid, leftOverChar){
+  //check if it is time to add row
+  this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
+  //bails out of recursion
+  if(rowIndex > HEIGHT -1){
+    return grid
+  }
+  //two rows were using for push
+  let topRow = grid[(rowIndex-1)];
+  let lowerRow = grid[rowIndex]
+  let combineToBottomRow = []
+  //if not a dash on last row end, than add that character on start of next line
+  if (leftOverChar === "-"){
+    combineToBottomRow = [...lowerRow]
+  }else{
+    combineToBottomRow = [...leftOverChar, ...lowerRow]
+  }
+  //one row, exactly, because of WIDTH, left over characters become remainder
+  //for next call
+  let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
+  grid[rowIndex] = bottomRowReady
+ 
+  if(grid[rowIndex][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1){
+    //sets row to bail out on in pushwords
+    this.lastRowIndexToPushOn = rowIndex - 1
+    //CursorMovements.cursorRight()
+    return grid
+  }
+    //push next row to right(one position)  recursion
+    this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
+    
+  return grid
+  }
