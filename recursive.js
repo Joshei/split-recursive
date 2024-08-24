@@ -68,7 +68,7 @@ class RecursiveClass {
       
       
     //CHECK FOR BAIL OUT AND IS NOT ON LAST ROW
-    if(rowIndex < HEIGHT-2 && rowIndex >= this.lastRowIndexToPushOn  && this.lastRowIndexToPushOn != -1){
+    if(rowIndex <= HEIGHT-1 && rowIndex > this.lastRowIndexToPushOn  && this.lastRowIndexToPushOn != -1){
       return grid
     }
     //PUSHING IS HAPPENING, IF ON ROW ABOVE LAST AND THERE IS A CHARACTER ON LAST ROW ON BOTTOM ROW, THAN CREATE ROW
@@ -594,9 +594,9 @@ return arrayToChange;
           this.CursorOnLastColumn = true
         }
 
-        if(grid[rowIndex][WIDTH-1] === "-" && this.lastRowIndexToPushOn === -1 && rowIndex >= horizontalCursorPosition){
+        if(grid[rowIndex][WIDTH-1] === "-" && this.lastRowIndexToPushOn === -1 && rowIndex > horizontalCursorPosition/5){
           //sets row to bail out on in pushwords
-          this.lastRowIndexToPushOn = rowIndex
+          this.lastRowIndexToPushOn = rowIndex+1
           
           //CursorMovements.cursorRight()//rowindex -1 (2) : delete return
           //return grid
@@ -661,9 +661,9 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   //let [left, remainingChars] = this.splitAtIndex(remainingChars, WIDTH)
   grid[rowIndex+1] = bottomRowReady
  
-  if(rowIndex+2 <= HEIGHT-1 && grid[rowIndex+2][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1  && rowIndex >= horizontalCursorPosition){
+  if(rowIndex+2 <= HEIGHT-1 && grid[rowIndex+2][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1  && rowIndex > horizontalCursorPosition/5){
     //sets row to bail out on in pushwords
-    this.lastRowIndexToPushOn = rowIndex 
+    this.lastRowIndexToPushOn = rowIndex + 1
     //CursorMovements.cursorRight()
     return grid
   }
