@@ -6,9 +6,6 @@
 //NEXT AFTER THE ABOVE IS DASHES
 //LAST BRANCH SHOULD BE PRETTY MUCH OKAY
 //lastRowIndexToPushOn MUST BE SET TO MAXIMUM TO CREATE A NEW ROW AT checkOnLastLineSoCreateRow
-
-
-
 class RecursiveClass {
   constructor() {
   this.counterOfRows = 0
@@ -69,17 +66,28 @@ class RecursiveClass {
   {
     
       
-      //if(rowIndex >= this.lastRowIndexToPushOn+5  && this.lastRowIndexToPushOn != -1){
-      if(rowIndex >= this.lastRowIndexToPushOn+2  && this.lastRowIndexToPushOn != -1){
+      
+    //CHECK FOR BAIL OUT AND IS NOT ON LAST ROW
+    if(rowIndex < HEIGHT-2 && rowIndex >= this.lastRowIndexToPushOn  && this.lastRowIndexToPushOn != -1){
       return grid
+    }
+    //PUSHING IS HAPPENING, IF ON ROW ABOVE LAST AND THERE IS A CHARACTER ON LAST ROW ON BOTTOM ROW, THAN CREATE ROW
+    //row on second to  last row
+    if(rowIndex === HEIGHT-1){
+      //looking if there is a character of bottom row, if so create a row and continue with push
+      if(grid[HEIGHT-1][WIDTH-1] != DASH ){
+      this.createRow(grid, rowIndex)
+      }
+      //return grid
     }
 
    
-    if (rowIndex > HEIGHT - 2){
-      return grid
-    }
-    //on last row with a push
-    if(rowIndex > HEIGHT-3){
+    //if (rowIndex == HEIGHT - 1){
+    //  return grid
+    //}
+
+    //HEIGHT - ?
+    if(rowIndex === false){
     return grid
     //waiting for a createrow from insert function - HEIGHT defaults at -1, so it
     //is + 2 because there is a row of exclamation marks at the end of matrix, so 
@@ -586,12 +594,15 @@ return arrayToChange;
           this.CursorOnLastColumn = true
         }
 
-        if(grid[rowIndex][WIDTH-1] === "-" && this.lastRowIndexToPushOn === -1){
+        if(grid[rowIndex][WIDTH-1] === "-" && this.lastRowIndexToPushOn === -1 && rowIndex >= horizontalCursorPosition){
           //sets row to bail out on in pushwords
-          this.lastRowIndexToPushOn = rowIndex-1
+          this.lastRowIndexToPushOn = rowIndex
           
-          CursorMovements.cursorRight()//rowindex -1 (2) : delete return
+          //CursorMovements.cursorRight()//rowindex -1 (2) : delete return
           //return grid
+        }
+        else{
+          this.lastRowIndexToPushOn == HEIGHT-1
         }
 
         this.pushRowRight(rowIndex, 0, grid, leftOver)
@@ -613,7 +624,11 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
       
   //if we are on the last line and there is a character on rightmost character
   //create a row if on last row
-  if (grid[HEIGHT-1][WIDTH-1] != "-" && rowIndex <= HEIGHT-1 && this.lastRowIndexToPushOn >= HEIGHT-1){
+  //first part 
+  //if (grid[HEIGHT-1][WIDTH-1] != "-" && rowIndex <= HEIGHT-1 && this.lastRowIndexToPushOn >= HEIGHT-1){
+  
+  //this needs to be set, lastRowIndex...,  so try this first  
+  if (grid[HEIGHT-1][WIDTH-1] != "-"){//} && rowIndex == HEIGHT-1){
     this.createRow(grid, rowIndex)
   }
   return grid
@@ -627,7 +642,7 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   //check if it is time to add row
   //this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex+1, colIndex)
   //bails out of recursion
-  if(rowIndex > HEIGHT -2){
+  if(rowIndex >= HEIGHT -1){
     return grid
   }
   //two rows were using for push
@@ -646,12 +661,16 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   //let [left, remainingChars] = this.splitAtIndex(remainingChars, WIDTH)
   grid[rowIndex+1] = bottomRowReady
  
-  if(rowIndex+2 <= HEIGHT-1 && grid[rowIndex+2][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1){
+  if(rowIndex+2 <= HEIGHT-1 && grid[rowIndex+2][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1  && rowIndex >= horizontalCursorPosition){
     //sets row to bail out on in pushwords
     this.lastRowIndexToPushOn = rowIndex 
     //CursorMovements.cursorRight()
     return grid
   }
+  else{
+    this.lastRowIndexToPushOn == HEIGHT-1
+  }
+
     //push next row to right(one position)  recursion
     this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
     
