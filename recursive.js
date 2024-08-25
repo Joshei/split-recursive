@@ -6,11 +6,15 @@
 //NEXT AFTER THE ABOVE IS DASHES
 //LAST BRANCH SHOULD BE PRETTY MUCH OKAY
 //lastRowIndexToPushOn MUST BE SET TO MAXIMUM TO CREATE A NEW ROW AT checkOnLastLineSoCreateRow
+//INITIALINSERT needs to bail out when dash, pushrow has example and is called wit rowindex or rowindex+1
+//last index aftar cursor
+
 class RecursiveClass {
   constructor() {
   this.counterOfRows = 0
   this.CursorOnLastColumn = false
   this.lastRowIndexToPushOn = -1
+  this.checkOnLastLineSoCreateRow = false
   
   
 }
@@ -79,6 +83,9 @@ class RecursiveClass {
       this.createRow(grid, rowIndex)
       }
       //return grid
+    }else if (rowIndex > HEIGHT-1){
+
+      return grid
     }
 
    
@@ -570,7 +577,22 @@ return arrayToChange;
       let vertString = (verticalCursorPosition/10).toString() 
       let a = document.getElementById("xAndY")
       a.innerHTML = 'Horizontal' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
-      this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex)
+      
+      this.checkOnLastLineSoCreateRow = true;
+      
+      //from row now to end of each row, check for dash
+      for(let i = verticalCursorPosition/10; i < HEIGHT; i++){
+        if (grid[i][WIDTH-1] === "-"){
+        this.checkOnLastLineSoCreateRow = false;
+        break
+        }
+      }
+
+      if(  this.checkOnLastLineSoCreateRow === true){
+        
+        this.createRow(grid, leftOverChar, rowIndex, colIndex)
+        rowIndex++
+      }
       if(rowIndex > HEIGHT -1){
         return grid
       }
@@ -628,7 +650,7 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
   //if (grid[HEIGHT-1][WIDTH-1] != "-" && rowIndex <= HEIGHT-1 && this.lastRowIndexToPushOn >= HEIGHT-1){
   
   //this needs to be set, lastRowIndex...,  so try this first  
-  if (grid[HEIGHT-1][WIDTH-1] != "-"){//} && rowIndex == HEIGHT-1){
+  if (grid[HEIGHT-1][WIDTH-1] != "-" && this.AfterCursorAllRowsHaveNoDash){//} && rowIndex == HEIGHT-1){
     this.createRow(grid, rowIndex)
   }
   return grid
@@ -638,10 +660,16 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
 //called from index
 pushRowRight(rowIndex, colIndex, grid, leftOverChar){
 
+  
   //return grid
   //check if it is time to add row
   //this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex+1, colIndex)
   //bails out of recursion
+
+  //if(grid[rowIndex][WIDTH-1] === "-"){
+  //  return grid
+  //}
+
   if(rowIndex >= HEIGHT -1){
     return grid
   }
@@ -660,12 +688,17 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
   //let [left, remainingChars] = this.splitAtIndex(remainingChars, WIDTH)
   grid[rowIndex+1] = bottomRowReady
+
+  if(grid[rowIndex][WIDTH-1] === "-"){
+    return grid
+  }
  
+  
   if(rowIndex+2 <= HEIGHT-1 && grid[rowIndex+2][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1  && rowIndex > horizontalCursorPosition/5){
     //sets row to bail out on in pushwords
     this.lastRowIndexToPushOn = rowIndex + 1
     //CursorMovements.cursorRight()
-    return grid
+    //return grid
   }
   else{
     this.lastRowIndexToPushOn == HEIGHT-1
