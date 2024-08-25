@@ -15,7 +15,7 @@ class RecursiveClass {
   this.CursorOnLastColumn = false
   this.lastRowIndexToPushOn = -1
   this.checkOnLastLineSoCreateRow = false
-  
+ 
   
 }
 
@@ -70,17 +70,20 @@ class RecursiveClass {
   {
     
       
-      
+     /* 
     //CHECK FOR BAIL OUT AND IS NOT ON LAST ROW
     if(rowIndex <= HEIGHT-1 && rowIndex > this.lastRowIndexToPushOn  && this.lastRowIndexToPushOn != -1){
       return grid
     }
+    
+    */
     //PUSHING IS HAPPENING, IF ON ROW ABOVE LAST AND THERE IS A CHARACTER ON LAST ROW ON BOTTOM ROW, THAN CREATE ROW
     //row on second to  last row
     if(rowIndex === HEIGHT-1){
       //looking if there is a character of bottom row, if so create a row and continue with push
       if(grid[HEIGHT-1][WIDTH-1] != DASH ){
       this.createRow(grid, rowIndex)
+      //rowIndex++
       }
       //return grid
     }else if (rowIndex > HEIGHT-1){
@@ -88,6 +91,12 @@ class RecursiveClass {
       return grid
     }
 
+  
+
+    
+    if(rowIndex > HEIGHT - 1){
+      return grid
+    }
    
     //if (rowIndex == HEIGHT - 1){
     //  return grid
@@ -141,6 +150,10 @@ class RecursiveClass {
     ////////////////////////////
   //check for a push word situation, a character on last column of row, and a character on next row,
     //first column
+    
+    //if ((grid[rowIndex][WIDTH-1] != "-") && ((grid[rowIndex][WIDTH-2] != "-") || 
+    //(grid[rowIndex+1][0] != undefined && grid[rowIndex+1][0] != "-" )) )
+
     if ((grid[rowIndex][WIDTH-1] != "-") && ((grid[rowIndex][WIDTH-2] != "-") || 
     (grid[rowIndex+1][0] != undefined && grid[rowIndex+1][0] != "-" )) )
     {
@@ -590,9 +603,16 @@ return arrayToChange;
 
       if(  this.checkOnLastLineSoCreateRow === true){
         
+        //all rows have been visited, so we are at the row before, and there is a new row
+        //lets check it out
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
         this.createRow(grid, leftOverChar, rowIndex, colIndex)
-        rowIndex++
+       
+        //check last row for character, if so, move it to next row
+        //rowIndex++
       }
+
+      
       if(rowIndex > HEIGHT -1){
         return grid
       }
@@ -627,7 +647,7 @@ return arrayToChange;
           this.lastRowIndexToPushOn == HEIGHT-1
         }
 
-        this.pushRowRight(rowIndex, 0, grid, leftOver)
+        this.pushRowRight(verticalCursorPosition/10, 0, grid, leftOver)
         grid[rowIndex] = finishedTopRow
         //On zero, because there will be a cursorright
         if(horizontalCursorPosition/5-1 === 0){
@@ -670,7 +690,25 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   //  return grid
   //}
 
-  if(rowIndex >= HEIGHT -1){
+  //if(grid[rowIndex][WIDTH-1] === "-" &&  !(this.justCreatedNewRow)){
+  //  return grid
+  //}
+
+
+  //IF JUST CREATED ROW, THAN A PUSH WAS NOT YET POSSIBLE, THE SINGLE CHARACTER IS 
+  //NOT ON NEXT ROW SO MOVE IT THERE IF THERE IS A CHARACTER IN THE ABOVE ROW, LAST COLUMN
+  //IF FROM H-POSITION TO HEIGHT-2 HAS NO ENDING DAHSES 
+  //BOTTOM PASSED IN IS TOP HERE
+
+  //second problem:  playing with ending dash is failing
+  //if (grid[rowIndex + 1][WIDTH-1] == "-"){
+  //  return grid
+  //  }
+
+ 
+
+  //rowIndex = verticalCursorPosition/10
+  if(rowIndex > HEIGHT -2 ){
     return grid
   }
   //two rows were using for push
@@ -689,9 +727,7 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   //let [left, remainingChars] = this.splitAtIndex(remainingChars, WIDTH)
   grid[rowIndex+1] = bottomRowReady
 
-  if(grid[rowIndex][WIDTH-1] === "-"){
-    return grid
-  }
+  
  
   
   if(rowIndex+2 <= HEIGHT-1 && grid[rowIndex+2][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1  && rowIndex > horizontalCursorPosition/5){
@@ -702,6 +738,10 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   }
   else{
     this.lastRowIndexToPushOn == HEIGHT-1
+  }
+
+  if(grid[rowIndex+1][WIDTH-1] === "-"){
+    return grid
   }
 
     //push next row to right(one position)  recursion
