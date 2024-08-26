@@ -634,7 +634,7 @@ return arrayToChange;
           this.lastRowIndexToPushOn == HEIGHT-1
         }
 
-       /////
+
        if (IsADash === true){ 
         return grid
        }
