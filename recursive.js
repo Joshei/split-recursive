@@ -4,11 +4,9 @@
 //WRITE DESTRUCTIVE DELETE
 //GOOD PLACE TO QUIT, BAILOUT LOOKS GOOD, AND JUST APPLIED QUICK FIXE!
 //NEXT AFTER THE ABOVE IS DASHES
-//LAST BRANCH SHOULD BE PRETTY MUCH OKAY
-//lastRowIndexToPushOn MUST BE SET TO MAXIMUM TO CREATE A NEW ROW AT checkOnLastLineSoCreateRow
-//INITIALINSERT needs to bail out when dash, pushrow has example and is called wit rowindex or rowindex+1
-//last index aftar cursor
+//PUT IN COMMENTS, SO COULD BE MISTAKES
 
+//8/26/24 (5:22 PM): insert and pushrow looking good.  PushWord next.  React/css tomorrow.
 class RecursiveClass {
   constructor() {
   this.counterOfRows = 0
@@ -572,29 +570,26 @@ return arrayToChange;
     //  CHECK FULL ROWS
     //  //FIX INSERT ON RIGHT MOST COLUMN
     initialInsert(rowIndex, colIndex, grid, leftOverChar){
+      //checks if dash at end of current row, used for prevention of continuation on other rows
       let IsADash = false
        //just on first top statement
        if(grid[rowIndex][WIDTH-1] === "-"){
         IsADash = true 
-        
-      }
-
+        }
       //for displaying
       let horizString =  (horizontalCursorPosition/5).toString()
       let vertString = (verticalCursorPosition/10).toString() 
       let a = document.getElementById("xAndY")
       a.innerHTML = 'Horizontal' + horizString + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + 'Vertical: '+ vertString
-      
       this.checkOnLastLineSoCreateRow = true;
-      
-      //from row now to end of each row, check for dash
+      //from row now to end of each row, check for dash throug ending row
+      //if no dashes, then don't create new row below
       for(let i = verticalCursorPosition/10; i < HEIGHT; i++){
         if (grid[i][WIDTH-1] === "-"){
         this.checkOnLastLineSoCreateRow = false;
         break
         }
       }
-
       if(  this.checkOnLastLineSoCreateRow === true){
         
         this.createRow(grid, leftOverChar, rowIndex, colIndex)
@@ -618,7 +613,10 @@ return arrayToChange;
         //push rows right because of insert
         grid[rowIndex] = finishedTopRow
 
-        //checks character on left for cursor positioning
+
+        /////////////////////FOR PUSHWORDS
+
+        //???LOOK AT THIS - checks character on left for cursor positioning???
         if(horizontalCursorPosition/5 === WIDTH-1){
           this.CursorOnLastColumn = true
         }
@@ -626,23 +624,23 @@ return arrayToChange;
         if(grid[rowIndex][WIDTH-1] === "-" && this.lastRowIndexToPushOn === -1 && rowIndex > horizontalCursorPosition/5){
           //sets row to bail out on in pushwords
           this.lastRowIndexToPushOn = rowIndex+1
-          
-          //CursorMovements.cursorRight()//rowindex -1 (2) : delete return
+          //CursorMovements.cursorRight()
           //return grid
         }
         else{
           this.lastRowIndexToPushOn == HEIGHT-1
         }
 
+        /////////////////////////////////END
 
+       // WAS DASH AT FIRST LINE OF INSERT'S END
        if (IsADash === true){ 
         return grid
        }
         this.pushRowRight(rowIndex+1, colIndex, grid, leftOver)
-        //grid[rowIndex] = finishedTopRow
         //On zero, because there will be a cursorright
         if(horizontalCursorPosition/5-1 === 0){
-          //last time,this was true, used for setting  cursor
+          //used for setting  cursor
           this.CursorOnLastColumn = true
         }
         CursorMovements.cursorRight()
@@ -652,15 +650,10 @@ return arrayToChange;
     }
 /////////////////////////
 
-////////from:???
+
 checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
-      
-  //if we are on the last line and there is a character on rightmost character
-  //create a row if on last row
-  //first part 
-  //if (grid[HEIGHT-1][WIDTH-1] != "-" && rowIndex <= HEIGHT-1 && this.lastRowIndexToPushOn >= HEIGHT-1){
-  
-  //this needs to be set, lastRowIndex...,  so try this first  
+   
+  //!!!!THIS VARIABLE IS NOT DEFINED OR USED ELSEWHERE!!!!!
   if (grid[HEIGHT-1][WIDTH-1] != "-" && this.AfterCursorAllRowsHaveNoDash){//} && rowIndex == HEIGHT-1){
     this.createRow(grid, rowIndex)
   }
@@ -677,19 +670,17 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
 
 pushRowRight(rowIndex, colIndex, grid, leftOverChar){
 
+  /*
   let CharacterOnAllLastRows = true
   for(let i = verticalCursorPosition/10 ; i < HEIGHT-2 ; i++){
       if (grid[i][WIDTH-1] == "-"){
         CharacterOnAllLastRows = false
       }
   }
-
   if(CharacterOnAllLastRows == true){
-
-    //this.createRow(grid, rowIndex)
+  //this.createRow(grid, rowIndex)
   }
-
-  //?
+*/
   if(rowIndex > HEIGHT -1){
     return grid
   }
@@ -712,13 +703,13 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   grid[rowIndex] = bottomRowReady
 
   drawGrid(HEIGHT, WIDTH)
+  
+  //!!!!!!!!!!CHECK THIS!!!!!!!!!!
   if(grid[rowIndex][WIDTH-1] === "-" && remainingChars == "" || remainingChars == [""] || remainingChars == "-"){
     return grid
   }
- 
-  
-
   /*
+  CHECKS FOR LAST INDEX TO PUSH
   if(rowIndex+2 <= HEIGHT-1 && grid[rowIndex+2][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1  && rowIndex > horizontalCursorPosition/5){
     //sets row to bail out on in pushwords
     this.lastRowIndexToPushOn = rowIndex + 1
@@ -735,8 +726,6 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
     
   return grid
   }
-
-//////////////
 }
 
 
