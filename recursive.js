@@ -572,6 +572,13 @@ return arrayToChange;
     //  CHECK FULL ROWS
     //  //FIX INSERT ON RIGHT MOST COLUMN
     initialInsert(rowIndex, colIndex, grid, leftOverChar){
+      let IsADash = false
+       //just on first top statement
+       if(grid[rowIndex][WIDTH-1] === "-"){
+        IsADash = true 
+        
+      }
+
       //for displaying
       let horizString =  (horizontalCursorPosition/5).toString()
       let vertString = (verticalCursorPosition/10).toString() 
@@ -627,6 +634,10 @@ return arrayToChange;
           this.lastRowIndexToPushOn == HEIGHT-1
         }
 
+       /////
+       if (IsADash === true){ 
+        return grid
+       }
         this.pushRowRight(rowIndex+1, colIndex, grid, leftOver)
         //grid[rowIndex] = finishedTopRow
         //On zero, because there will be a cursorright
@@ -679,7 +690,7 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   }
 
   //?
-  if(rowIndex >= HEIGHT -1){
+  if(rowIndex > HEIGHT -1){
     return grid
   }
 
