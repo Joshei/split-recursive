@@ -591,7 +591,7 @@ return arrayToChange;
       if(  this.checkOnLastLineSoCreateRow === true){
         
         this.createRow(grid, leftOverChar, rowIndex, colIndex)
-        rowIndex++
+        
       }
       if(rowIndex > HEIGHT -1){
         return grid
@@ -627,8 +627,8 @@ return arrayToChange;
           this.lastRowIndexToPushOn == HEIGHT-1
         }
 
-        this.pushRowRight(rowIndex, 0, grid, leftOver)
-        grid[rowIndex] = finishedTopRow
+        this.pushRowRight(rowIndex+1, colIndex, grid, leftOver)
+        //grid[rowIndex] = finishedTopRow
         //On zero, because there will be a cursorright
         if(horizontalCursorPosition/5-1 === 0){
           //last time,this was true, used for setting  cursor
@@ -658,14 +658,35 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
 ////////from:  cleanupPushWord
 
 //called from index
+//should be 12 is 13
+//is 8 on pushword
+//rowindex is top row
+//top row will always be handled by insert
+//topp row is -1 so do indexs started on row 1
+
 pushRowRight(rowIndex, colIndex, grid, leftOverChar){
 
+  let CharacterOnAllLastRows = true
+  for(let i = verticalCursorPosition/10 ; i < HEIGHT-2 ; i++){
+      if (grid[i][WIDTH-1] == "-"){
+        CharacterOnAllLastRows = false
+      }
+  }
+
+  if(CharacterOnAllLastRows == true){
+
+    //this.createRow(grid, rowIndex)
+  }
+
+  //?
   if(rowIndex >= HEIGHT -1){
     return grid
   }
+
+  drawGrid(HEIGHT, WIDTH)
   //two rows were using for push
-  let topRow = grid[(rowIndex)];
-  let lowerRow = grid[rowIndex+1]
+  //let topRow = grid[(rowIndex-1)];
+  let lowerRow = grid[rowIndex]
   let combineToBottomRow = []
   //if not a dash on last row end, than add that character on start of next line
   if (leftOverChar === "-"){
@@ -677,13 +698,16 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   //for next call
   let [bottomRowReady, remainingChars] = this.splitAtIndex(combineToBottomRow, WIDTH)
   //let [left, remainingChars] = this.splitAtIndex(remainingChars, WIDTH)
-  grid[rowIndex+1] = bottomRowReady
+  grid[rowIndex] = bottomRowReady
 
-  if(grid[rowIndex][WIDTH-1] === "-"){
-    //return grid
+  drawGrid(HEIGHT, WIDTH)
+  if(grid[rowIndex][WIDTH-1] === "-" && remainingChars == "" || remainingChars == [""] || remainingChars == "-"){
+    return grid
   }
  
   
+
+  /*
   if(rowIndex+2 <= HEIGHT-1 && grid[rowIndex+2][WIDTH-1] === "-"&& this.lastRowIndexToPushOn === -1  && rowIndex > horizontalCursorPosition/5){
     //sets row to bail out on in pushwords
     this.lastRowIndexToPushOn = rowIndex + 1
@@ -693,7 +717,8 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   else{
     this.lastRowIndexToPushOn == HEIGHT-1
   }
-
+*/
+    drawGrid(HEIGHT, WIDTH)
     //push next row to right(one position)  recursion
     this.pushRowRight(rowIndex+1, 0, grid, remainingChars)
     
