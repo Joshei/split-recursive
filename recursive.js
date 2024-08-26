@@ -660,16 +660,6 @@ checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex, colIndex){
 //called from index
 pushRowRight(rowIndex, colIndex, grid, leftOverChar){
 
-  
-  //return grid
-  //check if it is time to add row
-  //this.checkOnLastLineSoCreateRow(grid, leftOverChar, rowIndex+1, colIndex)
-  //bails out of recursion
-
-  //if(grid[rowIndex][WIDTH-1] === "-"){
-  //  return grid
-  //}
-
   if(rowIndex >= HEIGHT -1){
     return grid
   }
@@ -690,7 +680,7 @@ pushRowRight(rowIndex, colIndex, grid, leftOverChar){
   grid[rowIndex+1] = bottomRowReady
 
   if(grid[rowIndex][WIDTH-1] === "-"){
-    return grid
+    //return grid
   }
  
   
