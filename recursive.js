@@ -4,7 +4,17 @@
 //WRITE DESTRUCTIVE DELETE
 //GOOD PLACE TO QUIT, BAILOUT LOOKS GOOD, AND JUST APPLIED QUICK FIXE!
 //NEXT AFTER THE ABOVE IS DASHES
+
+
+
+
+//!!!!!!!!!!!!!!!!!!!CHECK!
 //PUT IN COMMENTS, SO COULD BE MISTAKES
+//!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
 
 //8/26/24 (5:22 PM): insert and pushrow looking good.  PushWord next.  React/css tomorrow.
 class RecursiveClass {
