@@ -23,7 +23,8 @@ class RecursiveClass {
   this.CursorOnLastColumn = false
   this.lastRowIndexToPushOn = -1
   this.checkOnLastLineSoCreateRow = false
-  
+  this.bottomRow = -1
+  this.bottomRowFromLastRound = []
   
 }
 
@@ -38,7 +39,9 @@ class RecursiveClass {
     //remove last line, which is exclamation marks
     //this.deleteRow(grid, rowIndex+1) 
     //add a new row of nulls
-    grid.push(["-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ]),
+    
+    grid.push(["T", "-", "-", "-", "-", "-" , "-", "-", "-", "T", "-", "-", "-" , "-", "-", "-", "-", "-", "-", "-" , "-","-", "-", "-", "-", "-", "-" , "-" ]),
+    
     //add exclamation marks at end again, which is for padding
     //grid.push(["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ]),
     //important, allows new line to display in the drawgrid
@@ -337,44 +340,103 @@ return arrayToChange;
   //  mid text
   //  last row, first, middle, last  
   //  //CHECK FULL ROWS
-  pressedEnter(
+  
+ 
+  pressedEnter(//
     grid,
     rowIndex,
     colIndex,
     remainder,
     IsFirstTime
     ) {
+
+      
+      let topRow = []
     //if no remainder set it to null
     if (Object.keys(remainder).length === 0) {
       remainder = "";
     }
+
+    
+
+    if (true){
     //assign current row to be top row
-    let topRow = grid[rowIndex];
+    topRow = grid[rowIndex];   // 2 ... 1 ///
     //row after toprow
-    let bottomRow = grid[rowIndex + 1];
+    this.bottomRowFromLastRound = this.bottomRow
+    this.bottomRow = grid[rowIndex + 1];
+   
+    
+    let thirdRow = grid[rowIndex + 2]
+    }else{
+      topRow = grid[rowIndex+1];
+      this.bottomRowFromLastRound = this.bottomRow
+      this.bottomRow = grid[rowIndex + 2];
+      drawGrid(HEIGHT, WIDTH)
+   
+
+    }
     //colindex is where cursor split the phrase into two halves
     let amtCharactersToPassToNextRow = WIDTH - colIndex;
-    let [isntUsed, leftSideOfCursor] = this.splitAtIndex(
+    let [left, RightSideOfCursor] = this.splitAtIndex(
       topRow,
       colIndex
     );
+
+    if (rowIndex >= 15)
+    {
+      //return(grid)
+    }
+    let [left1, RightSideOfCursorforBottomRow] = this.splitAtIndex(
+      this.bottomRow,
+      colIndex
+    );
+
+    drawGrid(HEIGHT, WIDTH)
+
+    
     //set here for scope
     let secondRowDone = []
-    let newRemainder = []
-    //remainder is leftover from string when a widths worth of data is gotten
-    let combine = [...remainder, ...bottomRow];
+    let thirdRowLongRemainder = []
+    
+    //get right side of cursor of nextline
+
+    //remainder is leftover from string when a widths worth of data is gotten//
+    //let combine = [...remainder, ...RightSideOfCursor, ...bottomRow];
+    
+    
     //on initial call 
     if (IsFirstTime === true) {
+
+      //remainder is leftover from string when a widths worth of data is gotten//
+    let combine = [...remainder, ...RightSideOfCursor, ...this.bottomRow];
+
+
       //combine left hand side of top at cursor and the bottom with remainder from last call
-      let secondRowNearlyDone = [...leftSideOfCursor, ...combine];
+      //let secondRowNearlyDone = [...RightSideOfCursor, ...bottomRow];
       //cuts it to the size of one row
-      [secondRowDone, newRemainder] = this.splitAtIndex(secondRowNearlyDone,WIDTH);
+      [secondRowDone, thirdRowLongRemainder] = this.splitAtIndex(combine,WIDTH);
+
+
       //assign row with characters 
       grid[rowIndex + 1] = secondRowDone;
-    } else {
+      
+      drawGrid(HEIGHT, WIDTH)
+    } else 
+    
+    
+    {//Isnot firsty run through...:
+          //remainder is leftover from string when a widths worth of data is gotten//
+    let combine = [...remainder, ...RightSideOfCursorforBottomRow];
+      
+      
       //like above but no text on left side because enter pushes next rows directly down
       //is size of one row
-        [secondRowDone, newRemainder] = this.splitAtIndex(combine,WIDTH);
+      
+      
+      [secondRowDone,  thirdRowLongRemainder] = this.splitAtIndex(combine,WIDTH);
+      
+      
       //set second row
       grid[rowIndex + 1] = secondRowDone;
     }
@@ -384,18 +446,27 @@ return arrayToChange;
         grid[rowIndex][i] = "-";
       }     
     } 
+
+    
+    
+    drawGrid(HEIGHT, WIDTH)
+
+
+
     //no longer first time, done using value
     IsFirstTime = false
     //index is HEIGHT - 1, and is next value
     //is on last row with an enter, so create a new line
-    if (rowIndex > HEIGHT-2) {
+    if (rowIndex >= 13) {
       this.createRow(grid, rowIndex+1)
       //fill in nulls after displaying text moved there from above
       let amountOfNullsForNewBottomRow = colIndex
       for(let i = WIDTH-amountOfNullsForNewBottomRow; i < WIDTH ; i++ )
       {
-        grid[rowIndex+1][i] = "-"
+        grid[rowIndex+2][i] = "P"
       }
+      grid[rowIndex+2] = thirdRowLongRemainder
+      drawGrid(HEIGHT, WIDTH)
       return grid
     }
     //set for cursor on next line, first column
@@ -410,9 +481,11 @@ return arrayToChange;
       grid,
       rowIndex + 1,
       colIndex,
-      newRemainder,
+      thirdRowLongRemainder,
       false
     );
+
+    drawGrid(HEIGHT , WIDTH)
     return grid;
   }
 
