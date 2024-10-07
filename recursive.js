@@ -368,53 +368,6 @@ return arrayToChange;
 
     drawGrid(HEIGHT, WIDTH)
 
-    /*
-    //when drawing first row, drawing is form last to first
-    if(counter === 0){
-        grid[0] = leftTopRow
-        drawGrid(HEIGHT, WIDTH)
-      //fill in nulls after displaying text moved there from above
-      let amountOfNullsForNewBottomRow = colIndex
-      for(let i = colIndex + 1; i < WIDTH ; i++ )
-      {
-        grid[0][i] = "O"
-       
-      }
-     
-        return grid
-      //when drawing row 2nd from top, drawing is from bottom to top
-      }else if(counter === 1){
-      //grid[1][9] = "h"
-      if(leftTopRow.length === 0){
-        grid[0] = [DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH,DASH, DASH, DASH, DASH, DASH, DASH , DASH ]
-   
-      }
-      else{
-      let amountOfNullsForNewBottomRow = colIndex
-      //left of cursor, drawn at first row
-      grid[0] = leftTopRow
-      //fill remaining spaces with dashes
-      for(let i = colIndex; i < WIDTH ; i++ )
-      {
-        grid[0][i] = "-"
-       
-      }
-
-      
-      //second row is filled with right of cursor
-      grid[1] = rightTopRow
-
-      //dashes are filled after right top row is printed
-      let startingPointForDashesOnRight = WIDTH - colIndex
-      for (let i = startingPointForDashesOnRight; i < WIDTH ; i++){
-        grid[1][i] = "-"
-      }
-    }
-     
-    }
-    */
-
-   
       //else 
       if (counter > 13) {
       
@@ -436,18 +389,18 @@ return arrayToChange;
       grid[(verticalCursorPosition+10)/10] = rightTopRow
 
       for(let i = rightTopRow.length-1; i < WIDTH; i++){
-        grid[(verticalCursorPosition+10)/10][i] = "H"
+        grid[(verticalCursorPosition+10)/10][i] = "-"
       }
 
       //first row is split.  This is right side on next row
       for (let i = leftTopRow.length-2; i < WIDTH ; i++){
-        grid[((verticalCursorPosition+20)/10)][i] = "i"
+        grid[((verticalCursorPosition+20)/10)][i] = "-"
       }
 
       let startingPointForDashesOnRight = colIndex
       //first row is split at cursor, this is left side
       for (let i = startingPointForDashesOnRight - 1; i < WIDTH ; i++){
-        grid[verticalCursorPosition/10][i] = "k"
+        grid[verticalCursorPosition/10][i] = "-"
       }
       
       
