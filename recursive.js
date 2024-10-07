@@ -342,150 +342,138 @@ return arrayToChange;
   //  //CHECK FULL ROWS
   
  
+  
   pressedEnter(//
     grid,
     rowIndex,
     colIndex,
     remainder,
-    IsFirstTime
+    IsFirstTime,
+    counter
     ) {
 
-      
+
+     
       let topRow = []
-    //if no remainder set it to null
-    if (Object.keys(remainder).length === 0) {
-      remainder = "";
+      let bottomRow = grid[counter+1]
+    topRow = grid[counter-1]; 
+    if(counter < verticalCursorPosition/10+1){
+      return grid
     }
-
-    
-
-    if (true){
-    //assign current row to be top row
-    topRow = grid[rowIndex];   // 2 ... 1 ///
-    //row after toprow
-    this.bottomRowFromLastRound = this.bottomRow
-    this.bottomRow = grid[rowIndex + 1];
-   
-    
-    let thirdRow = grid[rowIndex + 2]
-    }else{
-      topRow = grid[rowIndex+1];
-      this.bottomRowFromLastRound = this.bottomRow
-      this.bottomRow = grid[rowIndex + 2];
-      drawGrid(HEIGHT, WIDTH)
-   
-
-    }
-    //colindex is where cursor split the phrase into two halves
-    let amtCharactersToPassToNextRow = WIDTH - colIndex;
-    let [left, RightSideOfCursor] = this.splitAtIndex(
+    //split at cursor
+    let [leftTopRow, rightTopRow] = this.splitAtIndex(
       topRow,
       colIndex
     );
 
-    if (rowIndex >= 15)
-    {
-      //return(grid)
-    }
-    let [left1, RightSideOfCursorforBottomRow] = this.splitAtIndex(
-      this.bottomRow,
-      colIndex
-    );
-
     drawGrid(HEIGHT, WIDTH)
 
-    
-    //set here for scope
-    let secondRowDone = []
-    let thirdRowLongRemainder = []
-    
-    //get right side of cursor of nextline
-
-    //remainder is leftover from string when a widths worth of data is gotten//
-    //let combine = [...remainder, ...RightSideOfCursor, ...bottomRow];
-    
-    
-    //on initial call 
-    if (IsFirstTime === true) {
-
-      //remainder is leftover from string when a widths worth of data is gotten//
-    let combine = [...remainder, ...RightSideOfCursor, ...this.bottomRow];
-
-
-      //combine left hand side of top at cursor and the bottom with remainder from last call
-      //let secondRowNearlyDone = [...RightSideOfCursor, ...bottomRow];
-      //cuts it to the size of one row
-      [secondRowDone, thirdRowLongRemainder] = this.splitAtIndex(combine,WIDTH);
-
-
-      //assign row with characters 
-      grid[rowIndex + 1] = secondRowDone;
-      
-      drawGrid(HEIGHT, WIDTH)
-    } else 
-    
-    
-    {//Isnot firsty run through...:
-          //remainder is leftover from string when a widths worth of data is gotten//
-    let combine = [...remainder, ...RightSideOfCursorforBottomRow];
-      
-      
-      //like above but no text on left side because enter pushes next rows directly down
-      //is size of one row
-      
-      
-      [secondRowDone,  thirdRowLongRemainder] = this.splitAtIndex(combine,WIDTH);
-      
-      
-      //set second row
-      grid[rowIndex + 1] = secondRowDone;
-    }
-    //on initial call, cover with null on right side, because it is carried to next line
-    if (IsFirstTime) {
-      for (let i = WIDTH - amtCharactersToPassToNextRow; i < WIDTH; i++) {
-        grid[rowIndex][i] = "-";
-      }     
-    } 
-
-    
-    
-    drawGrid(HEIGHT, WIDTH)
-
-
-
-    //no longer first time, done using value
-    IsFirstTime = false
-    //index is HEIGHT - 1, and is next value
-    //is on last row with an enter, so create a new line
-    if (rowIndex >= 13) {
-      this.createRow(grid, rowIndex+1)
+    /*
+    //when drawing first row, drawing is form last to first
+    if(counter === 0){
+        grid[0] = leftTopRow
+        drawGrid(HEIGHT, WIDTH)
       //fill in nulls after displaying text moved there from above
       let amountOfNullsForNewBottomRow = colIndex
-      for(let i = WIDTH-amountOfNullsForNewBottomRow; i < WIDTH ; i++ )
+      for(let i = colIndex + 1; i < WIDTH ; i++ )
       {
-        grid[rowIndex+2][i] = "P"
+        grid[0][i] = "O"
+       
       }
-      grid[rowIndex+2] = thirdRowLongRemainder
-      drawGrid(HEIGHT, WIDTH)
-      return grid
+     
+        return grid
+      //when drawing row 2nd from top, drawing is from bottom to top
+      }else if(counter === 1){
+      //grid[1][9] = "h"
+      if(leftTopRow.length === 0){
+        grid[0] = [DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH,DASH, DASH, DASH, DASH, DASH, DASH , DASH ]
+   
+      }
+      else{
+      let amountOfNullsForNewBottomRow = colIndex
+      //left of cursor, drawn at first row
+      grid[0] = leftTopRow
+      //fill remaining spaces with dashes
+      for(let i = colIndex; i < WIDTH ; i++ )
+      {
+        grid[0][i] = "-"
+       
+      }
+
+      
+      //second row is filled with right of cursor
+      grid[1] = rightTopRow
+
+      //dashes are filled after right top row is printed
+      let startingPointForDashesOnRight = WIDTH - colIndex
+      for (let i = startingPointForDashesOnRight; i < WIDTH ; i++){
+        grid[1][i] = "-"
+      }
     }
+     
+    }
+    */
+
+   
+      //else 
+      if (counter > 13) {
+      
+      this.createRow(grid, counter)
+     
+       //last row is drawn with row above
+      grid[counter+1] = grid[counter]
+      //grid[counter] = grid[counter-1]
+     
+      drawGrid(HEIGHT, WIDTH)
+      
+      //return grid
+    }else if ((verticalCursorPosition/10) === counter-1 ){
+
+      grid[(verticalCursorPosition+20)/10] = grid[counter]
+
+
+      let lengthOfRightRow = rightTopRow.length
+      grid[(verticalCursorPosition+10)/10] = rightTopRow
+
+      //first row is split.  This is right side on next row
+      for (let i = leftTopRow.length-1; i < WIDTH ; i++){
+        grid[((verticalCursorPosition+20)/10)][i] = "i"
+      }
+
+      let startingPointForDashesOnRight = colIndex
+      //first row is split at cursor, this is left side
+      for (let i = startingPointForDashesOnRight; i < WIDTH ; i++){
+        grid[verticalCursorPosition/10][i] = "k"
+      }
+      
+      
+
+    }else{
+      //all other rows move up one
+      grid[counter+1] = grid[counter]
+    }
+      
+      drawGrid(HEIGHT , WIDTH)
+    
+    
+
     //set for cursor on next line, first column
     horizontalCursorPosition = 0
-    ////drawGrid(HEIGHT, WIDTH)
     drawCursor(
       horizontalCursorPosition + HOFFSET,
       verticalCursorPosition + VOFFSET
     );
+
     //enter effects next row here
     this.pressedEnter(
       grid,
-      rowIndex + 1,
+      rowIndex - 1,
       colIndex,
-      thirdRowLongRemainder,
-      false
+      "",
+      false,
+      counter - 1
     );
 
-    drawGrid(HEIGHT , WIDTH)
     return grid;
   }
 
