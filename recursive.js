@@ -435,14 +435,18 @@ return arrayToChange;
       let lengthOfRightRow = rightTopRow.length
       grid[(verticalCursorPosition+10)/10] = rightTopRow
 
+      for(let i = rightTopRow.length-1; i < WIDTH; i++){
+        grid[(verticalCursorPosition+10)/10][i] = "H"
+      }
+
       //first row is split.  This is right side on next row
-      for (let i = leftTopRow.length-1; i < WIDTH ; i++){
+      for (let i = leftTopRow.length-2; i < WIDTH ; i++){
         grid[((verticalCursorPosition+20)/10)][i] = "i"
       }
 
       let startingPointForDashesOnRight = colIndex
       //first row is split at cursor, this is left side
-      for (let i = startingPointForDashesOnRight; i < WIDTH ; i++){
+      for (let i = startingPointForDashesOnRight - 1; i < WIDTH ; i++){
         grid[verticalCursorPosition/10][i] = "k"
       }
       
