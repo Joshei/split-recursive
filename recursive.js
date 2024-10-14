@@ -25,6 +25,8 @@ class RecursiveClass {
   this.checkOnLastLineSoCreateRow = false
   this.bottomRow = -1
   this.bottomRowFromLastRound = []
+  this.index = 0
+  this.COPYOFFINALGRIDROW = []
   
 }
 
@@ -332,17 +334,68 @@ return arrayToChange;
   }
 
   //6/19/24
-  //  top empty row
-  //  top on characters
-  //  on first column
-  //  on middle column
-  //  on last column
-  //  mid text
+  //  top empty row - 
+  //  top on characters -
+  //  on first column -
+  //  on middle column -
+  //  on last column -
+  //  mid text - 
   //  last row, first, middle, last  
   //  //CHECK FULL ROWS
   
- 
+  pasteCopiedRowToLatRow(grid){
+
+    grid[HEIGHT-1] = this.COPYOFFINALGRIDROW
+    drawGrid(HEIGHT, WIDTH)
   
+ }
+ divideFirstRowAsNeeded(grid, colIndex, rowIndex){
+
+//maxrows = 14
+//index = 1
+let topRow = grid[rowIndex]
+let [leftTopRow, rightTopRow] = this.splitAtIndex(
+    topRow,
+    colIndex
+);
+
+////////////////////////////////////
+
+//change these to correct index, dynamic
+//grid[row Index] = leftTopRow
+//grid[rowIndex+1] = rightTopRow
+
+//make all dashes
+if(leftTopRow.length === 0){
+ //grid[0] =  [["A" , DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH,DASH, DASH, DASH, DASH, DASH, DASH , DASH ]]
+   
+}
+
+
+///////////////////////////////////
+
+drawGrid(HEIGHT, WIDTH)
+return grid
+ 
+}
+  copyTopColumnToBottomColumn(counter, grid, colIndex, rowIndex){
+
+    this.index++
+    //let copyOfLastRow = grid[HEIGHT-2]
+    if(this.index > MAXROWS-1){
+      this.divideFirstRowAsNeeded(grid, colIndex, rowIndex)
+      this.index = 0
+      return grid
+    }
+    grid[counter] = grid[counter-1]
+    drawGrid(HEIGHT , WIDTH)
+
+    this.copyTopColumnToBottomColumn(counter-1, grid, colIndex, rowIndex)
+    this.index = 0
+    
+    return grid
+  }
+
   pressedEnter(//
     grid,
     rowIndex,
@@ -352,68 +405,18 @@ return arrayToChange;
     counter
     ) {
 
-
-     
-      let topRow = []
-      let bottomRow = grid[counter+1]
-    topRow = grid[counter-1]; 
-    if(counter < verticalCursorPosition/10+1){
-      return grid
-    }
-    //split at cursor
-    let [leftTopRow, rightTopRow] = this.splitAtIndex(
-      topRow,
-      colIndex
-    );
-
-    drawGrid(HEIGHT, WIDTH)
-
-      //else 
-      if (counter > 13) {
-      
-      this.createRow(grid, counter)
-     
-       //last row is drawn with row above
-      grid[counter+1] = grid[counter]
-      //grid[counter] = grid[counter-1]
-     
-      drawGrid(HEIGHT, WIDTH)
-      
-      //return grid
-    }else if ((verticalCursorPosition/10) === counter-1 ){
-
-      grid[(verticalCursorPosition+20)/10] = grid[counter]
-
-
-      let lengthOfRightRow = rightTopRow.length
-      grid[(verticalCursorPosition+10)/10] = rightTopRow
-
-      for(let i = rightTopRow.length-1; i < WIDTH; i++){
-        grid[(verticalCursorPosition+10)/10][i] = "-"
-      }
-
-      //first row is split.  This is right side on next row
-      for (let i = leftTopRow.length-2; i < WIDTH ; i++){
-        grid[((verticalCursorPosition+20)/10)][i] = "-"
-      }
-
-      let startingPointForDashesOnRight = colIndex
-      //first row is split at cursor, this is left side
-      for (let i = startingPointForDashesOnRight - 1; i < WIDTH ; i++){
-        grid[verticalCursorPosition/10][i] = "-"
-      }
-      
-      
-
-    }else{
-      //all other rows move up one
-      grid[counter+1] = grid[counter]
-    }
+       
+      this.COPYOFFINALGRIDROW = grid[HEIGHT-1]
+      this.createRow(grid, rowIndex)
+      this.copyTopColumnToBottomColumn(counter, grid, colIndex, rowIndex)
+      this.pasteCopiedRowToLatRow(grid)
       
       drawGrid(HEIGHT , WIDTH)
-    
+      //return grid
     
 
+   drawGrid(HEIGHT , WIDTH)
+    
     //set for cursor on next line, first column
     horizontalCursorPosition = 0
     drawCursor(
@@ -421,6 +424,7 @@ return arrayToChange;
       verticalCursorPosition + VOFFSET
     );
 
+    /*
     //enter effects next row here
     this.pressedEnter(
       grid,
@@ -430,9 +434,12 @@ return arrayToChange;
       false,
       counter - 1
     );
+    */
 
     return grid;
   }
+
+  
 
   //delete middle without dash at end and character on next line doesnt move
   //delete on last row, 2 and one on dash
