@@ -25,7 +25,7 @@ class RecursiveClass {
   this.checkOnLastLineSoCreateRow = false
   this.bottomRow = -1
   this.bottomRowFromLastRound = []
-  this.index = 0
+  this.index = -1
   this.COPYOFFINALGRIDROW = []
   
 }
@@ -349,7 +349,11 @@ return arrayToChange;
     drawGrid(HEIGHT, WIDTH)
   
  }
+
+ //uncomment two sets of grid
  divideFirstRowAsNeeded(grid, colIndex, rowIndex){
+
+  //return grid
 
 //maxrows = 14
 //index = 1
@@ -362,13 +366,28 @@ let [leftTopRow, rightTopRow] = this.splitAtIndex(
 ////////////////////////////////////
 
 //change these to correct index, dynamic
-//grid[row Index] = leftTopRow
-//grid[rowIndex+1] = rightTopRow
+//
+
+grid[rowIndex] = leftTopRow
+grid[rowIndex+1] = rightTopRow
 
 //make all dashes
-if(leftTopRow.length === 0){
- //grid[0] =  [["A" , DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH,DASH, DASH, DASH, DASH, DASH, DASH , DASH ]]
+let leftTopRowLength = leftTopRow.length
+if(leftTopRowLength === 0){
+ grid[rowIndex] =  [DASH, DASH , DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH, DASH, DASH, DASH, DASH, DASH, DASH , DASH,DASH, DASH, DASH, DASH, DASH, DASH , DASH ]
    
+}else{
+  for(let i = leftTopRowLength; i < WIDTH; i++){
+    grid[rowIndex][i] = 'I'
+
+  }
+
+  for(let i = WIDTH - leftTopRowLength ; i < WIDTH; i++){
+    grid[rowIndex+1][i] = 'Q'
+
+  }
+
+
 }
 
 
@@ -378,11 +397,19 @@ drawGrid(HEIGHT, WIDTH)
 return grid
  
 }
+
+///////////
+
+//move only at rowIndex and less
+//divide discontinued
+
+//////////
   copyTopColumnToBottomColumn(counter, grid, colIndex, rowIndex){
 
     this.index++
     //let copyOfLastRow = grid[HEIGHT-2]
-    if(this.index > MAXROWS-1){
+    if(this.index >= (HEIGHT - rowIndex - 2)){
+      //discontinued
       this.divideFirstRowAsNeeded(grid, colIndex, rowIndex)
       this.index = 0
       return grid
@@ -395,6 +422,23 @@ return grid
     
     return grid
   }
+
+ 
+  //middle
+  //top : front, middle, last : 
+  //bottom: front, middle, last
+  //middle: front middle last : 3
+
+  //top
+  //top : front, middle, last : 
+  //bottom: front, middle, last
+  //middle: front middle last
+
+  //bottom
+  //top : front, middle, last : 
+  //bottom: front, middle, last
+  //middle: front middle last
+
 
   pressedEnter(//
     grid,
