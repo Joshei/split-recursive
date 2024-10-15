@@ -25,7 +25,6 @@ class RecursiveClass {
   this.checkOnLastLineSoCreateRow = false
   this.bottomRow = -1
   this.bottomRowFromLastRound = []
-  this.index = -1
   this.COPYOFFINALGRIDROW = []
   
 }
@@ -48,6 +47,7 @@ class RecursiveClass {
     //grid.push(["!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!", "!", "!", "!", "!", "!" , "!", "!","!", "!", "!", "!", "!" , "!" ]),
     //important, allows new line to display in the drawgrid
     HEIGHT++ 
+    drawGrid(HEIGHT, WIDTH)
     return grid
     
   }
@@ -343,10 +343,20 @@ return arrayToChange;
   //  last row, first, middle, last  
   //  //CHECK FULL ROWS
   
-  pasteCopiedRowToLatRow(grid){
+  pasteCopiedRowToLastRow(grid, rowIndex, colIndex){
 
-    grid[HEIGHT-1] = this.COPYOFFINALGRIDROW
-    drawGrid(HEIGHT, WIDTH)
+    let topRow = grid[HEIGHT-1]
+    
+    let [leftTopRow, rightTopRow] = this.splitAtIndex(
+    topRow,
+    colIndex
+    );
+
+    //grid[HEIGHT-1] = this.COPYOFFINALGRIDROW
+    //grid[HEIGHT-1] = leftTopRow
+    grid[HEIGHT] = grid[HEIGHT-1]
+    //drawGrid(HEIGHT, WIDTH)
+    return grid
   
  }
 
@@ -393,7 +403,7 @@ if(leftTopRowLength === 0){
 
 ///////////////////////////////////
 
-drawGrid(HEIGHT, WIDTH)
+//drawGrid(HEIGHT, WIDTH)
 return grid
  
 }
@@ -403,42 +413,41 @@ return grid
 //move only at rowIndex and less
 //divide discontinued
 
+
+
+// enter on last row first column has failing cursor
 //////////
   copyTopColumnToBottomColumn(counter, grid, colIndex, rowIndex){
-
-    this.index++
-    //let copyOfLastRow = grid[HEIGHT-2]
-    if(this.index >= (HEIGHT - rowIndex - 2)){
+    //counter strats as 14 - on bottom-most row
+    if(counter === rowIndex){
       //discontinued
       this.divideFirstRowAsNeeded(grid, colIndex, rowIndex)
-      this.index = 0
       return grid
     }
-    grid[counter] = grid[counter-1]
-    drawGrid(HEIGHT , WIDTH)
-
+    grid[counter+1] = grid[counter]
     this.copyTopColumnToBottomColumn(counter-1, grid, colIndex, rowIndex)
-    this.index = 0
-    
     return grid
   }
 
  
+  //could, check with charactedr beneath
   //middle
-  //top : front, middle, last : 
-  //bottom: front, middle, last
-  //middle: front middle last : 3
+  
+  //front middle last : f,m,l  - beneath: f, m , l
+
 
   //top
-  //top : front, middle, last : 
-  //bottom: front, middle, last
-  //middle: front middle last
+ 
+  //front, middle, last:   beneath: f,m,l
+ 
 
   //bottom
-  //top : front, middle, last : 
-  //bottom: front, middle, last
-  //middle: front middle last
+  
+  //front, middle, last:  f,m,l : done twice (9 combinations)
+  
 
+
+  //// ENTER ON FIRST COLUMN, LAST ROW
 
   pressedEnter(//
     grid,
@@ -453,7 +462,7 @@ return grid
       this.COPYOFFINALGRIDROW = grid[HEIGHT-1]
       this.createRow(grid, rowIndex)
       this.copyTopColumnToBottomColumn(counter, grid, colIndex, rowIndex)
-      this.pasteCopiedRowToLatRow(grid)
+      this.pasteCopiedRowToLastRow(grid, rowIndex, colIndex)
       
       drawGrid(HEIGHT , WIDTH)
       //return grid
